@@ -1,0 +1,104 @@
+#set($layout="layout/empty.vm")
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <title>
+    	HITwh-ACM_ICPC-Team
+    </title>
+    <link rel="icon" href="/acm/favorite.ico">
+     <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+  </head>
+  <style>
+	body{
+		font-family: 'Courgette', cursive;
+	}
+	pre {
+		font-family: 'Courgette', cursive;
+		font-size:32px;
+		height:450px;
+		width:750px;
+		background-color:white;
+		margin:auto;
+		border-color:white;
+	}
+
+	</style>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" style="margin: 0px" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <ul class="nav navbar-nav">
+                <li><a id="menu-toggle" href="#">@</a></li>
+            </ul>
+          
+            <a class="navbar-brand" href="/" style="font-size: 30px;">HITWH-ACM</a>
+        </div>
+		
+    #set($username=$session.getAttribute("login"))
+ 	<div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/games.html">notice</a></li>
+          <li><a href="/game.html">notice</a></li>
+          <li><a href="/notice.html">notice</a></li>
+          <li><a href="/register">register</a></li>
+          #if($username)
+          	<li><a href="/editUserInfo/$!username">$!username</a></li>
+          	<li><a href="/logout">logout</a></li>
+          #else
+           	<li><a href="/login">login</a></li>
+          #end
+        </ul>
+	</div>
+
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+<div class="jumbotron" style="height:50%;background-color:#222; margin-top:0px;top:50px; padding-top: 50px;padding-bottom: 10px;margin-bottom: 0px;">
+	<div style="left:5%;width:95%; position:relative;">
+		<img src="./image/hitwh_log.png" style="display:inline-block;">
+	  <h2 style="color:#FFF;margin-bottom: 30px; display:inline-block; margin-left:10px;">ACM-ICPC</h2>
+	  <h4 style="margin-left:5px; display:inline-block;color:#fff;">Group</h4>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row">
+
+	
+		<div style="margin-top:10px;font-size:40px;text-align:center;color:">
+			哈尔滨工业大学（威海）ACM新生杯
+		</div>
+		<pre id="code"></pre>
+		<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+ 		<script type="text/javascript" src="js/jquery.typetype.min.js"></script>
+		<script>
+			$('#code')
+	.typetype('int main()\n' +
+		        '{\n' +
+		        '\tprintf("Hello Acmer!");\n' +
+		        '\tprintf("Welcome To Code Game!");\n' +
+		        '\tprintf("比赛时间：2015年12月26日");\n' +
+		        '\tprintf("详情请见notice");\n' +
+		        '\tprintf("快来报名！");\n' +
+		        '\treturn 0;\n' +
+		        '}',
+		        	{
+		            e: 0.02, // error rate. (use e=0 for perfect typing)
+		            t: 40
+		          });
+
+		</script>
+	</div>
+		
+	<div class="row" style="text-align:center;">
+		<a href="/register" class="btn btn-primary btn-lg" style="text-align:center;width:25%;">猛戳这</a>
+	</div>
+</div>
+ 
+  </body>
+</html>
