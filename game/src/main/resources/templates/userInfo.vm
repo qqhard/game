@@ -1,0 +1,48 @@
+#set($page_title="edit_user_info")
+#macro( render_filed $filed $name )
+	#springBind($filed)
+	<div class="form-group required">
+		<label class="col-sm-3 control-label" for="type_name">$name</label>
+		<div class="col-sm-5">
+			<input class="form-control" id="type_name" name="${status.expression}"
+				type="text" value="$!status.value">
+		</div>
+		<p class="help-block">$status.errorMessage</p>
+	</div>
+#end
+<style>
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+</style>
+<div class="row" style="margin-top:50px;">
+
+
+<div class="row">
+	<div class="col-sm-3"></div>
+	<div class="col-sm-5" style="text-align:center;font-size:30px;">您已报名成功！</div>
+</div>
+<div class="row">
+	<div class="col-sm-3"></div>
+	<div class="col-sm-5" style="text-align:center;font-size:30px;">可对个人信息进行修改！</div>
+</div>
+<form method="post" class="form-horizontal">
+	
+	#render_filed("userInfoForm.name","姓名")
+	#render_filed("userInfoForm.stunum","学号")
+	#render_filed("userInfoForm.email","邮箱")
+	#render_filed("userInfoForm.phone","手机")
+
+	<input type="hidden" name="_csrf" value="${_csrf.token}">
+	<div class="form-group">
+		<div class="col-sm-3"></div>
+		<div class="col-sm-5">
+			<input class="btn btn-primary btn-lg btn-block" id="submit_button"
+				name="submit_button" type="submit" value="提交">
+		</div>
+	</div>
+
+</form>
+</div>

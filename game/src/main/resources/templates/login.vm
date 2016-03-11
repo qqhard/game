@@ -1,0 +1,62 @@
+#set($page_title="login")
+
+
+<style>
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+
+.form-signin {
+  max-width: 45%;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin .form-signin-top {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin .form-signin-bottom {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.form-signin p {
+ 	display:inline;
+}
+</style>
+<form class="form-signin" action="/login" method="POST" name="loginForm">
+  <h2 class="form-signin-heading">Login For Change User Info</h2>
+
+  	#springBind("loginForm.username")
+  <input type="text" name="${status.expression}" id="name" class="form-control form-signin-top" placeholder="用户名" value="$!status.value"  autofocus>
+	<p>$status.errorMessage</p>
+	
+  #springBind("loginForm.password")
+  <input type="password" name="${status.expression}" id="passwrod" class="form-control form-signin-bottom " value="$!status.value" placeholder="密码" >
+  	<p>$status.errorMessage</p>
+  	
+
+  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Login in</button>
+  ${loginUrl}
+</form>
+
+
+
