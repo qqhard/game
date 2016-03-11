@@ -1,0 +1,29 @@
+{
+  "name": "web",
+  "description": "web client",
+  "main": "webpack.config.js",
+  "authors": [
+    "hard"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "web",
+    "client"
+  ],
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "jquery": "~2.2.1"
+  },
+  "dependencies": {
+    "jquery": "~2.2.1"
+  }
+}
