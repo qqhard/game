@@ -19,8 +19,8 @@ public class GameEditForm {
 	public void update(Game game) {
 		game.setDeled(false);
 		game.setBriefinfo(briefinfo);
-		game.setGameTime(gameTime);
-		game.setGamePlace(gamePlace);
+		game.setGametime(gameTime);
+		game.setGameplace(gamePlace);
 	}
 
 	public String getGamename() {

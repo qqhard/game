@@ -20,8 +20,8 @@ public class GameCreateForm {
 		game.setDeled(false);
 		game.setGamename(gamename);
 		game.setBriefinfo(briefinfo);
-		game.setGameTime(gameTime);
-		game.setGamePlace(gamePlace);
+		game.setGametime(gameTime);
+		game.setGameplace(gamePlace);
 	}
 
 	public String getGamename() {
