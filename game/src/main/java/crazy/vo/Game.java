@@ -14,21 +14,85 @@ public class Game {
 	private String gamename;
 	@Indexed(unique = false) 
 	private String owner;
+	private String gametitle;
 	private String briefinfo;
-	private String gameTime;
-	private String gamePlace;
+	private String gametime;
+	private String gameplace;
+	private int provinceid;
+	private int collegeid;
+	private int instituteid;
 	private int startTime;
 	private int endTime;
+	private boolean submited;
 	private boolean accepted;
 	private boolean deled;
+	private boolean started;
+	private boolean ended;
+	private List<UserDefineForm> formList;
+	
+
+	public String getGametime() {
+		return gametime;
+	}
+	public void setGametime(String gametime) {
+		this.gametime = gametime;
+	}
+	public String getGameplace() {
+		return gameplace;
+	}
+	public void setGameplace(String gameplace) {
+		this.gameplace = gameplace;
+	}
+	public int getProvinceid() {
+		return provinceid;
+	}
+	public void setProvinceid(int provinceid) {
+		this.provinceid = provinceid;
+	}
+	public int getCollegeid() {
+		return collegeid;
+	}
+	public void setCollegeid(int collegeid) {
+		this.collegeid = collegeid;
+	}
+	public int getInstituteid() {
+		return instituteid;
+	}
+	public void setInstituteid(int instituteid) {
+		this.instituteid = instituteid;
+	}
+	public boolean isSubmited() {
+		return submited;
+	}
+	public void setSubmited(boolean submited) {
+		this.submited = submited;
+	}
+	public boolean isStarted() {
+		return started;
+	}
+	public void setStarted(boolean started) {
+		this.started = started;
+	}
+	public boolean isEnded() {
+		return ended;
+	}
+	public void setEnded(boolean ended) {
+		this.ended = ended;
+	}
+	public List<UserDefineForm> getFormList() {
+		return formList;
+	}
+	public void setFormList(List<UserDefineForm> formList) {
+		this.formList = formList;
+	}
+	
 	public boolean isDeled() {
 		return deled;
 	}
 	public void setDeled(boolean deled) {
 		this.deled = deled;
 	}
-	private List<String> forms;
-	private List<String> limits;
+	
 	public String getId() {
 		return id;
 	}
@@ -53,18 +117,7 @@ public class Game {
 	public void setBriefinfo(String briefinfo) {
 		this.briefinfo = briefinfo;
 	}
-	public String getGameTime() {
-		return gameTime;
-	}
-	public void setGameTime(String gameTime) {
-		this.gameTime = gameTime;
-	}
-	public String getGamePlace() {
-		return gamePlace;
-	}
-	public void setGamePlace(String gamePlace) {
-		this.gamePlace = gamePlace;
-	}
+	
 	public int getStartTime() {
 		return startTime;
 	}
@@ -83,17 +136,11 @@ public class Game {
 	public void setAccepted(boolean accepted) {
 		this.accepted = accepted;
 	}
-	public List<String> getForms() {
-		return forms;
+	public String getGametitle() {
+		return gametitle;
 	}
-	public void setForms(List<String> forms) {
-		this.forms = forms;
+	public void setGametitle(String gametitle) {
+		this.gametitle = gametitle;
 	}
-	public List<String> getLimits() {
-		return limits;
-	}
-	public void setLimits(List<String> limits) {
-		this.limits = limits;
-	}
-	
+
 }

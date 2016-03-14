@@ -1,12 +1,7 @@
 package crazy.action;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,12 +18,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import crazy.GameApplication;
-import crazy.vo.Game;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = GameApplication.class)
 @WebIntegrationTest("server.port:0")
-public class TestGameAction {
+public class TestOnlyGetAction {
 	@Autowired
     private WebApplicationContext context;
 
@@ -40,9 +34,9 @@ public class TestGameAction {
     }
 
     @Test
-    public void testGet() throws Exception {
+    public void testGetProvinces() throws Exception {
 
-    	MvcResult ret = mockMvc.perform(get("/game/acm")
+    	MvcResult ret = mockMvc.perform(get("/provinces")
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print())
@@ -51,12 +45,9 @@ public class TestGameAction {
     }
     
     @Test
-    public void testPut() throws Exception {
-    	   	
-    	MvcResult ret = mockMvc.perform(put("/game/acm")
-    			.param("gamePlace", "ddddd")
-    			.param("gameTime", "八点")
-    			.param("briefinfo", "竞赛")
+    public void testGetColleges() throws Exception {
+
+    	MvcResult ret = mockMvc.perform(get("/colleges/3")
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print())
@@ -65,14 +56,9 @@ public class TestGameAction {
     }
     
     @Test
-    public void testPost() throws Exception {
+    public void testGetInstitutes() throws Exception {
 
-    	
-    	MvcResult ret = mockMvc.perform(post("/game")
-    			.param("gamePlace", "ddd")
-    			.param("gameTime", "h点")	
-    			.param("gamename", "acm3")
-    			.param("briefinfo", "竞赛")
+    	MvcResult ret = mockMvc.perform(get("/institutes/3")
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print())
