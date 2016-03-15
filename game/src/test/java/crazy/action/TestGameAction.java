@@ -69,8 +69,9 @@ public class TestGameAction {
 
     	
     	MvcResult ret = mockMvc.perform(post("/game")
-    			.param("gamePlace", "ddd")
-    			.param("gameTime", "h点")	
+    			.param("gametitle", "ddd")
+    			.param("gameplace", "ddd")
+    			.param("gametime", "h点")	
     			.param("gamename", "acm3")
     			.param("briefinfo", "竞赛")
                 .accept(MediaType.APPLICATION_JSON_UTF8))

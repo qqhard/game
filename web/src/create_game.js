@@ -21,20 +21,18 @@ class GameForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      gamename: {'data':'', 'valid':null, 'help':''},
-      gametitle: '',
-      briefinfo: '',
-      gametime: '',
-      gameplace: '',
+      gamename: {'data':'', 'valid':null, 'help':null},
+      gametitle: {'data':'', 'valid':null, 'help':null},
+      briefinfo: {'data':'', 'valid':null, 'help':null},
+      gametime: {'data':'', 'valid':null, 'help':null},
+      gameplace: {'data':'', 'valid':null, 'help':null},
       provinceList: [{'key':0,'val':'无限制'}],
       provinceid: 0,
       collegeList: [{'key':0,'val':'无限制'}],
       collegeid: 0,
       instituteList: [{'key':0,'val':'无限制'}],
       instituteid: 0,
-      userDefineForm: [''],
-      validGametitle: null,
-      helpGametitle: ''
+      userDefineForm: [{'data':'', 'valid':null, 'help':null}]
     };
   }
   componentDidMount(){
@@ -45,20 +43,37 @@ class GameForm extends React.Component {
         arr.push({'key':data[i].provinceid,'val':data[i].name});
       }
       _this.setState({provinceList: arr});
-    },'json');
+    },'json').error(function(e){
+        if(e.status == 403) top.location='/login';
+    });
   }
 
+  existGamename(){
+    var _this = this;
+    var val = _this.state.gamename.data;
+    var len = val.length;
+    if(len < 5 || _this.state.gamename.valid == 'error') return ;
+    $.get('/valid/'+val,function(data){
+      console.log(data);
+      if(data==true){
+        _this.setState({gamename:{'data':val,'valid':'error','help':'该域名已存在'}});
+      }else if(data == false){
+        _this.setState({gamename:{'data':val,'valid':'success','help':''}});
+      }
+    });
+
+  }
   handleGamename(e) {
     var val = e.target.value;
     var len = val.length;
     var gamename = {'data':val,'valid':'error'};
-    if(len < 5 && len > 0) {
+    if(len < 5) {
       gamename['help'] = '位数不能少于5';
       this.setState({gamename:gamename});
       return ;
     }
     var re = new RegExp("^[a-zA-z0-9]+$","gi");
-    if(len > 0 && re.test(val) == false ){
+    if(re.test(val) == false ){
       gamename['help'] = '赛事域名只能是字母数字和短横线';
       this.setState({gamename:gamename});
       return ;
@@ -70,22 +85,61 @@ class GameForm extends React.Component {
   handleGametitle(e) {
     var val = e.target.value;
     var len = val.length;
-    if(len < 5 && len > 0) {
-      this.setState({gametitle:val, validGametitle:'error', helpGametitle:'位数不能少于5'});
+    var gametitle = {'data':val,'valid':'error'};
+    if(len < 5 ) {
+      gametitle['help'] = '位数不能少于5';
+      this.setState({gametitle: gametitle});
       return ;
     }
     var re = new RegExp("['\"]","gi");
-    if(len > 0 && re.test(val) == true ){
-      this.setState({gametitle:val, validGametitle:'error', helpGametitle:'赛事名称不得出现特殊符号'});
+    if(re.test(val) == true ){
+      gametitle['help'] = "赛事名称不得出现特殊符号";
+      this.setState({gametitle: gametitle});
       return ;
     }
-    this.setState({gametitle:val, validGametitle:'success' ,helpGametitle:''});
+    gametitle['valid'] = 'success';
+    gametitle['help'] = '';
+    this.setState({gametitle:gametitle});
   }
-  handleBriefinfo() {
-    this.setState({briefinfo: this.refs.briefinfo.getValue()})
+  handleBriefinfo(e) {
+    var val = e.target.value;
+    var len = val.length;
+    var briefinfo = {};
+    if(len > 50){
+      briefinfo = {'data':val,'valid':'success','help':''};
+    }else if(len > 0){
+      briefinfo = {'data':val,'valid':'warning','help':'赛事简介过短，不利于通过赛事审核'};
+    }else{
+      briefinfo = {'data':val,'valid':'error','help':'赛事简介不能为空'};
+    }
+    this.setState({briefinfo: briefinfo})
   }
-  handleGametime() { this.setState({gametime: this.refs.gametime.getValue()}) }
-  handleGameplace() { this.setState({gameplace: this.refs.gameplace.getValue()}) }
+  handleGametime(e) {
+    var val = e.target.value;
+    var len = val.length;
+    var gametime = {};
+    if(len > 20){
+      gametime = {'data':val,'valid':'success','help':''};
+    }else if(len > 0){
+      gametime = {'data':val,'valid':'warning','help':'赛事的举办时间描述过短不利于通过审核'};
+    }else{
+      gametime = {'data':val,'valid':'error','help':'赛事的举办时间描述不能为空'};
+    }
+    this.setState({gametime: gametime});
+  }
+  handleGameplace(e) {
+    var val = e.target.value;
+    var len = val.length;
+    var gameplace = {};
+    if(len > 20){
+      gameplace = {'data':val,'valid':'success','help':''};
+    }else if(len > 0){
+      gameplace = {'data':val,'valid':'warning','help':'赛事举办地点描述过短不利于通过审核'};
+    }else{
+      gameplace = {'data':val,'valid':'error','help':'赛事举办地点描述不能为空'};
+    }
+    this.setState({gameplace: gameplace});
+  }
 
   handleSelectProvince(event) {
     var _this = this;
@@ -125,19 +179,12 @@ class GameForm extends React.Component {
     this.setState({instituteid: val});
   }
 
-  validGamename() {
-    var len = this.state.gamename.length;
-    if(len < 5 && len > 0) {
-
-      return 'error';
-    }
-  }
   helpGamename(){
     return this.state.helpGamename;
   }
   handleAddFiled() {
     var formList = this.state.userDefineForm;
-    formList.push('');
+    formList.push({'data':'','help':'','valid':null});
     this.setState({userDefineForm: formList});
   }
   handleDeleteFiled(index, event) {
@@ -147,19 +194,52 @@ class GameForm extends React.Component {
   }
   handleUserDefineForm(index, event) {
     var list = this.state.userDefineForm;
-    list[index] = event.target.value;
+    list[index]['data'] = event.target.value;
+    list[index]['help'] = "";
+    list[index]['valid'] = "";
+    var re = new RegExp("['\"#]","gi");
+    if(re.test(list[index]['data']) == true ){
+      list[index]['help'] = "赛事名称不得出现特殊符号";
+      list[index]['valid'] = "error";
+      this.setState({userDefineForm: list});
+      return ;
+    }
     this.setState({userDefineForm: list});
+
   }
+
+  userDefineFormToStr(){
+    var list = this.state.userDefineForm;
+    var len = list.length;
+    var new_lsit = [];
+    for(var i = 0;i < len; i++){
+      if(list[i]!=null&&list[i]!='') new_lsit.push(list[i]);
+    }
+    return new_lsit.join('#');
+  }
+
   validAll() {
-    if(this.validGamename() != 'success')return false;
+    this.existGamename();
+    if(this.state.gamename.valid != 'success')return false;
+    if(this.state.gametitle.valid != 'success')return false;
+    if(this.state.briefinfo.valid != 'success' && this.state.briefinfo.valid != 'warning')return false;
+    if(this.state.gametime.valid != 'success' && this.state.gametime.valid != 'warning')return false;
+    if(this.state.gameplace.valid != 'success' && this.state.gameplace.valid != 'warning')return false;
     return true;
   }
-  handleSubmit(type, event) {
-    console.log(this.validAll());
-    var body = 'gamename='+this.state.gamename
-    +'&briefinfo='+this.state.briefinfo
-    +'&gametime='+this.state.gametime
-    +'&gameplace='+this.state.gameplace
+
+  handleSubmit() {
+    if(this.validAll() != true)return ;
+
+    var body = 'gamename='+this.state.gamename.data
+    +'&briefinfo='+this.state.briefinfo.data
+    +'&gametitle='+this.state.gametitle.data
+    +'&gametime='+this.state.gametime.data
+    +'&gameplace='+this.state.gameplace.data
+    +'&provinceid='+this.state.provinceid
+    +'&collegeid='+this.state.collegeid
+    +'&instituteid='+this.state.instituteid
+    +'&userDefineForm='+this.userDefineFormToStr()
     +'&_csrf='+$('input[name=_csrf]').val();
     console.log(body);
     $.post('/game',body,function(data){
@@ -197,15 +277,20 @@ class GameForm extends React.Component {
       var userDefineForm = this.state.userDefineForm.map(function(data, index){
         var label = '自定义表单-'+index;
         const innerButton = <Button onClick={this.handleDeleteFiled.bind(this,index)}>删除</Button>;
-        return <Input type="text" {...styleLayout} value={this.state.userDefineForm[index]} buttonAfter={innerButton} label={label} onChange={this.handleUserDefineForm.bind(this,index)}/>;
+        return <Input type="text" {...styleLayout} help={this.state.userDefineForm[index].help} bsStyle={this.state.userDefineForm[index].valid} value={this.state.userDefineForm[index].data} buttonAfter={innerButton} label={label} onChange={this.handleUserDefineForm.bind(this,index)}/>;
       }.bind(this));
       return (
         <form className="form-horizontal">
-          <Input type="text" label="赛事域名" help={this.state.gamename.help} {...styleLayout} value={this.state.gamename.data}  bsStyle={this.state.gamename.valid} onChange={this.handleGamename.bind(this)} addonAfter=".domain.com"/>
-          <Input type="text" label="赛事名称" {...styleLayout} value={this.state.gametitle} help={this.state.helpGametitle} bsStyle={this.state.validGametitle} onChange={this.handleGametitle.bind(this)} />
-          <Input type="textarea" label="赛事简介"  help="success" {...styleLayout} value={this.state.briefinfo} bsStyle={this.state.briefinfoValid} hasFeedback ref="briefinfo" onChange={this.handleBriefinfo.bind(this)} />
-          <Input type="textarea" label="时间描述" {...styleLayout} value={this.state.gametime} bsStyle={this.state.gametimeValid} hasFeedback ref="gametime" onChange={this.handleGametime.bind(this)} />
-          <Input type="textarea" label="地点描述" {...styleLayout} value={this.state.gameplace} bsStyle={this.state.gameplaceValid} hasFeedback ref="gameplace" onChange={this.handleGameplace.bind(this)} />
+          <Input type="text" label="赛事域名" {...styleLayout} addonAfter=".domain.com" onBlur={this.existGamename.bind(this)}
+            help={this.state.gamename.help} value={this.state.gamename.data}  bsStyle={this.state.gamename.valid} onChange={this.handleGamename.bind(this)} />
+          <Input type="text" label="赛事名称" {...styleLayout}
+            value={this.state.gametitle.data} help={this.state.gametitle.help} bsStyle={this.state.gametitle.valid} onChange={this.handleGametitle.bind(this)} />
+          <Input type="textarea" label="赛事简介" {...styleLayout}
+            value={this.state.briefinfo.data} help={this.state.briefinfo.help} bsStyle={this.state.briefinfo.valid} onChange={this.handleBriefinfo.bind(this)} />
+          <Input type="textarea" label="时间描述" {...styleLayout}
+            value={this.state.gametime.data} help={this.state.gametime.help} bsStyle={this.state.gametime.valid} onChange={this.handleGametime.bind(this)} />
+          <Input type="textarea" label="地点描述" {...styleLayout}
+            value={this.state.gameplace.data} help={this.state.gameplace.help} bsStyle={this.state.gameplace.valid} onChange={this.handleGameplace.bind(this)} />
           <Input type="select" {...styleLayout} label="省份限制" placeholder="select"  onChange={this.handleSelectProvince.bind(this)}>
             {provinceOptions}
           </Input>
@@ -218,11 +303,10 @@ class GameForm extends React.Component {
           <CsrfToken/>
           {userDefineForm}
           <div className="form-group">
-            <div className="col-sm-offset-2 col-sm-6">
+            <div className="col-sm-offset-4 col-sm-6">
                 <ButtonGroup  bsSize="large">
                   <Button onClick={this.handleAddFiled.bind(this)}>增加</Button>
-                  <Button onClick={this.handleSubmit.bind(this,0)}>暂存</Button>
-                  <Button onClick={this.handleSubmit.bind(this,1)}>提交</Button>
+                  <Button onClick={this.handleSubmit.bind(this)}>提交</Button>
                 </ButtonGroup>
 
             </div>

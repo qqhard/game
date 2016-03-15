@@ -18,6 +18,7 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import crazy.filter.CsrfHeaderFilter;
+import crazy.service.LoginSuccessHandler;
 
 
 @Configuration
@@ -33,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
     	http
     		.authorizeRequests()
-    			.antMatchers("/register").permitAll()
+    			.antMatchers("/register","/login").permitAll()
     			.anyRequest()
     			.authenticated();
     	http.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);
@@ -44,10 +45,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //    			.maxSessionsPreventsLogin(false)
 //    			.sessionRegistry(sessionRegistry());
     	
-    	http.formLogin().loginPage("/login").permitAll();
+    	http.formLogin().loginPage("/login").successHandler(loginSuccessHandler()).permitAll();
     	
     	http
     		.logout()
+    			.logoutUrl("/logout")
+    			.logoutSuccessUrl("/")
+    			.invalidateHttpSession(true)
     			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
 
     		
@@ -82,7 +86,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	SessionRegistry sessionRegistry=new SessionRegistryImpl();
     	return sessionRegistry;
     }
-
+    @Bean
+    public LoginSuccessHandler loginSuccessHandler(){
+    	return new LoginSuccessHandler();
+    }
 
 
 }
