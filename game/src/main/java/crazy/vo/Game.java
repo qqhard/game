@@ -21,6 +21,8 @@ public class Game {
 	private int provinceid;
 	private int collegeid;
 	private int instituteid;
+	private int submitTime;
+	private int acceptTime;
 	private int startTime;
 	private int endTime;
 	private boolean submited;
@@ -30,7 +32,18 @@ public class Game {
 	private boolean ended;
 	private List<UserDefineForm> formList;
 	
-
+	public int getSubmitTime() {
+		return submitTime;
+	}
+	public void setSubmitTime(int submitTime) {
+		this.submitTime = submitTime;
+	}
+	public int getAcceptTime() {
+		return acceptTime;
+	}
+	public void setAcceptTime(int acceptTime) {
+		this.acceptTime = acceptTime;
+	}
 	public String getGametime() {
 		return gametime;
 	}

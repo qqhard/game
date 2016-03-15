@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import crazy.dao.GameRepository;
 import crazy.form.GameCreateForm;
 import crazy.form.GameEditForm;
+import crazy.form.GameForm;
 import crazy.vo.Game;
 
 @RestController
@@ -35,7 +37,7 @@ public class GameAction {
 	
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.POST)
-	public Object post(@Valid GameCreateForm gameForm,BindingResult bindingResult){
+	public Object post(@Valid GameForm gameForm,BindingResult bindingResult,HttpSession session){
 		Map<String,String> ret = new HashMap<String,String>();
 		if(bindingResult.hasFieldErrors()){
 			List<FieldError> errors = bindingResult.getFieldErrors();

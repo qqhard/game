@@ -4,6 +4,11 @@ public class UserDefineForm {
 	private String name;
 	private String value;
 	private boolean required;
+	public UserDefineForm(){}
+	public UserDefineForm(String name, String value){
+		this.name = name;
+		this.value = value;
+	}
 	public String getName() {
 		return name;
 	}
