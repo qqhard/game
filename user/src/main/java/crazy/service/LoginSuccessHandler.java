@@ -16,7 +16,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 			HttpServletResponse response,Authentication authentication) throws IOException,ServletException {
 		UserLoginDetails user = (UserLoginDetails) authentication.getPrincipal();
 		HttpSession httpSession = request.getSession();
-		httpSession.setAttribute("login", user.getUsername());
+		httpSession.setAttribute("username", user.getUsername());
 		super.onAuthenticationSuccess(request,response,authentication);
 	}
 		

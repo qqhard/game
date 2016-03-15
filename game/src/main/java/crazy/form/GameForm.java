@@ -22,6 +22,9 @@ public class GameForm {
 	private int provinceid;
 	private int collegeid;
 	private int instituteid;
+	private String provincename;
+	private String collegename;
+	private String institutename;
 	private String userDefineForm;
 	public List<UserDefineForm> getUserDefindFormList(){
 		List<UserDefineForm> ret = new ArrayList<UserDefineForm>();
@@ -39,6 +42,12 @@ public class GameForm {
 		game.setBriefinfo(briefinfo);
 		game.setGametime(gametime);
 		game.setGameplace(gameplace);
+		game.setProvinceid(provinceid);
+		game.setProvincename(provincename);
+		game.setCollegeid(collegeid);
+		game.setCollegename(collegename);
+		game.setInstituteid(instituteid);
+		game.setInstitutename(institutename);
 		game.setFormList(getUserDefindFormList());
 		return game;
 	}
@@ -95,5 +104,23 @@ public class GameForm {
 	}
 	public void setUserDefineForm(String userDefineForm) {
 		this.userDefineForm = userDefineForm;
+	}
+	public String getProvincename() {
+		return provincename;
+	}
+	public void setProvincename(String provincename) {
+		this.provincename = provincename;
+	}
+	public String getCollegename() {
+		return collegename;
+	}
+	public void setCollegename(String collegename) {
+		this.collegename = collegename;
+	}
+	public String getInstitutename() {
+		return institutename;
+	}
+	public void setInstitutename(String institutename) {
+		this.institutename = institutename;
 	}
 }

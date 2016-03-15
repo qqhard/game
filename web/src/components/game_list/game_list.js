@@ -1,5 +1,8 @@
 import React from 'react'
 import './game_list.scss'
+import { Link } from 'react-router'
+
+const ACTIVE = { color: 'white' }
 
 class GameList extends React.Component {
     render() {
@@ -24,10 +27,11 @@ class GameList extends React.Component {
 class GameNode extends React.Component {
     render() {
         var href = "/game/" + this.props.gamename;
+        var href2 = "/game-" + this.props.gamename +".html";
         return (
             <li className="list-group-item">
                 <h2 className="list-group-item-heading">
-                    <a href={href}>{this.props.gamename}</a>
+                    <Link to={href2} activeStyle={ACTIVE}>{this.props.gamename}</Link>
                 </h2>
                 <p className="list-group-item-text">{this.props.briefinfo}</p>
                 <div className="right-top">{this.props.gamePlace}</div>
