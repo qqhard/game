@@ -3,6 +3,8 @@ import { render } from 'react-dom'
 import About from './about.js'
 import Games from './games.js'
 import CreateGame from './create_game.js'
+import ShowGame from './show_game.js'
+import CheckGame from './check_game.js'
 import { Router, Route, IndexRoute, Link, IndexLink, browserHistory } from 'react-router'
 
 const ACTIVE = { color: 'white' }
@@ -73,8 +75,10 @@ render((
       <IndexRoute component={Index}/>
       <Route path="/notice.html" component={About}/>
       <Route path="/games.html" component={Games}/>
-      <Route path="/game.html" component={CreateGame}>
-      </Route>
+      <Route path="/game.html" component={CreateGame}/>
+      <Route path="/game-:gamename.html" component={ShowGame}/>
+      <Route path="/gamecheck-:gamename.html" component={CheckGame}/>
+
     </Route>
   </Router>
 ), document.getElementById('body'))

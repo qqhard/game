@@ -19,30 +19,47 @@ public class Game {
 	private String gametime;
 	private String gameplace;
 	private int provinceid;
+	private String provincename;
 	private int collegeid;
+	private String collegename;
 	private int instituteid;
-	private int submitTime;
-	private int acceptTime;
-	private int startTime;
-	private int endTime;
-	private boolean submited;
-	private boolean accepted;
+	private String institutename;
+	private long submitTime;
+	private long acceptTime;
+	private long startTime;
+	private long endTime;
+	private long step;
 	private boolean deled;
-	private boolean started;
-	private boolean ended;
 	private List<UserDefineForm> formList;
-	
-	public int getSubmitTime() {
-		return submitTime;
+	public String getId() {
+		return id;
 	}
-	public void setSubmitTime(int submitTime) {
-		this.submitTime = submitTime;
+	public void setId(String id) {
+		this.id = id;
 	}
-	public int getAcceptTime() {
-		return acceptTime;
+	public String getGamename() {
+		return gamename;
 	}
-	public void setAcceptTime(int acceptTime) {
-		this.acceptTime = acceptTime;
+	public void setGamename(String gamename) {
+		this.gamename = gamename;
+	}
+	public String getOwner() {
+		return owner;
+	}
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+	public String getGametitle() {
+		return gametitle;
+	}
+	public void setGametitle(String gametitle) {
+		this.gametitle = gametitle;
+	}
+	public String getBriefinfo() {
+		return briefinfo;
+	}
+	public void setBriefinfo(String briefinfo) {
+		this.briefinfo = briefinfo;
 	}
 	public String getGametime() {
 		return gametime;
@@ -62,11 +79,23 @@ public class Game {
 	public void setProvinceid(int provinceid) {
 		this.provinceid = provinceid;
 	}
+	public String getProvincename() {
+		return provincename;
+	}
+	public void setProvincename(String provincename) {
+		this.provincename = provincename;
+	}
 	public int getCollegeid() {
 		return collegeid;
 	}
 	public void setCollegeid(int collegeid) {
 		this.collegeid = collegeid;
+	}
+	public String getCollegename() {
+		return collegename;
+	}
+	public void setCollegename(String collegename) {
+		this.collegename = collegename;
 	}
 	public int getInstituteid() {
 		return instituteid;
@@ -74,23 +103,47 @@ public class Game {
 	public void setInstituteid(int instituteid) {
 		this.instituteid = instituteid;
 	}
-	public boolean isSubmited() {
-		return submited;
+	public String getInstitutename() {
+		return institutename;
 	}
-	public void setSubmited(boolean submited) {
-		this.submited = submited;
+	public void setInstitutename(String institutename) {
+		this.institutename = institutename;
 	}
-	public boolean isStarted() {
-		return started;
+	public long getSubmitTime() {
+		return submitTime;
 	}
-	public void setStarted(boolean started) {
-		this.started = started;
+	public void setSubmitTime(long submitTime) {
+		this.submitTime = submitTime;
 	}
-	public boolean isEnded() {
-		return ended;
+	public long getAcceptTime() {
+		return acceptTime;
 	}
-	public void setEnded(boolean ended) {
-		this.ended = ended;
+	public void setAcceptTime(long acceptTime) {
+		this.acceptTime = acceptTime;
+	}
+	public long getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+	public long getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(long endTime) {
+		this.endTime = endTime;
+	}
+	public long getStep() {
+		return step;
+	}
+	public void setStep(long step) {
+		this.step = step;
+	}
+	public boolean isDeled() {
+		return deled;
+	}
+	public void setDeled(boolean deled) {
+		this.deled = deled;
 	}
 	public List<UserDefineForm> getFormList() {
 		return formList;
@@ -99,61 +152,5 @@ public class Game {
 		this.formList = formList;
 	}
 	
-	public boolean isDeled() {
-		return deled;
-	}
-	public void setDeled(boolean deled) {
-		this.deled = deled;
-	}
 	
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getOwner() {
-		return owner;
-	}
-	public void setOwner(String owner) {
-		this.owner = owner;
-	}
-	public String getGamename() {
-		return gamename;
-	}
-	public void setGamename(String gamename) {
-		this.gamename = gamename;
-	}
-	public String getBriefinfo() {
-		return briefinfo;
-	}
-	public void setBriefinfo(String briefinfo) {
-		this.briefinfo = briefinfo;
-	}
-	
-	public int getStartTime() {
-		return startTime;
-	}
-	public void setStartTime(int startTime) {
-		this.startTime = startTime;
-	}
-	public int getEndTime() {
-		return endTime;
-	}
-	public void setEndTime(int endTime) {
-		this.endTime = endTime;
-	}
-	public boolean isAccepted() {
-		return accepted;
-	}
-	public void setAccepted(boolean accepted) {
-		this.accepted = accepted;
-	}
-	public String getGametitle() {
-		return gametitle;
-	}
-	public void setGametitle(String gametitle) {
-		this.gametitle = gametitle;
-	}
-
 }

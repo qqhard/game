@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import crazy.dao.GameRepository;
-import crazy.form.GameCreateForm;
-import crazy.form.GameEditForm;
 import crazy.form.GameForm;
 import crazy.vo.Game;
 
@@ -50,6 +48,12 @@ public class GameAction {
 		
 		Game game = new Game();
 		gameForm.update(game);
+		String username = (String)session.getAttribute("username");
+		game.setOwner(username);
+		game.setSubmitTime(System.currentTimeMillis());
+		game.setDeled(false);
+		game.setStep(1);
+		
 		boolean ok = false;
 		synchronized(this){
 			if(gameRepository.findByGamename(gameForm.getGamename()) == null){
@@ -69,7 +73,7 @@ public class GameAction {
 	
 	@ResponseBody
 	@RequestMapping(value = "{gamename}", method = RequestMethod.PUT)
-	public Object put(@PathVariable("gamename") String gamename,@Valid GameEditForm gameForm,BindingResult bindingResult){
+	public Object put(@PathVariable("gamename") String gamename,@Valid GameForm gameForm,BindingResult bindingResult){
 		Map<String,String> ret = new HashMap<String,String>();
 		if(bindingResult.hasFieldErrors()){
 			List<FieldError> errors = bindingResult.getFieldErrors();
