@@ -13,6 +13,25 @@ public class User {
 	private String password;
 	private String email;
 	private String phone;
+	private String sociolname;
+	private String studentid;
+	
+	private int provinceid;
+	private int collegeid;
+	private int instituteid;
+	
+	public String getSociolname() {
+		return sociolname;
+	}
+	public void setSociolname(String sociolname) {
+		this.sociolname = sociolname;
+	}
+	public String getStudentid() {
+		return studentid;
+	}
+	public void setStudentid(String studentid) {
+		this.studentid = studentid;
+	}
 	private boolean enabled;
 	private boolean locked;
 	
@@ -55,6 +74,24 @@ public class User {
 	}
 	public void setLocked(boolean locked) {
 		this.locked = locked;
+	}
+	public int getProvinceid() {
+		return provinceid;
+	}
+	public void setProvinceid(int provinceid) {
+		this.provinceid = provinceid;
+	}
+	public int getCollegeid() {
+		return collegeid;
+	}
+	public void setCollegeid(int collegeid) {
+		this.collegeid = collegeid;
+	}
+	public int getInstituteid() {
+		return instituteid;
+	}
+	public void setInstituteid(int instituteid) {
+		this.instituteid = instituteid;
 	}
 	
 }

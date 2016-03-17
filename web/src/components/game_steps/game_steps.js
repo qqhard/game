@@ -15,7 +15,7 @@ class GameSteps extends React.Component {
   }
 
   timeFormat(time)   {
-    var now = new Date(time * 1000);
+    var now = new Date(time);
     var year = now.getFullYear();
     var month = now.getMonth()+1;
     var date = now.getDate();

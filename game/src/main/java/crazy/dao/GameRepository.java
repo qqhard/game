@@ -15,15 +15,14 @@ public interface GameRepository extends MongoRepository<Game, ObjectId>{
 
 	public Page<Game> findAll(Pageable pageable);
 	
-	@Query(value="{'step':1}")
-	public Page<Game> findSubmited(Pageable pageable);
+	public Page<Game> findByStep(Pageable pageable,int step);
 	
-	@Query(value="{'step':2}")
-	public Page<Game> findAccepted(Pageable pageable);
 
 	public Game findByGamename(String gamename);
 	
 	public Game findByGamenameAndDeled(String gamename, boolean deled);
 
 	public ArrayList<Game> findByOwner(String owner);
+	
+	public ArrayList<Game> findByOwnerAndStep(String owner, int step);
 }
