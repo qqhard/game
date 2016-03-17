@@ -30,7 +30,6 @@
     #set($username=$session.getAttribute("login"))
  	<div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/notice.html">notice</a></li>
           <li><a href="/games.html">赛事列表</a></li>
           <li><a href="/game.html">创建赛事</a></li>
           <li><a href="/register">register</a></li>
