@@ -35,7 +35,6 @@
           <li><a href="/game.html">创建赛事</a></li>
           <li><a href="/register">register</a></li>
           #if($username)
-          	<li><a href="/editUserInfo/$!username">$!username</a></li>
           	<li><a href="/logout">logout</a></li>
           #else
            	<li><a href="/login">login</a></li>

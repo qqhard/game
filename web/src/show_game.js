@@ -21,6 +21,7 @@ class ShowGame extends React.Component {
   }
   render() {
     console.log(this.state.game);
+    if(!this.state.game)return <div></div>;
     return (
       <Grid>
         <div>赛事信息</div>

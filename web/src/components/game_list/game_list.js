@@ -5,23 +5,38 @@ import { Link } from 'react-router'
 const ACTIVE = { color: 'white' }
 
 class GameList extends React.Component {
-    render() {
-        var nodes = this.props.data.map(function(game){
-            return (
-                <GameNode key={game.gamename}
-                    gamename={game.gamename}
-                    briefinfo={game.briefinfo}
-                    gameTime={game.gameTime}
-                    gamePlace={game.gamePlace}
-                />
-            );
-        });
-        return (
-            <ul className="list-group">
-                {nodes}
-            </ul>
-        )
+  constructor(props){
+    super(props);
+    this.state = {
+      data: []
     }
+  }
+  componentDidMount(){
+    $.get(this.props.url,function(data){
+        this.setState({data: data});
+    }.bind(this)).error(function(e){
+      if(e.status == 403){
+          top.location='/login';
+      }
+    });
+  }
+  render() {
+    var nodes = this.state.data.map(function(game){
+      return (
+        <GameNode key={game.gamename}
+            gamename={game.gamename}
+            briefinfo={game.briefinfo}
+            gameTime={game.gameTime}
+            gamePlace={game.gamePlace}
+        />
+      );
+    });
+    return (
+      <ul className="list-group">
+          {nodes}
+      </ul>
+    )
+  }
 }
 
 class GameNode extends React.Component {

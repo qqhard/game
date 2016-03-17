@@ -261,19 +261,19 @@ class GameForm extends React.Component {
         wrapperClassName:"col-xs-6"
       }
       const right = {display:'inline'}
-      var provinceOptions = this.state.provinceList.map(function(data){
-        return <option value={data.key}>{data.val}</option>
+      var provinceOptions = this.state.provinceList.map(function(data,index){
+        return <option key={index} value={data.key}>{data.val}</option>
       });
-      var collegeOptions = this.state.collegeList.map(function(data){
-        return <option value={data.key}>{data.val}</option>
+      var collegeOptions = this.state.collegeList.map(function(data,index){
+        return <option key={index} value={data.key}>{data.val}</option>
       });
-      var instituteOptions = this.state.instituteList.map(function(data){
-        return <option value={data.key}>{data.val}</option>
+      var instituteOptions = this.state.instituteList.map(function(data,index){
+        return <option key={index} value={data.key}>{data.val}</option>
       });
       var userDefineForm = this.state.userDefineForm.map(function(data, index){
         var label = '自定义表单-'+index;
         const innerButton = <Button onClick={this.handleDeleteFiled.bind(this,index)}>删除</Button>;
-        return <Input type="text" {...styleLayout} help={this.state.userDefineForm[index].help} bsStyle={this.state.userDefineForm[index].valid} value={this.state.userDefineForm[index].data} buttonAfter={innerButton} label={label} onChange={this.handleUserDefineForm.bind(this,index)}/>;
+        return <Input key={index} type="text" {...styleLayout} help={this.state.userDefineForm[index].help} bsStyle={this.state.userDefineForm[index].valid} value={this.state.userDefineForm[index].data} buttonAfter={innerButton} label={label} onChange={this.handleUserDefineForm.bind(this,index)}/>;
       }.bind(this));
       return (
         <form className="form-horizontal">

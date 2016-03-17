@@ -1,8 +1,5 @@
 package crazy;
 
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 import java.net.UnknownHostException;
@@ -12,7 +9,8 @@ import org.junit.Test;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
-
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import com.mongodb.MongoClient;
 

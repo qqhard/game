@@ -6,11 +6,9 @@ import java.net.URLEncoder;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import crazy.utils.SendNotificationMail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import crazy.dao.UserRepository;
 import crazy.form.RegisterForm;
+import crazy.utils.SendNotificationMail;
 import crazy.vo.User;
 
 @RestController
