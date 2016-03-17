@@ -64,7 +64,7 @@ public class TestGameRepository {
 		GamePageable pageable = new GamePageable();
 		List<Order> orders = new ArrayList<Order>();  
 		orders.add(new Order(Direction.ASC, "gamename"));  
-		Page<Game> page = gameRepository.findSubmited(pageable);
+		Page<Game> page =  gameRepository.findByStep(pageable, 2);
 		for(Game game: page.getContent()){
 			System.out.println(game.getGamename());
 			
@@ -78,7 +78,7 @@ public class TestGameRepository {
 		GamePageable pageable = new GamePageable();
 		List<Order> orders = new ArrayList<Order>();  
 		orders.add(new Order(Direction.ASC, "gamename"));  
-		Page<Game> page = gameRepository.findAccepted(pageable);
+		Page<Game> page = gameRepository.findByStep(pageable, 2);
 		for(Game game: page.getContent()){
 			System.out.println(game.getGamename());
 			

@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
     	http
     		.authorizeRequests()
-    			.antMatchers("/register","/login").permitAll()
+    			.antMatchers("/register","/login","/username").permitAll()
     			.anyRequest()
     			.authenticated();
     	http.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);
