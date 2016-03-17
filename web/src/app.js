@@ -1,6 +1,5 @@
 import React from 'react'
 import { render } from 'react-dom'
-import About from './about.js'
 import MyGames from './my_games.js'
 import Games from './games.js'
 import Entrys from './entrys.js'
@@ -46,11 +45,9 @@ class App extends React.Component {
 
             <div id="navbar" className="navbar-collapse collapse">
               <ul className="nav navbar-nav navbar-right">
-                <li><Link to="/notice.html" activeStyle={ACTIVE}>notice</Link></li>
                 <li><Link to="/games.html" activeStyle={ACTIVE}>赛事列表</Link></li>
                 <li><Link to={my_games_url} activeStyle={ACTIVE}>我的赛事</Link></li>
                 <li><Link to="/game.html" activeStyle={ACTIVE}>发布赛事</Link></li>
-                <li><Link to={entry_url} activeStyle={ACTIVE}>报名参赛</Link></li>
                 <li><Link to={userinfo_url} activeStyle={ACTIVE}>用户信息</Link></li>
                 <li><a href="/register">register</a></li>
                 <li><a href="/login">login</a></li>
@@ -66,38 +63,11 @@ class App extends React.Component {
   }
 }
 
-class Index extends React.Component {
-  render() {
-    return (
-      <div>
-        <h2>Index!</h2>
-        <h2>Index!</h2>
-        <h2>Index!</h2>
-        <h2>Index!</h2>
-        <h2>Index!</h2>
-      </div>
-    )
-  }
-}
-
-
-class UsersIndex extends React.Component {
-  render() {
-    return (
-      <div>
-        <h3>UsersIndex</h3>
-      </div>
-    )
-  }
-}
-
-
 
 render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-      <IndexRoute component={Index}/>
-      <Route path="/notice.html" component={About}/>
+      <IndexRoute component={Games}/>
       <Route path="/games.html" component={Games}/>
       <Route path="/games-:username.html" component={MyGames}/>
       <Route path="/game.html" component={CreateGame}/>
