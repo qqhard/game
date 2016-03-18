@@ -13,6 +13,7 @@
   "author": "hard",
   "license": "ISC",
   "devDependencies": {
+    "antd": "^0.12.11",
     "autoprefixer": "^6.3.3",
     "autoprefixer-loader": "^3.2.0",
     "babel-core": "^6.7.2",
