@@ -59,12 +59,7 @@ class GameForm extends React.Component {
     }
 
     handleGamename(e) {
-        var val;
-        if (e == null) {
-            val = this.state.gamename.data;
-        } else {
-            val = e.target.value;
-        }
+        var val = e == null ? this.state.gamename.data : e.target.value;
         var len = val.length;
         var gamename = {'data': val, 'valid': 'error'};
         if (len < 5) {
@@ -72,7 +67,7 @@ class GameForm extends React.Component {
             this.setState({gamename: gamename});
             return false;
         }
-        var re = new RegExp("^[a-zA-z0-9]+$", "gi");
+        var re = /^\w+$/g;
         if (re.test(val) == false) {
             gamename['help'] = '赛事域名只能是字母数字和短横线';
             this.setState({gamename: gamename});
@@ -85,12 +80,7 @@ class GameForm extends React.Component {
     }
 
     handleGametitle(e) {
-        var val;
-        if (e == null) {
-            val = this.state.gametitle.data;
-        } else {
-            val = e.target.value;
-        }
+        var val = e == null ? this.state.gametitle.data : e.target.value;
         var len = val.length;
         var gametitle = {'data': val, 'valid': 'error'};
         if (len < 5) {
@@ -98,7 +88,7 @@ class GameForm extends React.Component {
             this.setState({gametitle: gametitle});
             return false;
         }
-        var re = new RegExp("['\"]", "gi");
+        var re = /['"]/gi;
         if (re.test(val) == true) {
             gametitle['help'] = "赛事名称不得出现特殊符号";
             this.setState({gametitle: gametitle});
@@ -111,12 +101,7 @@ class GameForm extends React.Component {
     }
 
     handleBriefinfo(e) {
-        var val;
-        if (e == null) {
-            val = this.state.briefinfo.data;
-        } else {
-            val = e.target.value;
-        }
+        var val = e == null ? this.state.briefinfo.data : e.target.value;
         var len = val.length;
         var briefinfo = {};
         if (len > 50) {
@@ -131,12 +116,7 @@ class GameForm extends React.Component {
     }
 
     handleGametime(e) {
-        var val;
-        if (e == null) {
-            val = this.state.gametime.data;
-        } else {
-            val = e.target.value;
-        }
+        var val = e == null ? this.state.gametime.data : e.target.value;
         var len = val.length;
         var gametime = {};
         if (len > 20) {
@@ -151,12 +131,7 @@ class GameForm extends React.Component {
     }
 
     handleGameplace(e) {
-        var val;
-        if (e == null) {
-            val = this.state.gameplace.data;
-        } else {
-            val = e.target.value;
-        }
+        var val = e == null ? this.state.gameplace.data : e.target.value;
         var len = val.length;
         var gameplace = {};
         if (len > 20) {
@@ -171,12 +146,7 @@ class GameForm extends React.Component {
     }
 
     handleSelectProvince(e) {
-        var val;
-        if (e == null) {
-            val = this.state.provinceid.data;
-        } else {
-            val = e.target.value;
-        }
+        var val = e == null ? this.state.provinceid.data : e.target.value;
         var text = e.target.options[e.target.selectedIndex].text;
         this.setState({
             provinceid: val,
@@ -345,16 +315,21 @@ class GameForm extends React.Component {
                        bsStyle={this.state.gamename.valid} onChange={this.handleGamename.bind(this)}/>
                 <Input type="text" label="赛事名称" {...styleLayout}
                        value={this.state.gametitle.data} help={this.state.gametitle.help}
-                       bsStyle={this.state.gametitle.valid} onChange={this.handleGametitle.bind(this)}/>
+                       onChange={this.handleGametitle.bind(this)}
+                       bsStyle={this.state.gametitle.valid}
+                       onBlur={this.handleGametitle.bind(this)}/>
                 <Input type="textarea" label="赛事简介" {...styleLayout}
                        value={this.state.briefinfo.data} help={this.state.briefinfo.help}
-                       bsStyle={this.state.briefinfo.valid} onChange={this.handleBriefinfo.bind(this)}/>
+                       onChange={this.handleBriefinfo.bind(this)}
+                       bsStyle={this.state.briefinfo.valid} onBlur={this.handleBriefinfo.bind(this)}/>
                 <Input type="textarea" label="时间描述" {...styleLayout}
                        value={this.state.gametime.data} help={this.state.gametime.help}
-                       bsStyle={this.state.gametime.valid} onChange={this.handleGametime.bind(this)}/>
+                       onChange={this.handleGametime.bind(this)}
+                       bsStyle={this.state.gametime.valid} onBlur={this.handleGametime.bind(this)}/>
                 <Input type="textarea" label="地点描述" {...styleLayout}
                        value={this.state.gameplace.data} help={this.state.gameplace.help}
-                       bsStyle={this.state.gameplace.valid} onChange={this.handleGameplace.bind(this)}/>
+                       onChange={this.handleGameplace.bind(this)}
+                       bsStyle={this.state.gameplace.valid} onBlur={this.handleGameplace.bind(this)}/>
                 <Input type="select" {...styleLayout} label="省份限制" placeholder="select"
                        onChange={this.handleSelectProvince.bind(this)}>
                     {provinceOptions}
