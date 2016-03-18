@@ -16,26 +16,43 @@ class UserinfoForm extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      phone:{'data':'', 'valid':null, 'help':null},
+      sociolname:{'data':'', 'valid':null, 'help':null},
+      studentid:{'data':'', 'valid':null, 'help':null},
       email:{'data':'', 'valid':null, 'help':null},
       phone:{'data':'', 'valid':null, 'help':null},
       provinceid:0,
-      provincename:'',
       collegeid:0,
-      collegename:'',
-      instituteid:0,
-      institutename:''
+      instituteid:0
     };
   }
-  componentDidMount(){
+  componentWillMount(){
     var url = '/userinfo/'+this.props.username;
-    $.get(url,function(data){
-      console.log(data);
-      $("input[name=phone]").val(data.phone);
-      $("input[name=email]").val(data.email);
-      $("input[name=sociolname]").val(data.sociolname);
-      $("input[name=studentid]").val(data.studentid);
-    },'json');
+    var phone = this.state.phone;
+    var email = this.state.email;
+    var sociolname = this.state.sociolname;
+    var studentid = this.state.studentid;
+    $.ajax({
+      type:"get",
+      url:url,
+      dataType: "json",
+      async: false,
+      success: function(data){
+        console.log(data);
+        phone['data'] = data.phone;
+        email['data'] = data.email;
+        sociolname['data'] = data.sociolname;
+        studentid['data'] = data.studentid;
+        this.setState({
+          provinceid:data.provinceid,
+          collegeid:data.collegeid,
+          instituteid:data.instituteid,
+          phone:phone,
+          email:email,
+          sociolname:sociolname,
+          studentid:studentid
+        });
+      }.bind(this)
+    });
   }
   callbackParent(provinceid,provincename,collegeid,collegename,instituteid,institutename){
     this.setState({
@@ -46,6 +63,26 @@ class UserinfoForm extends React.Component {
       instituteid:instituteid,
       institutename:institutename
     });
+  }
+  handleStudentid(e){
+    var filed = this.state.studentid;
+    filed['data'] = e.target.value;
+    this.setState({studentid:filed});
+  }
+  handleSociolname(e){
+    var filed = this.state.sociolname;
+    filed['data'] = e.target.value;
+    this.setState({sociolname:filed});
+  }
+  handlePhone(e){
+    var filed = this.state.phone;
+    filed['data'] = e.target.value;
+    this.setState({phone:filed});
+  }
+  handleEmail(e){
+    var filed = this.state.email;
+    filed['data'] = e.target.value;
+    this.setState({email:filed});
   }
   handleSubmit(e) {
     e.preventDefault();
@@ -75,14 +112,15 @@ class UserinfoForm extends React.Component {
       'institutelabel':'学院'
     };
 
+
     return (
       <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)}>
-        <Input type="text" name="studentid" label="学号" {...styleLayout} />
-        <Input type="text" name="sociolname" label="姓名" {...styleLayout} />
-        <Input type="text" name="phone" label="手机" {...styleLayout} />
-        <Input type="text" name="email" label="邮件" {...styleLayout} />
+        <Input type="text" name="studentid" value={this.state.studentid.data} onChange={this.handleStudentid.bind(this)} label="学号" {...styleLayout} />
+        <Input type="text" name="sociolname" value={this.state.sociolname.data} onChange={this.handleSociolname.bind(this)} label="姓名" {...styleLayout} />
+        <Input type="text" name="phone" value={this.state.phone.data} onChange={this.handlePhone.bind(this)} label="手机" {...styleLayout} />
+        <Input type="text" name="email" value={this.state.email.data} onChange={this.handleEmail.bind(this)} label="邮件" {...styleLayout} />
         <BelongsForm
-          callbackParent={this.callbackParent.bind(this)} params={params}
+          callbackParent={this.callbackParent.bind(this)} p={params}
           provinceid={this.state.provinceid} provincename={this.state.provincename}
           collegeid={this.state.collegeid} collegename={this.state.collegename}
           instituteid={this.state.instituteid} institutename={this.state.institutename}

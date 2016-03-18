@@ -1,7 +1,7 @@
-import React from 'react'
-import EntryForm from './components/entry_form/entry_form.js'
-import GameInfo from './components/game_info/game_info.js'
-import PageHeader from 'react-bootstrap/lib/PageHeader'
+import React from 'react';
+import EntryForm from './components/entry_form/entry_form.js';
+import GameInfo from './components/game_info/game_info.js';
+import PageHeader from 'react-bootstrap/lib/PageHeader';
 
 
 class EntryPage extends React.Component {
