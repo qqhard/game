@@ -3,6 +3,7 @@ import { render } from 'react-dom'
 import About from './about.js'
 import MyGames from './my_games.js'
 import Games from './games.js'
+import Entrys from './entrys.js'
 import CreateGame from './create_game.js'
 import EntryPage from './entry_page.js'
 import ShowGame from './show_game.js'
@@ -100,11 +101,11 @@ render((
       <Route path="/games.html" component={Games}/>
       <Route path="/games-:username.html" component={MyGames}/>
       <Route path="/game.html" component={CreateGame}/>
-      <Route path="/entry-:username.html" component={EntryPage}/>
+      <Route path="/entry-:username-:gamename.html" component={EntryPage}/>
       <Route path="/userinfo-:username.html" component={UserinfoPage}/>
       <Route path="/game-:gamename.html" component={ShowGame}/>
       <Route path="/gamecheck-:gamename.html" component={CheckGame}/>
-
+      <Route path="/entrys-:gamename.html" component={Entrys}/>
     </Route>
   </Router>
 ), document.getElementById('body'))
