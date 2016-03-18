@@ -3,6 +3,7 @@ package crazy.form;
 import java.util.ArrayList;
 import java.util.List;
 
+import crazy.vo.Entry;
 import crazy.vo.UserDefineForm;
 
 public class EntryForm {
@@ -10,16 +11,27 @@ public class EntryForm {
 	private String gamename;
 	private String phone;
 	private String email;
-	private String userDefineForm;
+	private String forms;
 	public List<UserDefineForm> getUserDefindFormList(){
 		List<UserDefineForm> ret = new ArrayList<UserDefineForm>();
-		if(userDefineForm !=null && !"".equals(userDefineForm)){
-			String[] parts = userDefineForm.split("#");
+		if(forms !=null && !"".equals(forms)){
+			String[] parts = forms.split("#");
 			for(String part : parts){
-				ret.add(new UserDefineForm(part,""));
+				if(part.contains("=")){
+					String[] tmp = part.split("=");
+					ret.add(new UserDefineForm(tmp[0], tmp.length > 1? tmp[1]: ""));
+				}		
 			}
 		}
 		return ret;
+	}
+	public Entry update(Entry entry){
+		entry.setUsername(username);
+		entry.setGamename(gamename);
+		entry.setEmail(email);
+		entry.setPhone(phone);
+		entry.setFormList(getUserDefindFormList());
+		return entry;
 	}
 	public String getUsername() {
 		return username;
@@ -45,11 +57,11 @@ public class EntryForm {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getUserDefineForm() {
-		return userDefineForm;
+	public String getForms() {
+		return forms;
 	}
-	public void setUserDefineForm(String userDefineForm) {
-		this.userDefineForm = userDefineForm;
+	public void setForms(String forms) {
+		this.forms = forms;
 	}
-	
+
 }

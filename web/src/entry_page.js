@@ -19,7 +19,7 @@ class EntryPage extends React.Component {
         return (
             <div>
               <PageHeader>{this.state.game.gametitle}  <small> {this.state.game.briefinfo} </small></PageHeader>
-              <EntryForm username={this.props.params.username}/>
+              <EntryForm username={this.props.params.username} gamename={this.props.params.gamename}/>
             </div>
         );
     }
