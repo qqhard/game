@@ -9,6 +9,8 @@ class EntryForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      provinceid:0,
+      provincename:'',
       collegeid:0,
       collegename:'',
       instituteid:0,
@@ -21,8 +23,15 @@ class EntryForm extends React.Component {
   componentDidMount(){
     var user_url = '/userinfo/'+this.props.username;
     $.get(user_url,function(data){
-      console.log(data);
-    });
+      this.setState({
+        provinceid:data.provinceid,
+        provincename:data.provincename,
+        collegeid:data.collegeid,
+        collegename:data.collegename,
+        instituteid:data.instituteid,
+        institutename:data.institutename
+      });
+    }.bind(this));
   }
   handleUserDefineForm(index, event){
     var val = event.target.value;
@@ -47,7 +56,7 @@ class EntryForm extends React.Component {
 
     return (
       <form className="form-horizontal" onSubmit={this.handleSubmit}>
-        <Input type="text" label="高校" {...styleLayout} disabled={true} value={this.state.collegeid}/>
+        <Input type="text" label="高校" {...styleLayout} disabled={true} value={this.state.collegename}/>
         <Input type="text" label="学院" {...styleLayout} disabled={true} value={this.state.instituteid}/>
         <Input type="text" label="手机" {...styleLayout} />
         <Input type="text" label="邮件" {...styleLayout} />
