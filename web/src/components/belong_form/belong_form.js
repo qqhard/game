@@ -6,20 +6,17 @@ class BelongsForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      provinceList: [{'key':0,'val':this.props.params.first}],
+      provinceList: [{'key':0,'val':this.props.p.first}],
       provinceid: 0,
-      provincename:this.props.params.first,
-      collegeList: [{'key':0,'val':this.props.params.first}],
+      collegeList: [{'key':0,'val':this.props.p.first}],
       collegeid: 0,
-      collegename: this.props.params.first,
-      instituteList: [{'key':0,'val':this.props.params.first}],
-      instituteid: 0,
-      institutename: this.props.params.first
+      instituteList: [{'key':0,'val':this.props.p.first}],
+      instituteid: 0
     };
   }
   componentDidMount(){
     $.get('/provinces',function(data){
-      var arr = [{'key':0,'val':this.props.params.first}];
+      var arr = [{'key':0,'val':this.props.p.first}];
       for(var i = 0;i < data.length; i++){
         arr.push({'key':data[i].provinceid,'val':data[i].name});
       }
@@ -29,16 +26,35 @@ class BelongsForm extends React.Component {
     });
 
     if(this.props.provinceid > 0){
-      this.setState({provinceid:this.props.provinceid,provincename:this.props.provincename});
+      this.setState({provinceid:this.props.provinceid});
+      $.get('/colleges/'+this.props.provinceid,function(data){
+        var arr = [{'key':0,'val':this.props.p.first}];
+        for(var i = 0;i < data.length; i++){
+          arr.push({'key':data[i].collegeid,'val':data[i].collegename});
+        }
+        this.setState({collegeList: arr,collegeid:this.props.collegeid});
+      }.bind(this));
     }
+
+    if(this.props.collegeid > 0){
+      $.get('/institutes/'+this.props.collegeid,function(data){
+        var arr = [{'key':0,'val':this.props.p.first}];
+        for(var i = 0;i < data.length; i++){
+          arr.push({'key':data[i].instituteid,'val':data[i].institutename});
+        }
+        this.setState({instituteList: arr,instituteid:this.props.instituteid});
+      }.bind(this));
+    }
+
+    console.log("once"+this.props.provinceid);
   }
 
   handleSelectProvince(event) {
     var val = event.target.value;
     var text = event.target.options[event.target.selectedIndex].text;
     this.setState({provinceid:val,provincename:text});
-    this.props.callbackParent(val,text,0,this.props.params.first,0,this.props.params.first);
-    var arr = [{'key':0,'val':this.props.params.first}];
+    this.props.callbackParent(val,text,0,this.props.p.first,0,this.props.p.first);
+    var arr = [{'key':0,'val':this.props.p.first}];
     if(val > 0){
       $.get('/colleges/'+val, function(data){
         for(var i = 0;i < data.length; i++){
@@ -53,9 +69,9 @@ class BelongsForm extends React.Component {
   handleSelectCollege(event) {
     var val = event.target.value;
     var text = event.target.options[event.target.selectedIndex].text;
-    this.setState({collegeid: val,collegename: text, instituteid: 0, institutename:this.props.params.first});
-    this.props.callbackParent(this.state.provinceid,this.state.provincename,val,text,0,this.props.params.first);
-    var arr = [{'key':0,'val':this.props.params.first}];
+    this.setState({collegeid: val,collegename: text, instituteid: 0, institutename:this.props.p.first});
+    this.props.callbackParent(this.state.provinceid,this.state.provincename,val,text,0,this.props.p.first);
+    var arr = [{'key':0,'val':this.props.p.first}];
     if(val > 0){
       $.get('/institutes/'+val, function(data){
         for(var i = 0;i < data.length; i++){
@@ -92,13 +108,13 @@ class BelongsForm extends React.Component {
 
     return (
       <div>
-        <Input type="select" {...styleLayout} name="provinceid" label={this.props.params.provincelabel} placeholder="select" value={this.state.provinceid} onChange={this.handleSelectProvince.bind(this)}>
+        <Input type="select" {...styleLayout} name="provinceid" label={this.props.p.provincelabel} placeholder="select" value={this.state.provinceid} onChange={this.handleSelectProvince.bind(this)}>
           {provinceOptions}
         </Input>
-        <Input type="select" {...styleLayout} name="collegeid" label={this.props.params.collegelabel} placeholder="select" value={this.state.collegeid} onChange={this.handleSelectCollege.bind(this)}>
+        <Input type="select" {...styleLayout} name="collegeid" label={this.props.p.collegelabel} placeholder="select" value={this.state.collegeid} onChange={this.handleSelectCollege.bind(this)}>
           {collegeOptions}
         </Input>
-        <Input type="select" {...styleLayout} name="instituteid" label={this.props.params.institutelabel} placeholder="select" value={this.state.instituteid} onChange={this.handleSelectInstitute.bind(this)}>
+        <Input type="select" {...styleLayout} name="instituteid" label={this.props.p.institutelabel} placeholder="select" value={this.state.instituteid} onChange={this.handleSelectInstitute.bind(this)}>
           {instituteOptions}
         </Input>
       </div>
