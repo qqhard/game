@@ -206,7 +206,7 @@ class GameForm extends React.Component {
             val = this.state.collegeid.data;
             text = this.state.collegename;
         } else {
-            val = e.target.value;
+            val = event.target.value;
             text = event.target.options[event.target.selectedIndex].text;
         }
         this.setState({collegeid: val, collegename: text, instituteid: 0, institutename: '无限制'});
