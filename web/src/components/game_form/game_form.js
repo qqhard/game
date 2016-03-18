@@ -202,7 +202,7 @@ class GameForm extends React.Component {
 
     handleSelectCollege(event) {
         var val, text;
-        if (e == null) {
+        if (event == null) {
             val = this.state.collegeid.data;
             text = this.state.collegename;
         } else {
