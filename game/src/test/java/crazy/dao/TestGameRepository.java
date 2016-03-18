@@ -25,6 +25,12 @@ public class TestGameRepository {
 	@Autowired
 	private GameRepository gameRepository;
 	@Test
+	public void test(){
+		Game g =gameRepository.findByGamename("acm12");
+		g.setGametitle("acm校赛");
+		gameRepository.save(g);
+	}
+	@Test
 	public void testInsert(){
 		
 		Game game = new Game();
