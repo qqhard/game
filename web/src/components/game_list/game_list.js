@@ -24,13 +24,14 @@ class GameList extends React.Component {
     var nodes = this.state.data.map(function(game){
       return (
         <GameNode key={game.gamename}
+            prefix={this.props.prefix}
             gamename={game.gamename}
             briefinfo={game.briefinfo}
             gameTime={game.gameTime}
             gamePlace={game.gamePlace}
         />
       );
-    });
+  }.bind(this));
     return (
       <ul className="list-group">
           {nodes}
@@ -41,12 +42,11 @@ class GameList extends React.Component {
 
 class GameNode extends React.Component {
     render() {
-        var href = "/game/" + this.props.gamename;
-        var href2 = "/game-" + this.props.gamename +".html";
+        var href = this.props.prefix + this.props.gamename + '.html';
         return (
             <li className="list-group-item">
                 <h2 className="list-group-item-heading">
-                    <Link to={href2} activeStyle={ACTIVE}>{this.props.gamename}</Link>
+                    <Link to={href} activeStyle={ACTIVE}>{this.props.gamename}</Link>
                 </h2>
                 <p className="list-group-item-text">{this.props.briefinfo}</p>
                 <div className="right-top">{this.props.gamePlace}</div>

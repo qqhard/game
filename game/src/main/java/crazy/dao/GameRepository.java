@@ -6,7 +6,6 @@ import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 
 import crazy.vo.Game;
 
@@ -17,8 +16,9 @@ public interface GameRepository extends MongoRepository<Game, ObjectId>{
 	
 	public Page<Game> findByStep(Pageable pageable,int step);
 	
-
 	public Game findByGamename(String gamename);
+	
+	public Game findByGamenameAndStep(String gamename, int step);
 	
 	public Game findByGamenameAndDeled(String gamename, boolean deled);
 
