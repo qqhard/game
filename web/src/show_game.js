@@ -26,7 +26,6 @@ class ShowGame extends React.Component {
         if (!this.state.game)return <div></div>;
         return (
             <Grid>
-                <div>赛事信息</div>
                 <Row>
                     <Col xsOffset={2} xs={7}>
                         <GameInfo data={this.state.game}/>

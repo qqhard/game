@@ -6,7 +6,7 @@ import {Row, Col} from 'antd';
 import GameInfo from './components/game_info/game_info.js';
 import GameSteps from './components/game_steps/game_steps.js'
 import GameComment from './components/game_comment/game_comment.js'
-
+import Badge from 'react-bootstrap/lib/Badge';
 import {Menu, Icon} from 'antd';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
@@ -38,10 +38,10 @@ const Sider = React.createClass({
                   onClose={this.onToggle}
                   selectedKeys={[this.state.current]}
                   mode="inline">
-                <Menu.Item key="1">选项1</Menu.Item>
-                <Menu.Item key="2">选项2</Menu.Item>
-                <Menu.Item key="3">选项3</Menu.Item>
-                <Menu.Item key="4">选项4</Menu.Item>
+                <Menu.Item key="1">基本信息</Menu.Item>
+                <Menu.Item key="2">参赛者管理</Menu.Item>
+                <Menu.Item key="3">信息记录</Menu.Item>
+                <Menu.Item key="4">赛事评论</Menu.Item>
             </Menu>
         );
     }
@@ -76,12 +76,11 @@ class GameManage extends React.Component {
             3: <MessageRecordTable gamename={this.props.params.gamename}/>,
             1: (
                 <div>
-                    <div>赛事信息</div>
                     <Row>
                         <Col span="18">
                             <GameInfo data={this.state.game}/>
                         </Col>
-                        <Col span="6">
+                        <Col span="5" offset="1">
                             <GameSteps game={this.state.game}/>
                         </Col>
                     </Row>
@@ -94,10 +93,10 @@ class GameManage extends React.Component {
         return (
             <div>
                 <Row>
+
                     <Col key={0} span="3"><Sider callBack={this.callBack.bind(this)}/></Col>
                     <Col key={1} span="20" offset="1">{right[this.state.current]}</Col>
                 </Row>
-
             </div>
         );
 
