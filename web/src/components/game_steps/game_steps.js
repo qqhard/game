@@ -1,6 +1,8 @@
 import React from 'react';
 import Steps from 'antd/lib/steps';
 import 'antd/lib/index.css';
+import {timeFormat} from '../common/time_format.js';
+
 const Step = Steps.Step;
 
 class GameSteps extends React.Component {
@@ -14,27 +16,17 @@ class GameSteps extends React.Component {
     if(process > step)return 'finish';
   }
 
-  timeFormat(time)   {
-    var now = new Date(time);
-    var year = now.getFullYear();
-    var month = now.getMonth()+1;
-    var date = now.getDate();
-    var hour = now.getHours();
-    var minute = now.getMinutes();
-    var second = now.getSeconds();
-    return   year+"年"+month+"月"+date+"日  "+hour+":"+minute+":"+second;
-  }
   render() {
     var submitTime = this.props.game.submitTime;
     var acceptTime = this.props.game.acceptTime;
     const steps = [{
       status: this.getStatus(1),
       title: '赛事提交',
-      description: submitTime > 0 ? this.timeFormat(submitTime) : '赛事提交'
+      description: submitTime > 0 ? timeFormat(submitTime) : '赛事提交'
     }, {
       status: this.getStatus(2),
       title: '赛事审核',
-      description: acceptTime > 0 ? this.timeFormat(acceptTime) : '赛事审核'
+      description: acceptTime > 0 ? timeFormat(acceptTime) : '赛事审核'
     }, {
       status: this.getStatus(3),
       title: '赛事报名',
