@@ -2,20 +2,21 @@ import React from 'react';
 import GameList from './components/game_list/game_list.js';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Button from 'react-bootstrap/lib/Button';
+import Input from 'react-bootstrap/lib/Input';
 import message from 'antd/lib/message';
 import Modal from 'antd/lib/modal';
 import Table from 'antd/lib/table';
 import CsrfToken from './components/common/csrf_token.js';
-
-const info = function () {
-    message.info('这是一条普通的提醒');
-};
+import PrivateMessageModal from './components/message_modal/private_message_modal.js';
+import ExtendMessageModal from './components/message_modal/extend_message_modal.js';
+import Tabs from 'react-bootstrap/lib/Tabs';
+import Tab from 'react-bootstrap/lib/Tab';
 
 const confirm = Modal.confirm;
 
-function showConfirm(key) {
+function showConfirm(record) {
     confirm({
-        title: '您是否确认要清退' + key + ",请给出理由",
+        title: '您是否确认要清退' + record.key + ",请给出理由",
         content: (
             <div>
                 <textarea className="form-control"></textarea>
@@ -29,83 +30,6 @@ function showConfirm(key) {
     });
 }
 
-class MessageModal extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            title: '',
-            body: '',
-            username: ''
-        }
-    }
-
-    componentWillMount() {
-        $.get('/username', function (data) {
-            this.setState({username: data});
-        }.bind(this)).error(function (e) {
-            if (e.status == 403) top.location = '/login';
-        });
-    }
-
-    showModal() {
-        this.setState({
-            visible: true
-        });
-    }
-
-    handleTitle(e) {
-        this.setState({title: e.target.value});
-    }
-
-    handleBody(e) {
-        this.setState({body: e.target.value});
-    }
-
-    handleOk() {
-        var addrs = [];
-        var users = [];
-        alert(this.props.url);
-        for (var i in this.props.users) {
-            users.push(this.props.users[i].username);
-            addrs.push(this.props.users[i].email);
-        }
-        var body = 'users=' + users.join(',')
-            + '&addrs=' + addrs.join(',')
-            + '&title=' + this.state.title
-            + '&body=' + this.state.body
-            + '&sender=' + this.state.username
-            + '&gamename=' + this.props.gamename
-            + '&_csrf=' + $("input[name=_csrf]").val();
-        alert(body);
-        $.post(this.props.url,body,function(data){
-            alert(data);
-        });
-    }
-
-    handleConcel() {
-        this.setState({title: '', body: ''});
-        this.props.onCancel();
-    }
-
-    render() {
-        const input = (
-            <input className="form-control" value={this.state.title} onChange={this.handleTitle.bind(this)}/>
-        );
-        const textarea = (
-            <textarea className="form-control" value={this.state.body}
-                      onChange={this.handleBody.bind(this)}></textarea>
-        );
-        return (
-            <Modal title="填写待发送信息"
-                   visible={this.props.visible}
-                   onOk={this.handleOk.bind(this)}
-                   onCancel={this.handleConcel.bind(this)}>
-                <p>{input}{textarea}</p>
-            </Modal>
-        );
-    }
-}
-;
 
 class EntryTable extends React.Component {
 
@@ -117,8 +41,15 @@ class EntryTable extends React.Component {
             entrys: [],
             url: '',
             recvs: []
-
         }
+    }
+
+    componentWillMount() {
+        $.get('/username', function (data) {
+            this.setState({username: data});
+        }.bind(this)).error(function (e) {
+            if (e.status == 403) top.location = '/login';
+        });
     }
 
     componentDidMount() {
@@ -139,7 +70,7 @@ class EntryTable extends React.Component {
     onSelectChange(selectedRowKeys, selectedRecords) {
         console.log('selectedRowKeys changed: ', selectedRecords);
         this.setState({selectedRowKeys});
-        this.setState({recvs:selectedRecords});
+        this.setState({recvs: selectedRecords});
     }
 
     handleClick() {
@@ -161,12 +92,48 @@ class EntryTable extends React.Component {
         });
     }
 
+    showPrivateModal(record) {
+        this.setState({
+            visible2: true,
+            recvs: [record]
+        });
+    }
+
+    showPrivateModalBatch(record) {
+        this.setState({
+            visible2: true
+        });
+    }
+
+
     callCancel() {
         this.setState({
             visible: false
         });
     }
 
+    callCancel2() {
+        this.setState({
+            visible2: false
+        });
+    }
+
+    selectAll() {
+        if(this.state.selectedRowKeys.length < this.state.entrys.length){
+            var keys = [];
+            for(var i in this.state.entrys){
+                keys.push(this.state.entrys[i].key);
+            }
+            this.setState({
+                selectedRowKeys: keys
+            });
+        }else{
+            this.setState({
+                selectedRowKeys: []
+            });
+        }
+
+    }
 
     render() {
         console.log(this.state.text);
@@ -187,13 +154,13 @@ class EntryTable extends React.Component {
 
                 return (
                     <span>
-                        <a onClick={_this.showModal.bind(_this)}>私信</a>
+                        <a onClick={_this.showPrivateModal.bind(_this,record)}>私信</a>
                         <span className="ant-divider"></span>
                         <a onClick={_this.showModal.bind(_this)}>短信</a>
                         <span className="ant-divider"></span>
                         <a onClick={_this.showModal.bind(_this,'/message/email' , record)}>邮件</a>
                         <span className="ant-divider"></span>
-                        <a className="btn btn-danger btn-sm" onClick={showConfirm.bind(this,record.key)}>清退</a>
+                        <a className="btn btn-danger btn-sm" onClick={showConfirm.bind(this,record)}>清退</a>
                     </span>
                 );
             }
@@ -207,27 +174,30 @@ class EntryTable extends React.Component {
         const hasSelected = selectedRowKeys.length > 0;
         return (
             <div>
-                <MessageModal
-                    username={this.props.username}
+                <ExtendMessageModal
+                    username={this.state.username}
                     gamename={this.props.gamename}
                     visible={this.state.visible}
                     url={this.state.url}
                     users={this.state.recvs}
                     onCancel={_this.callCancel.bind(_this)}
                 />
-                <CsrfToken />
+                <PrivateMessageModal
+                    username={this.state.username}
+                    gamename={this.props.gamename}
+                    visible={this.state.visible2}
+                    users={this.state.recvs}
+                    url='/message/messages'
+                    onCancel={_this.callCancel2.bind(_this)}
+                />
+
                 <div style={{ marginBottom: 16 }}>
                     <ButtonGroup>
-                        <Button onClick={this.showModal.bind(this,"test")}
-                                loading={loading}>跨页全选</Button>
-                        <Button onClick={this.showModal.bind(this)} disabled={!hasSelected}
-                                loading={loading}>群发私信</Button>
-                        <Button onClick={this.showModalBatch.bind(this,'/message/email')} disabled={!hasSelected}
-                                loading={loading}>群发邮件</Button>
-                        <Button onClick={this.showModal.bind(this)} disabled={!hasSelected}
-                                loading={loading}>群发短信</Button>
-                        <Button onClick={this.handleClick.bind(this)} disabled={!hasSelected} bsStyle="danger"
-                                loading={loading}>批量清退</Button>
+                        <Button onClick={this.selectAll.bind(this)} >跨页全选</Button>
+                        <Button onClick={this.showPrivateModalBatch.bind(this)} disabled={!hasSelected} >群发私信</Button>
+                        <Button onClick={this.showModalBatch.bind(this,'/message/email')} disabled={!hasSelected} >群发邮件</Button>
+                        <Button onClick={this.showModal.bind(this)} disabled={!hasSelected} >群发短信</Button>
+                        <Button onClick={this.handleClick.bind(this)} disabled={!hasSelected} bsStyle="danger" >批量清退</Button>
                     </ButtonGroup>
                     <span style={{ marginLeft: 8 }}>{hasSelected ? `选择了 ${selectedRowKeys.length} 个参赛者` : ''}</span>
                 </div>
@@ -241,13 +211,16 @@ class GameManage extends React.Component {
     render() {
         return (
             <div>
-                <Button onClick={info}>显示普通提醒</Button>
-                <EntryTable gamename={this.props.params.gamename} username={this.props.username}/>
+                <Tabs defaultActiveKey={0} position="left" bsStyle="pills" tabWidth={2}>
+                    <Tab key={0} eventKey={0} title="报名列表">
+                        <EntryTable gamename={this.props.params.gamename} username={this.props.username}/>
+                    </Tab>
+                </Tabs>
+
             </div>
         );
 
     }
 }
-
 
 export default GameManage;
