@@ -16,7 +16,7 @@ class MyEntrys extends React.Component {
         const titles = ['我报名的','已经开始','已经结束'];
         const states = ['accepted','started','ended'];
         const tabs = states.map(function(val,index){
-          const url = "/game/entrys/"+this.props.params.username+"?state="+val;
+          const url = "/game/userentrys/"+this.props.params.username+"?state="+val;
           return <Tab key={index} eventKey={index} title={titles[index]}><GameList prefix="/gamecheck-" url={url}/></Tab>;
         }.bind(this));
 
