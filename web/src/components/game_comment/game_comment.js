@@ -3,29 +3,23 @@ import React from 'react'
 class GameComment extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {game: props.game};
     }
-
+    toggleDuoshuoComments(container){
+        var el = document.createElement('div');//该div不需要设置class="ds-thread"
+        el.setAttribute('data-thread-key', this.props.game.gamename);//必选参数
+        el.setAttribute('data-url', window.location);//必选参数
+        DUOSHUO.EmbedThread(el);
+        jQuery(container).append(el);
+    }
     componentDidMount() {
-        window.duoshuoQuery = {short_name: "testlacko"};
-        (function () {
-            var ds = document.createElement('script');
-            ds.type = 'text/javascript';
-            ds.async = true;
-            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-            ds.charset = 'UTF-8';
-            (document.getElementsByTagName('head')[0]
-            || document.getElementsByTagName('body')[0]).appendChild(ds);
-        })();
+        this.toggleDuoshuoComments($("#game_comment"));
     }
-
     render() {
         return (
-            <div className="ds-thread" data-thread-key={this.state.game.gamename}
-                 data-title={this.state.game.gametitle}
-                 data-url={window.location}>
-            </div>)
+            <div id="game_comment">
+            </div>
+        )
     }
 }
 
-export default GameComment
+export default GameComment;

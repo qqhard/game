@@ -1,221 +1,102 @@
 import React from 'react';
-import GameList from './components/game_list/game_list.js';
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
-import Button from 'react-bootstrap/lib/Button';
-import Input from 'react-bootstrap/lib/Input';
-import message from 'antd/lib/message';
-import Modal from 'antd/lib/modal';
-import Table from 'antd/lib/table';
-import CsrfToken from './components/common/csrf_token.js';
-import PrivateMessageModal from './components/message_modal/private_message_modal.js';
-import ExtendMessageModal from './components/message_modal/extend_message_modal.js';
-import Tabs from 'react-bootstrap/lib/Tabs';
-import Tab from 'react-bootstrap/lib/Tab';
+import EntrysTable from './components/tables/entrys_table.js';
+import MessageRecordTable from './components/tables/message_record_table.js';
+import {Row, Col} from 'antd';
 
-const confirm = Modal.confirm;
+import GameInfo from './components/game_info/game_info.js';
+import GameSteps from './components/game_steps/game_steps.js'
+import GameComment from './components/game_comment/game_comment.js'
 
-function showConfirm(record) {
-    confirm({
-        title: '您是否确认要清退' + record.key + ",请给出理由",
-        content: (
-            <div>
-                <textarea className="form-control"></textarea>
-            </div>
-        ),
-        onOk() {
-            console.log('确定');
-        },
-        onCancel() {
-        }
-    });
-}
+import {Menu, Icon} from 'antd';
+const SubMenu = Menu.SubMenu;
+const MenuItemGroup = Menu.ItemGroup;
+
+const Sider = React.createClass({
+    getInitialState() {
+        return {
+            current: '1',
+            openKeys: []
+        };
+    },
+    handleClick(e) {
+        this.setState({
+            current: e.key,
+            openKeys: e.keyPath.slice(1)
+        });
+        this.props.callBack(e.key);
+    },
+    onToggle(info) {
+        this.setState({
+            openKeys: info.open ? info.keyPath : info.keyPath.slice(1)
+        });
+    },
+    render() {
+        return (
+            <Menu onClick={this.handleClick}
+                  openKeys={this.state.openKeys}
+                  onOpen={this.onToggle}
+                  onClose={this.onToggle}
+                  selectedKeys={[this.state.current]}
+                  mode="inline">
+                <Menu.Item key="1">选项1</Menu.Item>
+                <Menu.Item key="2">选项2</Menu.Item>
+                <Menu.Item key="3">选项3</Menu.Item>
+                <Menu.Item key="4">选项4</Menu.Item>
+            </Menu>
+        );
+    }
+});
 
 
-class EntryTable extends React.Component {
-
+class GameManage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedRowKeys: [],
-            loading: false,
-            entrys: [],
-            url: '',
-            recvs: []
+            current: 1,
+            game: null,
+            key: 0
         }
     }
 
-    componentWillMount() {
-        $.get('/username', function (data) {
-            this.setState({username: data});
-        }.bind(this)).error(function (e) {
-            if (e.status == 403) top.location = '/login';
-        });
-    }
-
-    componentDidMount() {
-        $.get('/game/gameentrys/' + this.props.gamename, function (data) {
-            var arr = [];
-            for (var i in data) {
-                arr.push({
-                    key: data[i].username,
-                    username: data[i].username,
-                    phone: data[i].phone,
-                    email: data[i].email
-                });
-            }
-            this.setState({entrys: arr});
+    componentDidMount(){
+        $.get('/game/' + this.props.params.gamename, function (data) {
+            this.setState({game: data});
+            console.log(data);
         }.bind(this));
     }
 
-    onSelectChange(selectedRowKeys, selectedRecords) {
-        console.log('selectedRowKeys changed: ', selectedRecords);
-        this.setState({selectedRowKeys});
-        this.setState({recvs: selectedRecords});
+    callBack(current) {
+        this.setState({current: current});
     }
 
-    handleClick() {
-        alert(this.state.selectedRowKeys);
-    }
+    render() {
+        if(this.state.game == null) return <div></div>;
+        var right = {
+            2: <EntrysTable gamename={this.props.params.gamename} username={this.props.username}/>,
+            3: <MessageRecordTable gamename={this.props.params.gamename}/>,
+            1: (
+                <div>
+                    <div>赛事信息</div>
+                    <Row>
+                        <Col span="18">
+                            <GameInfo data={this.state.game}/>
+                        </Col>
+                        <Col span="6">
+                            <GameSteps game={this.state.game}/>
+                        </Col>
+                    </Row>
 
-    showModal(url, record) {
-        this.setState({
-            visible: true,
-            url: url,
-            recvs: [record]
-        });
-    }
-
-    showModalBatch(url) {
-        this.setState({
-            visible: true,
-            url: url
-        });
-    }
-
-    showPrivateModal(record) {
-        this.setState({
-            visible2: true,
-            recvs: [record]
-        });
-    }
-
-    showPrivateModalBatch(record) {
-        this.setState({
-            visible2: true
-        });
-    }
-
-
-    callCancel() {
-        this.setState({
-            visible: false
-        });
-    }
-
-    callCancel2() {
-        this.setState({
-            visible2: false
-        });
-    }
-
-    selectAll() {
-        if(this.state.selectedRowKeys.length < this.state.entrys.length){
-            var keys = [];
-            for(var i in this.state.entrys){
-                keys.push(this.state.entrys[i].key);
-            }
-            this.setState({
-                selectedRowKeys: keys
-            });
-        }else{
-            this.setState({
-                selectedRowKeys: []
-            });
+                </div>
+            ),
+            4:<GameComment game={this.state.game} key={this.state.key}/>
         }
 
-    }
-
-    render() {
-        console.log(this.state.text);
-        var _this = this;
-        const columns = [{
-            title: '用户名',
-            dataIndex: 'username',
-        }, {
-            title: '手机',
-            dataIndex: 'phone',
-        }, {
-            title: '邮箱',
-            dataIndex: 'email',
-        }, {
-            title: '操作',
-            key: 'operation',
-            render(text, record){
-
-                return (
-                    <span>
-                        <a onClick={_this.showPrivateModal.bind(_this,record)}>私信</a>
-                        <span className="ant-divider"></span>
-                        <a onClick={_this.showModal.bind(_this)}>短信</a>
-                        <span className="ant-divider"></span>
-                        <a onClick={_this.showModal.bind(_this,'/message/email' , record)}>邮件</a>
-                        <span className="ant-divider"></span>
-                        <a className="btn btn-danger btn-sm" onClick={showConfirm.bind(this,record)}>清退</a>
-                    </span>
-                );
-            }
-        }];
-
-        const {loading, selectedRowKeys} = this.state;
-        const rowSelection = {
-            selectedRowKeys,
-            onChange: this.onSelectChange.bind(this),
-        };
-        const hasSelected = selectedRowKeys.length > 0;
         return (
             <div>
-                <ExtendMessageModal
-                    username={this.state.username}
-                    gamename={this.props.gamename}
-                    visible={this.state.visible}
-                    url={this.state.url}
-                    users={this.state.recvs}
-                    onCancel={_this.callCancel.bind(_this)}
-                />
-                <PrivateMessageModal
-                    username={this.state.username}
-                    gamename={this.props.gamename}
-                    visible={this.state.visible2}
-                    users={this.state.recvs}
-                    url='/message/messages'
-                    onCancel={_this.callCancel2.bind(_this)}
-                />
-
-                <div style={{ marginBottom: 16 }}>
-                    <ButtonGroup>
-                        <Button onClick={this.selectAll.bind(this)} >跨页全选</Button>
-                        <Button onClick={this.showPrivateModalBatch.bind(this)} disabled={!hasSelected} >群发私信</Button>
-                        <Button onClick={this.showModalBatch.bind(this,'/message/email')} disabled={!hasSelected} >群发邮件</Button>
-                        <Button onClick={this.showModal.bind(this)} disabled={!hasSelected} >群发短信</Button>
-                        <Button onClick={this.handleClick.bind(this)} disabled={!hasSelected} bsStyle="danger" >批量清退</Button>
-                    </ButtonGroup>
-                    <span style={{ marginLeft: 8 }}>{hasSelected ? `选择了 ${selectedRowKeys.length} 个参赛者` : ''}</span>
-                </div>
-                <Table rowSelection={rowSelection} columns={columns} dataSource={this.state.entrys}/>
-            </div>
-        );
-    }
-}
-
-class GameManage extends React.Component {
-    render() {
-        return (
-            <div>
-                <Tabs defaultActiveKey={0} position="left" bsStyle="pills" tabWidth={2}>
-                    <Tab key={0} eventKey={0} title="报名列表">
-                        <EntryTable gamename={this.props.params.gamename} username={this.props.username}/>
-                    </Tab>
-                </Tabs>
+                <Row>
+                    <Col key={0} span="3"><Sider callBack={this.callBack.bind(this)}/></Col>
+                    <Col key={1} span="20" offset="1">{right[this.state.current]}</Col>
+                </Row>
 
             </div>
         );
