@@ -47,6 +47,7 @@ class App extends React.Component {
 
                         <div id="navbar" className="navbar-collapse collapse">
                             <ul className="nav navbar-nav navbar-right">
+                                <li><Link to="/games.html" activeStyle={ACTIVE}>消息 <span className="badge">4</span></Link></li>
                                 <li><Link to="/games.html" activeStyle={ACTIVE}>赛事列表</Link></li>
                                 <li><Link to={my_games_url} activeStyle={ACTIVE}>我的赛事</Link></li>
                                 <li><Link to={my_entrys_url} activeStyle={ACTIVE}>我参与的</Link></li>
