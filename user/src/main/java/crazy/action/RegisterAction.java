@@ -69,20 +69,12 @@ public class RegisterAction {
         
         User newUser = registerForm.getUser();
         newUser.setPassword(encoder.encode(newUser.getPassword()));
+        newUser.setAuthentications("USER");
         respository.save(newUser);
         
         httpSession.setAttribute("login", registerForm.getUsername());
 
-        //SendNotificationMail newMail = new SendNotificationMail(mail);
-        //newMail.setMailInfo(registerForm.getEmail(), registerForm.getName(), registerForm.getStunum());
-        //new Thread(newMail).start();
-
-        try {
-            model.setViewName("redirect:/editUserInfo/" + URLEncoder.encode(registerForm.getUsername(), "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        model.setViewName("redirect:/");
 
         return model;
     }
