@@ -27,7 +27,7 @@ class ShowGame extends React.Component {
         return (
             <Grid>
                 <Row>
-                    <Col xsOffset={2} xs={7}>
+                    <Col xsOffset={1} xs={8}>
                         <GameInfo data={this.state.game}/>
                     </Col>
                     <Col xs={3}>
@@ -35,7 +35,10 @@ class ShowGame extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <GameComment game={this.state.game}/>
+                    <Col xsOffset={1} xs={8}>
+                        <GameComment game={this.state.game}/>
+                    </Col>
+
                 </Row>
             </Grid>
 
