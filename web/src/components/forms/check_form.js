@@ -1,14 +1,8 @@
 import React from 'react';
-import GameInfo from './components/game_info/game_info.js';
-import GameSteps from './components/game_steps/game_steps.js';
-import CsrfToken from './components/common/csrf_token.js';
-import Grid from 'react-bootstrap/lib/Grid'
-import Row from 'react-bootstrap/lib/Row'
-import Col from 'react-bootstrap/lib/Col'
+import CsrfToken from '../common/csrf_token.js';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import Button from 'react-bootstrap/lib/Button'
 import Input from 'react-bootstrap/lib/Input'
-import { browserHistory } from 'react-router';
 import message from 'antd/lib/message';
 
 class CheckForm extends React.Component {
@@ -22,7 +16,7 @@ class CheckForm extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.step > 1) {
+        if (this.props.step != 1) {
             $.get('/gamecheck/' + this.props.gamename, function (data) {
                 this.setState({reason: data.reason});
             }.bind(this), 'json');
@@ -91,38 +85,4 @@ class CheckForm extends React.Component {
     }
 }
 
-class CheckGame extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {game: ''};
-    }
-
-    componentDidMount() {
-        var _this = this;
-        $.get('/game/' + this.props.params.gamename, function (data) {
-            _this.setState({game: data});
-        });
-    }
-
-    render() {
-        if (!this.state.game)return <div></div>;
-        return (
-            <Grid>
-                <Row>
-                    <Col xsOffset={2} xs={7}>
-                        <GameInfo data={this.state.game}/>
-                        <CheckForm gamename={this.state.game.gamename} step={this.state.game.step}/>
-                    </Col>
-                    <Col xs={3}>
-                        <GameSteps game={this.state.game}/>
-                    </Col>
-                </Row>
-
-            </Grid>
-
-        )
-    }
-}
-
-
-export default CheckGame;
+export default CheckForm;

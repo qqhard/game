@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +29,9 @@ public class GameCheckAction {
 	@ResponseBody
 	@RequestMapping(value = "{gamename}", method = RequestMethod.GET)
 	public Object get(@PathVariable("gamename") String gamename, HttpSession session){
-		String approver = (String)session.getAttribute("username");
-		ApproveRecord record = approveRecordRepository.findByApproverAndGamename(approver, gamename);
+		String approver = SecurityContextHolder.getContext().getAuthentication().getName();
+		ApproveRecord record = approveRecordRepository.findByGamename(gamename);
+		System.out.println(record);
 		return record;
 	}
 	
@@ -39,17 +41,23 @@ public class GameCheckAction {
 			@Valid GameCheckForm gameCheckForm,BindingResult bindingResult,HttpSession session){
 		Game game = gameRepository.findByGamename(gamename);
 		
-		if(game.getStep() != 1){
+		if(game.getStep() > 1){
 			return "fail";
 		}
-		game.setStep(2);
-		game.setAcceptTime(System.currentTimeMillis());
+		if(gameCheckForm.getAccepted()){
+			game.setStep(2);
+			game.setAcceptTime(System.currentTimeMillis());
+			
+		}else{
+			game.setStep(0);
+		}
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		gameRepository.save(game);
-		
 		ApproveRecord record = new ApproveRecord();
 		record = gameCheckForm.update(record);
 		record.setGamename(gamename);
-		record.setApprover((String)session.getAttribute("username"));
+		record.setApprover(username);
+		record.setGame(game);
 		approveRecordRepository.insert(record);
 		
 		return "ok";
