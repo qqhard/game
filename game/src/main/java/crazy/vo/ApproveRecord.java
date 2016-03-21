@@ -11,6 +11,14 @@ public class ApproveRecord {
 	private String approver;
 	private String reason;
 	private Boolean accepted;
+	private Game game;
+	
+	public Game getGame() {
+		return game;
+	}
+	public void setGame(Game game) {
+		this.game = game;
+	}
 	public String getId() {
 		return id;
 	}

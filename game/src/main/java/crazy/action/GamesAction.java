@@ -49,6 +49,7 @@ public class GamesAction {
 		put("accepted",2);
 		put("stated",3);
 		put("ended",4);
+		put("failed",0);
 	}};
 	
 	@ResponseBody
@@ -62,4 +63,7 @@ public class GamesAction {
 		if(step == null) return new ArrayList<Game>();
 		return gameRepository.findByOwnerAndStep(owner, step);
 	}
+	
+	
+	
 }

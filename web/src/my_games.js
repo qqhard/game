@@ -12,9 +12,9 @@ class MyGames extends React.Component {
       super(props);
   }
   render() {
-      const titles = ['提交的赛事','审核的赛事','已经开始','已经结束'];
-      const states = ['submited','accepted','started','ended'];
-      const prefixs = ['/game-','/gamemanage-','/gamemanage-','/gamemanage-'];
+      const titles = ['提交的赛事','审核的赛事','已经开始','已经结束','审核失败的'];
+      const states = ['submited','accepted','started','ended','failed'];
+      const prefixs = ['/game-','/gamemanage-','/gamemanage-','/gamemanage-','/gamefailed-'];
       const tabs = states.map(function(val,index){
         const url = "/games/"+this.props.params.username+"?state="+val;
         return <Tab key={index} eventKey={index} title={titles[index]}><GameList prefix={prefixs[index]} url={url}/></Tab>;
