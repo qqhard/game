@@ -7,6 +7,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -26,7 +28,7 @@ public class UserInfoAction {
 
     @Autowired
     private UserRepository respository;
-    
+
     @ResponseBody
     @RequestMapping(value = "/userinfo/{username}", method = RequestMethod.GET)
     public Object get(@PathVariable("username") String username) {
@@ -39,9 +41,10 @@ public class UserInfoAction {
 
     }
 
-
+    
     @ResponseBody
     @RequestMapping(value = "/userinfo/{username}", method = RequestMethod.PUT)
+    @PreAuthorize("authentication.name == username")
     public Object put(@PathVariable("username") String username, UserInfoForm userInfoForm, BindingResult bindingResult) {
     	Map<String,String> ret = new HashMap<String,String>();
     	if(!username.equals(SecurityContextHolder.getContext().getAuthentication().getName())){

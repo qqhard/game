@@ -3,6 +3,8 @@ package crazy.action;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,15 +21,21 @@ public class UserDetailAction {
 		 
 		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
-	@ResponseBody
+	
+    
+
 	@RequestMapping(value = "/userinfo", method = RequestMethod.GET)
-	public String testUserinfo() {
+//	@PreAuthorize("hasAnyAuthority('adm')")
+	@ResponseBody
+	public Object testUserinfo() {
 		Map<String,String> ret = new HashMap<String,String>();
-		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if( obj instanceof UserDetails){
-			return ((UserDetails)obj).getUsername();
-		}
-		return String.valueOf(obj);
+		ret.put("username", SecurityContextHolder.getContext().getAuthentication().getName());
+		SimpleGrantedAuthority obj = (SimpleGrantedAuthority) SecurityContextHolder
+				.getContext().getAuthentication()
+				.getAuthorities().iterator().next();
+		ret.put("role", obj.getAuthority());
+		return ret;
+		
 		
 	}
 }

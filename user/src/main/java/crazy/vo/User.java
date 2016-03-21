@@ -15,6 +15,8 @@ public class User {
 	private String phone;
 	private String sociolname;
 	private String studentid;
+	private String authentications;
+	
 	
 	private int provinceid;
 	private int collegeid;
@@ -92,6 +94,12 @@ public class User {
 	}
 	public void setInstituteid(int instituteid) {
 		this.instituteid = instituteid;
+	}
+	public String getAuthentications() {
+		return authentications;
+	}
+	public void setAuthentications(String authentications) {
+		this.authentications = authentications;
 	}
 	
 }
