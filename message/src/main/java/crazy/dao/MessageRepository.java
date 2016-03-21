@@ -9,7 +9,10 @@ import crazy.vo.Message;
 
 
 public interface MessageRepository  extends MongoRepository<Message, ObjectId>{
-	public List<Message> findBySender(String sender);
-	public List<Message> findByRecver(String recver);
+	public Message findById(String id);
+	public List<Message> findBySender(String sender,MessagePageable pages);
+	public int countBySender(String sender);
+	public List<Message> findByRecverOrderBySendTimeDesc(String recver);
 	public List<Message> findBySenderAndRecver(String sender,String recver);
+	public int countByRecverAndReadTime(String recver,long time);
 }

@@ -9,6 +9,7 @@ import ShowGame from './show_game.js'
 import CheckGame from './check_game.js'
 import UserinfoPage from './userinfo_page.js'
 import GameManage from './game_manage.js'
+import MyMessage from './my_message.js'
 import {Router, Route, IndexRoute, Link, IndexLink, browserHistory} from 'react-router'
 
 const ACTIVE = {color: 'white'}
@@ -17,7 +18,8 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: ''
+            username: '',
+            msg_num: 0
         }
     }
 
@@ -29,10 +31,23 @@ class App extends React.Component {
         });
     }
 
+    componentDidMount() {
+        var get_msg_num = function () {
+            $.get("/message/recv/count", function (data) {
+                this.setState({msg_num:data});
+            }.bind(this)).error(function (e) {
+                if (e.status == 403) top.location = '/login';
+            });
+        }.bind(this);
+        get_msg_num();
+        window.setInterval(get_msg_num, 10000);
+    }
+
     render() {
         const userinfo_url = "/userinfo-" + this.state.username + ".html";
         const my_games_url = "/games-" + this.state.username + ".html";
         const my_entrys_url = "/entrys-" + this.state.username + ".html";
+        const my_message_url = "/message-"+this.state.username + ".html";
         return (
             <div>
                 <nav className="navbar navbar-inverse navbar-fixed-top">
@@ -47,7 +62,7 @@ class App extends React.Component {
 
                         <div id="navbar" className="navbar-collapse collapse">
                             <ul className="nav navbar-nav navbar-right">
-                                <li><Link to="/games.html" activeStyle={ACTIVE}>消息 <span className="badge">4</span></Link></li>
+                                <li><Link to={my_message_url} activeStyle={ACTIVE}>消息 <span className="badge">{this.state.msg_num}</span></Link></li>
                                 <li><Link to="/games.html" activeStyle={ACTIVE}>赛事列表</Link></li>
                                 <li><Link to={my_games_url} activeStyle={ACTIVE}>我的赛事</Link></li>
                                 <li><Link to={my_entrys_url} activeStyle={ACTIVE}>我参与的</Link></li>
@@ -81,6 +96,7 @@ render((
             <Route path="/game-:gamename.html" component={ShowGame}/>
             <Route path="/gamecheck-:gamename.html" component={CheckGame}/>
             <Route path="/gamemanage-:gamename.html" component={GameManage}/>
+            <Route path="/message-:username.html" component={MyMessage} />
         </Route>
     </Router>
 ), document.getElementById('body'))

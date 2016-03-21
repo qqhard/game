@@ -2,7 +2,7 @@ import React from 'react';
 import EntrysTable from './components/tables/entrys_table.js';
 import MessageRecordTable from './components/tables/message_record_table.js';
 import {Row, Col} from 'antd';
-
+import Sider from './components/sider/sider.js';
 import GameInfo from './components/game_info/game_info.js';
 import GameSteps from './components/game_steps/game_steps.js'
 import GameComment from './components/game_comment/game_comment.js'
@@ -11,42 +11,7 @@ import {Menu, Icon} from 'antd';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
-const Sider = React.createClass({
-    getInitialState() {
-        return {
-            current: '1',
-            openKeys: []
-        };
-    },
-    handleClick(e) {
-        this.setState({
-            current: e.key,
-            openKeys: e.keyPath.slice(1)
-        });
-        this.props.callBack(e.key);
-    },
-    onToggle(info) {
-        this.setState({
-            openKeys: info.open ? info.keyPath : info.keyPath.slice(1)
-        });
-    },
-    render() {
-        return (
-            <Menu onClick={this.handleClick}
-                  openKeys={this.state.openKeys}
-                  onOpen={this.onToggle}
-                  onClose={this.onToggle}
-                  selectedKeys={[this.state.current]}
-                  mode="inline">
-                <Menu.Item key="1">基本信息</Menu.Item>
-                <Menu.Item key="2">参赛者管理</Menu.Item>
-                <Menu.Item key="3">信息记录</Menu.Item>
-                <Menu.Item key="4">赛事评论</Menu.Item>
-            </Menu>
-        );
-    }
-});
-
+const items = ["基本信息","参赛者管理","信息记录","赛事评论"];
 
 class GameManage extends React.Component {
     constructor(props) {
@@ -93,8 +58,7 @@ class GameManage extends React.Component {
         return (
             <div>
                 <Row>
-
-                    <Col key={0} span="3"><Sider callBack={this.callBack.bind(this)}/></Col>
+                    <Col key={0} span="3"><Sider callBack={this.callBack.bind(this)} items={items} /></Col>
                     <Col key={1} span="20" offset="1">{right[this.state.current]}</Col>
                 </Row>
             </div>
