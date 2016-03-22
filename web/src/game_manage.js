@@ -37,8 +37,6 @@ class GameManage extends React.Component {
     render() {
         if(this.state.game == null) return <div></div>;
         var right = {
-            2: <EntrysTable gamename={this.props.params.gamename} username={this.props.username}/>,
-            3: <MessageRecordTable gamename={this.props.params.gamename}/>,
             1: (
                 <div>
                     <Row>
@@ -52,6 +50,8 @@ class GameManage extends React.Component {
 
                 </div>
             ),
+            2: <EntrysTable gamename={this.props.params.gamename} username={this.props.username}/>,
+            3: <MessageRecordTable gamename={this.props.params.gamename}/>,
             4:<GameComment game={this.state.game} key={this.state.key}/>
         }
 

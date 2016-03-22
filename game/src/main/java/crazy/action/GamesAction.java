@@ -39,7 +39,7 @@ public class GamesAction {
 		
 		Integer step = STATE_TO_STEP.get(state);
 		if(step == null) return new ArrayList<Game>();
-		return gameRepository.findByStep(pageable, step).getContent();
+		return gameRepository.findByStep(step);
 	}
 	
 	private static final Map<String,Integer> STATE_TO_STEP = new HashMap<String,Integer>(){

@@ -1,6 +1,7 @@
 package crazy.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
@@ -13,8 +14,8 @@ public interface GameRepository extends MongoRepository<Game, ObjectId>{
 	public Game findById(String gameid);
 
 	public Page<Game> findAll(Pageable pageable);
-	
-	public Page<Game> findByStep(Pageable pageable,int step);
+
+	public List<Game> findByStep(int step);
 	
 	public Game findByGamename(String gamename);
 	

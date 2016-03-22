@@ -11,7 +11,9 @@ import CheckGame from './check_game.js'
 import UserinfoPage from './userinfo_page.js'
 import GameManage from './game_manage.js'
 import MyMessage from './my_message.js'
+import GameSubmited from './page/game_submited.js'
 import GameFailed from './page/game_failed.js'
+import GameEdit from './page/game_edit.js'
 import {Router, Route, IndexRoute, Link, IndexLink, browserHistory} from 'react-router'
 
 const ACTIVE = {color: 'black'}
@@ -122,6 +124,8 @@ render((
             <Route path="/message-:username.html" component={MyMessage} />
             <Route path="/gamechecks-:username.html" component={MyChecks} />
             <Route path="/gamefailed-:gamename.html" component={GameFailed} />
+            <Route path="/gamesubmited-:gamename.html" component={GameSubmited} />
+            <Route path="/gameedit-:gamename.html" component={GameEdit} />
         </Route>
     </Router>
 ), document.getElementById('body'))

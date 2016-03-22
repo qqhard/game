@@ -18,6 +18,7 @@ public class Entry {
 	private String gamename;
 	private String phone;
 	private String email;
+	private Boolean deled;
 	private List<UserDefineForm> formList;
 	public String getId() {
 		return id;
@@ -54,6 +55,12 @@ public class Entry {
 	}
 	public void setFormList(List<UserDefineForm> formList) {
 		this.formList = formList;
+	}
+	public Boolean getDeled() {
+		return deled;
+	}
+	public void setDeled(Boolean deled) {
+		this.deled = deled;
 	}
 	
 }
