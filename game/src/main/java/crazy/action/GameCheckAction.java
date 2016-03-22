@@ -36,6 +36,15 @@ public class GameCheckAction {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value = "game/{gamename}", method = RequestMethod.GET)
+	public Object getFailed(@PathVariable("gamename") String gamename){
+		
+		ApproveRecord record = approveRecordRepository.findByGamename(gamename);
+		if(record == null) return null;
+		return record.getGame();
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "{gamename}", method = RequestMethod.POST)
 	public Object post(@PathVariable("gamename") String gamename,
 			@Valid GameCheckForm gameCheckForm,BindingResult bindingResult,HttpSession session){

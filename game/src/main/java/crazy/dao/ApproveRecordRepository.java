@@ -10,4 +10,5 @@ import crazy.vo.ApproveRecord;
 public interface ApproveRecordRepository  extends MongoRepository<ApproveRecord, ObjectId>{
 	public ApproveRecord findByGamename(String gamename);
 	public List<ApproveRecord> findByApprover(String approver);
+	public void deleteByGamename(String gamename);
 }

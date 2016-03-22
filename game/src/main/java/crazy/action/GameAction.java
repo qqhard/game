@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import crazy.dao.ApproveRecordRepository;
 import crazy.dao.GameRepository;
 import crazy.form.GameForm;
+import crazy.vo.ApproveRecord;
 import crazy.vo.Game;
 
 @RestController
@@ -25,6 +27,10 @@ import crazy.vo.Game;
 public class GameAction {
 	@Autowired
 	private GameRepository gameRepository;
+	
+	@Autowired
+	private ApproveRecordRepository approveRecordRepository;
+	
 	
 	@ResponseBody
 	@RequestMapping(value = "{gamename}", method = RequestMethod.GET)
@@ -83,16 +89,27 @@ public class GameAction {
 			}
 			return ret;
 		}
+		
 		Game game = gameRepository.findByGamenameAndDeled(gamename,false);
 
-		if(game == null){
+		if(game == null ){
 			ret.put("gamename", "not exists");
 			ret.put("status", "fail");
 			return ret;
 		}
 
+		if(game.getStep() != 0){
+			ret.put("step", "error");
+			ret.put("status", "fail");
+			return ret;
+		}
+		
+
 		gameForm.update(game);
-		game.setGamename(gamename);
+		game.setStep(1);
+		game.setSubmitTime(System.currentTimeMillis());
+		game.setAcceptTime(0);
+		approveRecordRepository.deleteByGamename(gamename);
 		gameRepository.save(game);	
 		ret.put("status", "ok");
 		return ret;

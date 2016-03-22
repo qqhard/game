@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import crazy.dao.EntryRepository;
+import crazy.form.EntryDelForm;
 import crazy.form.EntryForm;
 import crazy.vo.Entry;
 
@@ -48,5 +49,12 @@ public class EntryAction {
 			ret.put("data", "重复报名");
 		}
 		return ret;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="{gamename}",method = RequestMethod.DELETE)
+	public Object delete(@Valid EntryDelForm entryDelForm,BindingResult bindingResult){
+		
+		return bindingResult;
 	}
 }

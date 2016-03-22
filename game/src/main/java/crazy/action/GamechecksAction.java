@@ -42,7 +42,6 @@ public class GamechecksAction {
 	@ResponseBody
 	@RequestMapping(value = "/gamechecks", method = RequestMethod.GET)
 	public List<Game> getGamechecks(){
-		GamePageable page = new GamePageable();
-		return gameRepository.findByStep(page, 1).getContent();
+		return gameRepository.findByStep(1);
 	}
 }

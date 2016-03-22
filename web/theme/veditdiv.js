@@ -11,13 +11,13 @@
         operIco.css({
             "opacity":0.6,
             "background-color":"#663300",
-            "height":32,
-            "width":24,
+            "height":15,
+            "width":15,
             "position":"absolute",
-            "left":0,
-            "top":0,
+            "left":pleft,
+            "top":ptop,
             "color":"#ffffff",
-            "font-size":28
+            "font-size":12
         });
         operIco.attr("class","veditdiv_control_ico");
         return operIco;
@@ -63,9 +63,7 @@
         function createIco(instr){
             var hidButton=$("<div>"+ instr +"</div>")
             hidButton.css({
-                'height':18,
-                'font-size':15,
-                "padding":5,
+
                 'display':"inline-block",
                 'margin-left':2,
                 'margin-top':1,
@@ -90,11 +88,12 @@
             return hidButton;
         };
 
-        var objHiddenIco=createIco("H");
-        var objQuitIco=createIco("Q");
+        var objHiddenIco=createIco("hidden");
+        var objQuitIco=createIco("close");
+        var objSaveIco=createIco("save");
         objOperBoard.append(objHiddenIco);
         objOperBoard.append(objQuitIco);
-
+        objOperBoard.append(objSaveIco);
 
         objHiddenIco.on("mouseover.veditdiv mouseout.veditdiv",function(event){
             event.stopPropagation();
@@ -117,6 +116,14 @@
                 objQuitIco.css("cursor","auto");
             }
         });
+
+        objSaveIco.on("click.veditdiv",function(event){
+            event.stopPropagation();
+
+            var test=document.getElementsByTagName('html')[0].outerHTML;
+            alert(test);
+        });
+
         var self=this;
 
         objQuitIco.on("click.veditdiv",function(event,obj){
