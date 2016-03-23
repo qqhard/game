@@ -41,7 +41,7 @@ body {
  	display:inline;
 }
 </style>
-<form class="form-signin" action="/login" method="POST" name="loginForm">
+<form class="form-signin" action="/userApi/login" method="POST" name="loginForm">
   <h2 class="form-signin-heading">Login For Change User Info</h2>
 
   	#springBind("loginForm.username")

@@ -16,7 +16,7 @@ class Teams extends React.Component {
 
             <div>
                 <Row>
-                    <TeamList prefix={1} url="/game/teams"/>
+                    <TeamList prefix={1} url="/gameApi/game/teams"/>
                 </Row>
 
             </div>

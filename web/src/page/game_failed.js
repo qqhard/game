@@ -15,7 +15,7 @@ class GameFailed extends React.Component {
 
     componentDidMount() {
         var _this = this;
-        $.get('/game/' + this.props.params.gamename, function (data) {
+        $.get('/gameApi/game/' + this.props.params.gamename, function (data) {
             _this.setState({game: data});
         });
     }

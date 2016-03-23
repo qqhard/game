@@ -24,7 +24,7 @@ class GameManage extends React.Component {
     }
 
     componentDidMount(){
-        $.get('/game/' + this.props.params.gamename, function (data) {
+        $.get('/gameApi/game/' + this.props.params.gamename, function (data) {
             this.setState({game: data});
             console.log(data);
         }.bind(this));

@@ -23,7 +23,7 @@ import crazy.utils.SendNotificationMail;
 import crazy.vo.User;
 
 @RestController
-@RequestMapping(value = "/register")
+@RequestMapping(value = "/userApi/register")
 public class RegisterAction {
     private static final Logger log = LoggerFactory.getLogger(RegisterAction.class);
 
@@ -36,8 +36,13 @@ public class RegisterAction {
     @Autowired
     private PasswordEncoder encoder;
 
+//    @RequestMapping(method = RequestMethod.GET)
+//    public Model showRegister(Model model, RegisterForm registerForm) {
+//        return model;
+//    }
     @RequestMapping(method = RequestMethod.GET)
-    public Model showRegister(Model model, RegisterForm registerForm) {
+    public ModelAndView showRegister(ModelAndView model, RegisterForm registerForm) {
+        model.setViewName("register");
         return model;
     }
 

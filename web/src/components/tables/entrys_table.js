@@ -23,15 +23,15 @@ class EntrysTable extends React.Component {
     }
 
     componentWillMount() {
-        $.get('/username', function (data) {
+        $.get('/userApi/username', function (data) {
             this.setState({username: data});
         }.bind(this)).error(function (e) {
-            if (e.status == 403) top.location = '/login';
+            if (e.status == 403) top.location = '/userApi/login';
         });
     }
 
     componentDidMount() {
-        $.get('/game/gameentrys/' + this.props.gamename, function (data) {
+        $.get('/gameApi/game/gameentrys/' + this.props.gamename, function (data) {
             var arr = [];
             for (var i in data) {
                 arr.push({

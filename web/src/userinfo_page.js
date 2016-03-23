@@ -44,7 +44,7 @@ class UserinfoForm extends React.Component {
     }
 
     componentWillMount() {
-        var url = '/userinfo/' + this.props.username;
+        var url = '/userApi/userinfo/' + this.props.username;
         var phone = this.state.phone;
         var email = this.state.email;
         var sociolname = this.state.sociolname;
@@ -77,7 +77,7 @@ class UserinfoForm extends React.Component {
         var data = e == null ? this.state.studentid.data : e.target.value;
         var newStudentID;
         var re = /^[a-zA-Z0-9]+$/g;
-        if (data.length == 0) {
+        if (data == null || data.length == 0) {
             newStudentID = {'data': data, 'valid': 'error', 'help': '请输入学号'}
         } else if (!re.test(data)) {
             newStudentID = {'data': data, 'valid': 'error', 'help': '无效的学号'}
@@ -92,7 +92,7 @@ class UserinfoForm extends React.Component {
     handleSociolname(e) {
         var data = e == null ? this.state.sociolname.data : e.target.value;
         var newSocialName = {data: data, valid: '', help: ''};
-        if (data.length == 0) {
+        if (data == null || data.length == 0) {
             newSocialName.valid = 'error';
             newSocialName.help = '请输入姓名'
         } else {
@@ -107,7 +107,7 @@ class UserinfoForm extends React.Component {
         var data = e == null ? this.state.phone.data : e.target.value;
         var newPhone = {data: data, valid: '', help: ''};
         var re = /^\d+$/g;
-        if (data.length == 0) {
+        if (data == null || data.length == 0) {
             newPhone.valid = 'error';
             newPhone.help = '请输入手机号'
         } else if (data.length < 5 || !re.test(data)) {
@@ -126,7 +126,7 @@ class UserinfoForm extends React.Component {
         var data = e == null ? this.state.email.data : e.target.value;
         var newEmail = {data: data, valid: '', help: ''};
         var re = /^\w[a-zA-Z0-9_\.]*@\w+\.\w+$/gi;
-        if (data.length == 0) {
+        if (data == null || data.length == 0) {
             newEmail.valid = 'error';
             newEmail.help = '请输入邮箱地址'
         } else if (!re.test(data)) {
@@ -145,7 +145,7 @@ class UserinfoForm extends React.Component {
         e.preventDefault();
         if (!(this.handleEmail() & this.handlePhone() & this.handleSociolname() & this.handleStudentid())) return false;
         var body = $(e.target).serialize();
-        var url = '/userinfo/' + this.props.username;
+        var url = '/userApi/userinfo/' + this.props.username;
         console.log(url);
         $.ajax({
             url: url,

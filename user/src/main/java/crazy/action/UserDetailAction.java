@@ -24,15 +24,16 @@ public class UserDetailAction {
 	private UserRepository respository;
 
 	@ResponseBody
-	@RequestMapping(value = "/username", method = RequestMethod.GET)
+	@RequestMapping(value = "/userApi/username", method = RequestMethod.GET)
 	public String testUsername() {
 		System.out.println(SecurityContextHolder.getContext().getAuthentication().getDetails());
 
 		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
 
-	@RequestMapping(value = "/userinfo", method = RequestMethod.GET)
-	// @PreAuthorize("hasAnyAuthority('adm')")
+
+	@RequestMapping(value = "/userApi/userinfo", method = RequestMethod.GET)
+//	@PreAuthorize("hasAnyAuthority('adm')")
 	@ResponseBody
 	public Object testUserinfo() {
 		Map<String, String> ret = new HashMap<String, String>();

@@ -15,7 +15,7 @@ class GameList extends React.Component {
         this.setState({data: data});
     }.bind(this)).error(function(e){
       if(e.status == 403){
-          top.location='/login';
+          top.location='/userApi/login';
       }
     });
   }

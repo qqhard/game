@@ -97,7 +97,7 @@ class TeamForm extends React.Component {
                     +'&num='+this.state.num.data
                     +'&_csrf='+$('input[name=_csrf]').val();
         alert(body);
-        $.post('/game/team',body,function (data) {
+        $.post('/gameApi/game/team',body,function (data) {
             if(data.status == 'ok'){
                 message.success('队伍创建成功！');
                 setTimeout(function () {

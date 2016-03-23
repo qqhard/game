@@ -8,7 +8,7 @@ class CheckShow extends React.Component {
         this.state = {};
     }
     componentDidMount() {
-        $.get('/gamecheck/' + this.props.gamename, function (data) {
+        $.get('/gameApi/gamecheck/' + this.props.gamename, function (data) {
             this.setState({reason: data.reason});
         }.bind(this), 'json');
     }

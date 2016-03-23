@@ -44,12 +44,12 @@
           <li><a href="/games.html">notice</a></li>
           <li><a href="/game.html">notice</a></li>
           <li><a href="/notice.html">notice</a></li>
-          <li><a href="/register">register</a></li>
+          <li><a href="/userApi/register">register</a></li>
           #if($username)
           	<li><a href="/editUserInfo/$!username">$!username</a></li>
-          	<li><a href="/logout">logout</a></li>
+          	<li><a href="/userApi/logout">logout</a></li>
           #else
-           	<li><a href="/login">login</a></li>
+           	<li><a href="/userApi/login">login</a></li>
           #end
         </ul>
 	</div>
@@ -96,7 +96,7 @@
 	</div>
 		
 	<div class="row" style="text-align:center;">
-		<a href="/register" class="btn btn-primary btn-lg" style="text-align:center;width:25%;">猛戳这</a>
+		<a href="/userApi/register" class="btn btn-primary btn-lg" style="text-align:center;width:25%;">猛戳这</a>
 	</div>
 </div>
  
