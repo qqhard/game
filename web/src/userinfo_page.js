@@ -2,12 +2,29 @@ import React from 'react';
 import Input from 'react-bootstrap/lib/Input';
 import CsrfToken from './components/common/csrf_token';
 import Button from 'react-bootstrap/lib/Button';
-import BelongsForm from './components/belong_form/belong_form.js';
+import BelongsForm, {callbackParent} from './components/belong_form/belong_form.js';
+import message from 'antd/lib/message';
+import {Row, Col} from 'antd';
+import PageHeader from 'react-bootstrap/lib/PageHeader';
+
 
 class UserinfoPage extends React.Component {
     render() {
         return (
-            <UserinfoForm username={this.props.params.username}/>
+            <div>
+                <Row>
+                    <Col offset="4" span="16">
+                        <PageHeader>个人信息
+                            <small> 请谨慎修改</small>
+                        </PageHeader>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col offset="4" span="20">
+                        <UserinfoForm username={this.props.params.username}/>
+                    </Col>
+                </Row>
+            </div>
         );
     }
 }
@@ -56,22 +73,11 @@ class UserinfoForm extends React.Component {
         });
     }
 
-    callbackParent(provinceid, provincename, collegeid, collegename, instituteid, institutename) {
-        this.setState({
-            provinceid: provinceid,
-            provincename: provincename,
-            collegeid: collegeid,
-            collegename: collegename,
-            instituteid: instituteid,
-            institutename: institutename
-        });
-    }
-
     handleStudentid(e) {
         var data = e == null ? this.state.studentid.data : e.target.value;
         var newStudentID;
         var re = /^[a-zA-Z0-9]+$/g;
-        if (data.length == 0) {
+        if (data == null || data.length == 0) {
             newStudentID = {'data': data, 'valid': 'error', 'help': '请输入学号'}
         } else if (!re.test(data)) {
             newStudentID = {'data': data, 'valid': 'error', 'help': '无效的学号'}
@@ -80,13 +86,13 @@ class UserinfoForm extends React.Component {
             newStudentID = {'data': data, 'valid': 'success', 'help': ''}
         }
         this.setState({studentid: newStudentID});
-        return this.state.studentid.valid == 'success'
+        return newStudentID.valid == 'success'
     }
 
     handleSociolname(e) {
         var data = e == null ? this.state.sociolname.data : e.target.value;
         var newSocialName = {data: data, valid: '', help: ''};
-        if (data.length == 0) {
+        if (data == null || data.length == 0) {
             newSocialName.valid = 'error';
             newSocialName.help = '请输入姓名'
         } else {
@@ -94,14 +100,14 @@ class UserinfoForm extends React.Component {
             newSocialName.help = ''
         }
         this.setState({sociolname: newSocialName});
-        return this.state.sociolname.valid == 'success'
+        return newSocialName.valid == 'success'
     }
 
     handlePhone(e) {
         var data = e == null ? this.state.phone.data : e.target.value;
         var newPhone = {data: data, valid: '', help: ''};
         var re = /^\d+$/g;
-        if (data.length == 0) {
+        if (data == null || data.length == 0) {
             newPhone.valid = 'error';
             newPhone.help = '请输入手机号'
         } else if (data.length < 5 || !re.test(data)) {
@@ -113,14 +119,14 @@ class UserinfoForm extends React.Component {
             newPhone.help = ''
         }
         this.setState({phone: newPhone});
-        return this.state.phone.valid == 'success'
+        return newPhone.valid == 'success'
     }
 
     handleEmail(e) {
         var data = e == null ? this.state.email.data : e.target.value;
         var newEmail = {data: data, valid: '', help: ''};
         var re = /^\w[a-zA-Z0-9_\.]*@\w+\.\w+$/gi;
-        if (data.length == 0) {
+        if (data == null || data.length == 0) {
             newEmail.valid = 'error';
             newEmail.help = '请输入邮箱地址'
         } else if (!re.test(data)) {
@@ -132,7 +138,7 @@ class UserinfoForm extends React.Component {
             newEmail.help = ''
         }
         this.setState({email: newEmail});
-        return this.state.email.valid == 'success'
+        return newEmail.valid == 'success'
     }
 
     handleSubmit(e) {
@@ -146,7 +152,7 @@ class UserinfoForm extends React.Component {
             type: 'PUT',
             data: body,
             success: function (data) {
-                console.log(data);
+                message.success("个人信息修改成功！");
             }
         });
         console.log(body);
@@ -196,10 +202,10 @@ class UserinfoForm extends React.Component {
                        bsStyle={this.state.email.valid}
                        label="邮件" {...styleLayout} />
                 <BelongsForm
-                    callbackParent={this.callbackParent.bind(this)} p={params}
-                    provinceid={this.state.provinceid} provincename={this.state.provincename}
-                    collegeid={this.state.collegeid} collegename={this.state.collegename}
-                    instituteid={this.state.instituteid} institutename={this.state.institutename}
+                    callbackParent={callbackParent.bind(this)} p={params}
+                    provinceid={this.state.provinceid}
+                    collegeid={this.state.collegeid}
+                    instituteid={this.state.instituteid}
                 />
                 <CsrfToken/>
                 <div className="form-group">

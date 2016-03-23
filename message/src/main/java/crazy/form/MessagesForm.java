@@ -19,6 +19,7 @@ public class MessagesForm {
 		record.setGamename(gamename);
 		record.setUsers(users);
 		record.setSender(sender);
+		record.setSendtime(System.currentTimeMillis());
 		return record;
 	}
 	

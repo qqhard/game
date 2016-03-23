@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +44,8 @@ public class MessageSendAction {
 		Map<String,Object> ret = new HashMap<String,Object>();
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		MessagePageable page = new MessagePageable();
+		page.setSort(new Sort(new Order("sendTime").with(Sort.Direction.DESC)));
+	
 		if(pageSize != null)page.setPageSize(pageSize);
 		if(currentPage != null)page.setPageNumber(currentPage);
 		ret.put("totalCount", messageRepository.countBySender(username));

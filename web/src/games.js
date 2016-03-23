@@ -37,8 +37,8 @@ class Games extends React.Component {
                         <h3>{val.gametitle}</h3>
                         <p>{val.briefinfo}</p>
                         <p>
-                            <Link to={game_url}>赛事主页</Link>&nbsp;
-                            <Link to={entry_url}>赛事报名</Link>
+                            <Link to={game_url} className="btn btn-primary btn-sm">赛事主页</Link>&nbsp;
+                            <Link to={entry_url} className="btn btn-default btn-sm">赛事报名</Link>
                         </p>
                     </Thumbnail>
                 </Col>

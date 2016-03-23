@@ -5,26 +5,9 @@ import Table from 'antd/lib/table';
 import CsrfToken from '../common/csrf_token.js';
 import PrivateMessageModal from '../message_modal/private_message_modal.js';
 import ExtendMessageModal from '../message_modal/extend_message_modal.js';
+import EntryDelModal from '../message_modal/entry_del_modal.js';
 import message from 'antd/lib/message';
 import Modal from 'antd/lib/modal';
-
-const confirm = Modal.confirm;
-
-function showConfirm(record) {
-    confirm({
-        title: '您是否确认要清退' + record.key + ",请给出理由",
-        content: (
-            <div>
-                <textarea className="form-control"></textarea>
-            </div>
-        ),
-        onOk() {
-            console.log('确定');
-        },
-        onCancel() {
-        }
-    });
-}
 
 class EntrysTable extends React.Component {
 
@@ -70,6 +53,7 @@ class EntrysTable extends React.Component {
 
     handleClick() {
         alert(this.state.selectedRowKeys);
+        console.log(this.state.recvs);
     }
 
     showModal(url, record) {
@@ -100,6 +84,20 @@ class EntrysTable extends React.Component {
         });
     }
 
+    showDelModal(record) {
+        this.setState({
+            visible3: true,
+            recvs: [record]
+        });
+    }
+
+    showDelModalBatch(record) {
+        this.setState({
+            visible3: true
+        });
+    }
+
+
 
     callCancel() {
         this.setState({
@@ -111,6 +109,21 @@ class EntrysTable extends React.Component {
         this.setState({
             visible2: false
         });
+    }
+
+    callCancel3() {
+        this.setState({
+            visible3: false
+        });
+    }
+
+    callDelEntry(filter) {
+        var entrys = [];
+        for(var i in this.state.entrys){
+            if(filter[this.state.entrys[i].username] == true)continue;
+            entrys.push(this.state.entrys[i]);
+        }
+        this.setState({entrys:entrys,recvs:[]});
     }
 
     selectAll() {
@@ -155,7 +168,7 @@ class EntrysTable extends React.Component {
                         <span className="ant-divider"></span>
                         <a onClick={_this.showModal.bind(_this,'/message/email' , record)}>邮件</a>
                         <span className="ant-divider"></span>
-                        <a className="btn btn-danger btn-sm" onClick={showConfirm.bind(this,record)}>清退</a>
+                        <a className="btn btn-danger btn-sm" onClick={_this.showDelModal.bind(_this,record)}>清退</a>
                     </span>
                 );
             }
@@ -185,6 +198,14 @@ class EntrysTable extends React.Component {
                     url='/message/messages'
                     onCancel={_this.callCancel2.bind(_this)}
                 />
+                <EntryDelModal
+                    users={this.state.recvs}
+                    username={this.state.username}
+                    gamename={this.props.gamename}
+                    visible={this.state.visible3}
+                    onCancel={_this.callCancel3.bind(_this)}
+                    onClear={_this.callDelEntry.bind(_this)}
+                />
 
                 <div style={{ marginBottom: 16 }}>
                     <ButtonGroup>
@@ -192,7 +213,7 @@ class EntrysTable extends React.Component {
                         <Button onClick={this.showPrivateModalBatch.bind(this)} disabled={!hasSelected} >群发私信</Button>
                         <Button onClick={this.showModalBatch.bind(this,'/message/email')} disabled={!hasSelected} >群发邮件</Button>
                         <Button onClick={this.showModal.bind(this)} disabled={!hasSelected} >群发短信</Button>
-                        <Button onClick={this.handleClick.bind(this)} disabled={!hasSelected} bsStyle="danger" >批量清退</Button>
+                        <Button onClick={this.showDelModalBatch.bind(this)} disabled={!hasSelected} bsStyle="danger" >批量清退</Button>
                     </ButtonGroup>
                     <span style={{ marginLeft: 8 }}>{hasSelected ? `选择了 ${selectedRowKeys.length} 个参赛者` : ''}</span>
                 </div>

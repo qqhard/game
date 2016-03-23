@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,15 +37,28 @@ public class EntryAction {
 			}
 			return ret;
 		}
-		Entry entry = new Entry();
-		entry =  entryForm.update(entry);
-		ret.put("status", "ok");
-		try{
+		
+		
+		Entry entry = entryRepository.findByUsernameAndGamename(entryForm.getUsername(), entryForm.getGamename());
+		if(entry == null){
+			entry = new Entry();
+			entry =  entryForm.update(entry);
 			entryRepository.insert(entry);
-		}catch(DuplicateKeyException e){
-			ret.put("status", "fail");
-			ret.put("data", "重复报名");
+			ret.put("status", "ok");
+			return ret;
 		}
+		
+		if(entry.getDeled()){
+			entry =  entryForm.update(entry);
+			entryRepository.save(entry);
+			ret.put("status", "ok");
+			return ret;
+		}
+		
+		ret.put("status", "fail");
+		ret.put("data", "重复报名");
 		return ret;
 	}
+	
+
 }
