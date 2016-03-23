@@ -23,7 +23,7 @@ import crazy.utils.SendNotificationMail;
 import crazy.vo.User;
 
 @RestController
-@RequestMapping(value = "/user/register")
+@RequestMapping(value = "/userApi/register")
 public class RegisterAction {
     private static final Logger log = LoggerFactory.getLogger(RegisterAction.class);
 

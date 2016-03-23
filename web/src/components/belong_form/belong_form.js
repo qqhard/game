@@ -15,19 +15,19 @@ class BelongsForm extends React.Component {
     };
   }
   componentDidMount(){
-    $.get('/provinces',function(data){
+    $.get('/gameApi/provinces',function(data){
       var arr = [{'key':0,'val':this.props.p.first}];
       for(var i = 0;i < data.length; i++){
         arr.push({'key':data[i].provinceid,'val':data[i].name});
       }
       this.setState({provinceList: arr});
     }.bind(this),'json').error(function(e){
-        if(e.status == 403) top.location='/user/login';
+        if(e.status == 403) top.location='/userApi/login';
     });
 
     if(this.props.provinceid > 0){
       this.setState({provinceid:this.props.provinceid});
-      $.get('/colleges/'+this.props.provinceid,function(data){
+      $.get('/gameApi/colleges/'+this.props.provinceid,function(data){
         var arr = [{'key':0,'val':this.props.p.first}];
         for(var i = 0;i < data.length; i++){
           arr.push({'key':data[i].collegeid,'val':data[i].collegename});
@@ -37,7 +37,7 @@ class BelongsForm extends React.Component {
     }
 
     if(this.props.collegeid > 0){
-      $.get('/institutes/'+this.props.collegeid,function(data){
+      $.get('/gameApi/institutes/'+this.props.collegeid,function(data){
         var arr = [{'key':0,'val':this.props.p.first}];
         for(var i = 0;i < data.length; i++){
           arr.push({'key':data[i].instituteid,'val':data[i].institutename});
@@ -56,7 +56,7 @@ class BelongsForm extends React.Component {
     this.props.callbackParent(val,text,0,this.props.p.first,0,this.props.p.first);
     var arr = [{'key':0,'val':this.props.p.first}];
     if(val > 0){
-      $.get('/colleges/'+val, function(data){
+      $.get('/gameApi/colleges/'+val, function(data){
         for(var i = 0;i < data.length; i++){
           arr.push({'key':data[i].collegeid,'val':data[i].collegename});
         }
@@ -73,7 +73,7 @@ class BelongsForm extends React.Component {
     this.props.callbackParent(this.state.provinceid,this.state.provincename,val,text,0,this.props.p.first);
     var arr = [{'key':0,'val':this.props.p.first}];
     if(val > 0){
-      $.get('/institutes/'+val, function(data){
+      $.get('/gameApi/institutes/'+val, function(data){
         for(var i = 0;i < data.length; i++){
           arr.push({'key':data[i].instituteid,'val':data[i].institutename});
         }

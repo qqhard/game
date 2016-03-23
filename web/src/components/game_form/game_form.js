@@ -30,14 +30,14 @@ class GameForm extends React.Component {
 
     componentDidMount() {
         var _this = this;
-        $.get('/provinces', function (data) {
+        $.get('/gameApi/provinces', function (data) {
             var arr = [{'key': 0, 'val': '无限制'}];
             for (var i = 0; i < data.length; i++) {
                 arr.push({'key': data[i].provinceid, 'val': data[i].name});
             }
             _this.setState({provinceList: arr});
         }, 'json').error(function (e) {
-            if (e.status == 403) top.location = '/user/login';
+            if (e.status == 403) top.location = '/userApi/login';
         });
     }
 
@@ -48,7 +48,7 @@ class GameForm extends React.Component {
             this.handleGamename();
             return false;
         }
-        $.get('/valid/' + val, function (data) {
+        $.get('/gameApi/valid/' + val, function (data) {
             console.log(data);
             if (data == true) {
                 this.setState({gamename: {'data': val, 'valid': 'error', 'help': '该域名已存在'}});
@@ -159,7 +159,7 @@ class GameForm extends React.Component {
 
         var arr = [{'key': 0, 'val': '无限制'}];
         if (val > 0) {
-            $.get('/colleges/' + val, function (data) {
+            $.get('/gameApi/colleges/' + val, function (data) {
                 for (var i = 0; i < data.length; i++) {
                     arr.push({'key': data[i].collegeid, 'val': data[i].collegename});
                 }
@@ -182,7 +182,7 @@ class GameForm extends React.Component {
         this.setState({collegeid: val, collegename: text, instituteid: 0, institutename: '无限制'});
         var arr = [{'key': 0, 'val': '无限制'}];
         if (val > 0) {
-            $.get('/institutes/' + val, function (data) {
+            $.get('/gameApi/institutes/' + val, function (data) {
                 for (var i = 0; i < data.length; i++) {
                     arr.push({'key': data[i].instituteid, 'val': data[i].institutename});
                 }
@@ -267,7 +267,7 @@ class GameForm extends React.Component {
             + '&userDefineForm=' + this.userDefineFormToStr()
             + '&_csrf=' + $('input[name=_csrf]').val();
         console.log(body);
-        $.post('/game', body, function (data) {
+        $.post('/gameApi/game', body, function (data) {
             console.log(data);
             if (data.status === 'ok') {
                 browserHistory.push('/games.html');
@@ -277,7 +277,7 @@ class GameForm extends React.Component {
 
         }, 'json').error(function (e) {
             if (e.status == 403) {
-                top.location = '/user/login';
+                top.location = '/userApi/login';
             } else {
                 browserHistory.push('/');
             }

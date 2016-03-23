@@ -20,8 +20,8 @@ const ACTIVE = {color: 'black'}
 const guestNav = (
     <ul className="nav navbar-nav navbar-right">
         <li><Link to="/games.html" activeStyle={ACTIVE}>赛事列表</Link></li>
-        <li><a href="/user/register">register</a></li>
-        <li><a href="/user/login">login</a></li>
+        <li><a href="/userApi/register">register</a></li>
+        <li><a href="/userApi/login">login</a></li>
     </ul>
 );
 
@@ -36,7 +36,7 @@ class App extends React.Component {
     }
 
     componentWillMount() {
-        $.get('/userinfo', function (data) {
+        $.get('/userApi/userinfo', function (data) {
             this.setState({username: data.username,role:data.role});
         }.bind(this)).error(function (e) {
 
@@ -69,14 +69,14 @@ class App extends React.Component {
                 <li><Link to={my_entrys_url} activeStyle={ACTIVE}>我参与的</Link></li>
                 <li><Link to="/game.html" activeStyle={ACTIVE}>发布赛事</Link></li>
                 <li><Link to={userinfo_url} activeStyle={ACTIVE}>{this.state.username}</Link></li>
-                <li><a href="/user/logout">logout</a></li>
+                <li><a href="/userApi/logout">logout</a></li>
             </ul>
         );
         const adminNav = (
             <ul className="nav navbar-nav navbar-right">
                 <li><Link to={my_checks_ulr} activeStyle={ACTIVE}>赛事审批</Link></li>
-                <li><a href="/user/register">register</a></li>
-                <li><a href="/user/login">login</a></li>
+                <li><a href="/userApi/register">register</a></li>
+                <li><a href="/userApi/login">login</a></li>
             </ul>
         );
         var nav = null;
