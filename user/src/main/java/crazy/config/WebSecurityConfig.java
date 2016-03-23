@@ -38,25 +38,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
     	http
     		.authorizeRequests()
-    			.antMatchers("/register","/login","/username").permitAll()
+    			.antMatchers("/user/register","/user/login","/user/username").permitAll()
     			.anyRequest()
     			.authenticated();
     	http.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);
 //    	http.sessionManagement()
-//    			.invalidSessionUrl("/logout")
+//    			.invalidSessionUrl("/user/logout")
 //    			.maximumSessions(1)
-//    			.expiredUrl("/login?expired")
+//    			.expiredUrl("/user/login?expired")
 //    			.maxSessionsPreventsLogin(false)
 //    			.sessionRegistry(sessionRegistry());
     	
-    	http.formLogin().loginPage("/login").successHandler(loginSuccessHandler()).permitAll();
+    	http.formLogin().loginPage("/user/login").successHandler(loginSuccessHandler()).permitAll();
     	
     	http
     		.logout()
-    			.logoutUrl("/logout")
+    			.logoutUrl("/user/logout")
     			.logoutSuccessUrl("/")
     			.invalidateHttpSession(true)
-    			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+    			.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"));
     	
    
     }

@@ -22,7 +22,7 @@ class BelongsForm extends React.Component {
       }
       this.setState({provinceList: arr});
     }.bind(this),'json').error(function(e){
-        if(e.status == 403) top.location='/login';
+        if(e.status == 403) top.location='/user/login';
     });
 
     if(this.props.provinceid > 0){

@@ -37,7 +37,7 @@ class GameForm extends React.Component {
             }
             _this.setState({provinceList: arr});
         }, 'json').error(function (e) {
-            if (e.status == 403) top.location = '/login';
+            if (e.status == 403) top.location = '/user/login';
         });
     }
 
@@ -277,7 +277,7 @@ class GameForm extends React.Component {
 
         }, 'json').error(function (e) {
             if (e.status == 403) {
-                top.location = '/login';
+                top.location = '/user/login';
             } else {
                 browserHistory.push('/');
             }

@@ -43,7 +43,7 @@ class EntrysTable extends React.Component {
         $.get('/username', function (data) {
             this.setState({username: data});
         }.bind(this)).error(function (e) {
-            if (e.status == 403) top.location = '/login';
+            if (e.status == 403) top.location = '/user/login';
         });
     }
 
