@@ -13,9 +13,11 @@ public interface MemberRepository  extends MongoRepository<Member, ObjectId>{
 	public Member findById(String id);
 	public Member findByTeamidAndUsername(String teamid,String username);
 	public List<Member> findByTeamidAndAccepted(String teamid,Boolean accepted);
+	public int countByTeamidAndAccepted(String teamid,Boolean accepted);
 	@Query("{'accepted':false,'teamid':?0,'applyed':?1}")
 	public List<Member> findByTeamidAndApplyed(String teamid,Boolean applyed);
 	@Query("{'accepted':false,'teamid':?0,'invited':?1}")
 	public List<Member> findByTeamidAndInvited(String teamid,Boolean invited);
+
 	
 }

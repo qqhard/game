@@ -1,11 +1,23 @@
 import React from 'react';
 import Table from 'antd/lib/table';
 import message from 'antd/lib/message';
-
+import Input from 'react-bootstrap/lib/Input'
 
 class MemberInviteTable extends React.Component {
     handleClick(record){
-        console.log(record);
+        var url = '/game/member/learevoke/' + record.id;
+        var body = '_csrf=' + this.props.csrf;
+        $.post(url, body, function (data) {
+            if(data == 'ok'){
+                message.success("执行成功！");
+                this.props.onRevoke(record);
+            }else{
+                message.error(data);
+            }
+        }.bind(this)).error(function (e) {
+            message.error("请求失败，权限问题！");
+        });
+
     }
     render() {
         var _this = this;
@@ -22,7 +34,8 @@ class MemberInviteTable extends React.Component {
             }
             }
         ];
-        return <Table columns={columns} dataSource={this.props.data} size="middle"/>;
+     
+        return <Table locale={{emptyText:'快去邀请'}} columns={columns} dataSource={this.props.data} size="middle"/>;
     }
 }
 
