@@ -35,21 +35,21 @@ class TeamManage extends React.Component {
     }
 
     fetchMembers() {
-        var url = '/game/members/' + this.props.params.teamid;
+        var url = '/gameApi/game/members/' + this.props.params.teamid;
         $.get(url, function (data) {
             this.setState({members: addKey(data)});
         }.bind(this));
     }
 
     fetchApplys() {
-        var url = '/game/members/apply/' + this.props.params.teamid;
+        var url = '/gameApi/game/members/apply/' + this.props.params.teamid;
         $.get(url, function (data) {
             this.setState({applys: addKey(data)});
         }.bind(this));
     }
 
     fetchInvites() {
-        var url = '/game/members/invite/' + this.props.params.teamid;
+        var url = '/gameApi/game/members/invite/' + this.props.params.teamid;
         $.get(url, function (data) {
             this.setState({invites: addKey(data)});
         }.bind(this));
