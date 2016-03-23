@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import crazy.dao.MemberRepository;
+import crazy.dao.TeamRepository;
 import crazy.vo.Member;
+import crazy.vo.Team;
 
 @RestController
 public class MemberAction {
 	@Autowired
 	private MemberRepository memberRepository;
+	@Autowired
+	private TeamRepository teamRepository;
 	
 	@ResponseBody
 	@RequestMapping(value="/game/members/{teamid}", method = RequestMethod.GET)
@@ -86,10 +90,19 @@ public class MemberAction {
 	public Object postMemberAccept(@PathVariable("memberid") String memberid){
 		Member member = memberRepository.findById(memberid);
 		if(member == null)return "fail";
-		member.setAccepted(true);
-		
 		String ret = "ok";
-		memberRepository.save(member);
+		Team team = teamRepository.findById(member.getTeamid());
+		
+		String lock = team.getId().substring(0,4).intern();
+		synchronized(lock){
+			int now_num = memberRepository.countByTeamidAndAccepted(team.getId(), true);
+			if(now_num >= team.getNum()) {
+				ret = "人数已经达到上限！";
+			}else{
+				member.setAccepted(true);
+				memberRepository.save(member);
+			}
+		}
 		return ret;
 	}
 	
@@ -98,10 +111,77 @@ public class MemberAction {
 	public Object postLeaderAccept(@PathVariable("memberid") String memberid){
 		Member member = memberRepository.findById(memberid);
 		if(member == null)return "fail";
-		member.setAccepted(true);
-		 
 		String ret = "ok";
-		memberRepository.save(member);
+		Team team = teamRepository.findById(member.getTeamid());
+		
+		String lock = team.getId().substring(0,4).intern();
+		synchronized(lock){
+			int now_num = memberRepository.countByTeamidAndAccepted(team.getId(), true);
+			if(now_num >= team.getNum()) {
+				ret = "人数已经达到上限！";
+			}else{
+				member.setAccepted(true);
+				memberRepository.save(member);
+			}
+		}
+		
+		return ret;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/game/member/memrefuse/{memberid}", method = RequestMethod.POST)
+	public Object postMemberRefuse(@PathVariable("memberid") String memberid){
+		Member member = memberRepository.findById(memberid);
+		if(member == null)return "fail";
+		String ret = "ok";
+		
+		String lock = memberid.substring(0,4).intern();
+		synchronized(lock){
+			if(member.getAccepted()){
+				ret = "用户已经在队伍中！";
+			}else{
+				member.setInvited(false);
+				memberRepository.save(member);
+			}
+		}
+		return ret;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/game/member/learefuse/{memberid}", method = RequestMethod.POST)
+	public Object postLeaderRefuse(@PathVariable("memberid") String memberid){
+		Member member = memberRepository.findById(memberid);
+		if(member == null)return "fail";
+		String ret = "ok";
+		
+		String lock = memberid.substring(0,4).intern();
+		synchronized(lock){
+			if(member.getAccepted()){
+				ret = "用户已经在队伍中！";
+			}else{
+				member.setApplyed(false);
+				memberRepository.save(member);
+			}
+		}
+		return ret;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/game/member/learevoke/{memberid}", method = RequestMethod.POST)
+	public Object postLeaderRevoke(@PathVariable("memberid") String memberid){
+		Member member = memberRepository.findById(memberid);
+		if(member == null)return "fail";
+		String ret = "ok";
+		
+		String lock = memberid.substring(0,4).intern();
+		synchronized(lock){
+			if(member.getAccepted()){
+				ret = "用户已经在队伍中！";
+			}else{
+				member.setInvited(false);
+				memberRepository.save(member);
+			}
+		}
 		return ret;
 	}
 }
