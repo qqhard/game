@@ -24,9 +24,9 @@ class MyTeams extends React.Component {
         const titles = ['招募中的队伍', '已参赛的队伍', '我加入的队伍'];
         const username = this.props.params.username;
         const urls = [
-            '/game/teams/' + username + '?entryed=false',
-            '/game/teams/' + username + '?entryed=true',
-            '/game/teams/'
+            '/gameApi/game/teams/' + username + '?entryed=false',
+            '/gameApi/game/teams/' + username + '?entryed=true',
+            '/gameApi/game/teams/'
         ];
         const prefixs = ['/gamesubmited-', '/gamemanage-', '/gamemanage-'];
 

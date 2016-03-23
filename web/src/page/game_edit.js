@@ -12,7 +12,7 @@ class GameEdit extends React.Component {
     }
 
     componentWillMount() {
-        const url = "/gamecheck/game/"+this.props.params.gamename;
+        const url = "/gameApi/gamecheck/game/"+this.props.params.gamename;
         $.get(url,function (data) {
             this.setState({game:data});
             console.log(data);

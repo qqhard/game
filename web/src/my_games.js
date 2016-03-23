@@ -16,7 +16,7 @@ class MyGames extends React.Component {
         const states = ['submited', 'accepted', 'started', 'ended', 'failed'];
         const prefixs = ['/gamesubmited-', '/gamemanage-', '/gamemanage-', '/gamemanage-', '/gamefailed-'];
         const tabs = states.map(function (val, index) {
-            const url = "/games/" + this.props.params.username + "?state=" + val;
+            const url = "/gameApi/games/" + this.props.params.username + "?state=" + val;
             return <Tab key={index} eventKey={index} title={titles[index]}><GameList prefix={prefixs[index]} url={url}/></Tab>;
         }.bind(this));
 

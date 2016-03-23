@@ -30,7 +30,7 @@ public class UserInfoAction {
     private UserRepository respository;
 
     @ResponseBody
-    @RequestMapping(value = "/userinfo/{username}", method = RequestMethod.GET)
+    @RequestMapping(value = "/userApi/userinfo/{username}", method = RequestMethod.GET)
     public Object get(@PathVariable("username") String username) {
     	if(!username.equals(SecurityContextHolder.getContext().getAuthentication().getName()) ){
     		return "fail";
@@ -43,7 +43,7 @@ public class UserInfoAction {
 
     
     @ResponseBody
-    @RequestMapping(value = "/userinfo/{username}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/userApi/userinfo/{username}", method = RequestMethod.PUT)
     @PreAuthorize("authentication.name == username")
     public Object put(@PathVariable("username") String username, UserInfoForm userInfoForm, BindingResult bindingResult) {
     	Map<String,String> ret = new HashMap<String,String>();

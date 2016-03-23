@@ -31,11 +31,11 @@
  	<div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
           <li><a href="/games.html">赛事列表</a></li>
-          <li><a href="/register">register</a></li>
+          <li><a href="/userApi/register">register</a></li>
           #if($username)
-          	<li><a href="/logout">logout</a></li>
+          	<li><a href="/userApi/logout">logout</a></li>
           #else
-           	<li><a href="/login">login</a></li>
+           	<li><a href="/userApi/login">login</a></li>
           #end
         </ul>
 	</div>

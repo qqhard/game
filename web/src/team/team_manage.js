@@ -27,7 +27,7 @@ class TeamManage extends React.Component {
     }
 
     fetchTeam() {
-        var url = '/game/team/' + this.props.params.teamid;
+        var url = '/gameApi/game/team/' + this.props.params.teamid;
         $.get(url, function (data) {
             console.log(data);
             this.setState({team: data});

@@ -54,14 +54,14 @@ class GameForm extends React.Component {
 
     componentDidMount() {
         var _this = this;
-        $.get('/provinces', function (data) {
+        $.get('/gameApi/provinces', function (data) {
             var arr = [{'key': 0, 'val': '无限制'}];
             for (var i = 0; i < data.length; i++) {
                 arr.push({'key': data[i].provinceid, 'val': data[i].name});
             }
             _this.setState({provinceList: arr});
         }, 'json').error(function (e) {
-            if (e.status == 403) top.location = '/login';
+            if (e.status == 403) top.location = '/userApi/login';
         });
 
 
@@ -75,7 +75,7 @@ class GameForm extends React.Component {
             this.handleGamename();
             return false;
         }
-        $.get('/valid/' + val, function (data) {
+        $.get('/gameApi/valid/' + val, function (data) {
             console.log(data);
             if (data == true) {
                 this.setState({gamename: {'data': val, 'valid': 'error', 'help': '该域名已存在'}});
@@ -172,7 +172,6 @@ class GameForm extends React.Component {
         return gameplace.valid == 'success' || gameplace.valid == 'warning';
     }
 
-
     handleSelectInstitute(event) {
         var val = event.target.value;
         this.setState({instituteid: val, institutename: event.target.options[event.target.selectedIndex].text});
@@ -226,8 +225,8 @@ class GameForm extends React.Component {
 
     validAll() {
         console.log(this.props.disabled);
-        if(!this.props.disabled)this.existGamename();
-        return (this.state.gamename.valid == 'success'||this.props.disabled) & this.handleGametitle() &
+        if (!this.props.disabled)this.existGamename();
+        return (this.state.gamename.valid == 'success' || this.props.disabled) & this.handleGametitle() &
             this.handleBriefinfo() & this.handleGametime() & this.handleGameplace();
     }
 
@@ -248,14 +247,14 @@ class GameForm extends React.Component {
             + '&_csrf=' + $('input[name=_csrf]').val();
         console.log(body);
 
-        if(!this.props.game)this.postForm(body);
+        if (!this.props.game)this.postForm(body);
         else this.putForm(body);
-        
+
     }
 
-    postForm(body){
+    postForm(body) {
         var _this = this;
-        $.post('/game', body, function (data) {
+        $.post('/gameApi/game', body, function (data) {
             console.log(data);
             if (data.status === 'ok') {
                 message.success("赛事提交成功，等待管理员审批！")
@@ -269,26 +268,26 @@ class GameForm extends React.Component {
         }, 'json').error(function (e) {
             message.error("赛事提交失败！")
             if (e.status == 403) {
-                top.location = '/login';
+                top.location = '/userApi/login';
             } else {
                 browserHistory.push('/');
             }
         });
     }
 
-    putForm(body){
+    putForm(body) {
         var _this = this;
         $.ajax({
-            url:'/game/'+ this.state.gamename.data,
+            url: '/gameApi/game/' + this.state.gamename.data,
             method: 'PUT',
             data: body,
             success: function (data) {
-                if(data.status == 'ok'){
+                if (data.status == 'ok') {
                     message.success("赛事提交成功，等待管理员审批！")
                     setTimeout(function () {
                         browserHistory.push('/gamesubmited-' + _this.state.gamename.data + '.html');
                     }, 1500);
-                }else{
+                } else {
                     message.error("赛事提交失败！")
                 }
             },

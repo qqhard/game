@@ -23,7 +23,7 @@ class CheckForm extends React.Component {
 
     componentDidMount() {
         if (this.props.step > 1) {
-            $.get('/gamecheck/' + this.props.gamename, function (data) {
+            $.get('/gameApi/gamecheck/' + this.props.gamename, function (data) {
                 this.setState({reason: data.reason});
             }.bind(this), 'json');
         }
@@ -51,7 +51,7 @@ class CheckForm extends React.Component {
 
     handleAccept() {
         var body = this.serializeForm(true);
-        $.post('/gamecheck/' + this.props.gamename, body, function (data) {
+        $.post('/gameApi/gamecheck/' + this.props.gamename, body, function (data) {
             message.success("审批成功！");
             this.setState({step:2});
         }.bind(this)).error(function (e) {
@@ -61,7 +61,7 @@ class CheckForm extends React.Component {
 
     handleRefuse() {
         var body = this.serializeForm(false);
-        $.post('/gamecheck/' + this.props.gamename, body, function (data) {
+        $.post('/gameApi/gamecheck/' + this.props.gamename, body, function (data) {
             message.success("审批成功！");
             this.setState({step:2});
         }.bind(this)).error(function (e) {
@@ -99,7 +99,7 @@ class CheckGame extends React.Component {
 
     componentDidMount() {
         var _this = this;
-        $.get('/game/' + this.props.params.gamename, function (data) {
+        $.get('/gameApi/game/' + this.props.params.gamename, function (data) {
             _this.setState({game: data});
         });
     }
