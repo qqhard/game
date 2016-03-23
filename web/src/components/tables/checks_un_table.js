@@ -34,7 +34,7 @@ class ChecksUnTable extends React.Component {
     }
 
     componentDidMount() {
-        var url = '/gamechecks';
+        var url = '/gameApi/gamechecks';
         var arr = [];
 
         $.get(url, function (data) {

@@ -27,7 +27,7 @@ class UserinfoForm extends React.Component {
     }
 
     componentWillMount() {
-        var url = '/userinfo/' + this.props.username;
+        var url = '/userApi/userinfo/' + this.props.username;
         var phone = this.state.phone;
         var email = this.state.email;
         var sociolname = this.state.sociolname;
@@ -139,7 +139,7 @@ class UserinfoForm extends React.Component {
         e.preventDefault();
         if (!(this.handleEmail() & this.handlePhone() & this.handleSociolname() & this.handleStudentid())) return false;
         var body = $(e.target).serialize();
-        var url = '/userinfo/' + this.props.username;
+        var url = '/userApi/userinfo/' + this.props.username;
         console.log(url);
         $.ajax({
             url: url,

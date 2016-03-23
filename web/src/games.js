@@ -19,10 +19,10 @@ class Games extends React.Component {
     }
 
     componentDidMount() {
-        $.get('/username', function (data) {
+        $.get('/userApi/username', function (data) {
             this.setState({username: data});
         }.bind(this));
-        $.get('/games?state=accepted', function (data) {
+        $.get('/gameApi/games?state=accepted', function (data) {
             this.setState({data: data});
         }.bind(this));
     }

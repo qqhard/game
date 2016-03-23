@@ -19,7 +19,7 @@ class EntryForm extends React.Component {
     };
   }
   componentWillMount(){
-    var url = '/userinfo/'+this.props.username;
+    var url = '/userApi/userinfo/'+this.props.username;
     $.ajax({
       type:"get",
       url:url,
@@ -36,8 +36,8 @@ class EntryForm extends React.Component {
     });
   }
   componentDidMount(){
-    var user_url = '/userinfo/'+this.props.username;
-    var game_url = '/game/'+this.props.gamename;
+    var user_url = '/userApi/userinfo/'+this.props.username;
+    var game_url = '/gameApi/game/'+this.props.gamename;
     $.get(user_url,function(data){
       var phone = this.state.phone;
       var email = this.state.email;
@@ -128,7 +128,7 @@ class EntryForm extends React.Component {
               +'&email='+this.state.email.data
               +'&forms='+this.userDefineFormToStr()
               +'&_csrf='+$('input[name=_csrf]').val();
-    $.post('/game/entry',body,function(data){
+    $.post('/gameApi/game/entry',body,function(data){
       if(data.status == 'ok')alert('ok');
       else alert(data.data);
     }.bind(this),'json');

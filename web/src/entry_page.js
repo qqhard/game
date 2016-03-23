@@ -10,7 +10,7 @@ class EntryPage extends React.Component {
       this.state = {game: ''};
   }
   componentDidMount(){
-    $.get('/game/'+this.props.params.gamename,function(data){
+    $.get('/gameApi/game/'+this.props.params.gamename,function(data){
       this.setState({game:data});
     }.bind(this));
   }

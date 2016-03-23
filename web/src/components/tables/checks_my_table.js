@@ -20,7 +20,7 @@ class ChecksMyTable extends React.Component {
     }
 
     componentDidMount() {
-        var url = '/gamechecks/' + this.props.username;
+        var url = '/gameApi/gamechecks/' + this.props.username;
 
         var arr = [];
         $.get(url, function (data) {

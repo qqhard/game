@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserDetailAction {
 	@ResponseBody
-	@RequestMapping(value = "/username", method = RequestMethod.GET)
+	@RequestMapping(value = "/userApi/username", method = RequestMethod.GET)
 	public String testUsername() {
 		System.out.println(SecurityContextHolder.getContext().getAuthentication().getDetails());
 		 
@@ -24,7 +24,7 @@ public class UserDetailAction {
 	
     
 
-	@RequestMapping(value = "/userinfo", method = RequestMethod.GET)
+	@RequestMapping(value = "/userApi/userinfo", method = RequestMethod.GET)
 //	@PreAuthorize("hasAnyAuthority('adm')")
 	@ResponseBody
 	public Object testUserinfo() {
