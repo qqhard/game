@@ -2,8 +2,10 @@ import React from 'react'
 import Input from 'react-bootstrap/lib/Input'
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import Button from 'react-bootstrap/lib/Button'
-import { browserHistory } from 'react-router'
+import {browserHistory} from 'react-router'
 import CsrfToken from '../common/csrf_token.js'
+import message from 'antd/lib/message';
+import BelongsForm, {callbackParent} from '../belong_form/belong_form.js';
 
 class GameForm extends React.Component {
     constructor(props) {
@@ -14,19 +16,41 @@ class GameForm extends React.Component {
             briefinfo: {'data': '', 'valid': null, 'help': null},
             gametime: {'data': '', 'valid': null, 'help': null},
             gameplace: {'data': '', 'valid': null, 'help': null},
-            provinceList: [{'key': 0, 'val': '无限制'}],
             provinceid: 0,
             provincename: '无限制',
-            collegeList: [{'key': 0, 'val': '无限制'}],
             collegeid: 0,
             collegename: '无限制',
-            instituteList: [{'key': 0, 'val': '无限制'}],
             instituteid: 0,
             institutename: '无限制',
             userDefineForm: [{'data': '', 'valid': null, 'help': null}]
         };
     }
 
+    init(game) {
+        var forms = [];
+        for (var i in game.formList) {
+            forms.push({
+                data: game.formList[i].name,
+                valid: null,
+                help: null
+            });
+        }
+        this.setState({
+            gamename: {'data': game.gamename, 'valid': null, 'help': null},
+            gametitle: {'data': game.gametitle, 'valid': null, 'help': null},
+            briefinfo: {'data': game.briefinfo, 'valid': null, 'help': null},
+            gametime: {'data': game.gametime, 'valid': null, 'help': null},
+            gameplace: {'data': game.gameplace, 'valid': null, 'help': null},
+            provinceid: game.provinceid,
+            collegeid: game.collegeid,
+            instituteid: game.instituteid,
+            userDefineForm: forms
+        });
+    }
+
+    componentWillMount() {
+        if (!!this.props.game)this.init(this.props.game);
+    }
 
     componentDidMount() {
         var _this = this;
@@ -39,7 +63,10 @@ class GameForm extends React.Component {
         }, 'json').error(function (e) {
             if (e.status == 403) top.location = '/userApi/login';
         });
+
+
     }
+
 
     existGamename() {
         var val = this.state.gamename.data;
@@ -112,7 +139,7 @@ class GameForm extends React.Component {
             briefinfo = {'data': val, 'valid': 'error', 'help': '赛事简介不能为空'};
         }
         this.setState({briefinfo: briefinfo});
-        return this.state.briefinfo.valid == 'success' || this.state.briefinfo.valid == 'warning';
+        return briefinfo.valid == 'success' || briefinfo.valid == 'warning';
     }
 
     handleGametime(e) {
@@ -127,7 +154,7 @@ class GameForm extends React.Component {
             gametime = {'data': val, 'valid': 'error', 'help': '赛事的举办时间描述不能为空'};
         }
         this.setState({gametime: gametime});
-        return this.state.gametime.valid == 'success' || this.state.gametime.valid == 'warning';
+        return gametime.valid == 'success' || gametime.valid == 'warning';
     }
 
     handleGameplace(e) {
@@ -142,55 +169,7 @@ class GameForm extends React.Component {
             gameplace = {'data': val, 'valid': 'error', 'help': '赛事举办地点描述不能为空'};
         }
         this.setState({gameplace: gameplace});
-        return this.state.gameplace.valid == 'success' || this.state.gameplace.valid == 'warning';
-    }
-
-    handleSelectProvince(e) {
-        var val = e == null ? this.state.provinceid.data : e.target.value;
-        var text = e.target.options[e.target.selectedIndex].text;
-        this.setState({
-            provinceid: val,
-            provincename: text,
-            collegeid: 0,
-            collegename: '无限制',
-            instituteid: 0,
-            institutename: '无限制'
-        });
-
-        var arr = [{'key': 0, 'val': '无限制'}];
-        if (val > 0) {
-            $.get('/gameApi/colleges/' + val, function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    arr.push({'key': data[i].collegeid, 'val': data[i].collegename});
-                }
-                this.setState({collegeList: arr});
-            }.bind(this), 'json');
-        } else {
-            this.setState({collegeList: arr});
-        }
-    }
-
-    handleSelectCollege(event) {
-        var val, text;
-        if (event == null) {
-            val = this.state.collegeid.data;
-            text = this.state.collegename;
-        } else {
-            val = event.target.value;
-            text = event.target.options[event.target.selectedIndex].text;
-        }
-        this.setState({collegeid: val, collegename: text, instituteid: 0, institutename: '无限制'});
-        var arr = [{'key': 0, 'val': '无限制'}];
-        if (val > 0) {
-            $.get('/gameApi/institutes/' + val, function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    arr.push({'key': data[i].instituteid, 'val': data[i].institutename});
-                }
-                this.setState({instituteList: arr});
-            }.bind(this), 'json');
-        } else {
-            this.setState({instituteList: arr});
-        }
+        return gameplace.valid == 'success' || gameplace.valid == 'warning';
     }
 
     handleSelectInstitute(event) {
@@ -245,14 +224,14 @@ class GameForm extends React.Component {
     }
 
     validAll() {
-        this.existGamename();
-        return this.state.gamename.valid == 'success' & this.handleGametitle() &
+        console.log(this.props.disabled);
+        if (!this.props.disabled)this.existGamename();
+        return (this.state.gamename.valid == 'success' || this.props.disabled) & this.handleGametitle() &
             this.handleBriefinfo() & this.handleGametime() & this.handleGameplace();
     }
 
     handleSubmit() {
         if (this.validAll() != true)return;
-
         var body = 'gamename=' + this.state.gamename.data
             + '&briefinfo=' + this.state.briefinfo.data
             + '&gametitle=' + this.state.gametitle.data
@@ -267,19 +246,53 @@ class GameForm extends React.Component {
             + '&userDefineForm=' + this.userDefineFormToStr()
             + '&_csrf=' + $('input[name=_csrf]').val();
         console.log(body);
+
+        if (!this.props.game)this.postForm(body);
+        else this.putForm(body);
+
+    }
+
+    postForm(body) {
+        var _this = this;
         $.post('/gameApi/game', body, function (data) {
             console.log(data);
             if (data.status === 'ok') {
-                browserHistory.push('/games.html');
+                message.success("赛事提交成功，等待管理员审批！")
+                setTimeout(function () {
+                    browserHistory.push('/game-' + _this.state.gamename.data + '.html');
+                }, 1500);
             } else {
-
+                message.error("赛事提交失败！")
             }
 
         }, 'json').error(function (e) {
+            message.error("赛事提交失败！")
             if (e.status == 403) {
                 top.location = '/userApi/login';
             } else {
                 browserHistory.push('/');
+            }
+        });
+    }
+
+    putForm(body) {
+        var _this = this;
+        $.ajax({
+            url: '/gameApi/game/' + this.state.gamename.data,
+            method: 'PUT',
+            data: body,
+            success: function (data) {
+                if (data.status == 'ok') {
+                    message.success("赛事提交成功，等待管理员审批！")
+                    setTimeout(function () {
+                        browserHistory.push('/gamesubmited-' + _this.state.gamename.data + '.html');
+                    }, 1500);
+                } else {
+                    message.error("赛事提交失败！")
+                }
+            },
+            error: function (e) {
+                message.error("赛事提交失败！")
             }
         });
     }
@@ -290,15 +303,6 @@ class GameForm extends React.Component {
             wrapperClassName: "col-xs-6"
         };
         const right = {display: 'inline'};
-        var provinceOptions = this.state.provinceList.map(function (data, index) {
-            return <option key={index} value={data.key}>{data.val}</option>
-        });
-        var collegeOptions = this.state.collegeList.map(function (data, index) {
-            return <option key={index} value={data.key}>{data.val}</option>
-        });
-        var instituteOptions = this.state.instituteList.map(function (data, index) {
-            return <option key={index} value={data.key}>{data.val}</option>
-        });
         var userDefineForm = this.state.userDefineForm.map(function (data, index) {
             var label = '自定义表单-' + index;
             const innerButton = <Button onClick={this.handleDeleteFiled.bind(this,index)}>删除</Button>;
@@ -307,9 +311,16 @@ class GameForm extends React.Component {
                           buttonAfter={innerButton} label={label}
                           onChange={this.handleUserDefineForm.bind(this,index)}/>;
         }.bind(this));
+        const params = {
+            'first': '无限制',
+            'provincelabel': '限制省份',
+            'collegelabel': '限制高校',
+            'institutelabel': '限制学院'
+        };
+
         return (
             <form className="form-horizontal">
-                <Input type="text" label="赛事域名" {...styleLayout} addonAfter=".domain.com"
+                <Input type="text" label="赛事域名" disabled={this.props.disabled} {...styleLayout} addonAfter=".domain.com"
                        onBlur={this.existGamename.bind(this)}
                        help={this.state.gamename.help} value={this.state.gamename.data}
                        bsStyle={this.state.gamename.valid} onChange={this.handleGamename.bind(this)}/>
@@ -330,18 +341,12 @@ class GameForm extends React.Component {
                        value={this.state.gameplace.data} help={this.state.gameplace.help}
                        onChange={this.handleGameplace.bind(this)}
                        bsStyle={this.state.gameplace.valid} onBlur={this.handleGameplace.bind(this)}/>
-                <Input type="select" {...styleLayout} label="省份限制" placeholder="select"
-                       onChange={this.handleSelectProvince.bind(this)}>
-                    {provinceOptions}
-                </Input>
-                <Input type="select" {...styleLayout} label="高校限制" placeholder="select" value={this.state.collegeid}
-                       onChange={this.handleSelectCollege.bind(this)}>
-                    {collegeOptions}
-                </Input>
-                <Input type="select" {...styleLayout} label="学院限制" placeholder="select" value={this.state.instituteid}
-                       onChange={this.handleSelectInstitute.bind(this)}>
-                    {instituteOptions}
-                </Input>
+                <BelongsForm
+                    callbackParent={callbackParent.bind(this)} p={params}
+                    provinceid={this.state.provinceid}
+                    collegeid={this.state.collegeid}
+                    instituteid={this.state.instituteid}
+                />
                 <CsrfToken/>
                 {userDefineForm}
                 <div className="form-group">

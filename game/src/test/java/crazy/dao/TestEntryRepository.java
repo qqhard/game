@@ -30,4 +30,13 @@ public class TestEntryRepository {
 			}
 		}
 	}
+	
+	@Test
+	public void testFindAll(){
+		
+		List<Entry> list = entryRepository.findAll();
+		for(Entry e : list){
+			System.out.println(e.getDeled());
+		}
+	}
 }

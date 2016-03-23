@@ -67,30 +67,10 @@ public class TestGameRepository {
 	}
 	@Test
 	public void testFindSubmited(){
-		GamePageable pageable = new GamePageable();
-		List<Order> orders = new ArrayList<Order>();  
-		orders.add(new Order(Direction.ASC, "gamename"));  
-		Page<Game> page =  gameRepository.findByStep(pageable, 2);
-		for(Game game: page.getContent()){
-			System.out.println(game.getGamename());
-			
-			for(UserDefineForm form: game.getFormList()){
-				System.out.println(form.getName());
-			}
-		}
+	
 	}
 	@Test
 	public void testFindAccepted(){
-		GamePageable pageable = new GamePageable();
-		List<Order> orders = new ArrayList<Order>();  
-		orders.add(new Order(Direction.ASC, "gamename"));  
-		Page<Game> page = gameRepository.findByStep(pageable, 2);
-		for(Game game: page.getContent()){
-			System.out.println(game.getGamename());
-			
-			for(UserDefineForm form: game.getFormList()){
-				System.out.println(form.getName());
-			}
-		}
+	
 	}
 }

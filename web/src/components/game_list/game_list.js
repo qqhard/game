@@ -1,5 +1,4 @@
 import React from 'react'
-import './game_list.scss'
 import { Link } from 'react-router'
 
 const ACTIVE = { color: 'white' }
