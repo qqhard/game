@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import crazy.dao.ApproveRecordRepository;
 import crazy.dao.GameRepository;
 import crazy.form.GameForm;
-import crazy.vo.ApproveRecord;
 import crazy.vo.Game;
 
 @RestController

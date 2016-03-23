@@ -9,5 +9,5 @@ import crazy.vo.MessageRecord;
 
 
 public interface MessageRecordRepository  extends MongoRepository<MessageRecord, ObjectId>{
-	public List<MessageRecord> findByGamename(String gamename);
+	public List<MessageRecord> findByGamenameOrderBySendtimeDesc(String gamename);
 }
