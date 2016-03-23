@@ -76,7 +76,7 @@ class TeamManage extends React.Component {
                 break;
             }
         }
-        this.setState({ applys: applys});
+        this.setState({applys: applys});
     }
 
     callRevoke(member) {
@@ -87,7 +87,7 @@ class TeamManage extends React.Component {
                 break;
             }
         }
-        this.setState({ invites: invites});
+        this.setState({invites: invites});
     }
 
     componentDidMount() {
@@ -123,7 +123,10 @@ class TeamManage extends React.Component {
                                 onRevoke={this.callRevoke.bind(this)}
                                 csrf={$('input[name=_csrf]').val()}
                             />
-                            <MemberInviteModal />
+                            <MemberInviteModal
+                                team={this.state.team}
+                                csrf={$('input[name=_csrf]').val()}
+                            />
                         </Row>
                     </Col>
                 </Row>

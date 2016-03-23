@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import crazy.dao.MemberRepository;
 import crazy.dao.TeamRepository;
+import crazy.dao.UserRepository;
 import crazy.vo.Member;
 import crazy.vo.Team;
+import crazy.vo.User;
 
 @RestController
 public class MemberAction {
@@ -20,6 +22,8 @@ public class MemberAction {
 	private MemberRepository memberRepository;
 	@Autowired
 	private TeamRepository teamRepository;
+	@Autowired
+	private UserRepository userRepository;
 	
 	@ResponseBody
 	@RequestMapping(value="/game/members/{teamid}", method = RequestMethod.GET)
@@ -70,17 +74,27 @@ public class MemberAction {
 	@ResponseBody
 	@RequestMapping(value="/game/member/invite/{teamid}/{username}", method = RequestMethod.POST)
 	public Object postInvite(@PathVariable("teamid") String teamid,@PathVariable("username") String username){
-		
-		Member member = new Member();
-		member.setAccepted(false);
-		member.setApplyed(false);
-		member.setUsername(username);
-		member.setTeamid(teamid);
+		User user = userRepository.findByUsername(username);
+		if(user == null)return "用户不存在！";
 		String ret = "ok";
-		try{
-			memberRepository.insert(member);
-		}catch(DuplicateKeyException e){
-			ret = "fail";
+		String lock = teamid.substring(0, 4).intern();
+		synchronized(lock){
+			Member member = memberRepository.findByTeamidAndUsername(teamid, username);
+			if(member == null){
+				member = new Member();
+				member.setAccepted(false);
+				member.setInvited(true);
+				member.setUsername(username);
+				member.setTeamid(teamid);
+				memberRepository.insert(member);
+			}else if(member.getAccepted()){
+				ret = "你已经是该队伍的一员！";
+			}else if(member.getInvited()){
+				ret = "请勿重复邀请！";
+			}else{
+				member.setInvited(true);
+				memberRepository.save(member);
+			}
 		}
 		return ret;
 	}
