@@ -30,6 +30,7 @@ public class EntryForm {
 		entry.setGamename(gamename);
 		entry.setEmail(email);
 		entry.setPhone(phone);
+		entry.setDeled(false);
 		entry.setFormList(getUserDefindFormList());
 		return entry;
 	}

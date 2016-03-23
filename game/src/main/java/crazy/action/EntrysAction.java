@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import crazy.dao.EntryRepository;
 import crazy.dao.GameRepository;
+import crazy.form.EntryDelForm;
 import crazy.vo.Entry;
 import crazy.vo.Game;
 
@@ -56,8 +60,22 @@ public class EntrysAction {
 	@ResponseBody
 	@RequestMapping(value = "/game/gameentrys/{gamename}", method = RequestMethod.GET)
 	public List<Entry> getGameEntrys(@PathVariable("gamename") String gamename){
-		List<Entry> entrys = entryRepository.findByGamename(gamename);
+		List<Entry> entrys = entryRepository.findByGamenameAndDeled(gamename,false);
 		return entrys;
 	}
 	
+	
+	@ResponseBody
+	@RequestMapping(value = "/game/entrys", method = RequestMethod.POST)
+	public Object delete(@Valid EntryDelForm entryDelForm,BindingResult bindingResult){
+		List<String> usernames = entryDelForm.getUsernames();
+		List<Entry> deledEntrys = new ArrayList<Entry>();
+		for(String username: usernames){
+			Entry entry = entryRepository.findByUsernameAndGamename(username, entryDelForm.getGamename());
+			entry.setDeled(true);
+			deledEntrys.add(entry);
+		}
+		entryRepository.save(deledEntrys);
+		return "ok";
+	}
 }

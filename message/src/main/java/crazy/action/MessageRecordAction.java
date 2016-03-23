@@ -18,6 +18,7 @@ public class MessageRecordAction {
 	@ResponseBody
 	@RequestMapping(value = "{gamename}",method = RequestMethod.GET)
 	public Object get(@PathVariable("gamename") String gamename){
-		return messageRecordRepository.findByGamename(gamename);
+		
+		return messageRecordRepository.findByGamenameOrderBySendtimeDesc(gamename);
 	}	
 }
