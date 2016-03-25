@@ -21,9 +21,9 @@ import Teams from './team/teams.js'
 import TeamManage from './team/team_manage.js'
 import TeamShow from './team/team_show.js'
 
-import {Router, Route, IndexRoute, Link, IndexLink, browserHistory} from 'react-router'
+import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router'
 
-const ACTIVE = {color: 'black'}
+const ACTIVE = {color: 'black'};
 
 
 const guestNav = (
@@ -89,8 +89,7 @@ class App extends React.Component {
         const adminNav = (
             <ul className="nav navbar-nav navbar-right">
                 <li><Link to={my_checks_url} activeStyle={ACTIVE}>赛事审批</Link></li>
-                <li><a href="/userApi/register">register</a></li>
-                <li><a href="/userApi/login">login</a></li>
+                <li><a href="/userApi/logout">logout</a></li>
             </ul>
         );
         var nav = null;
@@ -102,9 +101,6 @@ class App extends React.Component {
                 <nav className="navbar navbar-default navbar-fixed-top">
                     <div className="container-fluid">
                         <div className="navbar-header">
-                            <ul className="nav navbar-nav">
-                                <li><a id="menu-toggle" href="#"></a></li>
-                            </ul>
                             <a className="navbar-brand" href="/">Game Factory</a>
                         </div>
                         <div id="navbar" className="navbar-collapse collapse">
@@ -145,4 +141,4 @@ render((
             <Route path="/teamshow-:teamid.html" component={TeamShow}/>
         </Route>
     </Router>
-), document.getElementById('body'))
+), document.getElementById('body'));
