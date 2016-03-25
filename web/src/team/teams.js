@@ -1,10 +1,8 @@
 import React from 'react';
 import TeamList from '../components/list/team_list.js';
-import Tabs from 'react-bootstrap/lib/Tabs';
-import Tab from 'react-bootstrap/lib/Tab';
-import {Row, Col} from 'antd';
-import PageHeader from 'react-bootstrap/lib/PageHeader';
-import Input from 'react-bootstrap/lib/Input';
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
+
 
 class Teams extends React.Component {
     constructor(props) {

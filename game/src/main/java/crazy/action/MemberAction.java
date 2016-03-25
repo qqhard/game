@@ -1,7 +1,8 @@
 package crazy.action;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,9 +75,15 @@ public class MemberAction {
 	@ResponseBody
 	@RequestMapping(value="/game/member/invite/{teamid}/{username}", method = RequestMethod.POST)
 	public Object postInvite(@PathVariable("teamid") String teamid,@PathVariable("username") String username){
+		HashMap<String,Object> ret = new HashMap<>();
 		User user = userRepository.findByUsername(username);
-		if(user == null)return "用户不存在！";
-		String ret = "ok";
+		if(user == null){
+			ret.put("status", "fail");
+			ret.put("data", "用户不存在");
+			return ret;
+		}
+		ret.put("status", "ok");
+		
 		String lock = teamid.substring(0, 4).intern();
 		synchronized(lock){
 			Member member = memberRepository.findByTeamidAndUsername(teamid, username);
@@ -87,13 +94,17 @@ public class MemberAction {
 				member.setUsername(username);
 				member.setTeamid(teamid);
 				memberRepository.insert(member);
+				ret.put("data", member);
 			}else if(member.getAccepted()){
-				ret = "你已经是该队伍的一员！";
+				ret.put("status", "fail");
+				ret.put("data", "你已经是该队伍的一员！");
 			}else if(member.getInvited()){
-				ret = "请勿重复邀请！";
+				ret.put("status", "fail");
+				ret.put("data", "请勿重复邀请！");
 			}else{
 				member.setInvited(true);
 				memberRepository.save(member);
+				ret.put("data", member);
 			}
 		}
 		return ret;

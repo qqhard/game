@@ -1,15 +1,17 @@
 import React from 'react';
-import EntrysTable from './components/tables/entrys_table.js';
-import MessageRecordTable from './components/tables/message_record_table.js';
-import {Row, Col} from 'antd';
-import Sider from './components/sider/sider.js';
-import GameInfo from './components/game_info/game_info.js';
-import GameSteps from './components/game_steps/game_steps.js'
-import GameComment from './components/game_comment/game_comment.js'
-import Badge from 'react-bootstrap/lib/Badge';
-import {Menu, Icon} from 'antd';
+import EntrysTable from './../components/tables/entrys_table.js';
+import MessageRecordTable from './../components/tables/message_record_table.js';
+import Sider from './../components/sider/sider.js';
+import GameInfo from './../components/game_info/game_info.js';
+import GameSteps from './../components/game_steps/game_steps.js'
+import GameComment from './../components/game_comment/game_comment.js'
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
+import Menu from 'antd/lib/menu';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
+
+
 
 const items = ["基本信息","参赛者管理","信息记录","赛事评论"];
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import {Menu, Icon} from 'antd';
-import {Row, Col} from 'antd';
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
 import Sider from './components/sider/sider.js';
 import MessageSendTable from './components/tables/message_send_table.js';
 import MessageRecvTable from './components/tables/message_recv_table.js';

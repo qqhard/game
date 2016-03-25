@@ -1,12 +1,13 @@
 import React from 'react';
-import TeamList,{MyUnEntryedTeamList,MyEntryedTeamList} from '../components/list/team_list.js';
+import TeamList,{MyUnEntryedTeamList,MyEntryedTeamList,MyMemberTeamList,MyInviteTeamList} from '../components/list/team_list.js';
 import Tabs from 'react-bootstrap/lib/Tabs';
 import Tab from 'react-bootstrap/lib/Tab';
-import {Row, Col} from 'antd';
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
 import PageHeader from 'react-bootstrap/lib/PageHeader';
 import Sider from '../components/sider/sider.js';
 
-const items = ['招募中的队伍', '已参赛的队伍', '我加入的队伍'];
+const items = ['招募中的队伍', '已参赛的队伍', '我加入的队伍','我收到的邀请'];
 
 class MyTeams extends React.Component {
     constructor(props) {
@@ -21,19 +22,12 @@ class MyTeams extends React.Component {
     }
 
     render() {
-        const titles = ['招募中的队伍', '已参赛的队伍', '我加入的队伍'];
         const username = this.props.params.username;
-        const urls = [
-            '/gameApi/game/teams/' + username + '?entryed=false',
-            '/gameApi/game/teams/' + username + '?entryed=true',
-            '/gameApi/game/teams/'
-        ];
-        const prefixs = ['/gamesubmited-', '/gamemanage-', '/gamemanage-'];
-
-
         const right = ['',
-            <MyUnEntryedTeamList prefix={''} url={urls[0]}/>,
-            <MyEntryedTeamList prefix={''} url={urls[1]}/>
+            <MyUnEntryedTeamList url={'/gameApi/game/teams/' + username + '?entryed=false'}/>,
+            <MyEntryedTeamList url={'/gameApi/game/teams/' + username + '?entryed=true'}/>,
+            <MyMemberTeamList url={'/gameApi/game/teams/membered'} />,
+            <MyInviteTeamList url={'/gameApi/game/teams/invited'} />
         ];
         return (
 

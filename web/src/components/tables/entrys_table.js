@@ -133,11 +133,13 @@ class EntrysTable extends React.Component {
                 keys.push(this.state.entrys[i].key);
             }
             this.setState({
-                selectedRowKeys: keys
+                selectedRowKeys: keys,
+                recvs: this.state.entrys
             });
         }else{
             this.setState({
-                selectedRowKeys: []
+                selectedRowKeys: [],
+                recvs: []
             });
         }
 
@@ -180,6 +182,7 @@ class EntrysTable extends React.Component {
             onChange: this.onSelectChange.bind(this),
         };
         const hasSelected = selectedRowKeys.length > 0;
+        console.log(this.state.recvs);
         return (
             <div>
                 <ExtendMessageModal

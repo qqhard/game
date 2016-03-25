@@ -1,15 +1,15 @@
 import React from 'react'
 import {render} from 'react-dom'
-import MyGames from './my_games.js'
-import Games from './games.js'
+import MyGames from './game/my_games.js'
+import Games from './game/games.js'
 import MyEntrys from './my_entrys.js'
-import MyChecks from './my_checks.js'
-import CreateGame from './create_game.js'
+import MyChecks from './game/my_checks.js'
+import CreateGame from './game/create_game.js'
 import EntryPage from './entry_page.js'
 import ShowGame from './show_game.js'
-import CheckGame from './check_game.js'
+import CheckGame from './game/check_game.js'
 import UserinfoPage from './userinfo_page.js'
-import GameManage from './game_manage.js'
+import GameManage from './game/game_manage.js'
 import MyMessage from './my_message.js'
 import GameSubmited from './page/game_submited.js'
 import GameFailed from './page/game_failed.js'
@@ -19,6 +19,7 @@ import TeamPage from './team/team_page.js'
 import MyTeams from './team/my_teams.js'
 import Teams from './team/teams.js'
 import TeamManage from './team/team_manage.js'
+import TeamShow from './team/team_show.js'
 
 import {Router, Route, IndexRoute, Link, IndexLink, browserHistory} from 'react-router'
 
@@ -45,6 +46,7 @@ class App extends React.Component {
 
     componentWillMount() {
         $.get('/userApi/userinfo', function (data) {
+            console.log(data);
             this.setState({username: data.username, role: data.role});
         }.bind(this)).error(function (e) {
 
@@ -140,6 +142,7 @@ render((
             <Route path="/teams.html" component={Teams}/>
             <Route path="/teams-:username.html" component={MyTeams}/>
             <Route path="/teammanage-:teamid.html" component={TeamManage}/>
+            <Route path="/teamshow-:teamid.html" component={TeamShow}/>
         </Route>
     </Router>
 ), document.getElementById('body'))

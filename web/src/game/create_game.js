@@ -1,7 +1,8 @@
 import React from 'react';
-import GameForm from './components/game_form/game_form.js';
-import {Row, Col} from 'antd';
-import PageHeader from 'react-bootstrap/lib/PageHeader';
+import GameForm from './../components/game_form/game_form.js';
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
+import PageHeader from '../../node_modules/react-bootstrap/lib/PageHeader';
 
 class CreateGame extends React.Component {
 

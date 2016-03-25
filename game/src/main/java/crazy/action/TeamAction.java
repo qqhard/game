@@ -1,6 +1,8 @@
 package crazy.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -14,23 +16,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import crazy.dao.MemberRepository;
 import crazy.dao.TeamRepository;
 import crazy.form.TeamForm;
+import crazy.vo.Member;
 import crazy.vo.Team;
 
 @RestController
 public class TeamAction {
 	@Autowired
 	private TeamRepository teamRepository;
-	
-	
-	
+
+	@Autowired
+	private MemberRepository memberRepository;
+
 	@ResponseBody
-	@RequestMapping(value="/game/team", method = RequestMethod.POST)
-	public Object post(@Valid TeamForm teamForm, BindingResult bindingResult){
-		HashMap<String,Object> ret = new HashMap<>();
-		
-		if(bindingResult.hasFieldErrors()){
+	@RequestMapping(value = "/game/team", method = RequestMethod.POST)
+	public Object post(@Valid TeamForm teamForm, BindingResult bindingResult) {
+		HashMap<String, Object> ret = new HashMap<>();
+
+		if (bindingResult.hasFieldErrors()) {
 			ret.put("status", "fail");
 			return ret;
 		}
@@ -41,25 +46,63 @@ public class TeamAction {
 		team.setEntryed(false);
 		teamRepository.insert(team);
 		ret.put("status", "ok");
-		
+
+		return ret;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/game/team/{teamid}", method = RequestMethod.GET)
+	public Object get(@PathVariable("teamid") String teamid) {
+		return teamRepository.findById(teamid);
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/game/teams", method = RequestMethod.GET)
+	public Object gets() {
+		return teamRepository.findByEntryed(false);
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/game/teams/{leader}", method = RequestMethod.GET)
+	public Object getMyTeams(@PathVariable("leader") String leader, @RequestParam("entryed") Boolean entryed) {
+		return teamRepository.findByLeaderAndEntryed(leader, entryed);
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/game/teams/membered", method = RequestMethod.GET)
+	public Object getMyMemberTeams() {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		List<Member> members = memberRepository.findByUsernameAndAccepted(username,true);
+		List<Team> ret = new ArrayList<Team>();
+		for (Member member : members) {
+			Team team = teamRepository.findById(member.getTeamid());
+			if (team != null) {
+				ret.add(team);
+			}
+		}
 		return ret;
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/game/team/{teamid}", method = RequestMethod.GET)
-	public Object get(@PathVariable("teamid") String teamid){
-		return teamRepository.findById(teamid);
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="/game/teams", method = RequestMethod.GET)
-	public Object gets(){
-		return teamRepository.findByEntryed(false);
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="/game/teams/{leader}", method = RequestMethod.GET)
-	public Object getMyTeams(@PathVariable("leader") String leader,@RequestParam("entryed") Boolean entryed){
-		return teamRepository.findByLeaderAndEntryed(leader,entryed);
+	@RequestMapping(value = "/game/teams/invited", method = RequestMethod.GET)
+	public Object getMyInvitedTeams() {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		List<Member> members = memberRepository.findByUsernameAndInvited(username, true);
+		List<HashMap<String,Object> > ret = new ArrayList<>();
+		for (Member member : members) {
+			Team team = teamRepository.findById(member.getTeamid());
+			if (team != null) {
+				HashMap<String,Object> map = new HashMap<>();
+				map.put("id", team.getId());
+				map.put("cnname", team.getCnname());
+				map.put("enname", team.getEnname());
+				map.put("info", team.getInfo());
+				map.put("num", team.getNum());
+				map.put("leader", team.getLeader());
+				map.put("memberid", member.getId());
+				ret.add(map);
+			}
+		}
+		return ret;
 	}
 }

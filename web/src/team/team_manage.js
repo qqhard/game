@@ -1,5 +1,6 @@
 import React from 'react';
-import {Row, Col} from 'antd';
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
 import TeamInfo from '../components/info/team_info.js';
 import TeamList from '../components/list/member_list.js';
 import MemberApplyTable from '../components/tables/member_apply_table.js';
@@ -80,7 +81,7 @@ class TeamManage extends React.Component {
     }
 
     callRevoke(member) {
-        var invites = this.state.applys;
+        var invites = this.state.invites;
         for (var i in invites) {
             if (invites[i].username == member.username) {
                 invites.splice(i, 1);
@@ -88,6 +89,13 @@ class TeamManage extends React.Component {
             }
         }
         this.setState({invites: invites});
+    }
+
+    callInvite(member) {
+        var invites = this.state.invites;
+        member.key = member.username;
+        invites.push(member);
+        this.setState({invites:invites});
     }
 
     componentDidMount() {
@@ -126,6 +134,7 @@ class TeamManage extends React.Component {
                             <MemberInviteModal
                                 team={this.state.team}
                                 csrf={$('input[name=_csrf]').val()}
+                                onInvite={this.callInvite.bind(this)}
                             />
                         </Row>
                     </Col>

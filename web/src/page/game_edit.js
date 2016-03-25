@@ -1,6 +1,7 @@
 import React from 'react';
 import GameForm from '../components/game_form/game_form.js';
-import {Row, Col} from 'antd';
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
 import PageHeader from 'react-bootstrap/lib/PageHeader';
 
 class GameEdit extends React.Component {

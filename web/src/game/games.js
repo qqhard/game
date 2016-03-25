@@ -1,10 +1,9 @@
 import React from 'react';
-import GameList from './components/game_list/game_list.js';
 import {browserHistory, Link} from 'react-router';
-import Grid from 'react-bootstrap/lib/Grid';
-import Row from 'react-bootstrap/lib/Row';
-import Col from 'react-bootstrap/lib/Col';
-import Thumbnail from 'react-bootstrap/lib/Thumbnail';
+import Grid from '../../node_modules/react-bootstrap/lib/Grid';
+import Row from '../../node_modules/react-bootstrap/lib/Row';
+import Col from '../../node_modules/react-bootstrap/lib/Col';
+import Thumbnail from '../../node_modules/react-bootstrap/lib/Thumbnail';
 
 
 const ACTIVE = {color: 'white'}

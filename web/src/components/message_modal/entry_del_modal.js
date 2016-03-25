@@ -32,7 +32,7 @@ class EntryDelModal extends React.Component {
             + '&_csrf=' + csrf;
         alert(body);
         $.ajax({
-            url: '/game/entrys',
+            url: '/gameApi/game/entrys',
             type: 'POST',
             data: body,
             success: function (data) {

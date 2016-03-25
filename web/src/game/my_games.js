@@ -1,10 +1,10 @@
 import React from 'react';
-import GameList from './components/game_list/game_list.js';
-import {browserHistory} from 'react-router';
-import Tabs from 'react-bootstrap/lib/Tabs';
-import Tab from 'react-bootstrap/lib/Tab';
-import {Row, Col} from 'antd';
-import PageHeader from 'react-bootstrap/lib/PageHeader';
+import GameList from './../components/game_list/game_list.js';
+import Tabs from '../../node_modules/react-bootstrap/lib/Tabs';
+import Tab from '../../node_modules/react-bootstrap/lib/Tab';
+import PageHeader from '../../node_modules/react-bootstrap/lib/PageHeader';
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
 
 class MyGames extends React.Component {
     constructor(props) {

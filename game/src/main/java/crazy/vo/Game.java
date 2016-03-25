@@ -24,6 +24,8 @@ public class Game {
 	private String collegename;
 	private int instituteid;
 	private String institutename;
+	private int teamSign;
+	private int teamNum;
 	private long submitTime;
 	private long acceptTime;
 	private long startTime;
@@ -151,6 +153,17 @@ public class Game {
 	public void setFormList(List<UserDefineForm> formList) {
 		this.formList = formList;
 	}
-	
+	public int getTeamSign() {
+		return teamSign;
+	}
+	public void setTeamSign(int teamSign) {
+		this.teamSign = teamSign;
+	}
+	public int getTeamNum() {
+		return teamNum;
+	}
+	public void setTeamNum(int teamNum) {
+		this.teamNum = teamNum;
+	}
 	
 }

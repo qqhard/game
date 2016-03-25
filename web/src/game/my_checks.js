@@ -1,10 +1,8 @@
 import React from 'react';
-import GameList from './components/game_list/game_list.js';
-import { browserHistory } from 'react-router';
 import {Row, Col} from 'antd';
-import Sider from './components/sider/sider.js';
-import ChecksUnTable from './components/tables/checks_un_table.js';
-import ChecksMyTable from './components/tables/checks_my_table.js';
+import Sider from './../components/sider/sider.js';
+import ChecksUnTable from './../components/tables/checks_un_table.js';
+import ChecksMyTable from './../components/tables/checks_my_table.js';
 
 const items = ["待审批的", "我审批的"];
 

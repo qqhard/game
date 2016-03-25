@@ -3,7 +3,8 @@ import GameList from './components/game_list/game_list.js';
 import {browserHistory} from 'react-router';
 import Tabs from 'react-bootstrap/lib/Tabs';
 import Tab from 'react-bootstrap/lib/Tab';
-import {Row, Col} from 'antd';
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
 import PageHeader from 'react-bootstrap/lib/PageHeader';
 
 class MyEntrys extends React.Component {

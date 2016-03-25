@@ -7,7 +7,7 @@ class MemberApplyTable extends React.Component {
 
 
     handleApprove(record) {
-        var url = '/game/member/leaaccept/' + record.id;
+        var url = '/gameApi/game/member/leaaccept/' + record.id;
         var body = '_csrf=' + this.props.csrf;
         $.post(url, body, function (data) {
             if(data == 'ok'){
@@ -22,7 +22,7 @@ class MemberApplyTable extends React.Component {
     }
 
     handleRefuse(record) {
-        var url = '/game/member/learefuse/' + record.id;
+        var url = '/gameApi/game/member/learefuse/' + record.id;
         var body = '_csrf=' + this.props.csrf;
         $.post(url, body, function (data) {
             if(data == 'ok'){

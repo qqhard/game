@@ -5,7 +5,7 @@ import Input from 'react-bootstrap/lib/Input'
 
 class MemberInviteTable extends React.Component {
     handleClick(record){
-        var url = '/game/member/learevoke/' + record.id;
+        var url = '/gameApi/game/member/learevoke/' + record.id;
         var body = '_csrf=' + this.props.csrf;
         $.post(url, body, function (data) {
             if(data == 'ok'){

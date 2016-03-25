@@ -10,7 +10,6 @@ class MemberInviteModal extends React.Component{
         this.state = {
             visible: false,
             username: '',
-            user: null,
             help: ''
         }
     }
@@ -24,14 +23,15 @@ class MemberInviteModal extends React.Component{
             this.setState({help:'不能为空！'});
             return ;
         }
-        var url = `/game/member/invite/${this.props.team.id}/${this.state.username}`;
+        var url = `/gameApi/game/member/invite/${this.props.team.id}/${this.state.username}`;
         var body = '_csrf='+this.props.csrf;
         $.post(url,body,function (data) {
-            if(data == 'ok'){
-                this.setState({user:data,help:'已成功发出邀请！'});
-                this.props.onInvite({});
+            if(data.status == 'ok'){
+                this.setState({help:'',visible:false});
+                message.success("已成功发出邀请！");
+                this.props.onInvite(data.data);
             }else{
-                this.setState({help:data});
+                this.setState({help:data.data});
             }
         }.bind(this));
     }

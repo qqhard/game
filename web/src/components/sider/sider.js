@@ -1,6 +1,8 @@
 import React from 'react';
-import {Menu, Icon} from 'antd';
-import {Row, Col} from 'antd';
+import Menu from 'antd/lib/menu';
+import Icon from 'antd/lib/icon';
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
 
 class Sider extends React.Component{
     constructor(props){

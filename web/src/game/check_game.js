@@ -1,13 +1,13 @@
 import React from 'react';
-import GameInfo from './components/game_info/game_info.js';
-import GameSteps from './components/game_steps/game_steps.js';
-import CsrfToken from './components/common/csrf_token.js';
-import Grid from 'react-bootstrap/lib/Grid'
-import Row from 'react-bootstrap/lib/Row'
-import Col from 'react-bootstrap/lib/Col'
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
-import Button from 'react-bootstrap/lib/Button'
-import Input from 'react-bootstrap/lib/Input'
+import GameDetailInfo from '../components/info/game_detail_info.js'
+import GameSteps from './../components/game_steps/game_steps.js';
+import CsrfToken from './../components/common/csrf_token.js';
+import Grid from '../../node_modules/react-bootstrap/lib/Grid'
+import Row from '../../node_modules/react-bootstrap/lib/Row'
+import Col from '../../node_modules/react-bootstrap/lib/Col'
+import ButtonGroup from '../../node_modules/react-bootstrap/lib/ButtonGroup'
+import Button from '../../node_modules/react-bootstrap/lib/Button'
+import Input from '../../node_modules/react-bootstrap/lib/Input'
 import { browserHistory } from 'react-router';
 import message from 'antd/lib/message';
 
@@ -110,7 +110,7 @@ class CheckGame extends React.Component {
             <Grid>
                 <Row>
                     <Col xsOffset={2} xs={7}>
-                        <GameInfo data={this.state.game}/>
+                        <GameDetailInfo data={this.state.game}/>
                         <CheckForm gamename={this.state.game.gamename} step={this.state.game.step}/>
                     </Col>
                     <Col xs={3}>

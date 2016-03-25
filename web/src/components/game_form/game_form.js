@@ -6,6 +6,9 @@ import {browserHistory} from 'react-router'
 import CsrfToken from '../common/csrf_token.js'
 import message from 'antd/lib/message';
 import BelongsForm, {callbackParent} from '../belong_form/belong_form.js';
+import Row from 'react-bootstrap/lib/Row'
+import Col from 'react-bootstrap/lib/Col'
+
 
 class GameForm extends React.Component {
     constructor(props) {
@@ -16,6 +19,7 @@ class GameForm extends React.Component {
             briefinfo: {'data': '', 'valid': null, 'help': null},
             gametime: {'data': '', 'valid': null, 'help': null},
             gameplace: {'data': '', 'valid': null, 'help': null},
+            team: {'sign': 0, 'num': 1, 'min': 1},
             provinceid: 0,
             provincename: '无限制',
             collegeid: 0,
@@ -172,6 +176,25 @@ class GameForm extends React.Component {
         return gameplace.valid == 'success' || gameplace.valid == 'warning';
     }
 
+    handleTeamSign(e) {
+        var val = this.state.team;
+        val.sign = e.target.value;
+        if (val.sign == 0) {
+            val.num = val.min = 1;
+        } else if (val.sign == 1) {
+            val.num = val.min = 3;
+        } else if (val.sign == 2) {
+            val.num = val.min = 1;
+        }
+        this.setState({team: val});
+    }
+
+    handleTeamNum(e) {
+        var val = this.state.team;
+        if (e != null) val.num = e.target.value;
+        this.setState({team: val});
+    }
+
     handleSelectInstitute(event) {
         var val = event.target.value;
         this.setState({instituteid: val, institutename: event.target.options[event.target.selectedIndex].text});
@@ -243,6 +266,8 @@ class GameForm extends React.Component {
             + '&provincename=' + this.state.provincename
             + '&collegename=' + this.state.collegename
             + '&institutename=' + this.state.institutename
+            + '&teamSign=' + this.state.team.sign
+            + '&teamNum=' + this.state.team.num
             + '&userDefineForm=' + this.userDefineFormToStr()
             + '&_csrf=' + $('input[name=_csrf]').val();
         console.log(body);
@@ -259,7 +284,7 @@ class GameForm extends React.Component {
             if (data.status === 'ok') {
                 message.success("赛事提交成功，等待管理员审批！")
                 setTimeout(function () {
-                    browserHistory.push('/game-' + _this.state.gamename.data + '.html');
+                    browserHistory.push('/gamesubmited-' + _this.state.gamename.data + '.html');
                 }, 1500);
             } else {
                 message.error("赛事提交失败！")
@@ -302,6 +327,7 @@ class GameForm extends React.Component {
             labelClassName: "col-xs-2",
             wrapperClassName: "col-xs-6"
         };
+
         const right = {display: 'inline'};
         var userDefineForm = this.state.userDefineForm.map(function (data, index) {
             var label = '自定义表单-' + index;
@@ -341,6 +367,26 @@ class GameForm extends React.Component {
                        value={this.state.gameplace.data} help={this.state.gameplace.help}
                        onChange={this.handleGameplace.bind(this)}
                        bsStyle={this.state.gameplace.valid} onBlur={this.handleGameplace.bind(this)}/>
+                <Input label="队伍人数" {...styleLayout}>
+                    <Row>
+                        <Col xs={6}>
+                            <Input type="select" placeholder="select"
+                                   onChange={this.handleTeamSign.bind(this)}
+                                   value={this.state.team.sign}>
+                                <option value="0">=</option>
+                                <option value="1">&lt;</option>
+                                <option value="2">&gt;</option>
+                            </Input>
+                        </Col>
+                        <Col xs={6}>
+                            <Input type="number" min={this.state.team.min}
+                                   value={this.state.team.num}
+                                   onChange={this.handleTeamNum.bind(this)}
+                                   className="form-control"/>
+                        </Col>
+                    </Row>
+                </Input>
+
                 <BelongsForm
                     callbackParent={callbackParent.bind(this)} p={params}
                     provinceid={this.state.provinceid}
