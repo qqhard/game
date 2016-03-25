@@ -27,7 +27,9 @@ class TeamList extends React.Component {
 
     render() {
         var nodes = this.state.data.map(function (team) {
-            if (team.members == null)team.now = 1
+            if (team.members == null) {
+                team.now = 1;
+            }
             else team.now = team.members.split(',').length + 1;
             return (
                 <TeamNode key={team.id}
@@ -121,7 +123,7 @@ class MyMemberTeamNode extends React.Component {
 export class MyUnEntryedTeamList extends TeamList {
     render() {
         var nodes = this.state.data.map(function (team) {
-            if (team.members == null)team.now = 1
+            if (team.members == null)team.now = 1;
             else team.now = team.members.split(',').length + 1;
             return (
                 <MyUnEntryedTeamNode key={team.id}
@@ -147,7 +149,7 @@ export class MyEntryedTeamList extends React.Component {
 export class MyMemberTeamList extends TeamList {
     render() {
         var nodes = this.state.data.map(function (team) {
-            if (team.members == null)team.now = 1
+            if (team.members == null)team.now = 1;
             else team.now = team.members.split(',').length + 1;
             return (
                 <MyMemberTeamNode key={team.id}
@@ -187,7 +189,8 @@ class MyInviteTeamNode extends React.Component {
                 <PageHeader>
                     <Link to={href}>{this.props.team.cnname}</Link>
                     <small>（队长<Link to={href}>{this.props.team.leader}</Link>）</small>
-                    <small> 人数上限:<Label>{this.props.team.num}</Label>人 目前已招募:<Label>{this.props.team.now}</Label>人</small>
+                    <small> 人数上限:<Label>{this.props.team.num}</Label>人 目前已招募:<Label>{this.props.team.now}</Label>人
+                    </small>
                 </PageHeader>
 
                 <p className="list-group-item-text">{this.props.team.info}</p>
@@ -200,10 +203,10 @@ class MyInviteTeamNode extends React.Component {
 export class MyInviteTeamList extends TeamList {
     render() {
         var nodes = this.state.data.map(function (team) {
-            if (team.members == null)team.now = 1
+            if (team.members == null)team.now = 1;
             else team.now = team.members.split(',').length + 1;
             return (
-                <MyInviteTeamNode key={team.id} team={team} />
+                <MyInviteTeamNode key={team.id} team={team}/>
             );
         }.bind(this));
         return (

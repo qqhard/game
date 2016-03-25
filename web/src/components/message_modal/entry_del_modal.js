@@ -65,7 +65,7 @@ class EntryDelModal extends React.Component {
     handleOk() {
         console.log(this.props.users);
         var ok = this.handleText(null);
-        if (ok == false)return;
+        if (ok === false)return;
 
         var users = [];
         for (var i in this.props.users) {

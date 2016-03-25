@@ -11,9 +11,9 @@ class GameInfo extends React.Component {
 
     render() {
         console.log(this.props.data.formList);
-        if (this.props.data == '')return <Jumbotron></Jumbotron>;
+        if (this.props.data == '')return <Jumbotron/>;
 
-        const infoList = [
+        [
             {'label': '赛事域名', 'name': 'gamename'},
             {'label': '赛事名称', 'name': 'gametitle'},
             {'label': '赛事简介', 'name': 'briefinfo'},
@@ -31,7 +31,7 @@ class GameInfo extends React.Component {
                 </Row>
             )
         }.bind(this));
-        const formList = this.props.data.formList.map(function (val, index) {
+        this.props.data.formList.map(function (val, index) {
             return (
                 <Row key={index+13} className="show-grid">
                     <Col xs={2}>{"自定义表单" + index}</Col>

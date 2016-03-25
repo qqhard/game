@@ -1,7 +1,7 @@
 import React from 'react';
 import Table from 'antd/lib/table';
-import Label from 'react-bootstrap/lib/Label';
-import {timeFormat} from '../common/time_format.js'
+// import Label from 'react-bootstrap/lib/Label';
+// import {timeFormat} from '../common/time_format.js'
 
 const columns = [
     {title: '域名', dataIndex: 'gamename', key: 'gamename'},
@@ -30,7 +30,7 @@ class ChecksMyTable extends React.Component {
                     gamename: data[i].gamename,
                     owner: data[i].game.owner,
                     gametitle: data[i].game.gametitle,
-                    accepted: data[i].accepted == true ? '通过' : '拒绝',
+                    accepted: data[i].accepted === true ? '通过' : '拒绝',
                     reason: data[i].reason
                 });
             }

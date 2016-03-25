@@ -1,6 +1,6 @@
 import React from 'react';
 import Input from 'react-bootstrap/lib/Input';
-import Button from 'react-bootstrap/lib/Button';
+// import Button from 'react-bootstrap/lib/Button';
 
 class BelongsForm extends React.Component {
     constructor(props) {
@@ -98,8 +98,8 @@ class BelongsForm extends React.Component {
         const styleLayout = {
             labelClassName: "col-xs-2",
             wrapperClassName: "col-xs-6"
-        }
-        const right = {display: 'inline'}
+        };
+        // const right = {display: 'inline'}
         var provinceOptions = this.state.provinceList.map(function (data, index) {
             return <option key={index} value={data.key}>{data.val}</option>
         });

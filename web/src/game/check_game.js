@@ -8,7 +8,7 @@ import Col from '../../node_modules/react-bootstrap/lib/Col'
 import ButtonGroup from '../../node_modules/react-bootstrap/lib/ButtonGroup'
 import Button from '../../node_modules/react-bootstrap/lib/Button'
 import Input from '../../node_modules/react-bootstrap/lib/Input'
-import { browserHistory } from 'react-router';
+// import { browserHistory } from 'react-router';
 import message from 'antd/lib/message';
 
 class CheckForm extends React.Component {
@@ -42,18 +42,17 @@ class CheckForm extends React.Component {
         }
     }
 
-    serializeForm(accepted){
-        var body = 'reason=' + this.state.reason
+    serializeForm(accepted) {
+        return 'reason=' + this.state.reason
             + '&accepted=' + accepted
             + '&_csrf=' + $('input[name=_csrf]').val();
-        return body;
     }
 
     handleAccept() {
         var body = this.serializeForm(true);
         $.post('/gameApi/gamecheck/' + this.props.gamename, body, function (data) {
             message.success("审批成功！");
-            this.setState({step:2});
+            this.setState({step: 2});
         }.bind(this)).error(function (e) {
             message.error("审批出错！");
         });
@@ -63,7 +62,7 @@ class CheckForm extends React.Component {
         var body = this.serializeForm(false);
         $.post('/gameApi/gamecheck/' + this.props.gamename, body, function (data) {
             message.success("审批成功！");
-            this.setState({step:2});
+            this.setState({step: 2});
         }.bind(this)).error(function (e) {
             message.error("审批出错！");
         });
@@ -76,7 +75,7 @@ class CheckForm extends React.Component {
 
         return (
             <form>
-                <Input type="textarea" label="拒绝理由" disabled={check_down}  value={this.state.reason}
+                <Input type="textarea" label="拒绝理由" disabled={check_down} value={this.state.reason}
                        onChange={this.handleChange.bind(this)}/>
                 <CsrfToken/>
                 <div className="form-group">

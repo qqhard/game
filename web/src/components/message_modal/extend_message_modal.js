@@ -43,7 +43,7 @@ class ExtendMessageModal extends React.Component {
     handleOk() {
         alert(this.props.username);
         var ok = this.handleTitle(null) & this.handleBody(null);
-        if (ok == false)return;
+        if (ok === false)return;
         var addrs = [];
         var users = [];
 
