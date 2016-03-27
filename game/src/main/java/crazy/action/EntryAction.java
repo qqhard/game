@@ -138,7 +138,7 @@ public class EntryAction {
 			teamEntry.getEmails().add(user.getEmail());
 		}
 		teamEntryRepository.save(teamEntry);
-		
+		ret.put("status", "ok");
 		return ret;
 	}
 

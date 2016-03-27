@@ -1,6 +1,5 @@
 import React from 'react';
 import Input from 'react-bootstrap/lib/Input';
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Button from 'react-bootstrap/lib/Button';
 import {browserHistory} from 'react-router';
 import CsrfToken from '../common/csrf_token.js';
@@ -146,34 +145,62 @@ class EntryForm extends React.Component {
             val.help = '所选队伍不符合赛事要求！';
         }
         this.setState({team: val});
+        if (flag) return true;
+        else return false;
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
-
-        var flag = this.handlePhone(null) & this.handleEmail(null);
-        if (flag === false)return;
-        const gamename = this.props.gamename;
+    getIndividualBody() {
         var body = 'username=' + this.props.username
             + '&gamename=' + this.props.gamename
             + '&phone=' + this.state.phone.data
             + '&email=' + this.state.email.data
             + '&forms=' + this.userDefineFormToStr()
             + '&_csrf=' + $('input[name=_csrf]').val();
-        $.post('/gameApi/game/entry/individual', body, function (data) {
+        return body;
+    }
+
+    getTeamBody() {
+        var body = 'username=' + this.props.username
+            + '&gamename=' + this.props.gamename
+            + '&teamid=' + this.state.teams[this.state.team.data].id
+            + '&forms=' + this.userDefineFormToStr()
+            + '&_csrf=' + $('input[name=_csrf]').val();
+        return body;
+    }
+
+    postEntry(url, body) {
+        const gamename = this.props.gamename;
+        $.post(url, body, function (data) {
             if (data.status == 'ok') {
                 message.success("报名成功！");
                 setTimeout(function () {
                     browserHistory.push('game-' + gamename + '.html');
                 }, 1500);
             } else {
-                message.error("报名失败！")
+                message.error(data.data)
             }
+            console.log(data);
         }.bind(this), 'json').error(function (e) {
             message.error("报名失败！")
         });
+    }
 
-        console.log(body);
+
+    handleSubmit(e) {
+        e.preventDefault();
+        var flag = this.handlePhone(null) & this.handleEmail(null) & this.handleTeam(null);
+        if (!flag)return;
+
+        var url = null;
+        var body = null;
+        if (this.state.isTeam) {
+            url = '/gameApi/game/entry/team';
+            body = this.getTeamBody();
+        } else {
+            url = '/gameApi/game/entry/individual';
+            body = this.getIndividualBody();
+        }
+        this.postEntry(url, body);
     }
 
     render() {
