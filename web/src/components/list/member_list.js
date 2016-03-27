@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
+import message from 'antd/lib/message';
 
 class MemberList extends React.Component{
     constructor(props){
@@ -8,10 +9,35 @@ class MemberList extends React.Component{
         };
     }
 
+    handleClick(member){
+        alert(this.props.csrf);
+        $.ajax({
+            url: `/gameApi/member/delete/${member.id}`,
+            type: 'POST',
+            data: `_csrf=${this.props.csrf}`,
+            success: function (data) {
+                if(data == "ok"){
+                    message.success("执行成功");
+                    this.props.onDel(member);
+                }else{
+                    message.error("执行失败");
+                }
+
+            }.bind(this),
+            error:  function (e) {
+                message.error("执行失败");
+            }
+        });
+    }
+
     render(){
         const list = this.props.members.map(function (val,index) {
-            return <li key={index} className="list-group-item">{val.username}</li>;
-        });
+            var aButton = null;
+            if(this.props.hasDel){
+                aButton = <a className="list-group-item-right" onClick={this.handleClick.bind(this,val)}>清退</a>;
+            }
+            return <li key={index} className="list-group-item">{val.username} {aButton}</li>;
+        }.bind(this));
         return (
             <ul className="list-group">
                 <h3　className="list-group-item">队伍成员</h3>

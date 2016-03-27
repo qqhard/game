@@ -24,10 +24,10 @@ class MyTeams extends React.Component {
     render() {
         const username = this.props.params.username;
         const right = ['',
-            <MyUnEntryedTeamList url={'/gameApi/game/teams/' + username + '?entryed=false'}/>,
-            <MyEntryedTeamList url={'/gameApi/game/teams/' + username + '?entryed=true'}/>,
-            <MyMemberTeamList url={'/gameApi/game/teams/membered'} />,
-            <MyInviteTeamList url={'/gameApi/game/teams/invited'} />
+            <MyUnEntryedTeamList url={'/gameApi/teams/' + username + '?entryed=false'}/>,
+            <MyEntryedTeamList url={'/gameApi/teams/' + username + '?entryed=true'}/>,
+            <MyMemberTeamList url={'/gameApi/teams/membered'} />,
+            <MyInviteTeamList url={'/gameApi/teams/invited'} />
         ];
         return (
 

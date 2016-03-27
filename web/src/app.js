@@ -20,6 +20,8 @@ import MyTeams from './team/my_teams.js'
 import Teams from './team/teams.js'
 import TeamManage from './team/team_manage.js'
 import TeamShow from './team/team_show.js'
+import Input from 'react-bootstrap/lib/Input'
+import Button from 'react-bootstrap/lib/Button'
 
 import {Router, Route, IndexRoute, Link, IndexLink, browserHistory} from 'react-router'
 
@@ -74,6 +76,7 @@ class App extends React.Component {
         const my_teams_url = "/teams-" + this.state.username + ".html";
         const userNav = (
             <ul className="nav navbar-nav navbar-right">
+
                 <li><Link to={my_message_url} activeStyle={ACTIVE}>消息 <span
                     className="badge">{this.state.msg_num}</span></Link></li>
                 <li><Link to="/games.html" activeStyle={ACTIVE}>赛事列表</Link></li>
@@ -97,15 +100,25 @@ class App extends React.Component {
         if (this.state.role == 'USER') nav = userNav;
         else if (this.state.role == 'ADMIN') nav = adminNav;
         else nav = guestNav;
+
+        const innerButton = <Button >search</Button>;
+
         return (
             <div>
                 <nav className="navbar navbar-default navbar-fixed-top">
                     <div className="container-fluid">
                         <div className="navbar-header">
+                            <a className="navbar-brand" href="/">Game Factory</a>
                             <ul className="nav navbar-nav">
                                 <li><a id="menu-toggle" href="#"></a></li>
+                                <li>
+                                    <form className="navbar-form navbar-left" role="search">
+                                        <Input bsSize="small" type="text" buttonAfter={innerButton} />
+                                    </form>
+                                </li>
+
                             </ul>
-                            <a className="navbar-brand" href="/">Game Factory</a>
+
                         </div>
                         <div id="navbar" className="navbar-collapse collapse">
                             {nav}

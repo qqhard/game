@@ -1,7 +1,5 @@
 package crazy.vo;
 
-import java.util.List;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,9 +10,9 @@ public class Team {
 	private String leader;
 	private String enname;
 	private String cnname;
-	private int num;
+	private int limitNum;
+	private int nowNum;
 	private String info;
-	private List<String> members;
 	private Boolean entryed;
 	
 	public Boolean getEntryed() {
@@ -47,23 +45,23 @@ public class Team {
 	public void setCnname(String cnname) {
 		this.cnname = cnname;
 	}
-	public int getNum() {
-		return num;
-	}
-	public void setNum(int num) {
-		this.num = num;
-	}
 	public String getInfo() {
 		return info;
 	}
 	public void setInfo(String info) {
 		this.info = info;
 	}
-	public List<String> getMembers() {
-		return members;
+	public int getLimitNum() {
+		return limitNum;
 	}
-	public void setMembers(List<String> members) {
-		this.members = members;
+	public void setLimitNum(int limitNum) {
+		this.limitNum = limitNum;
+	}
+	public int getNowNum() {
+		return nowNum;
+	}
+	public void setNowNum(int nowNum) {
+		this.nowNum = nowNum;
 	}
 	
 }

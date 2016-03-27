@@ -11,7 +11,8 @@ public class TeamForm {
 	public Team update(Team team){
 		team.setCnname(cnname);
 		team.setEnname(enname);
-		team.setNum(num);
+		team.setLimitNum(num);
+		team.setNowNum(1);
 		team.setInfo(info);
 		return team;
 	}

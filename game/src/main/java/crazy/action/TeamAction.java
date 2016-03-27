@@ -31,7 +31,7 @@ public class TeamAction {
 	private MemberRepository memberRepository;
 
 	@ResponseBody
-	@RequestMapping(value = "/game/team", method = RequestMethod.POST)
+	@RequestMapping(value = "/team", method = RequestMethod.POST)
 	public Object post(@Valid TeamForm teamForm, BindingResult bindingResult) {
 		HashMap<String, Object> ret = new HashMap<>();
 
@@ -51,25 +51,25 @@ public class TeamAction {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/game/team/{teamid}", method = RequestMethod.GET)
+	@RequestMapping(value = "/team/{teamid}", method = RequestMethod.GET)
 	public Object get(@PathVariable("teamid") String teamid) {
 		return teamRepository.findById(teamid);
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/game/teams", method = RequestMethod.GET)
+	@RequestMapping(value = "/teams", method = RequestMethod.GET)
 	public Object gets() {
 		return teamRepository.findByEntryed(false);
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/game/teams/{leader}", method = RequestMethod.GET)
+	@RequestMapping(value = "/teams/{leader}", method = RequestMethod.GET)
 	public Object getMyTeams(@PathVariable("leader") String leader, @RequestParam("entryed") Boolean entryed) {
 		return teamRepository.findByLeaderAndEntryed(leader, entryed);
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/game/teams/membered", method = RequestMethod.GET)
+	@RequestMapping(value = "/teams/membered", method = RequestMethod.GET)
 	public Object getMyMemberTeams() {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		List<Member> members = memberRepository.findByUsernameAndAccepted(username,true);
@@ -84,7 +84,7 @@ public class TeamAction {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/game/teams/invited", method = RequestMethod.GET)
+	@RequestMapping(value = "/teams/invited", method = RequestMethod.GET)
 	public Object getMyInvitedTeams() {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		List<Member> members = memberRepository.findByUsernameAndInvited(username, true);
@@ -97,7 +97,8 @@ public class TeamAction {
 				map.put("cnname", team.getCnname());
 				map.put("enname", team.getEnname());
 				map.put("info", team.getInfo());
-				map.put("num", team.getNum());
+				map.put("limitNum", team.getLimitNum());
+				map.put("nowNum", team.getNowNum());
 				map.put("leader", team.getLeader());
 				map.put("memberid", member.getId());
 				ret.add(map);

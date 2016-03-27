@@ -27,8 +27,6 @@ class TeamList extends React.Component {
 
     render() {
         var nodes = this.state.data.map(function (team) {
-            if (team.members == null)team.now = 1
-            else team.now = team.members.split(',').length + 1;
             return (
                 <TeamNode key={team.id}
                           prefix={this.props.prefix}
@@ -47,7 +45,7 @@ class TeamList extends React.Component {
 
 class TeamNode extends React.Component {
     handleClick() {
-        var url = '/gameApi/game/member/apply/' + this.props.team.id;
+        var url = '/gameApi/member/apply/' + this.props.team.id;
         var body = '_csrf=' + $('input[name=_csrf]').val();
         $.post(url, body, function (data) {
             if (data == 'ok') {
@@ -68,7 +66,7 @@ class TeamNode extends React.Component {
                 <PageHeader>
                     <Link to={href}>{this.props.team.cnname}</Link>
                     <small>（队长<Link to={href}>{this.props.team.leader}</Link>）</small>
-                    <small> 人数上限:<Label>{this.props.team.num}</Label>人 目前已招募:<Label>{this.props.team.now}</Label>人
+                    <small> 人数上限:<Label>{this.props.team.limitNum}</Label>人 目前已招募:<Label>{this.props.team.nowNum}</Label>人
                     </small>
                 </PageHeader>
 
@@ -88,7 +86,7 @@ class MyUnEntryedTeamNode extends React.Component {
                 <PageHeader>
                     <Link to={href}>{this.props.team.cnname}</Link>
                     <small>（队长<Link to={href}>{this.props.team.leader}</Link>）</small>
-                    <small> 人数上限:<Label>{this.props.team.num}</Label>人 目前已招募:<Label>{this.props.team.now}</Label>人
+                    <small> 人数上限:<Label>{this.props.team.limitNum}</Label>人 目前已招募:<Label>{this.props.team.nowNum}</Label>人
                     </small>
                 </PageHeader>
 
@@ -107,7 +105,7 @@ class MyMemberTeamNode extends React.Component {
                 <PageHeader>
                     <Link to={href}>{this.props.team.cnname}</Link>
                     <small>（队长<Link to={href}>{this.props.team.leader}</Link>）</small>
-                    <small> 人数上限:<Label>{this.props.team.num}</Label>人 目前已招募:<Label>{this.props.team.now}</Label>人
+                    <small> 人数上限:<Label>{this.props.team.limitNum}</Label>人 目前已招募:<Label>{this.props.team.nowNum}</Label>人
                     </small>
                 </PageHeader>
 
@@ -121,14 +119,7 @@ class MyMemberTeamNode extends React.Component {
 export class MyUnEntryedTeamList extends TeamList {
     render() {
         var nodes = this.state.data.map(function (team) {
-            if (team.members == null)team.now = 1
-            else team.now = team.members.split(',').length + 1;
-            return (
-                <MyUnEntryedTeamNode key={team.id}
-                                     prefix={this.props.prefix}
-                                     team={team}
-                />
-            );
+            return <MyUnEntryedTeamNode key={team.id} team={team}/>;
         }.bind(this));
         return (
             <ul className="list-group">
@@ -147,8 +138,6 @@ export class MyEntryedTeamList extends React.Component {
 export class MyMemberTeamList extends TeamList {
     render() {
         var nodes = this.state.data.map(function (team) {
-            if (team.members == null)team.now = 1
-            else team.now = team.members.split(',').length + 1;
             return (
                 <MyMemberTeamNode key={team.id}
                                   prefix={this.props.prefix}
@@ -166,7 +155,7 @@ export class MyMemberTeamList extends TeamList {
 
 class MyInviteTeamNode extends React.Component {
     handleClick() {
-        var url = '/gameApi/game/member/memaccept/' + this.props.team.memberid;
+        var url = '/gameApi/member/memaccept/' + this.props.team.memberid;
         var body = '_csrf=' + $('input[name=_csrf]').val();
         console.log(url);
         $.post(url, body, function (data) {
@@ -187,7 +176,7 @@ class MyInviteTeamNode extends React.Component {
                 <PageHeader>
                     <Link to={href}>{this.props.team.cnname}</Link>
                     <small>（队长<Link to={href}>{this.props.team.leader}</Link>）</small>
-                    <small> 人数上限:<Label>{this.props.team.num}</Label>人 目前已招募:<Label>{this.props.team.now}</Label>人</small>
+                    <small> 人数上限:<Label>{this.props.team.limitNum}</Label>人 目前已招募:<Label>{this.props.team.nowNum}</Label>人</small>
                 </PageHeader>
 
                 <p className="list-group-item-text">{this.props.team.info}</p>
@@ -200,8 +189,6 @@ class MyInviteTeamNode extends React.Component {
 export class MyInviteTeamList extends TeamList {
     render() {
         var nodes = this.state.data.map(function (team) {
-            if (team.members == null)team.now = 1
-            else team.now = team.members.split(',').length + 1;
             return (
                 <MyInviteTeamNode key={team.id} team={team} />
             );

@@ -28,7 +28,7 @@ class TeamManage extends React.Component {
     }
 
     fetchTeam() {
-        var url = '/gameApi/game/team/' + this.props.params.teamid;
+        var url = '/gameApi/team/' + this.props.params.teamid;
         $.get(url, function (data) {
             console.log(data);
             this.setState({team: data});
@@ -36,21 +36,21 @@ class TeamManage extends React.Component {
     }
 
     fetchMembers() {
-        var url = '/gameApi/game/members/' + this.props.params.teamid;
+        var url = '/gameApi/members/' + this.props.params.teamid;
         $.get(url, function (data) {
             this.setState({members: addKey(data)});
         }.bind(this));
     }
 
     fetchApplys() {
-        var url = '/gameApi/game/members/apply/' + this.props.params.teamid;
+        var url = '/gameApi/members/apply/' + this.props.params.teamid;
         $.get(url, function (data) {
             this.setState({applys: addKey(data)});
         }.bind(this));
     }
 
     fetchInvites() {
-        var url = '/gameApi/game/members/invite/' + this.props.params.teamid;
+        var url = '/gameApi/members/invite/' + this.props.params.teamid;
         $.get(url, function (data) {
             this.setState({invites: addKey(data)});
         }.bind(this));
@@ -98,6 +98,17 @@ class TeamManage extends React.Component {
         this.setState({invites:invites});
     }
 
+    callDel(member){
+        var members = this.state.members;
+        for (var i in members) {
+            if (members[i].username == member.username) {
+                members.splice(i, 1);
+                break;
+            }
+        }
+        this.setState({members: members});
+    }
+
     componentDidMount() {
         this.fetchTeam();
         this.fetchMembers();
@@ -115,7 +126,11 @@ class TeamManage extends React.Component {
                             <TeamInfo data={this.state.team}/>
                         </Row>
                         <Row>
-                            <TeamList members={this.state.members}/>
+                            <TeamList members={this.state.members}
+                                      hasDel={true}
+                                      csrf={$('input[name=_csrf]').val()}
+                                      onDel={this.callDel.bind(this)}
+                            />
                         </Row>
                     </Col>
                     <Col span="11" offset="2">

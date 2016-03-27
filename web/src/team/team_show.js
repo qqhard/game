@@ -23,7 +23,7 @@ class TeamShow extends React.Component {
     }
 
     fetchTeam() {
-        var url = '/gameApi/game/team/' + this.props.params.teamid;
+        var url = '/gameApi/team/' + this.props.params.teamid;
         $.get(url, function (data) {
             console.log(data);
             this.setState({team: data});
@@ -31,7 +31,7 @@ class TeamShow extends React.Component {
     }
 
     fetchMembers() {
-        var url = '/gameApi/game/members/' + this.props.params.teamid;
+        var url = '/gameApi/members/' + this.props.params.teamid;
         $.get(url, function (data) {
             this.setState({members: addKey(data)});
         }.bind(this));

@@ -29,7 +29,7 @@ public class GameCheckAction {
 	@ResponseBody
 	@RequestMapping(value = "{gamename}", method = RequestMethod.GET)
 	public Object get(@PathVariable("gamename") String gamename, HttpSession session){
-		String approver = SecurityContextHolder.getContext().getAuthentication().getName();
+		//String approver = SecurityContextHolder.getContext().getAuthentication().getName();
 		ApproveRecord record = approveRecordRepository.findByGamename(gamename);
 		System.out.println(record);
 		return record;

@@ -18,11 +18,12 @@ public class TestMemberRepository {
 	
 	@Test
 	public void test(){
-//		Member m = new Member();
-//		m.setTeamid("56f201bd7c9ac26de900d696");
-//		m.setAccepted(false);
-//		m.setApplyed(false);
-//		m.setUsername("hard4");
-//		memberRepository.insert(m);
+		for(Member m : memberRepository.findAll()){
+			System.out.println(m.getApplyed());
+			if(m.getApplyed() == null){
+				m.setApplyed(false);
+				memberRepository.save(m);
+			}
+		}
 	}
 }
