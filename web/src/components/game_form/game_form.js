@@ -81,9 +81,9 @@ class GameForm extends React.Component {
         }
         $.get('/gameApi/valid/' + val, function (data) {
             console.log(data);
-            if (data == true) {
+            if (data === true) {
                 this.setState({gamename: {'data': val, 'valid': 'error', 'help': '该域名已存在'}});
-            } else if (data == false) {
+            } else if (data === false) {
                 this.setState({gamename: {'data': val, 'valid': 'success', 'help': ''}});
             }
         }.bind(this));
@@ -99,7 +99,7 @@ class GameForm extends React.Component {
             return false;
         }
         var re = /^\w+$/g;
-        if (re.test(val) == false) {
+        if (re.test(val) === false) {
             gamename['help'] = '赛事域名只能是字母数字和短横线';
             this.setState({gamename: gamename});
             return false;
@@ -120,7 +120,7 @@ class GameForm extends React.Component {
             return false;
         }
         var re = /['"]/gi;
-        if (re.test(val) == true) {
+        if (re.test(val) === true) {
             gametitle['help'] = "赛事名称不得出现特殊符号";
             this.setState({gametitle: gametitle});
             return false;
@@ -227,7 +227,7 @@ class GameForm extends React.Component {
         list[index]['help'] = "";
         list[index]['valid'] = "";
         var re = new RegExp("['\"#]", "gi");
-        if (re.test(list[index]['data']) == true) {
+        if (re.test(list[index]['data']) === true) {
             list[index]['help'] = "自定义表单不得出现特殊符号";
             list[index]['valid'] = "error";
             this.setState({userDefineForm: list});
@@ -254,7 +254,7 @@ class GameForm extends React.Component {
     }
 
     handleSubmit() {
-        if (this.validAll() != true)return;
+        if (this.validAll() !== true)return;
         var body = 'gamename=' + this.state.gamename.data
             + '&briefinfo=' + this.state.briefinfo.data
             + '&gametitle=' + this.state.gametitle.data
@@ -328,7 +328,7 @@ class GameForm extends React.Component {
             wrapperClassName: "col-xs-6"
         };
 
-        const right = {display: 'inline'};
+        // const right = {display: 'inline'};
         var userDefineForm = this.state.userDefineForm.map(function (data, index) {
             var label = '自定义表单-' + index;
             const innerButton = <Button onClick={this.handleDeleteFiled.bind(this,index)}>删除</Button>;

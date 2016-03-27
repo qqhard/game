@@ -23,9 +23,9 @@ import TeamShow from './team/team_show.js'
 import Input from 'react-bootstrap/lib/Input'
 import Button from 'react-bootstrap/lib/Button'
 
-import {Router, Route, IndexRoute, Link, IndexLink, browserHistory} from 'react-router'
+import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router'
 
-const ACTIVE = {color: 'black'}
+const ACTIVE = {color: 'black'};
 
 
 const guestNav = (
@@ -92,8 +92,7 @@ class App extends React.Component {
         const adminNav = (
             <ul className="nav navbar-nav navbar-right">
                 <li><Link to={my_checks_url} activeStyle={ACTIVE}>赛事审批</Link></li>
-                <li><a href="/userApi/register">register</a></li>
-                <li><a href="/userApi/login">login</a></li>
+                <li><a href="/userApi/logout">logout</a></li>
             </ul>
         );
         var nav = null;
@@ -118,7 +117,6 @@ class App extends React.Component {
                                 </li>
 
                             </ul>
-
                         </div>
                         <div id="navbar" className="navbar-collapse collapse">
                             {nav}
@@ -158,4 +156,4 @@ render((
             <Route path="/teamshow-:teamid.html" component={TeamShow}/>
         </Route>
     </Router>
-), document.getElementById('body'))
+), document.getElementById('body'));

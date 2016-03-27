@@ -152,7 +152,7 @@ class EntryForm extends React.Component {
         e.preventDefault();
 
         var flag = this.handlePhone(null) & this.handleEmail(null);
-        if (flag == false)return;
+        if (flag === false)return;
         const gamename = this.props.gamename;
         var body = 'username=' + this.props.username
             + '&gamename=' + this.props.gamename
@@ -162,7 +162,7 @@ class EntryForm extends React.Component {
             + '&_csrf=' + $('input[name=_csrf]').val();
         $.post('/gameApi/game/entry/individual', body, function (data) {
             if (data.status == 'ok') {
-                message.success("报名成功！")
+                message.success("报名成功！");
                 setTimeout(function () {
                     browserHistory.push('game-' + gamename + '.html');
                 }, 1500);
@@ -180,8 +180,8 @@ class EntryForm extends React.Component {
         const styleLayout = {
             labelClassName: "col-xs-2",
             wrapperClassName: "col-xs-6"
-        }
-        const right = {display: 'inline'}
+        };
+        // const right = {display: 'inline'}
         const forms = this.state.forms.map(function (val, index) {
             return <Input type="text" key={index} {...styleLayout}
                           label={val.name} value={val.data} onChange={this.handleUserDefineForm.bind(this,index)}/>;

@@ -190,7 +190,7 @@ export class MyInviteTeamList extends TeamList {
     render() {
         var nodes = this.state.data.map(function (team) {
             return (
-                <MyInviteTeamNode key={team.id} team={team} />
+                <MyInviteTeamNode key={team.id} team={team}/>
             );
         }.bind(this));
         return (

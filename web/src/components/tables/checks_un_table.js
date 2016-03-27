@@ -1,9 +1,9 @@
 import React from 'react';
 import Table from 'antd/lib/table';
-import Label from 'react-bootstrap/lib/Label';
-import {timeFormat} from '../common/time_format.js';
+// import Label from 'react-bootstrap/lib/Label';
+// import {timeFormat} from '../common/time_format.js';
 import {Link, browserHistory} from 'react-router'
-import message from 'antd/lib/message';
+// import message from 'antd/lib/message';
 
 const columns = [
     {title: '域名', dataIndex: 'gamename', key: 'gamename'},
@@ -35,10 +35,10 @@ class ChecksUnTable extends React.Component {
 
     componentDidMount() {
         var url = '/gameApi/gamechecks';
-        var arr = [];
+        // var arr = [];
 
         $.get(url, function (data) {
-            for(var i in data){
+            for (var i in data) {
                 data[i].key = data[i].gamename;
             }
             this.setState({data: data});

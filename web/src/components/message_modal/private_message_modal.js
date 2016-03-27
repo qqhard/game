@@ -27,7 +27,7 @@ class PrivateMessageModal extends React.Component {
 
     handleOk() {
         var ok = this.handleText(null);
-        if(ok == false)return ;
+        if(ok === false)return ;
 
         var users = [];
         for (var i in this.props.users) {

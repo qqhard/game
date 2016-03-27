@@ -98,7 +98,6 @@ class EntrysTable extends React.Component {
     }
 
 
-
     callCancel() {
         this.setState({
             visible: false
@@ -119,24 +118,24 @@ class EntrysTable extends React.Component {
 
     callDelEntry(filter) {
         var entrys = [];
-        for(var i in this.state.entrys){
-            if(filter[this.state.entrys[i].username] == true)continue;
+        for (var i in this.state.entrys) {
+            if (filter[this.state.entrys[i].username] === true)continue;
             entrys.push(this.state.entrys[i]);
         }
-        this.setState({entrys:entrys,recvs:[]});
+        this.setState({entrys: entrys, recvs: []});
     }
 
     selectAll() {
-        if(this.state.selectedRowKeys.length < this.state.entrys.length){
+        if (this.state.selectedRowKeys.length < this.state.entrys.length) {
             var keys = [];
-            for(var i in this.state.entrys){
+            for (var i in this.state.entrys) {
                 keys.push(this.state.entrys[i].key);
             }
             this.setState({
                 selectedRowKeys: keys,
                 recvs: this.state.entrys
             });
-        }else{
+        } else {
             this.setState({
                 selectedRowKeys: [],
                 recvs: []
@@ -150,13 +149,13 @@ class EntrysTable extends React.Component {
         var _this = this;
         const columns = [{
             title: '用户名',
-            dataIndex: 'username',
+            dataIndex: 'username'
         }, {
             title: '手机',
-            dataIndex: 'phone',
+            dataIndex: 'phone'
         }, {
             title: '邮箱',
-            dataIndex: 'email',
+            dataIndex: 'email'
         }, {
             title: '操作',
             key: 'operation',
@@ -165,11 +164,11 @@ class EntrysTable extends React.Component {
                 return (
                     <span>
                         <a onClick={_this.showPrivateModal.bind(_this,record)}>私信</a>
-                        <span className="ant-divider"></span>
+                        <span className="ant-divider"/>
                         <a onClick={_this.showModal.bind(_this)}>短信</a>
-                        <span className="ant-divider"></span>
+                        <span className="ant-divider"/>
                         <a onClick={_this.showModal.bind(_this,'/message/email' , record)}>邮件</a>
-                        <span className="ant-divider"></span>
+                        <span className="ant-divider"/>
                         <a className="btn btn-danger btn-sm" onClick={_this.showDelModal.bind(_this,record)}>清退</a>
                     </span>
                 );
@@ -179,7 +178,7 @@ class EntrysTable extends React.Component {
         const {loading, selectedRowKeys} = this.state;
         const rowSelection = {
             selectedRowKeys,
-            onChange: this.onSelectChange.bind(this),
+            onChange: this.onSelectChange.bind(this)
         };
         const hasSelected = selectedRowKeys.length > 0;
         console.log(this.state.recvs);
@@ -212,11 +211,12 @@ class EntrysTable extends React.Component {
 
                 <div style={{ marginBottom: 16 }}>
                     <ButtonGroup>
-                        <Button onClick={this.selectAll.bind(this)} >跨页全选</Button>
-                        <Button onClick={this.showPrivateModalBatch.bind(this)} disabled={!hasSelected} >群发私信</Button>
-                        <Button onClick={this.showModalBatch.bind(this,'/message/email')} disabled={!hasSelected} >群发邮件</Button>
-                        <Button onClick={this.showModal.bind(this)} disabled={!hasSelected} >群发短信</Button>
-                        <Button onClick={this.showDelModalBatch.bind(this)} disabled={!hasSelected} bsStyle="danger" >批量清退</Button>
+                        <Button onClick={this.selectAll.bind(this)}>跨页全选</Button>
+                        <Button onClick={this.showPrivateModalBatch.bind(this)} disabled={!hasSelected}>群发私信</Button>
+                        <Button onClick={this.showModalBatch.bind(this,'/message/email')}
+                                disabled={!hasSelected}>群发邮件</Button>
+                        <Button onClick={this.showModal.bind(this)} disabled={!hasSelected}>群发短信</Button>
+                        <Button onClick={this.showDelModalBatch.bind(this)} disabled={!hasSelected} bsStyle="danger">批量清退</Button>
                     </ButtonGroup>
                     <span style={{ marginLeft: 8 }}>{hasSelected ? `选择了 ${selectedRowKeys.length} 个参赛者` : ''}</span>
                 </div>

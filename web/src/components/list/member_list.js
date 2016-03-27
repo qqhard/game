@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 import message from 'antd/lib/message';
 
+
 class MemberList extends React.Component{
     constructor(props){
         super(props);
