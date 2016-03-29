@@ -12,12 +12,20 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import crazy.GameApplication;
 import crazy.vo.College;
+import crazy.vo.Institute;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = GameApplication.class)
 @WebAppConfiguration
 public class TestCollegeRepository {
 	@Autowired
+	private ProvinceRepository provinceRepository;
+	
+	@Autowired
 	private CollegeRepository collegeRepository;
+
+	@Autowired
+	private InstituteRepository instituteRepository;
+	
 	@Test
 	public void testFindByProvinceid(){
 		Sort sort = new Sort(Sort.Direction.DESC, "collegeid");
@@ -38,8 +46,6 @@ public class TestCollegeRepository {
 	}
 	@Test
 	public void testFindByCollegeid(){
-		College college = collegeRepository.findByCollegeid(5);
-		System.out.println(college.getCollegename());
-		System.out.println(college.getProvincename());
+		
 	}
 }

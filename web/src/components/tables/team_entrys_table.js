@@ -8,8 +8,9 @@ import ExtendMessageModal from '../message_modal/extend_message_modal.js';
 import EntryDelModal from '../message_modal/entry_del_modal.js';
 import message from 'antd/lib/message';
 import Modal from 'antd/lib/modal';
+import {Link} from 'react-router';
 
-class EntrysTable extends React.Component {
+class TeamEntrysTable extends React.Component {
 
     constructor(props) {
         super(props);
@@ -31,14 +32,27 @@ class EntrysTable extends React.Component {
     }
 
     componentDidMount() {
-        $.get('/gameApi/gameentrys/' + this.props.gamename+'/individual', function (data) {
+        $.get('/gameApi/gameentrys/' + this.props.gamename + '/team', function (data) {
             var arr = [];
             for (var i in data) {
+                var teamName = data[i].teamCnname;
+                if(!!data[i].teamEnname) teamName += `(${data[i].teamEnname})`;
+                const users = data[i].users.map(function (val,index) {
+                    const userinfo = 'userinfo-'+val+'.html';
+                    return {
+                        key: val,
+                        teamName: <Link to={userinfo}>{val}</Link>,
+                        isSon: true
+                    }
+                });
+                console.log(users);
                 arr.push({
-                    key: data[i].username,
-                    username: data[i].username,
-                    phone: data[i].phone,
-                    email: data[i].email
+                    key: data[i].teamid,
+                    teamName: teamName,
+                    teamNum: data[i].teamNum,
+                    email: data[i].email,
+                    isSon: false,
+                    children: users
                 });
             }
             this.setState({entrys: arr});
@@ -148,19 +162,16 @@ class EntrysTable extends React.Component {
         console.log(this.state.text);
         var _this = this;
         const columns = [{
-            title: '用户名',
-            dataIndex: 'username'
+            title: '队名',
+            dataIndex: 'teamName'
         }, {
-            title: '手机',
-            dataIndex: 'phone'
-        }, {
-            title: '邮箱',
-            dataIndex: 'email'
+            title: '人数',
+            dataIndex: 'teamNum'
         }, {
             title: '操作',
             key: 'operation',
             render(text, record){
-
+                if(record.isSon)return <span></span>;
                 return (
                     <span>
                         <a onClick={_this.showPrivateModal.bind(_this,record)}>私信</a>
@@ -226,4 +237,4 @@ class EntrysTable extends React.Component {
     }
 }
 
-export default EntrysTable;
+export default TeamEntrysTable;

@@ -10,6 +10,7 @@ public class TeamEntry {
 	@Id
 	private String id;
 	private String gamename;
+	private String teamid;
 	private Boolean deled;
 	private String teamCnname;
 	private String teamEnname;
@@ -77,6 +78,12 @@ public class TeamEntry {
 	}
 	public void setPhones(List<String> phones) {
 		this.phones = phones;
+	}
+	public String getTeamid() {
+		return teamid;
+	}
+	public void setTeamid(String teamid) {
+		this.teamid = teamid;
 	}
 	
 }

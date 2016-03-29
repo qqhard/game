@@ -27,7 +27,7 @@ class MemberInviteModal extends React.Component{
         var body = '_csrf='+this.props.csrf;
         $.post(url,body,function (data) {
             if(data.status == 'ok'){
-                this.setState({help:'',visible:false});
+                this.setState({help:'',visible:false,username:''});
                 message.success("已成功发出邀请！");
                 this.props.onInvite(data.data);
             }else{

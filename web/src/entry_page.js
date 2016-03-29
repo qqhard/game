@@ -1,5 +1,5 @@
 import React from 'react';
-import EntryForm from './components/entry_form/entry_form.js';
+import EntryForm from './components/forms/entry_form.js';
 import PageHeader from 'react-bootstrap/lib/PageHeader';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';

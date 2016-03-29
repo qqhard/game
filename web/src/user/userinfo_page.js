@@ -1,8 +1,8 @@
 import React from 'react';
 import Input from 'react-bootstrap/lib/Input';
-import CsrfToken from './components/common/csrf_token';
+import CsrfToken from '../components/common/csrf_token';
 import Button from 'react-bootstrap/lib/Button';
-import BelongsForm, {callbackParent} from './components/belong_form/belong_form.js';
+import BelongsForm, {callbackParent} from '../components/belong_form/belong_form.js';
 import message from 'antd/lib/message';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';

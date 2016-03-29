@@ -109,6 +109,7 @@ public class EntryAction {
 				ret.put("data", "队伍已经参与其他赛事!");
 			}else{
 				team.setEntryed(true);
+				team.setGamename(teamEntryForm.getGamename());
 				flag = false;
 				teamRepository.save(team);
 			}
@@ -118,6 +119,7 @@ public class EntryAction {
 		TeamEntry teamEntry = new TeamEntry();
 		teamEntry.setDeled(false);
 		teamEntry.setGamename(teamEntryForm.getGamename());
+		teamEntry.setTeamid(teamEntryForm.getTeamid());
 		teamEntry.setTeamCnname(team.getCnname());
 		teamEntry.setTeamEnname(team.getEnname());
 		teamEntry.setTeamInfo(team.getInfo());
@@ -125,6 +127,7 @@ public class EntryAction {
 		teamEntry.setUsers(new ArrayList<String>());
 		teamEntry.setEmails(new ArrayList<String>());
 		teamEntry.setPhones(new ArrayList<String>());
+	
 		
 		List<Member> members = memberRepository.findByTeamidAndAccepted(team.getId(), true);
 		List<String> usernames = new ArrayList<String>();

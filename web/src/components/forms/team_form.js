@@ -97,11 +97,11 @@ class TeamForm extends React.Component {
                     +'&num='+this.state.num.data
                     +'&_csrf='+$('input[name=_csrf]').val();
         alert(body);
-        $.post('/gameApi/game/team',body,function (data) {
+        $.post('/gameApi/team',body,function (data) {
             if(data.status == 'ok'){
                 message.success('队伍创建成功！');
                 setTimeout(function () {
-                    browserHistory.push("/");
+                    browserHistory.push("/teammanage-"+data.data+".html");
                 },1000);
             }else{
                 message.error('队伍创建失败！');

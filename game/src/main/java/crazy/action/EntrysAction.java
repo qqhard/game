@@ -18,14 +18,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import crazy.dao.EntryRepository;
 import crazy.dao.GameRepository;
+import crazy.dao.TeamEntryRepository;
 import crazy.form.EntryDelForm;
 import crazy.vo.Entry;
 import crazy.vo.Game;
+import crazy.vo.TeamEntry;
 
 @RestController
 public class EntrysAction {
 	@Autowired
 	private EntryRepository entryRepository;
+	
+	@Autowired
+	private TeamEntryRepository teamEntryRepository;
 	
 	@Autowired
 	private GameRepository gameRepository;
@@ -58,9 +63,17 @@ public class EntrysAction {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/game/gameentrys/{gamename}", method = RequestMethod.GET)
-	public List<Entry> getGameEntrys(@PathVariable("gamename") String gamename){
+	@RequestMapping(value = "/gameentrys/{gamename}/individual", method = RequestMethod.GET)
+	public List<Entry> getGameEntrysIndividual(@PathVariable("gamename") String gamename){
 		List<Entry> entrys = entryRepository.findByGamenameAndDeled(gamename,false);
+		return entrys;
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/gameentrys/{gamename}/team", method = RequestMethod.GET)
+	public List<TeamEntry> getGameEntrysTeam(@PathVariable("gamename") String gamename){
+		List<TeamEntry> entrys = teamEntryRepository.findByGamenameAndDeled(gamename, false);
 		return entrys;
 	}
 	

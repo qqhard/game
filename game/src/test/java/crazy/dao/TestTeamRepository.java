@@ -17,9 +17,11 @@ public class TestTeamRepository {
 	@Autowired
 	private TeamRepository teamRepository;
 	@Autowired
+	private TeamEntryRepository t;
+	@Autowired
 	private MemberRepository memberRepository;
 	@Test
 	public void test(){
-		
+	
 	}
 }

@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Team {
 	@Id
 	private String id;
+	private String gamename;
 	private String leader;
 	private String enname;
 	private String cnname;
@@ -62,6 +63,12 @@ public class Team {
 	}
 	public void setNowNum(int nowNum) {
 		this.nowNum = nowNum;
+	}
+	public String getGamename() {
+		return gamename;
+	}
+	public void setGamename(String gamename) {
+		this.gamename = gamename;
 	}
 	
 }

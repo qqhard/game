@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router'
+import {Link,browserHistory} from 'react-router'
 import PageHeader from 'react-bootstrap/lib/PageHeader';
 import Button from 'react-bootstrap/lib/Button';
 import './list.scss';
@@ -28,10 +28,7 @@ class TeamList extends React.Component {
     render() {
         var nodes = this.state.data.map(function (team) {
             return (
-                <TeamNode key={team.id}
-                          prefix={this.props.prefix}
-                          team={team}
-                />
+                <TeamNode key={team.id} team={team} />
             );
         }.bind(this));
         return (
@@ -60,7 +57,7 @@ class TeamNode extends React.Component {
     }
 
     render() {
-        var href = this.props.prefix + this.props.gamename + '.html';
+        var href = '/teamshow-' + this.props.team.id + '.html';
         return (
             <li className="list-group-item">
                 <PageHeader>
@@ -97,6 +94,27 @@ class MyUnEntryedTeamNode extends React.Component {
     }
 }
 
+
+class MyEntryedTeamNode extends React.Component {
+    render() {
+        var href = '/teamshow-' + this.props.team.id + '.html';
+        return (
+            <li className="list-group-item">
+                <PageHeader>
+                    <Link to={href}>{this.props.team.cnname}</Link>
+                    <small>（队长<Link to={href}>{this.props.team.leader}</Link>）</small>
+                    <small> 人数上限:<Label>{this.props.team.limitNum}</Label>人 目前已招募:<Label>{this.props.team.nowNum}</Label>人
+                    </small>
+                </PageHeader>
+
+
+                <p className="list-group-item-text">{this.props.team.info}</p>
+            </li>
+        )
+    }
+}
+
+
 class MyMemberTeamNode extends React.Component {
     render() {
         var href = '/teamshow-' + this.props.team.id + '.html';
@@ -129,9 +147,16 @@ export class MyUnEntryedTeamList extends TeamList {
     }
 }
 
-export class MyEntryedTeamList extends React.Component {
+export class MyEntryedTeamList extends TeamList {
     render() {
-        return <TeamList url={this.props.url} prefix={this.props.prefix}/>;
+        var nodes = this.state.data.map(function (team) {
+            return <MyEntryedTeamNode key={team.id} team={team}/>;
+        }.bind(this));
+        return (
+            <ul className="list-group">
+                {nodes}
+            </ul>
+        )
     }
 }
 
@@ -161,6 +186,7 @@ class MyInviteTeamNode extends React.Component {
         $.post(url, body, function (data) {
             if (data == 'ok') {
                 message.success('成功发出申请！');
+                browserHistory.push('teamshow-'+this.props.team.id+'.html');
             } else {
                 message.error(data);
             }

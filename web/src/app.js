@@ -8,7 +8,8 @@ import CreateGame from './game/create_game.js'
 import EntryPage from './entry_page.js'
 import ShowGame from './show_game.js'
 import CheckGame from './game/check_game.js'
-import UserinfoPage from './userinfo_page.js'
+import UserinfoPage from './user/userinfo_page.js'
+import UserinfoShow from './user/userinfo_show.js'
 import GameManage from './game/game_manage.js'
 import MyMessage from './my_message.js'
 import GameSubmited from './page/game_submited.js'
@@ -141,6 +142,7 @@ render((
             <Route path="/game.html" component={CreateGame}/>
             <Route path="/entry-:username-:gamename.html" component={EntryPage}/>
             <Route path="/userinfo-:username.html" component={UserinfoPage}/>
+            <Route path="/userinfoshow-:username.html" component={UserinfoShow}/>
             <Route path="/game-:gamename.html" component={ShowGame}/>
             <Route path="/gamecheck-:gamename.html" component={CheckGame}/>
             <Route path="/gamemanage-:gamename.html" component={GameManage}/>

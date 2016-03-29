@@ -46,7 +46,7 @@ public class TeamAction {
 		team.setEntryed(false);
 		teamRepository.insert(team);
 		ret.put("status", "ok");
-
+		ret.put("data", team.getId());
 		return ret;
 	}
 
