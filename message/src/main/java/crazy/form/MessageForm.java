@@ -3,23 +3,17 @@ package crazy.form;
 import crazy.vo.Message;
 
 public class MessageForm {
-	private String sender;
 	private String recver;
 	private String text; 
 	
 	public Message update(Message msg){
-		msg.setSender(sender);
 		msg.setRecver(recver);
+		msg.setText(text);
+		msg.setReadTime(0);
 		msg.setSendTime(System.currentTimeMillis());
 		return msg;	
 	}
-	
-	public String getSender() {
-		return sender;
-	}
-	public void setSender(String sender) {
-		this.sender = sender;
-	}
+
 	public String getRecver() {
 		return recver;
 	}
