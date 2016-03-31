@@ -1,45 +1,48 @@
 import React from 'react';
+import './control.scss';
+import CsrfToken from '../common/csrf_token.js';
 import message from 'antd/lib/message';
 import Modal from 'antd/lib/modal';
-import CsrfToken from '../common/csrf_token.js';
 
-class PrivateMessageModal extends React.Component {
+class PrivateMessageControl extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             text: '',
             textHelp: '',
-            username: ''
+            username: '',
+            visible: false
         }
     }
 
     handleText(e) {
         var val = this.state.text;
         if (e != null)val = e.target.value;
-        if(val.length > 0){
-            this.setState({text: val,textHelp: ''});
+        if (val.length > 0) {
+            this.setState({text: val, textHelp: ''});
             return true;
-        }else{
-            this.setState({text: val,textHelp: '消息不能为空'});
+        } else {
+            this.setState({text: val, textHelp: '消息不能为空'});
             return false;
         }
     }
 
+    handleClick() {
+        this.setState({visible: true});
+    }
+
     handleOk() {
         var ok = this.handleText(null);
-        if(ok === false)return ;
-        
-        var body = 'users=' + this.props.users.join(',')
+        if (ok === false)return;
+
+        var body = 'recver=' + this.props.recver
             + '&text=' + this.state.text
-            + '&sender=' + this.props.username
-            + '&gamename=' + this.props.gamename
             + '&_csrf=' + $("input[name=_csrf]").val();
         alert(body);
-        $.post(this.props.url, body, function (data) {
+        $.post('/message/message', body, function (data) {
             if (data == 'ok') {
-                this.setState({text: '', textHelp: ''});
+                this.setState({text: '', textHelp: '', visible: false});
                 message.success("信息成功发送！");
-                this.props.onCancel();
             } else {
                 message.error("信息成功失败！");
             }
@@ -50,12 +53,10 @@ class PrivateMessageModal extends React.Component {
     }
 
     handleConcel() {
-        this.setState({text: '',textHelp:''});
-        this.props.onCancel();
+        this.setState({text: '', textHelp: '', visible: false});
     }
 
     render() {
-
         const textarea = (
             <div className="form-group">
                 <label >消息</label>
@@ -66,14 +67,18 @@ class PrivateMessageModal extends React.Component {
             </div>
         );
         return (
-            <Modal title="填写待发送信息"
-                   visible={this.props.visible}
-                   onOk={this.handleOk.bind(this)}
-                   onCancel={this.handleConcel.bind(this)}>
-                <form>{textarea}</form>
-            </Modal>
+            <div className="message" onClick={this.handleClick.bind(this)}>
+                <Modal title="填写待发送信息"
+                       visible={this.state.visible}
+                       onOk={this.handleOk.bind(this)}
+                       onCancel={this.handleConcel.bind(this)}>
+                    <form>{textarea}</form>
+                </Modal>
+                <span className="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                <div>私信</div>
+            </div>
         );
     }
 }
 
-export default PrivateMessageModal;
+export default PrivateMessageControl;

@@ -138,7 +138,7 @@ public class MemberAction {
 				ret = "人数已经达到上限！";
 			}else{
 				member.setAccepted(true);
-				team.setNowNum(nowNum + 1);
+				team.setNowNum(nowNum + 2);
 				memberRepository.save(member);
 				teamRepository.save(team);
 			}
@@ -164,7 +164,7 @@ public class MemberAction {
 				ret = "人数已经达到上限！";
 			}else{
 				member.setAccepted(true);
-				team.setNowNum(nowNum + 1);
+				team.setNowNum(nowNum + 2);
 				memberRepository.save(member);
 				teamRepository.save(team);
 			}

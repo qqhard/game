@@ -1,5 +1,6 @@
 import React from 'react';
 import Jumbotron from 'react-bootstrap/lib/Jumbotron';
+import PrivateMessageControl from '../control/private_message_control.js';
 
 class UserInfo extends React.Component {
     constructor(props){
@@ -17,8 +18,11 @@ class UserInfo extends React.Component {
     }
     render() {
         if (!this.props.data )return <Jumbotron></Jumbotron>;
+        var messageControl = null;
+        if(this.props.hasMessage) messageControl = <PrivateMessageControl recver={this.props.data.username}/>;
         return (
             <Jumbotron>
+                {messageControl}
                 <h2>{this.props.data.username}</h2><br/>
                 <h3>姓名：{this.props.data.sociolname}</h3><br/>
                 <h3>学号：{this.props.data.studentid}</h3><br/>

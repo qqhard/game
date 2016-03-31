@@ -14,8 +14,9 @@ class UserinfoShow extends React.Component {
     }
 
     componentDidMount() {
-        var url = '/userApi/userinfo/' + this.props.params.username;
+        var url = '/userApi/publicinfo/' + this.props.params.username;
         $.get(url, function (data) {
+            console.log(data);
             this.setState({user: data});
         }.bind(this));
     }
@@ -26,7 +27,7 @@ class UserinfoShow extends React.Component {
             <div>
                 <Row>
                     <Col span="16" offset="4">
-                        <UserInfo data={this.state.user}/>
+                        <UserInfo data={this.state.user} hasMessage={true}/>
                     </Col>
                 </Row>
 

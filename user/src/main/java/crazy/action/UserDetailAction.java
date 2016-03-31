@@ -45,7 +45,7 @@ public class UserDetailAction {
 
 	}
 
-	@RequestMapping(value = "/user/publicinfo/{username}", method = RequestMethod.GET)
+	@RequestMapping(value = "/userApi/publicinfo/{username}", method = RequestMethod.GET)
 	@ResponseBody
 	public Object getUserPublicInfo(@PathVariable("username") String username) {
 		
@@ -55,6 +55,9 @@ public class UserDetailAction {
 		ret.setUsername(username);
 		ret.setSociolname(user.getSociolname());
 		ret.setStudentid(user.getStudentid());
+		ret.setProvinceid(user.getProvinceid());
+		ret.setCollegeid(user.getCollegeid());
+		ret.setInstituteid(user.getInstituteid());
 		return ret;
 
 	}

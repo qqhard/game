@@ -188,7 +188,7 @@ class EntryForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        var flag = this.handlePhone(null) & this.handleEmail(null) & this.handleTeam(null);
+        var flag = this.handlePhone(null) & this.handleEmail(null) & (!this.state.isTeam||this.handleTeam(null));
         if (!flag)return;
 
         var url = null;

@@ -2,12 +2,9 @@ import React from 'react';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Button from 'react-bootstrap/lib/Button';
 import Table from 'antd/lib/table';
-import CsrfToken from '../common/csrf_token.js';
 import PrivateMessageModal from '../message_modal/private_message_modal.js';
-import ExtendMessageModal from '../message_modal/extend_message_modal.js';
-import EntryDelModal from '../message_modal/entry_del_modal.js';
-import message from 'antd/lib/message';
-import Modal from 'antd/lib/modal';
+import EmailMessageModal from '../message_modal/email_message_modal.js';
+import TeamEntryDelModal from '../message_modal/team_entry_del_modal.js';
 import {Link} from 'react-router';
 
 class TeamEntrysTable extends React.Component {
@@ -19,7 +16,9 @@ class TeamEntrysTable extends React.Component {
             loading: false,
             entrys: [],
             url: '',
-            recvs: []
+            users: [],
+            emails: [],
+            teams: []
         }
     }
 
@@ -33,14 +32,17 @@ class TeamEntrysTable extends React.Component {
 
     componentDidMount() {
         $.get('/gameApi/gameentrys/' + this.props.gamename + '/team', function (data) {
+            console.log(data);
             var arr = [];
             for (var i in data) {
+                const team_href = 'teamshow-' + data[i].teamid + '.html';
                 var teamName = data[i].teamCnname;
-                if(!!data[i].teamEnname) teamName += `(${data[i].teamEnname})`;
-                const users = data[i].users.map(function (val,index) {
-                    const userinfo = 'userinfo-'+val+'.html';
+                if (!!data[i].teamEnname) teamName += `(${data[i].teamEnname})`;
+                var teamName = <Link to={team_href}>{teamName}</Link>;
+                const users = data[i].users.map(function (val, index) {
+                    const userinfo = 'userinfoshow-' + val + '.html';
                     return {
-                        key: val,
+                        key: data[i].teamid + val,
                         teamName: <Link to={userinfo}>{val}</Link>,
                         isSon: true
                     }
@@ -50,7 +52,9 @@ class TeamEntrysTable extends React.Component {
                     key: data[i].teamid,
                     teamName: teamName,
                     teamNum: data[i].teamNum,
-                    email: data[i].email,
+                    emails: data[i].emails,
+                    phones: data[i].phones,
+                    users: data[i].users,
                     isSon: false,
                     children: users
                 });
@@ -62,7 +66,16 @@ class TeamEntrysTable extends React.Component {
     onSelectChange(selectedRowKeys, selectedRecords) {
         console.log('selectedRowKeys changed: ', selectedRecords);
         this.setState({selectedRowKeys});
-        this.setState({recvs: selectedRecords});
+
+        var users = [];
+        var emails = [];
+        var teams = [];
+        for (var i in selectedRecords) {
+            users = users.concat(selectedRecords[i].users);
+            emails = emails.concat(selectedRecords[i].emails);
+            teams.push(selectedRecords[i].key);
+        }
+        this.setState({users: users, emails: emails, teams: teams});
     }
 
     handleClick() {
@@ -74,7 +87,9 @@ class TeamEntrysTable extends React.Component {
         this.setState({
             visible: true,
             url: url,
-            recvs: [record]
+            users: record.users,
+            emails: record.emails,
+            teams: [record.key]
         });
     }
 
@@ -88,7 +103,9 @@ class TeamEntrysTable extends React.Component {
     showPrivateModal(record) {
         this.setState({
             visible2: true,
-            recvs: [record]
+            users: record.users,
+            emails: record.emails,
+            teams: [record.key]
         });
     }
 
@@ -101,7 +118,9 @@ class TeamEntrysTable extends React.Component {
     showDelModal(record) {
         this.setState({
             visible3: true,
-            recvs: [record]
+            users: record.users,
+            emails: record.emails,
+            teams: [record.key]
         });
     }
 
@@ -133,26 +152,36 @@ class TeamEntrysTable extends React.Component {
     callDelEntry(filter) {
         var entrys = [];
         for (var i in this.state.entrys) {
-            if (filter[this.state.entrys[i].username] === true)continue;
+            if (filter[this.state.entrys[i].key] === true)continue;
             entrys.push(this.state.entrys[i]);
         }
-        this.setState({entrys: entrys, recvs: []});
+        this.setState({entrys: entrys, users: [], emails: [], teams: []});
     }
 
     selectAll() {
         if (this.state.selectedRowKeys.length < this.state.entrys.length) {
             var keys = [];
+            var users = [];
+            var emails = [];
+            var teams = [];
             for (var i in this.state.entrys) {
                 keys.push(this.state.entrys[i].key);
+                users = users.concat(this.state.entrys[i].users);
+                emails = emails.concat(this.state.entrys[i].emails);
+                teams.push(this.state.entrys[i].key);
             }
             this.setState({
                 selectedRowKeys: keys,
-                recvs: this.state.entrys
+                users: users,
+                emails: emails,
+                teams: teams
             });
         } else {
             this.setState({
                 selectedRowKeys: [],
-                recvs: []
+                users: [],
+                emails: [],
+                teams: []
             });
         }
 
@@ -171,7 +200,7 @@ class TeamEntrysTable extends React.Component {
             title: '操作',
             key: 'operation',
             render(text, record){
-                if(record.isSon)return <span></span>;
+                if (record.isSon)return <span></span>;
                 return (
                     <span>
                         <a onClick={_this.showPrivateModal.bind(_this,record)}>私信</a>
@@ -192,27 +221,29 @@ class TeamEntrysTable extends React.Component {
             onChange: this.onSelectChange.bind(this)
         };
         const hasSelected = selectedRowKeys.length > 0;
-        console.log(this.state.recvs);
+
         return (
             <div>
-                <ExtendMessageModal
+                <EmailMessageModal
                     username={this.state.username}
                     gamename={this.props.gamename}
                     visible={this.state.visible}
                     url={this.state.url}
-                    users={this.state.recvs}
+                    users={this.state.users}
+                    emails={this.state.emails}
                     onCancel={_this.callCancel.bind(_this)}
                 />
                 <PrivateMessageModal
                     username={this.state.username}
                     gamename={this.props.gamename}
                     visible={this.state.visible2}
-                    users={this.state.recvs}
+                    users={this.state.users}
                     url='/message/messages'
                     onCancel={_this.callCancel2.bind(_this)}
                 />
-                <EntryDelModal
-                    users={this.state.recvs}
+                <TeamEntryDelModal
+                    users={this.state.users}
+                    teams={this.state.teams}
                     username={this.state.username}
                     gamename={this.props.gamename}
                     visible={this.state.visible3}

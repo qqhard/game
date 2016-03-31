@@ -131,6 +131,7 @@ public class EntryAction {
 		
 		List<Member> members = memberRepository.findByTeamidAndAccepted(team.getId(), true);
 		List<String> usernames = new ArrayList<String>();
+		usernames.add(team.getLeader());
 		for(Member mem: members){
 			usernames.add(mem.getUsername());
 		}

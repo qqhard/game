@@ -37,7 +37,9 @@ class MemberList extends React.Component{
             if(this.props.hasDel){
                 aButton = <a className="list-group-item-right" onClick={this.handleClick.bind(this,val)}>清退</a>;
             }
-            return <li key={index} className="list-group-item">{val.username} {aButton}</li>;
+            const userHref = 'userinfoshow-'+val.username +'.html';
+            var userShow = <Link to={userHref}>{val.username}</Link>;
+            return <li key={index} className="list-group-item">{userShow} {aButton}</li>;
         }.bind(this));
         return (
             <ul className="list-group">
