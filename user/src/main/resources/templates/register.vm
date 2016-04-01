@@ -9,9 +9,14 @@ body {
 }
 		
 .form-signin {
-  max-width: 45%;
   padding: 15px;
-  margin: 0 auto;
+  color:#ffffff;
+  width:80%;
+  margin-left:auto;
+  margin-right:auto;
+}
+.form-signin h2{
+	font-style:italic;
 }
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
@@ -50,33 +55,91 @@ body {
 .form-signin p {
  	display:inline;
 }
+
+
+.form-div{
+	width:100%;
+	background:url(/image/bkg4.jpg) no-repeat;
+	background-size:100% 100%;
+	padding-bottom:20px;
+}
+
+.form-div h1{
+	color:#ffffff;
+	text-align:center;
+}
+
+.regist-info{
+	width:59%;
+	float:left;
+	display:inline-block;
+	color:#ffffff;
+	margin-top:100px;
+}
+
+.regist-info .in-info{
+	width:82%;
+	margin-left:auto;
+	margin-right:auto;
+	padding:20px;
+	background-color:rgba(2,2,2,0.3);
+	border-radius: 10px;
+}
+
+.regist-form{
+	width:38%;
+	float:left;
+	display:inline-block;
+	margin-top:115px;
+	margin-bottom:60px;
+}
+
+.input-margin{
+	margin-top:20px;
+	margin-bottom:20px;
+}
+
+
 </style>
-<form class="form-signin" 	 method="POST" name="registerFrom">
-  <h2 class="form-signin-heading">注册</h2>
-
-  	#springBind("registerForm.username")
-  <input type="text" name="${status.expression}" id="name" class="form-control form-signin-top" placeholder="用户名" value="$!status.value"  autofocus>
-	<p>$status.errorMessage</p>
-	
-  #springBind("registerForm.password")
-  <input type="password" name="${status.expression}" id="passwrod" class="form-control form-signin-body " value="$!status.value" placeholder="密码" >
-  	<p>$status.errorMessage</p>
-  	
-  	#springBind("registerForm.rePassword")
-  <input type="password" name="${status.expression}" id="rePassword" class="form-control form-signin-body" value="$!status.value" placeholder="密码确认" >
-  	<p>$status.errorMessage</p>
-  	
-  	#springBind("registerForm.email")
-  <input type="text" name="${status.expression}" id="rePassword" class="form-control form-signin-body" value="$!status.value" placeholder="邮箱" >
-  	<p>$status.errorMessage</p>
-  	
-  	#springBind("registerForm.phone")
-  <input type="text" name="${status.expression}" id="rePassword" class="form-control form-signin-bottom" value="$!status.value" placeholder="电话" >
-  	<p>$status.errorMessage</p>
-  	
-  <input type="hidden" name="_csrf" value="${_csrf.token}">
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-</form>
-
+	<div class="form-div">
+		<div class="regist-info">
+			<div class="in-info">
+				<h1>Game Factory 简介</h1>
+				<h3>  校园赛事平台将校园中赛事举办流程抽象为计算机系统，为赛事的举办者和参与者提供一个统一的web平台，以解决现在单纯线下赛事所遇到的种种问题。</h3>
+				<h3>  通过赛事平台，用户可以发布和管理赛事，通过模版为赛事制定个性化主页，通过唯一的二级域名进行访问。而参与者可以通过平台了解到校内网的赛事信息并参与报名，针对需要组队的赛事系统给出了队伍招募的解决方案。平台提供必要的短信，邮件和私信等信息交互手段。针对赛事列表，系统将完成对其个性化排序。</h3>
+			</div>
+		</div>
+		<div class="regist-form">
+			<form class="form-signin" 	 method="POST" name="registerFrom">
+			<h2>Fast Register</h2>
+			<div class="input-margin">
+			  	#springBind("registerForm.username")
+			  <input type="text" name="${status.expression}" id="name" class="form-control form-signin-top" placeholder="用户名" value="$!status.value"  autofocus>
+				<p>$status.errorMessage</p>
+			</div>	
+			<div class="input-margin">
+			  #springBind("registerForm.password")
+			  <input type="password" name="${status.expression}" id="passwrod" class="form-control form-signin-body " value="$!status.value" placeholder="密码" >
+			  	<p>$status.errorMessage</p>
+			  	</div>
+			<div class="input-margin">
+			  	#springBind("registerForm.rePassword")
+			  <input type="password" name="${status.expression}" id="rePassword" class="form-control form-signin-body" value="$!status.value" placeholder="密码确认" >
+			  	<p>$status.errorMessage</p>
+			  	</div>
+			  	#springBind("registerForm.email")
+			  <input style="display:none" type="text" name="${status.expression}" id="rePassword" class="form-control form-signin-body" value="1102503740@qq.com" placeholder="邮箱" >
+			  	<p style="display:none" >$status.errorMessage</p>
+			  	
+			  	#springBind("registerForm.phone")
+			  <input style="display:none" type="text" name="${status.expression}" id="rePassword" class="form-control form-signin-bottom" value="15588376937" placeholder="电话" >
+			  	<p style="display:none">$status.errorMessage</p>
+			  	
+			  <input type="hidden" name="_csrf" value="${_csrf.token}">
+			  <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+			</form>
+		</div>
+		<h1>Join in Game Factory</h1>
+	</div>
 
 
