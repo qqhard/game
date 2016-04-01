@@ -15,7 +15,7 @@
 
 	</style>
 <body>
-
+<!-- if you wanna the navbar fix on the top please use the class  navbar-fixed-top -->
 <nav class="navbar navbar-default navbar-fixed-top" style="margin: 0px" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -24,7 +24,7 @@
                 <li><a id="menu-toggle" href="#">@</a></li>
             </ul>
           
-            <a class="navbar-brand" href="/" style="font-size: 30px;">HITWH-ACM</a>
+            <a class="navbar-brand" href="/" style="font-size: 30px;">Game-Factory</a>
         </div>
 		
     #set($username=$session.getAttribute("login"))
@@ -46,7 +46,7 @@
 </nav>
 <div  style="margin: 0px" class="toggled">
 
-   	<div class="container">  $screen_content   </div>
+   	<div>  $screen_content   </div>
 	 
 	
   

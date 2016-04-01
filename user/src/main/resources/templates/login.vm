@@ -3,7 +3,7 @@
 
 <style>
 body {
-  padding-top: 40px;
+  padding-top: 52px;
   padding-bottom: 40px;
   background-color: #eee;
 }
@@ -11,7 +11,10 @@ body {
 .form-signin {
   max-width: 45%;
   padding: 15px;
-  margin: 0 auto;
+  color:#ffffff;
+  width:35%;
+  left:13.5%;
+  position:relative;
 }
 
 
@@ -40,22 +43,70 @@ body {
 .form-signin p {
  	display:inline;
 }
-</style>
-<form class="form-signin" action="/userApi/login" method="POST" name="loginForm">
-  <h2 class="form-signin-heading">Login For Change User Info</h2>
-
-  	#springBind("loginForm.username")
-  <input type="text" name="${status.expression}" id="name" class="form-control form-signin-top" placeholder="用户名" value="$!status.value"  autofocus>
-	<p>$status.errorMessage</p>
+.form-div{
+	width:100%;
+	background:url(/image/bkg1.jpg?100) no-repeat;
+	background-size:100% 100%;
+	padding-top:50px;
+	padding-bottom:30px;
 	
-  #springBind("loginForm.password")
-  <input type="password" name="${status.expression}" id="passwrod" class="form-control form-signin-bottom " value="$!status.value" placeholder="密码" >
-  	<p>$status.errorMessage</p>
-  	
+}
 
-  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Login in</button>
-</form>
+.form-control-margin{
+	margin-bottom:20px;
+}
 
 
+
+.login-info{
+	width:60%;
+	color:#ffffff;
+	margin-left:3%;
+    text-align: center;
+}
+
+.login-info .login-info-detail{
+	width:60%;
+	text-align:left;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:30px;
+}
+
+.login-block{
+	margin-top:50px;
+	text-align:center;
+	color:#ffffff;
+}
+
+</style>
+<div class="form-div">
+	<div class="login-info">
+		<h2>Game Factory</h2>
+		<div class='login-info-detail'>
+			<h4>   Game Factory can make your games more effective. And this will be a new O2O model.</h4>
+			<h4>   You can register you game here.Joiners can take part in by group or just one person.</h4>
+		</div>
+	</div>
+	
+  <form class="form-signin" action="/userApi/login" method="POST" name="loginForm">
+  <div class="form-control-margin">
+    #springBind("loginForm.username")
+    <input type="text" name="${status.expression}" id="name" class="form-control form-signin-top" placeholder="用户名" value="$!status.value"  autofocus>
+	 <p>$status.errorMessage</p>
+   </div>
+   <div class="form-control-margin"> 
+	    #springBind("loginForm.password")
+	    <input type="password" name="${status.expression}" id="passwrod" class="form-control form-signin-bottom " value="$!status.value" placeholder="密码" >
+	    <p>$status.errorMessage</p>
+	    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+    </div>
+    <div class="form-control-margin">
+    	<button class="btn-login btn btn-lg btn-primary btn-block" type="submit">Login in</button>
+    </div>
+  </form>
+	<div class="login-block">
+		<h1>Welcome to the Game Factory</h1>
+	</div>
+</div>
 
