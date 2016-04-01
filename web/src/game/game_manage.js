@@ -1,5 +1,6 @@
 import React from 'react';
 import EntrysTable from './../components/tables/entrys_table.js';
+import TeamEntrysTable from './../components/tables/team_entrys_table.js';
 import MessageRecordTable from './../components/tables/message_record_table.js';
 import Sider from './../components/sider/sider.js';
 import GameInfo from './../components/game_info/game_info.js';
@@ -7,9 +8,6 @@ import GameSteps from './../components/game_steps/game_steps.js'
 import GameComment from './../components/game_comment/game_comment.js'
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
-import Menu from 'antd/lib/menu';
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
 
 
 
@@ -38,8 +36,8 @@ class GameManage extends React.Component {
 
     render() {
         if(this.state.game == null) return <div></div>;
-        var right = {
-            1: (
+        var right = ["",
+            (
                 <div>
                     <Row>
                         <Col span="18">
@@ -52,9 +50,12 @@ class GameManage extends React.Component {
 
                 </div>
             ),
-            2: <EntrysTable gamename={this.props.params.gamename} username={this.props.username}/>,
-            3: <MessageRecordTable gamename={this.props.params.gamename}/>,
-            4:<GameComment game={this.state.game} key={this.state.key}/>
+            <EntrysTable gamename={this.props.params.gamename} username={this.props.username}/>,
+            <MessageRecordTable gamename={this.props.params.gamename}/>,
+            <GameComment game={this.state.game} key={this.state.key}/>
+        ];
+        if(!(this.state.game.teamSign == 1 && this.state.game.teamNum == 1)){
+            right[2] = <TeamEntrysTable gamename={this.props.params.gamename} username={this.props.username}/>;
         }
 
         return (

@@ -67,7 +67,10 @@ public class TestGameRepository {
 	}
 	@Test
 	public void testFindSubmited(){
-	
+		Game game = gameRepository.findByGamename("hitwhacm");
+		game.setTeamNum(1);
+		game.setTeamSign(1);
+		gameRepository.save(game);
 	}
 	@Test
 	public void testFindAccepted(){

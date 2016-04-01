@@ -1,6 +1,5 @@
 import React from 'react';
 import Input from 'react-bootstrap/lib/Input';
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Button from 'react-bootstrap/lib/Button';
 import {browserHistory} from 'react-router';
 import CsrfToken from '../common/csrf_token.js';
@@ -16,12 +15,17 @@ class EntryForm extends React.Component {
             instituteid: 0,
             phone: {'data': '', 'valid': null, 'help': null},
             email: {'data': '', 'valid': null, 'help': null},
-            forms: [{'name': 'qq', 'data': '', 'valid': null, 'help': null}]
+            forms: [{'name': 'qq', 'data': '', 'valid': null, 'help': null}],
+            teams: [],
+            isTeam: false,
+            teamSign: 1,
+            teamNum: 1,
+            team: {data: 0, valid: null, help: null}
         };
     }
 
     componentWillMount() {
-        var url = '/userinfo/' + this.props.username;
+        var url = '/userApi/userinfo/' + this.props.username;
         $.ajax({
             type: "get",
             url: url,
@@ -41,6 +45,7 @@ class EntryForm extends React.Component {
     componentDidMount() {
         var user_url = '/userApi/userinfo/' + this.props.username;
         var game_url = '/gameApi/game/' + this.props.gamename;
+        var team_url = `/gameApi/teams/${this.props.username}?entryed=false`;
         $.get(user_url, function (data) {
             var phone = this.state.phone;
             var email = this.state.email;
@@ -55,12 +60,17 @@ class EntryForm extends React.Component {
             });
         }.bind(this));
         $.get(game_url, function (data) {
+            if (!(data.teamSign == 1 && data.teamNum == 1))this.setState({isTeam: true});
+            this.setState
             var forms = data.formList;
             var arr = [];
             for (var i = 0; i < forms.length; i++) {
                 arr.push({'name': forms[i].name, 'data': '', 'valid': null, 'help': ''});
             }
-            this.setState({forms: arr});
+            this.setState({forms: arr, teamSign: data.teamSign, teamNum: data.teamNum});
+        }.bind(this));
+        $.get(team_url, function (data) {
+            this.setState({teams: data});
         }.bind(this));
     }
 
@@ -112,32 +122,85 @@ class EntryForm extends React.Component {
         return new_lsit.join('#');
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
+    handleTeam(e) {
+        var val = this.state.team;
+        if (!!e) val.data = e.target.value;
 
-        var flag = this.handlePhone(null) & this.handleEmail(null);
-        if (flag === false)return;
-        const gamename = this.props.gamename;
+        const team = this.state.teams[this.state.team.data];
+        var flag = false;
+        if (this.state.teamSign == 1) {
+            if (this.state.teamNum == team.nowNum) flag = true;
+        } else if (this.state.teamSign == 2) {
+            if (team.nowNum < this.state.teamNum) flag = true;
+        } else if (this.state.teamSign == 3) {
+            if (team.nowNum > this.state.teamNum) flag = true;
+        }
+
+
+        if (flag) {
+            val.valid = 'success';
+            val.help = '';
+        } else {
+            val.valid = 'error';
+            val.help = '所选队伍不符合赛事要求！';
+        }
+        this.setState({team: val});
+        if (flag) return true;
+        else return false;
+    }
+
+    getIndividualBody() {
         var body = 'username=' + this.props.username
             + '&gamename=' + this.props.gamename
             + '&phone=' + this.state.phone.data
             + '&email=' + this.state.email.data
             + '&forms=' + this.userDefineFormToStr()
             + '&_csrf=' + $('input[name=_csrf]').val();
-        $.post('/gameApi/game/entry', body, function (data) {
+        return body;
+    }
+
+    getTeamBody() {
+        var body = 'username=' + this.props.username
+            + '&gamename=' + this.props.gamename
+            + '&teamid=' + this.state.teams[this.state.team.data].id
+            + '&forms=' + this.userDefineFormToStr()
+            + '&_csrf=' + $('input[name=_csrf]').val();
+        return body;
+    }
+
+    postEntry(url, body) {
+        const gamename = this.props.gamename;
+        $.post(url, body, function (data) {
             if (data.status == 'ok') {
                 message.success("报名成功！");
                 setTimeout(function () {
                     browserHistory.push('game-' + gamename + '.html');
                 }, 1500);
             } else {
-                message.error("报名失败！")
+                message.error(data.data)
             }
+            console.log(data);
         }.bind(this), 'json').error(function (e) {
             message.error("报名失败！")
         });
+    }
 
-        console.log(body);
+
+    handleSubmit(e) {
+        e.preventDefault();
+        var flag = this.handlePhone(null) & this.handleEmail(null) & (!this.state.isTeam||this.handleTeam(null));
+        if (!flag)return;
+
+        var url = null;
+        var body = null;
+        if (this.state.isTeam) {
+            url = '/gameApi/game/entry/team';
+            body = this.getTeamBody();
+        } else {
+            url = '/gameApi/game/entry/individual';
+            body = this.getIndividualBody();
+        }
+        this.postEntry(url, body);
     }
 
     render() {
@@ -156,6 +219,22 @@ class EntryForm extends React.Component {
             'collegelabel': '高校',
             'institutelabel': '学院'
         };
+        var teamSelect = <div></div>;
+        if (this.state.isTeam) {
+            const options = this.state.teams.map(function (val, index) {
+                return <option key={index} value={index}>{val.cnname}({val.enname})</option>
+            });
+            teamSelect = (
+                <Input type="select" {...styleLayout} name="team" label="队伍选择" placeholder="select"
+                       value={this.state.team.data}
+                       onChange={this.handleTeam.bind(this)}
+                       bsStyle={this.state.team.valid}
+                       help={this.state.team.help}
+                >
+                    {options}
+                </Input>
+            );
+        }
 
         return (
             <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)}>
@@ -172,6 +251,7 @@ class EntryForm extends React.Component {
                        bsStyle={this.state.email.valid} value={this.state.email.data}
                        onChange={this.handleEmail.bind(this)}/>
                 {forms}
+                {teamSelect}
                 <CsrfToken/>
                 <div className="form-group">
                     <div className="col-sm-offset-2 col-sm-6">

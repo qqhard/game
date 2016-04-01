@@ -6,6 +6,8 @@ public class Institute {
 	private String institutename;
 	private int collegeid;
 	private String collegename;
+	private int provinceid;
+	private String provincename;
 	public String getId() {
 		return id;
 	}
@@ -38,4 +40,18 @@ public class Institute {
 	public void setCollegename(String collegename) {
 		this.collegename = collegename;
 	}
+	
+	public int getProvinceid() {
+		return provinceid;
+	}
+	public void setProvinceid(int provinceid) {
+		this.provinceid = provinceid;
+	}
+	public String getProvincename() {
+		return provincename;
+	}
+	public void setProvincename(String provincename) {
+		this.provincename = provincename;
+	}
+	
 }

@@ -71,9 +71,12 @@ public class MessageSendAction {
 	@ResponseBody
 	@RequestMapping(value = "message", method = RequestMethod.POST)
 	public Object sendMessage(@Valid MessageForm messageForm,BindingResult bindingResult){
+		String sender = SecurityContextHolder.getContext().getAuthentication().getName();
 		Message msg = new Message();
 		msg = messageForm.update(msg);
+		msg.setSender(sender);
 		messageRepository.insert(msg);
+		
 		return "ok";
 	}
 	

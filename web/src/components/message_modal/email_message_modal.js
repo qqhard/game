@@ -4,7 +4,7 @@ import Modal from 'antd/lib/modal';
 import CsrfToken from '../common/csrf_token.js';
 
 
-class ExtendMessageModal extends React.Component {
+class EmailMessageModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -51,8 +51,8 @@ class ExtendMessageModal extends React.Component {
             users.push(this.props.users[i].username);
             addrs.push(this.props.users[i].email);
         }
-        var body = 'users=' + users.join(',')
-            + '&addrs=' + addrs.join(',')
+        var body = 'users=' + this.props.users.join(',')
+            + '&addrs=' + this.props.emails.join(',')
             + '&title=' + this.state.title
             + '&body=' + this.state.body
             + '&sender=' + this.props.username
@@ -106,4 +106,4 @@ class ExtendMessageModal extends React.Component {
     }
 }
 
-export default ExtendMessageModal;
+export default EmailMessageModal;

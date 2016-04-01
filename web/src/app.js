@@ -8,7 +8,8 @@ import CreateGame from './game/create_game.js'
 import EntryPage from './entry_page.js'
 import ShowGame from './show_game.js'
 import CheckGame from './game/check_game.js'
-import UserinfoPage from './userinfo_page.js'
+import UserinfoPage from './user/userinfo_page.js'
+import UserinfoShow from './user/userinfo_show.js'
 import GameManage from './game/game_manage.js'
 import MyMessage from './my_message.js'
 import GameSubmited from './page/game_submited.js'
@@ -20,6 +21,8 @@ import MyTeams from './team/my_teams.js'
 import Teams from './team/teams.js'
 import TeamManage from './team/team_manage.js'
 import TeamShow from './team/team_show.js'
+import Input from 'react-bootstrap/lib/Input'
+import Button from 'react-bootstrap/lib/Button'
 
 import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router'
 
@@ -74,6 +77,7 @@ class App extends React.Component {
         const my_teams_url = "/teams-" + this.state.username + ".html";
         const userNav = (
             <ul className="nav navbar-nav navbar-right">
+
                 <li><Link to={my_message_url} activeStyle={ACTIVE}>消息 <span
                     className="badge">{this.state.msg_num}</span></Link></li>
                 <li><Link to="/games.html" activeStyle={ACTIVE}>赛事列表</Link></li>
@@ -96,12 +100,24 @@ class App extends React.Component {
         if (this.state.role == 'USER') nav = userNav;
         else if (this.state.role == 'ADMIN') nav = adminNav;
         else nav = guestNav;
+
+        const innerButton = <Button >search</Button>;
+
         return (
             <div>
                 <nav className="navbar navbar-default navbar-fixed-top">
                     <div className="container-fluid">
                         <div className="navbar-header">
                             <a className="navbar-brand" href="/">Game Factory</a>
+                            <ul className="nav navbar-nav">
+                                <li><a id="menu-toggle" href="#"></a></li>
+                                <li>
+                                    <form className="navbar-form navbar-left" role="search">
+                                        <Input bsSize="small" type="text" buttonAfter={innerButton} />
+                                    </form>
+                                </li>
+
+                            </ul>
                         </div>
                         <div id="navbar" className="navbar-collapse collapse">
                             {nav}
@@ -126,6 +142,7 @@ render((
             <Route path="/game.html" component={CreateGame}/>
             <Route path="/entry-:username-:gamename.html" component={EntryPage}/>
             <Route path="/userinfo-:username.html" component={UserinfoPage}/>
+            <Route path="/userinfoshow-:username.html" component={UserinfoShow}/>
             <Route path="/game-:gamename.html" component={ShowGame}/>
             <Route path="/gamecheck-:gamename.html" component={CheckGame}/>
             <Route path="/gamemanage-:gamename.html" component={GameManage}/>

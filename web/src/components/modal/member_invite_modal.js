@@ -23,11 +23,11 @@ class MemberInviteModal extends React.Component{
             this.setState({help:'不能为空！'});
             return ;
         }
-        var url = `/gameApi/game/member/invite/${this.props.team.id}/${this.state.username}`;
+        var url = `/gameApi/member/invite/${this.props.team.id}/${this.state.username}`;
         var body = '_csrf='+this.props.csrf;
         $.post(url,body,function (data) {
             if(data.status == 'ok'){
-                this.setState({help:'',visible:false});
+                this.setState({help:'',visible:false,username:''});
                 message.success("已成功发出邀请！");
                 this.props.onInvite(data.data);
             }else{

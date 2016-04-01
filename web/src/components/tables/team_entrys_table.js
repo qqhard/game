@@ -3,12 +3,11 @@ import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Button from 'react-bootstrap/lib/Button';
 import Table from 'antd/lib/table';
 import PrivateMessageModal from '../message_modal/private_message_modal.js';
-import PhoneMessageModal from '../message_modal/phone_message_modal.js';
 import EmailMessageModal from '../message_modal/email_message_modal.js';
-import EntryDelModal from '../message_modal/entry_del_modal.js';
+import TeamEntryDelModal from '../message_modal/team_entry_del_modal.js';
+import {Link} from 'react-router';
 
-
-class EntrysTable extends React.Component {
+class TeamEntrysTable extends React.Component {
 
     constructor(props) {
         super(props);
@@ -18,7 +17,8 @@ class EntrysTable extends React.Component {
             entrys: [],
             url: '',
             users: [],
-            emails: []
+            emails: [],
+            teams: []
         }
     }
 
@@ -31,14 +31,32 @@ class EntrysTable extends React.Component {
     }
 
     componentDidMount() {
-        $.get('/gameApi/gameentrys/' + this.props.gamename + '/individual', function (data) {
+        $.get('/gameApi/gameentrys/' + this.props.gamename + '/team', function (data) {
+            console.log(data);
             var arr = [];
             for (var i in data) {
+                const team_href = 'teamshow-' + data[i].teamid + '.html';
+                var teamName = data[i].teamCnname;
+                if (!!data[i].teamEnname) teamName += `(${data[i].teamEnname})`;
+                var teamName = <Link to={team_href}>{teamName}</Link>;
+                const users = data[i].users.map(function (val, index) {
+                    const userinfo = 'userinfoshow-' + val + '.html';
+                    return {
+                        key: data[i].teamid + val,
+                        teamName: <Link to={userinfo}>{val}</Link>,
+                        isSon: true
+                    }
+                });
+                console.log(users);
                 arr.push({
-                    key: data[i].username,
-                    username: data[i].username,
-                    phone: data[i].phone,
-                    email: data[i].email
+                    key: data[i].teamid,
+                    teamName: teamName,
+                    teamNum: data[i].teamNum,
+                    emails: data[i].emails,
+                    phones: data[i].phones,
+                    users: data[i].users,
+                    isSon: false,
+                    children: users
                 });
             }
             this.setState({entrys: arr});
@@ -48,13 +66,16 @@ class EntrysTable extends React.Component {
     onSelectChange(selectedRowKeys, selectedRecords) {
         console.log('selectedRowKeys changed: ', selectedRecords);
         this.setState({selectedRowKeys});
+
         var users = [];
         var emails = [];
+        var teams = [];
         for (var i in selectedRecords) {
-            users.push(selectedRecords[i].username);
-            emails.push(selectedRecords[i].email);
+            users = users.concat(selectedRecords[i].users);
+            emails = emails.concat(selectedRecords[i].emails);
+            teams.push(selectedRecords[i].key);
         }
-        this.setState({users: users, emails: emails});
+        this.setState({users: users, emails: emails, teams: teams});
     }
 
     handleClick() {
@@ -66,8 +87,9 @@ class EntrysTable extends React.Component {
         this.setState({
             visible: true,
             url: url,
-            users: [record.username],
-            emails: [record.email]
+            users: record.users,
+            emails: record.emails,
+            teams: [record.key]
         });
     }
 
@@ -81,8 +103,9 @@ class EntrysTable extends React.Component {
     showPrivateModal(record) {
         this.setState({
             visible2: true,
-            users: [record.username],
-            emails: [record.email]
+            users: record.users,
+            emails: record.emails,
+            teams: [record.key]
         });
     }
 
@@ -95,28 +118,15 @@ class EntrysTable extends React.Component {
     showDelModal(record) {
         this.setState({
             visible3: true,
-            users: [record.username],
-            emails: [record.email]
+            users: record.users,
+            emails: record.emails,
+            teams: [record.key]
         });
     }
 
     showDelModalBatch(record) {
         this.setState({
             visible3: true
-        });
-    }
-
-    showPhoneModal(record) {
-        this.setState({
-            visible4: true,
-            users: [record.username],
-            emails: [record.email]
-        });
-    }
-
-    showPhoneModalBatch(record) {
-        this.setState({
-            visible4: true
         });
     }
 
@@ -139,19 +149,13 @@ class EntrysTable extends React.Component {
         });
     }
 
-    callCancel4() {
-        this.setState({
-            visible4: false
-        });
-    }
-
     callDelEntry(filter) {
         var entrys = [];
         for (var i in this.state.entrys) {
-            if (filter[this.state.entrys[i].username] === true)continue;
+            if (filter[this.state.entrys[i].key] === true)continue;
             entrys.push(this.state.entrys[i]);
         }
-        this.setState({entrys: entrys, recvs: []});
+        this.setState({entrys: entrys, users: [], emails: [], teams: []});
     }
 
     selectAll() {
@@ -159,21 +163,25 @@ class EntrysTable extends React.Component {
             var keys = [];
             var users = [];
             var emails = [];
-            for(var i in this.state.entrys){
+            var teams = [];
+            for (var i in this.state.entrys) {
                 keys.push(this.state.entrys[i].key);
-                users.push(this.state.entrys[i].username);
-                emails.push(this.state.entrys[i].email);
+                users = users.concat(this.state.entrys[i].users);
+                emails = emails.concat(this.state.entrys[i].emails);
+                teams.push(this.state.entrys[i].key);
             }
             this.setState({
                 selectedRowKeys: keys,
                 users: users,
-                emails: emails
+                emails: emails,
+                teams: teams
             });
         } else {
             this.setState({
                 selectedRowKeys: [],
                 users: [],
-                emails: []
+                emails: [],
+                teams: []
             });
         }
 
@@ -183,24 +191,21 @@ class EntrysTable extends React.Component {
         console.log(this.state.text);
         var _this = this;
         const columns = [{
-            title: '用户名',
-            dataIndex: 'username'
+            title: '队名',
+            dataIndex: 'teamName'
         }, {
-            title: '手机',
-            dataIndex: 'phone'
-        }, {
-            title: '邮箱',
-            dataIndex: 'email'
+            title: '人数',
+            dataIndex: 'teamNum'
         }, {
             title: '操作',
             key: 'operation',
             render(text, record){
-
+                if (record.isSon)return <span></span>;
                 return (
                     <span>
                         <a onClick={_this.showPrivateModal.bind(_this,record)}>私信</a>
                         <span className="ant-divider"/>
-                        <a onClick={_this.showPhoneModal.bind(_this)}>短信</a>
+                        <a onClick={_this.showModal.bind(_this)}>短信</a>
                         <span className="ant-divider"/>
                         <a onClick={_this.showModal.bind(_this,'/message/email' , record)}>邮件</a>
                         <span className="ant-divider"/>
@@ -216,7 +221,7 @@ class EntrysTable extends React.Component {
             onChange: this.onSelectChange.bind(this)
         };
         const hasSelected = selectedRowKeys.length > 0;
-        console.log(this.state.recvs);
+
         return (
             <div>
                 <EmailMessageModal
@@ -236,17 +241,9 @@ class EntrysTable extends React.Component {
                     url='/message/messages'
                     onCancel={_this.callCancel2.bind(_this)}
                 />
-                <PhoneMessageModal
-                    username={this.state.username}
-                    gamename={this.props.gamename}
-                    visible={this.state.visible4}
-                    url={this.state.url}
+                <TeamEntryDelModal
                     users={this.state.users}
-                    emails={this.state.emails}
-                    onCancel={_this.callCancel4.bind(_this)}
-                />
-                <EntryDelModal
-                    users={this.state.users}
+                    teams={this.state.teams}
                     username={this.state.username}
                     gamename={this.props.gamename}
                     visible={this.state.visible3}
@@ -260,7 +257,7 @@ class EntrysTable extends React.Component {
                         <Button onClick={this.showPrivateModalBatch.bind(this)} disabled={!hasSelected}>群发私信</Button>
                         <Button onClick={this.showModalBatch.bind(this,'/message/email')}
                                 disabled={!hasSelected}>群发邮件</Button>
-                        <Button onClick={this.showPhoneModalBatch.bind(this)} disabled={!hasSelected}>群发短信</Button>
+                        <Button onClick={this.showModal.bind(this)} disabled={!hasSelected}>群发短信</Button>
                         <Button onClick={this.showDelModalBatch.bind(this)} disabled={!hasSelected} bsStyle="danger">批量清退</Button>
                     </ButtonGroup>
                     <span style={{ marginLeft: 8 }}>{hasSelected ? `选择了 ${selectedRowKeys.length} 个参赛者` : ''}</span>
@@ -271,4 +268,4 @@ class EntrysTable extends React.Component {
     }
 }
 
-export default EntrysTable;
+export default TeamEntrysTable;

@@ -18,9 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import crazy.dao.EntryRepository;
 import crazy.dao.GameRepository;
+import crazy.dao.TeamEntryRepository;
+import crazy.dao.TeamRepository;
 import crazy.form.EntryDelForm;
+import crazy.form.TeamEntryDelForm;
 import crazy.vo.Entry;
 import crazy.vo.Game;
+import crazy.vo.Team;
+import crazy.vo.TeamEntry;
 
 @RestController
 public class EntrysAction {
@@ -28,7 +33,13 @@ public class EntrysAction {
 	private EntryRepository entryRepository;
 	
 	@Autowired
+	private TeamEntryRepository teamEntryRepository;
+	
+	@Autowired
 	private GameRepository gameRepository;
+	
+	@Autowired
+	private TeamRepository teamRepository;
 	
 	private static final Map<String,Integer> STATE_TO_STEP = new HashMap<String,Integer>(){
 		private static final long serialVersionUID = -900316470475740462L;
@@ -58,15 +69,23 @@ public class EntrysAction {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/game/gameentrys/{gamename}", method = RequestMethod.GET)
-	public List<Entry> getGameEntrys(@PathVariable("gamename") String gamename){
+	@RequestMapping(value = "/gameentrys/{gamename}/individual", method = RequestMethod.GET)
+	public List<Entry> getGameEntrysIndividual(@PathVariable("gamename") String gamename){
 		List<Entry> entrys = entryRepository.findByGamenameAndDeled(gamename,false);
 		return entrys;
 	}
 	
 	
 	@ResponseBody
-	@RequestMapping(value = "/game/entrys", method = RequestMethod.POST)
+	@RequestMapping(value = "/gameentrys/{gamename}/team", method = RequestMethod.GET)
+	public List<TeamEntry> getGameEntrysTeam(@PathVariable("gamename") String gamename){
+		List<TeamEntry> entrys = teamEntryRepository.findByGamenameAndDeled(gamename, false);
+		return entrys;
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/entrys/individual", method = RequestMethod.PUT)
 	public Object delete(@Valid EntryDelForm entryDelForm,BindingResult bindingResult){
 		List<String> usernames = entryDelForm.getUsernames();
 		List<Entry> deledEntrys = new ArrayList<Entry>();
@@ -78,4 +97,24 @@ public class EntrysAction {
 		entryRepository.save(deledEntrys);
 		return "ok";
 	}
+	
+
+
+	@RequestMapping(value = "/entrys/team", method = RequestMethod.PUT)
+	public @ResponseBody Object delete2(@Valid TeamEntryDelForm entryDelForm,BindingResult bindingResult){
+		List<String> teamids = entryDelForm.getTeamids();
+		List<TeamEntry> teamEntrys = teamEntryRepository.findByTeamids(teamids);
+		for(TeamEntry teamEntry: teamEntrys){
+			teamEntry.setDeled(true);
+		}
+		teamEntryRepository.save(teamEntrys);
+		List<Team> teams = teamRepository.findByIds(teamids);
+		for(Team team : teams){
+			team.setEntryed(false);
+			team.setGamename(null);
+		}
+		teamRepository.save(teams);
+		return "ok";
+	}
+	
 }
