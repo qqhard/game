@@ -1,6 +1,7 @@
 package crazy.action;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,9 +24,12 @@ import crazy.dao.MessageRepository;
 import crazy.form.EmailForm;
 import crazy.form.MessageForm;
 import crazy.form.MessagesForm;
+import crazy.form.PhoneForm;
 import crazy.service.MessageSend;
+import crazy.service.PhoneMessage;
 import crazy.vo.Message;
 import crazy.vo.MessageRecord;
+import org.json.JSONObject;
 
 @RestController
 @RequestMapping(value = "/message")
@@ -52,6 +56,16 @@ public class MessageSendAction {
 		ret.put("data",  messageRepository.findBySender(username,page));
 		return ret;
 	}	
+	
+	
+	@RequestMapping(value = "phone", method = RequestMethod.POST)
+	public @ResponseBody Object sendPhone(@Valid PhoneForm phoneForm,BindingResult bindingResult){
+		System.out.println(phoneForm.getText());
+		PhoneMessage.send(phoneForm.getPhones(), phoneForm.getType(), phoneForm.getText());
+		return "ok";
+	}
+	
+	
 	
 	
 	@ResponseBody

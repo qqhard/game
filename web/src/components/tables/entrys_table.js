@@ -18,7 +18,8 @@ class EntrysTable extends React.Component {
             entrys: [],
             url: '',
             users: [],
-            emails: []
+            emails: [],
+            phones: []
         }
     }
 
@@ -50,16 +51,13 @@ class EntrysTable extends React.Component {
         this.setState({selectedRowKeys});
         var users = [];
         var emails = [];
+        var phones = [];
         for (var i in selectedRecords) {
             users.push(selectedRecords[i].username);
             emails.push(selectedRecords[i].email);
+            phones.push(selectedRecords[i].phone);
         }
-        this.setState({users: users, emails: emails});
-    }
-
-    handleClick() {
-        alert(this.state.selectedRowKeys);
-        console.log(this.state.recvs);
+        this.setState({users: users, emails: emails, phones: phones});
     }
 
     showModal(url, record) {
@@ -67,7 +65,8 @@ class EntrysTable extends React.Component {
             visible: true,
             url: url,
             users: [record.username],
-            emails: [record.email]
+            emails: [record.email],
+            phones: [record.phone]
         });
     }
 
@@ -82,7 +81,8 @@ class EntrysTable extends React.Component {
         this.setState({
             visible2: true,
             users: [record.username],
-            emails: [record.email]
+            emails: [record.email],
+            phones: [record.phone]
         });
     }
 
@@ -96,7 +96,8 @@ class EntrysTable extends React.Component {
         this.setState({
             visible3: true,
             users: [record.username],
-            emails: [record.email]
+            emails: [record.email],
+            phones: [record.phone]
         });
     }
 
@@ -110,7 +111,8 @@ class EntrysTable extends React.Component {
         this.setState({
             visible4: true,
             users: [record.username],
-            emails: [record.email]
+            emails: [record.email],
+            phones: [record.phone]
         });
     }
 
@@ -159,21 +161,25 @@ class EntrysTable extends React.Component {
             var keys = [];
             var users = [];
             var emails = [];
+            var phones = [];
             for(var i in this.state.entrys){
                 keys.push(this.state.entrys[i].key);
                 users.push(this.state.entrys[i].username);
                 emails.push(this.state.entrys[i].email);
+                phones.push(this.state.entrys[i].phone);
             }
             this.setState({
                 selectedRowKeys: keys,
                 users: users,
-                emails: emails
+                emails: emails,
+                phones: phones
             });
         } else {
             this.setState({
                 selectedRowKeys: [],
                 users: [],
-                emails: []
+                emails: [],
+                phones: []
             });
         }
 
@@ -200,7 +206,7 @@ class EntrysTable extends React.Component {
                     <span>
                         <a onClick={_this.showPrivateModal.bind(_this,record)}>私信</a>
                         <span className="ant-divider"/>
-                        <a onClick={_this.showPhoneModal.bind(_this)}>短信</a>
+                        <a onClick={_this.showPhoneModal.bind(_this,record)}>短信</a>
                         <span className="ant-divider"/>
                         <a onClick={_this.showModal.bind(_this,'/message/email' , record)}>邮件</a>
                         <span className="ant-divider"/>
@@ -242,7 +248,7 @@ class EntrysTable extends React.Component {
                     visible={this.state.visible4}
                     url={this.state.url}
                     users={this.state.users}
-                    emails={this.state.emails}
+                    phones={this.state.phones}
                     onCancel={_this.callCancel4.bind(_this)}
                 />
                 <EntryDelModal

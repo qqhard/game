@@ -44,13 +44,7 @@ class EmailMessageModal extends React.Component {
         alert(this.props.username);
         var ok = this.handleTitle(null) & this.handleBody(null);
         if (ok === false)return;
-        var addrs = [];
-        var users = [];
-
-        for (var i in this.props.users) {
-            users.push(this.props.users[i].username);
-            addrs.push(this.props.users[i].email);
-        }
+    
         var body = 'users=' + this.props.users.join(',')
             + '&addrs=' + this.props.emails.join(',')
             + '&title=' + this.state.title

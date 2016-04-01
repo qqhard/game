@@ -164,6 +164,12 @@
              <version>1.0</version>
          </dependency>
 		<!-- ali phone -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20160212</version>
+		</dependency>
+		
 	</dependencies>
 	
 	

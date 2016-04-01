@@ -28,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/games").permitAll()
 				.anyRequest()
 				.authenticated();
-      	
+      
     }
     
 

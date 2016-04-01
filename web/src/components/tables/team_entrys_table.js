@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/lib/Button';
 import Table from 'antd/lib/table';
 import PrivateMessageModal from '../message_modal/private_message_modal.js';
 import EmailMessageModal from '../message_modal/email_message_modal.js';
+import PhoneMessageModal from '../message_modal/phone_message_modal.js';
 import TeamEntryDelModal from '../message_modal/team_entry_del_modal.js';
 import {Link} from 'react-router';
 
@@ -18,6 +19,7 @@ class TeamEntrysTable extends React.Component {
             url: '',
             users: [],
             emails: [],
+            phones: [],
             teams: []
         }
     }
@@ -70,17 +72,14 @@ class TeamEntrysTable extends React.Component {
         var users = [];
         var emails = [];
         var teams = [];
+        var phones = [];
         for (var i in selectedRecords) {
             users = users.concat(selectedRecords[i].users);
             emails = emails.concat(selectedRecords[i].emails);
+            phones = phones.concat(selectedRecords[i].phones);
             teams.push(selectedRecords[i].key);
         }
-        this.setState({users: users, emails: emails, teams: teams});
-    }
-
-    handleClick() {
-        alert(this.state.selectedRowKeys);
-        console.log(this.state.recvs);
+        this.setState({users: users, emails: emails, teams: teams, phones: phones});
     }
 
     showModal(url, record) {
@@ -130,6 +129,20 @@ class TeamEntrysTable extends React.Component {
         });
     }
 
+    showPhoneModal(record) {
+        this.setState({
+            visible4: true,
+            users: [record.username],
+            phones: record.phones,
+            teams: [record.key]
+        });
+    }
+
+    showPhoneModalBatch(record) {
+        this.setState({
+            visible4: true
+        });
+    }
 
     callCancel() {
         this.setState({
@@ -149,13 +162,19 @@ class TeamEntrysTable extends React.Component {
         });
     }
 
+    callCancel4() {
+        this.setState({
+            visible4: false
+        });
+    }
+
     callDelEntry(filter) {
         var entrys = [];
         for (var i in this.state.entrys) {
             if (filter[this.state.entrys[i].key] === true)continue;
             entrys.push(this.state.entrys[i]);
         }
-        this.setState({entrys: entrys, users: [], emails: [], teams: []});
+        this.setState({entrys: entrys, users: [], emails: [], teams: [], phones: []});
     }
 
     selectAll() {
@@ -164,24 +183,28 @@ class TeamEntrysTable extends React.Component {
             var users = [];
             var emails = [];
             var teams = [];
+            var phones = [];
             for (var i in this.state.entrys) {
                 keys.push(this.state.entrys[i].key);
                 users = users.concat(this.state.entrys[i].users);
                 emails = emails.concat(this.state.entrys[i].emails);
                 teams.push(this.state.entrys[i].key);
+                phones.push(this.state.entrys[i].phone);
             }
             this.setState({
                 selectedRowKeys: keys,
                 users: users,
                 emails: emails,
-                teams: teams
+                teams: teams,
+                phones: phones
             });
         } else {
             this.setState({
                 selectedRowKeys: [],
                 users: [],
                 emails: [],
-                teams: []
+                teams: [],
+                phones: []
             });
         }
 
@@ -205,7 +228,7 @@ class TeamEntrysTable extends React.Component {
                     <span>
                         <a onClick={_this.showPrivateModal.bind(_this,record)}>私信</a>
                         <span className="ant-divider"/>
-                        <a onClick={_this.showModal.bind(_this)}>短信</a>
+                        <a onClick={_this.showPhoneModal.bind(_this,record)}>短信</a>
                         <span className="ant-divider"/>
                         <a onClick={_this.showModal.bind(_this,'/message/email' , record)}>邮件</a>
                         <span className="ant-divider"/>
@@ -241,6 +264,15 @@ class TeamEntrysTable extends React.Component {
                     url='/message/messages'
                     onCancel={_this.callCancel2.bind(_this)}
                 />
+                <PhoneMessageModal
+                    username={this.state.username}
+                    gamename={this.props.gamename}
+                    visible={this.state.visible4}
+                    url={this.state.url}
+                    users={this.state.users}
+                    phones={this.state.phones}
+                    onCancel={_this.callCancel4.bind(_this)}
+                />
                 <TeamEntryDelModal
                     users={this.state.users}
                     teams={this.state.teams}
@@ -257,7 +289,7 @@ class TeamEntrysTable extends React.Component {
                         <Button onClick={this.showPrivateModalBatch.bind(this)} disabled={!hasSelected}>群发私信</Button>
                         <Button onClick={this.showModalBatch.bind(this,'/message/email')}
                                 disabled={!hasSelected}>群发邮件</Button>
-                        <Button onClick={this.showModal.bind(this)} disabled={!hasSelected}>群发短信</Button>
+                        <Button onClick={this.showPhoneModalBatch.bind(this)} disabled={!hasSelected}>群发短信</Button>
                         <Button onClick={this.showDelModalBatch.bind(this)} disabled={!hasSelected} bsStyle="danger">批量清退</Button>
                     </ButtonGroup>
                     <span style={{ marginLeft: 8 }}>{hasSelected ? `选择了 ${selectedRowKeys.length} 个参赛者` : ''}</span>
