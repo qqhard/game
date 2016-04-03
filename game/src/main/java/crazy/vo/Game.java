@@ -26,6 +26,7 @@ public class Game {
 	private String institutename;
 	private int teamSign;
 	private int teamNum;
+	private long dueTime;
 	private long submitTime;
 	private long acceptTime;
 	private long startTime;
@@ -164,6 +165,12 @@ public class Game {
 	}
 	public void setTeamNum(int teamNum) {
 		this.teamNum = teamNum;
+	}
+	public long getDueTime() {
+		return dueTime;
+	}
+	public void setDueTime(long dueTime) {
+		this.dueTime = dueTime;
 	}
 	
 }

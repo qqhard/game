@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import crazy.dao.ApproveRecordRepository;
 import crazy.dao.GameRepository;
+import crazy.form.GameEditForm;
 import crazy.form.GameForm;
 import crazy.vo.Game;
 
@@ -112,6 +113,37 @@ public class GameAction {
 		gameRepository.save(game);	
 		ret.put("status", "ok");
 		return ret;
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "{gamename}/duetime", method = RequestMethod.PUT)
+	public Object putDuetime(@PathVariable("gamename") String gamename,@Valid GameEditForm.DueTime form,BindingResult bind){
+		Game game = gameRepository.findByGamename(gamename);
+		if(game == null)return "fail";
+		game.setDueTime(form.getDueTime());
+		gameRepository.save(game);
+		return "ok";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "{gamename}/gametime", method = RequestMethod.PUT)
+	public Object putGametime(@PathVariable("gamename") String gamename,@Valid GameEditForm.GameTime form,BindingResult bind){
+		Game game = gameRepository.findByGamename(gamename);
+		if(game == null)return "fail";
+		game.setGametime(form.getGameTime());
+		gameRepository.save(game);
+		return "ok";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "{gamename}/gameplace", method = RequestMethod.PUT)
+	public Object putGameplace(@PathVariable("gamename") String gamename,@Valid GameEditForm.GamePlace form,BindingResult bind){
+		Game game = gameRepository.findByGamename(gamename);
+		if(game == null)return "fail";
+		game.setGameplace(form.getGamePlace());
+		gameRepository.save(game);
+		return "ok";
 	}
 	
 	@ResponseBody

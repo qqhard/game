@@ -59,7 +59,7 @@ body {
 
 .form-div{
 	width:100%;
-	background:url(/image/bkg4.jpg) no-repeat;
+	background:url(/build/image/bkg4.jpg) no-repeat;
 	background-size:100% 100%;
 	padding-bottom:20px;
 }
