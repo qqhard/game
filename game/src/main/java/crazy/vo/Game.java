@@ -26,11 +26,12 @@ public class Game {
 	private String institutename;
 	private int teamSign;
 	private int teamNum;
+	private long startTime;
 	private long dueTime;
+	private long endTime;
 	private long submitTime;
 	private long acceptTime;
-	private long startTime;
-	private long endTime;
+	
 	private long step;
 	private boolean deled;
 	private List<UserDefineForm> formList;

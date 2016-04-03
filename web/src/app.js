@@ -80,12 +80,10 @@ class App extends React.Component {
 
                 <li><Link to={my_message_url} activeStyle={ACTIVE}>消息 <span
                     className="badge">{this.state.msg_num}</span></Link></li>
-                <li><Link to="/games.html" activeStyle={ACTIVE}>赛事列表</Link></li>
                 <li><Link to="/teams.html" activeStyle={ACTIVE}>队伍列表</Link></li>
                 <li><Link to={my_games_url} activeStyle={ACTIVE}>我的赛事</Link></li>
                 <li><Link to={my_entrys_url} activeStyle={ACTIVE}>我参与的</Link></li>
                 <li><Link to={my_teams_url} activeStyle={ACTIVE}>我的队伍</Link></li>
-                <li><Link to="/game.html" activeStyle={ACTIVE}>发布赛事</Link></li>
                 <li><Link to={userinfo_url} activeStyle={ACTIVE}>{this.state.username}</Link></li>
                 <li><a href="/userApi/logout">logout</a></li>
             </ul>

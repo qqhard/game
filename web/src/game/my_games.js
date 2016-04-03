@@ -1,41 +1,45 @@
 import React from 'react';
 import GameList from './../components/game_list/game_list.js';
-import Tabs from '../../node_modules/react-bootstrap/lib/Tabs';
-import Tab from '../../node_modules/react-bootstrap/lib/Tab';
-import PageHeader from '../../node_modules/react-bootstrap/lib/PageHeader';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
+import {Link} from 'react-router';
+import Sider from '../components/sider/sider.js';
+
+const items = ['提交的赛事', '审核的赛事', '已经开始', '已经结束', '审核失败的'];
 
 class MyGames extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            current: 1
+        };
+    }
+
+    callBack(current) {
+        this.setState({current: current});
     }
 
     render() {
         const titles = ['提交的赛事', '审核的赛事', '已经开始', '已经结束', '审核失败的'];
         const states = ['submited', 'accepted', 'started', 'ended', 'failed'];
         const prefixs = ['/gamesubmited-', '/gamemanage-', '/gamemanage-', '/gamemanage-', '/gamefailed-'];
-        const tabs = states.map(function (val, index) {
+
+        const right = states.map(function (val, index) {
             const url = "/gameApi/games/" + this.props.params.username + "?state=" + val;
-            return <Tab key={index} eventKey={index} title={titles[index]}><GameList prefix={prefixs[index]} url={url}/></Tab>;
+            return <GameList key={index} prefix={prefixs[index]} url={url}/>;
         }.bind(this));
 
         return (
-
             <div>
                 <Row>
-                    <Col>
-                        <PageHeader>我管理的赛事
-                            <small></small>
-                        </PageHeader>
+                    <Col key={0} span="3">
+                        <Sider callBack={this.callBack.bind(this)} items={items}/>
+                        <div style={{textAlign:'center'}}>
+                            <Link className="btn btn-default" to="/game.html">创建赛事</Link>
+                        </div>
                     </Col>
+                    <Col key={1} span="20" offset="1">{right[this.state.current - 1]}</Col>
                 </Row>
-                <Row>
-                    <Tabs defaultActiveKey={0} position="left" bsStyle="pills" tabWidth={2}>
-                        {tabs}
-                    </Tabs>
-                </Row>
-
             </div>
 
         );

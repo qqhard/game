@@ -3,7 +3,6 @@ package crazy.form;
 public class GameEditForm {
 	public static class DueTime{
 		private long dueTime;
-
 		public long getDueTime() {
 			return dueTime;
 		}
@@ -11,8 +10,6 @@ public class GameEditForm {
 		public void setDueTime(long dueTime) {
 			this.dueTime = dueTime;
 		}
-		
-	
 	}
 	public static class GameTime{
 		private String gameTime;
@@ -39,4 +36,30 @@ public class GameEditForm {
 		}
 	
 	}
+	
+	public static class StartTime{
+		private long startTime;
+		public long getStartTime() {
+			return startTime;
+		}
+
+		public void setStartTime(long startTime) {
+			this.startTime = startTime;
+		}
+	
+	}
+	
+	public static class EndTime{
+		private long endTime;
+		public long getEndTime() {
+			return endTime;
+		}
+
+		public void setEndTime(long endTime) {
+			this.endTime = endTime;
+		}
+	
+	}
+	
+	
 }

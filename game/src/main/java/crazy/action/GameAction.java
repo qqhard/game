@@ -115,6 +115,25 @@ public class GameAction {
 		return ret;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "{gamename}/starttime", method = RequestMethod.PUT)
+	public Object putStarttime(@PathVariable("gamename") String gamename,@Valid GameEditForm.StartTime form,BindingResult bind){
+		Game game = gameRepository.findByGamename(gamename);
+		if(game == null)return "fail";
+		game.setStartTime(form.getStartTime());
+		gameRepository.save(game);
+		return "ok";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "{gamename}/endtime", method = RequestMethod.PUT)
+	public Object putEndtime(@PathVariable("gamename") String gamename,@Valid GameEditForm.EndTime form,BindingResult bind){
+		Game game = gameRepository.findByGamename(gamename);
+		if(game == null)return "fail";
+		game.setEndTime(form.getEndTime());
+		gameRepository.save(game);
+		return "ok";
+	}
 	
 	@ResponseBody
 	@RequestMapping(value = "{gamename}/duetime", method = RequestMethod.PUT)

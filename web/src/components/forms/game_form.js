@@ -1,14 +1,13 @@
 import React from 'react'
-import Input from 'react-bootstrap/lib/Input'
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
-import Button from 'react-bootstrap/lib/Button'
+import Input from '../../../node_modules/react-bootstrap/lib/Input'
+import ButtonGroup from '../../../node_modules/react-bootstrap/lib/ButtonGroup'
+import Button from '../../../node_modules/react-bootstrap/lib/Button'
 import {browserHistory} from 'react-router'
 import CsrfToken from '../common/csrf_token.js'
 import message from 'antd/lib/message';
 import BelongsForm, {callbackParent} from '../belong_form/belong_form.js';
-import Row from 'react-bootstrap/lib/Row'
-import Col from 'react-bootstrap/lib/Col'
-
+import Row from '../../../node_modules/react-bootstrap/lib/Row'
+import Col from '../../../node_modules/react-bootstrap/lib/Col'
 
 class GameForm extends React.Component {
     constructor(props) {
@@ -346,7 +345,7 @@ class GameForm extends React.Component {
 
         return (
             <form className="form-horizontal">
-                
+
                 <Input type="text" label="赛事域名" disabled={this.props.disabled} {...styleLayout} addonAfter=".domain.com"
                        onBlur={this.existGamename.bind(this)}
                        help={this.state.gamename.help} value={this.state.gamename.data}
