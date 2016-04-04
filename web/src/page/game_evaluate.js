@@ -4,10 +4,11 @@ import Grid from 'react-bootstrap/lib/Grid'
 import Row from 'react-bootstrap/lib/Row'
 import Col from 'react-bootstrap/lib/Col'
 import GameSteps from '../components/game_steps/game_steps.js'
-import CheckShow from '../components/forms/check_show.js'
-import {Link} from 'react-router';
+import GameComment from '../components/game_comment/game_comment'
+import GameRating from '../components/rating/game_rating.js';
+import './game.scss';
 
-class GameSubmited extends React.Component {
+class GameEvaluate extends React.Component {
     constructor(props) {
         super(props);
         this.state = {game: ''};
@@ -22,9 +23,9 @@ class GameSubmited extends React.Component {
 
 
     render() {
-        console.log(this.state.game);
+        console.log(this.props.params.gamename);
         if (!this.state.game)return <div></div>;
-
+        const edit_url = "/gameedit-" + this.props.params.gamename + ".html";
         return (
             <Grid>
                 <Row>
@@ -35,7 +36,12 @@ class GameSubmited extends React.Component {
                         <GameSteps game={this.state.game}/>
                     </Col>
                 </Row>
-                
+                <GameRating gamename={this.state.game.gamename}/> 
+                <Row>
+                    <Col xsOffset={1} xs={8}>
+                        <GameComment game={this.state.game}/>
+                    </Col>
+                </Row>
             </Grid>
 
         )
@@ -43,4 +49,4 @@ class GameSubmited extends React.Component {
 }
 
 
-export default GameSubmited;
+export default GameEvaluate;

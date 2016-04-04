@@ -15,6 +15,7 @@ import MyMessage from './my_message.js'
 import GameSubmited from './page/game_submited.js'
 import GameFailed from './page/game_failed.js'
 import GameEdit from './page/game_edit.js'
+import GameEvaluate from './page/game_evaluate.js'
 
 import TeamPage from './team/team_page.js'
 import MyTeams from './team/my_teams.js'
@@ -149,6 +150,7 @@ render((
             <Route path="/gamefailed-:gamename.html" component={GameFailed}/>
             <Route path="/gamesubmited-:gamename.html" component={GameSubmited}/>
             <Route path="/gameedit-:gamename.html" component={GameEdit}/>
+            <Route path="/gameevaluate-:gamename.html" component={GameEvaluate}/>
             <Route path="/team.html" component={TeamPage}/>
             <Route path="/teams.html" component={Teams}/>
             <Route path="/teams-:username.html" component={MyTeams}/>

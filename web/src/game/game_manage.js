@@ -3,7 +3,7 @@ import EntrysTable from './../components/tables/entrys_table.js';
 import TeamEntrysTable from './../components/tables/team_entrys_table.js';
 import MessageRecordTable from './../components/tables/message_record_table.js';
 import Sider from './../components/sider/sider.js';
-import GameInfo from './../components/game_info/game_info.js';
+import GameInfo from './../components/info/game_info.js';
 import GameSteps from './../components/game_steps/game_steps.js'
 import GameComment from './../components/game_comment/game_comment.js'
 import Row from 'antd/lib/row';

@@ -30,5 +30,8 @@
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.14"
+  },
+  "dependencies": {
+    "react-rating": "^0.2.2"
   }
 }

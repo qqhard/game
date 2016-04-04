@@ -1,23 +1,15 @@
 package crazy.action;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import crazy.dao.GamePageable;
 import crazy.dao.GameRepository;
 import crazy.vo.Game;
 
@@ -33,37 +25,49 @@ public class GamesAction {
 	@RequestMapping(value = "/games", method = RequestMethod.GET)
 	public List<Game> get(@RequestParam(value = "pagenum",required=false) Integer pagenum,
 			@RequestParam("state") String state){
-		GamePageable pageable = new GamePageable();
-		if(pagenum != null) pageable.setPageNumber(pagenum);
-		pageable.setSort(new Sort(new Order(Direction.ASC, "gamename")));
-		
-		Integer step = STATE_TO_STEP.get(state);
-		if(step == null) return new ArrayList<Game>();
-		return gameRepository.findByStep(step);
+		return gameRepository.findByInEntryed(System.currentTimeMillis());
 	}
-	
-	private static final Map<String,Integer> STATE_TO_STEP = new HashMap<String,Integer>(){
-		private static final long serialVersionUID = -900316470475740462L;
-	{
-		put("submited",1);
-		put("accepted",2);
-		put("stated",3);
-		put("ended",4);
-		put("failed",0);
-	}};
 	
 	@ResponseBody
-	@RequestMapping(value = "/games/{owner}", method = RequestMethod.GET)
-	public List<Game> get(@PathVariable("owner") String owner,@RequestParam("state") String state){
-		if(!owner.equals(SecurityContextHolder.getContext().getAuthentication().getName())){
-    		return new ArrayList<Game>();
-    	}
-		
-		Integer step = STATE_TO_STEP.get(state);
-		if(step == null) return new ArrayList<Game>();
-		return gameRepository.findByOwnerAndStep(owner, step);
+	@RequestMapping(value = "/games/owned/submited", method = RequestMethod.GET)
+	public List<Game> getOwnedSubmited(){
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		return gameRepository.findByInSubmited(username);
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/games/owned/unstarted", method = RequestMethod.GET)
+	public List<Game> getOwnedUnstarted(){
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		return gameRepository.findByInUnstarted(username, System.currentTimeMillis());
+	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/games/owned/entryed", method = RequestMethod.GET)
+	public List<Game> getOwnedEntryed(){
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		return gameRepository.findByInEntryed(username, System.currentTimeMillis());
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/games/owned/dued", method = RequestMethod.GET)
+	public List<Game> getOwnedDued(){
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		return gameRepository.findByInDued(username, System.currentTimeMillis());
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/games/owned/ended", method = RequestMethod.GET)
+	public List<Game> getOwnedEnded(){
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		return gameRepository.findByInEnded(username, System.currentTimeMillis());
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/games/owned/failed", method = RequestMethod.GET)
+	public List<Game> getOwnedFailed(){
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		return gameRepository.findByOwnerAndStep(username, 0);
+	}
 	
 }

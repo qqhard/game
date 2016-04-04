@@ -5,7 +5,7 @@ import Col from 'antd/lib/col';
 import {Link} from 'react-router';
 import Sider from '../components/sider/sider.js';
 
-const items = ['提交的赛事', '审核的赛事', '已经开始', '已经结束', '审核失败的'];
+const items = ['待审核的', '未开始的', '报名中的', '报名截止的', '已经结束的', '审核失败的'];
 
 class MyGames extends React.Component {
     constructor(props) {
@@ -20,12 +20,11 @@ class MyGames extends React.Component {
     }
 
     render() {
-        const titles = ['提交的赛事', '审核的赛事', '已经开始', '已经结束', '审核失败的'];
-        const states = ['submited', 'accepted', 'started', 'ended', 'failed'];
-        const prefixs = ['/gamesubmited-', '/gamemanage-', '/gamemanage-', '/gamemanage-', '/gamefailed-'];
+        const states = ['submited', 'unstarted', 'entryed', 'dued', 'ended', 'failed'];
+        const prefixs = ['/gamesubmited-', '/gamemanage-', '/gamemanage-', '/gamemanage-','/gamemanage-', '/gamefailed-'];
 
         const right = states.map(function (val, index) {
-            const url = "/gameApi/games/" + this.props.params.username + "?state=" + val;
+            const url = "/gameApi/games/owned/" + val;
             return <GameList key={index} prefix={prefixs[index]} url={url}/>;
         }.bind(this));
 

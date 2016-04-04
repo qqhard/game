@@ -4,7 +4,7 @@ import Grid from '../../node_modules/react-bootstrap/lib/Grid';
 import Row from '../../node_modules/react-bootstrap/lib/Row';
 import Col from '../../node_modules/react-bootstrap/lib/Col';
 import Thumbnail from '../../node_modules/react-bootstrap/lib/Thumbnail';
-import { Progress } from 'antd';
+import {Progress} from 'antd';
 const ProgressLine = Progress.Line;
 
 const ACTIVE = {color: 'white'}
@@ -31,10 +31,11 @@ class Games extends React.Component {
         const cols = this.state.data.map(function (val, index) {
             var game_url = "/game-" + val.gamename + ".html";
             var entry_url = "/entry-" + this.state.username + '-' + val.gamename + '.html';
+            const percent = ( Date.parse(new Date()) - val.startTime) / (val.dueTime - val.startTime) * 100;
             return (
                 <Col key={index} xs={6} md={4}>
                     <Thumbnail src="http://img3.91.com/uploads/allimg/141110/703-141110105223.jpg" alt="242x200">
-                        <ProgressLine percent={30} strokeWidth={5} showInfo={false} />
+                        <ProgressLine percent={percent} strokeWidth={5} showInfo={false}/>
                         <h3>{val.gametitle}</h3>
                         <p>{val.briefinfo}</p>
 

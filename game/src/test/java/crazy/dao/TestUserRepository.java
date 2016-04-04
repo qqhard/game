@@ -20,6 +20,8 @@ public class TestUserRepository {
 	@Autowired
 	private UserRepository userRepository;
 	
+
+	
 	@Test
 	public void test(){
 		List<String> list = new ArrayList<String>();
@@ -30,4 +32,5 @@ public class TestUserRepository {
 			System.out.println(user.getSociolname()+" "+user.getUsername());
 		}
 	}
+	
 }

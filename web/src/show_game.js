@@ -1,5 +1,5 @@
 import React from 'react';
-import GameInfo from './components/game_info/game_info.js';
+import GameInfo from './components/info/game_info.js';
 import Grid from 'react-bootstrap/lib/Grid'
 import Row from 'react-bootstrap/lib/Row'
 import Col from 'react-bootstrap/lib/Col'
