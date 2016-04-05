@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<meta charset="utf-8" />
+<title>404</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta content="" name="description" />
+<meta content="" name="author" />
+  <link rel="stylesheet" media="all" href="https://umbreo.com/assets/application-56038b3df8c09ad5720446a4d14955cedd2c5af68a5131d945edc2b919b03c41.css" data-turbolinks-track="true" />
+  <script src="https://umbreo.com/assets/application-b16c0680a7bde678ffa98a3df4c0652badf81c850b2fe6a6c01c2f38f2a77426.js" data-turbolinks-track="true"></script>
+
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="error-body no-top">
+<div class="error-wrapper container">
+<div class="row">
+    <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-offset-1 col-xs-10">
+	 <div class="error-container" >
+		<div class="error-main">
+		  <div class="error-number">404</div>
+		  <div class="error-description" > We seem to have lost you in the clouds. </div>
+		  <div class="error-description-mini"> The page your looking for is not here </div>
+		  <br>
+		  <div style="display:none;" class="row">
+			<div class="input-with-icon col-md-12"> <i class="fa fa-search"></i>
+			  <input type="text" class="form-control" id="form1Name" name="form1Name">
+			</div>
+		  </div>
+		  <br>
+		  <a href="../index.html" class="btn btn-primary btn-cons" type="button">Back</a>
+		</div>
+	  </div>
+	
+	</div>
+</div>
+</div>
+<div id="footer" style="display:none;">
+  <div class="error-container">
+    <ul class="footer-links">
+      <li><a href="sidebar-menu-arrow.png#">Template Guidelines</a></li>
+      <li><a href="sidebar-menu-arrow.png#">Copyrights & Privacy </a></li>
+      <li><a href="sidebar-menu-arrow.png#">Help & FAQ</a></li>
+      <li><a href="sidebar-menu-arrow.png#">Contact Us</a></li>
+      <li><a href="sidebar-menu-arrow.png#">Reports</a></li>
+      <li><a href="sidebar-menu-arrow.png#">Search</a></li>
+      <li><a href="sidebar-menu-arrow.png#">Buy theme</a></li>
+    </ul>
+    <br>
+    <ul class="footer-links small-links">
+      <li><a href="sidebar-menu-arrow.png#">Home</a></li>
+      <li><a href="sidebar-menu-arrow.png#">About Us </a></li>
+      <li><a href="sidebar-menu-arrow.png#">UI Elements</a></li>
+      <li><a href="sidebar-menu-arrow.png#">Charts</a></li>
+      <li><a href="sidebar-menu-arrow.png#">Mobile Apps</a></li>
+      <li><a href="sidebar-menu-arrow.png#">Responsive Design</a></li>
+      <li><a href="sidebar-menu-arrow.png#">Design</a></li>
+    </ul>
+    <br>
+    <div class="copyright"> All work copyright of respective owner, 2013 webarch Incorporated </div>
+  </div>
+</div>
+
+</body>
+</html>
