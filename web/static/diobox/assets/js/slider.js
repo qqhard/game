@@ -1,0 +1,1 @@
+jQuery(function(){var t=$("#slider_content"),i=!1;$(".slider-nav-button").click(function(){if(!i){var e=$("#"+$(this).data("target"));t.css("left",-1*e.position().left),$(".slider-nav-button").removeClass("active"),$(this).addClass("active"),setTimeout(function(){i=!1},350)}})});
