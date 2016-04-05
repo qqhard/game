@@ -17,7 +17,7 @@
             "left": pleft,
             "top": ptop,
             "color": "#ffffff",
-            "font-size": 12
+            "font-size": 12,
         });
         operIco.attr("class", "veditdiv_control_ico");
         return operIco;
@@ -46,14 +46,15 @@
                 "border-bottom-right-radius": 10,
                 // "border":"5px dotted #222222",
                 "width": 0,
-                "top": window.innerHeight / 2 - icoHeight / 2,
-                "bottom": window.innerHeight / 2 - icoHeight / 2,
-                "z-index": 1000,
+                "height":"100%",
+                "z-index": 9999,
                 "padding-right": "8px",
+                "position":"fixed",
+
             });
             operBoard.attr("class", "veditdiv_control_board");
             operBoard.attr("hidden", true);
-            $('body').append(operBoard);
+            $('body').prepend(operBoard);
             return operBoard;
         }();
 
@@ -196,6 +197,7 @@
             });
 
             tmpinput.on("initPos.veditdiv", function () {
+                //alert(objOperBoard.innerWidth() + "xxx"+ tmplab.outerWidth());
                 tmpinput.css("width", objOperBoard.innerWidth() - tmplab.outerWidth() - 32);
                 //tmpinput.css("left",(tmplab.outerWidth()+4)+"px");
             });
@@ -234,31 +236,18 @@
             objOperBoard.attr("hidden", false);
             objOperBoard.css('overflow', 'auto');
             this.isShow = 1;
-            objOperBoard.animate(
-                {"width": 250,}, 500,
-                function () {
-                    $(".initpos").trigger("initPos");
-                    objOperBoard.animate(
-                        {"bottom": 0, "top": 0}, 800
-                    );
-                }
-            );
+            objOperBoard.css({
+                width:250
+            });
+            $(".initpos").trigger("initPos");
         }
 
         this.hiddenBoard = function () {
             this.isShow = 0;
             //alert((screen.availHeight/2-16)+"xx"+(screen.availHeight/2-16));
             objOperBoard.css('overflow', 'hidden');
-            objOperBoard.animate(
-                {"top": window.innerHeight / 2 - icoHeight / 2, "bottom": window.innerHeight / 2 - icoHeight / 2}, 800,
-                function () {
-                    objOperBoard.animate(
-                        {"width": 0}, 500, function () {
-                            objOperBoard.attr("hidden", true);
-                        }
-                    );
-                }
-            );
+            objOperBoard.css("width",0);
+            objOperBoard.attr("hidden", true);
         }
 
         this.initOperBoard = function () {
@@ -272,6 +261,7 @@
     //"可惜不是你 陪我到最后  曾一起走却走失那路口";
     $(document).on('click.veditdiv', '.veditdiv_control_ico', function (event) {
         event.stopPropagation();
+
         if (operateBoard == null) {
             operateBoard = new OperBoard();
         }
@@ -281,6 +271,7 @@
         operateBoard.objOperDiv = $(this).parent();
         $(this).remove();
         operateBoard.initOperBoard();
+        return false;
     });
     $(document).on('mouseover.veditdiv', '.veditdiv', function (event) {
         event.stopPropagation();
