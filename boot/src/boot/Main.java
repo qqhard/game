@@ -8,10 +8,11 @@ public class Main {
 
 	public static void main(String[] args) throws AWTException {
 		// TODO Auto-generated method stub
+		String project = System.getProperty("user.dir");
 		Robot robot = new Robot();
 		open(robot);
 		robot.delay(300);
-		cmd("cd Project/game/user\n", robot);
+		cmd("cd " + project +"/user\n", robot);
 		cmd("mvn spring-boot:run\n", robot);
 		robot.delay(300);
 		open2(robot);
