@@ -45,4 +45,6 @@ public interface GameRepository extends MongoRepository<Game, ObjectId>{
 	
 	@Query("{'step':2,'owner':?0,'endTime':{'$lt':?1}}")
 	public ArrayList<Game> findByInEnded(String owner,long now);
+	
+	public ArrayList<Game> findByOwnerAndDeled(String owner,boolean deled);
 }

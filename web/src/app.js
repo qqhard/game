@@ -2,6 +2,7 @@ import React from 'react'
 import {render} from 'react-dom'
 import MyGames from './game/my_games.js'
 import Games from './game/games.js'
+import Themes from './themes.js'
 import MyEntrys from './my_entrys.js'
 import MyChecks from './game/my_checks.js'
 import CreateGame from './game/create_game.js'
@@ -156,6 +157,7 @@ render((
             <Route path="/teams-:username.html" component={MyTeams}/>
             <Route path="/teammanage-:teamid.html" component={TeamManage}/>
             <Route path="/teamshow-:teamid.html" component={TeamShow}/>
+            <Route path="/themes.html" component={Themes}/>
         </Route>
     </Router>
 ), document.getElementById('body'));
