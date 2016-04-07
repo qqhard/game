@@ -1,29 +1,31 @@
 package crazy.action;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import crazy.dao.EntryRepository;
 import crazy.dao.GameRepository;
+import crazy.dao.ManagerRepository;
 import crazy.dao.TeamEntryRepository;
 import crazy.dao.TeamRepository;
 import crazy.form.EntryDelForm;
 import crazy.form.TeamEntryDelForm;
 import crazy.vo.Entry;
 import crazy.vo.Game;
+import crazy.vo.Manager;
 import crazy.vo.Team;
 import crazy.vo.TeamEntry;
 
@@ -36,38 +38,15 @@ public class EntrysAction {
 	private TeamEntryRepository teamEntryRepository;
 	
 	@Autowired
+	private TeamRepository teamRepository;
+	
+	@Autowired
 	private GameRepository gameRepository;
 	
 	@Autowired
-	private TeamRepository teamRepository;
+	private ManagerRepository managerRepository;
 	
-	private static final Map<String,Integer> STATE_TO_STEP = new HashMap<String,Integer>(){
-		private static final long serialVersionUID = -900316470475740462L;
-	{
-		put("submited",1);
-		put("accepted",2);
-		put("stated",3);
-		put("ended",4);
-	}};
-	
-	@ResponseBody
-	@RequestMapping(value = "/game/userentrys/{participant}", method = RequestMethod.GET)
-	public List<Game> getUserEntrys(@PathVariable("participant") String participant, 
-			@RequestParam(value = "pagenum",required=false) Integer pagenum,
-			@RequestParam("state") String state){
-		List<Entry> entrys = entryRepository.findByUsername(participant);
-		List<Game> games = new ArrayList<Game>();
-		
-		Integer step = STATE_TO_STEP.get(state);
-		if(step == null) return games;
-		
-		for(Entry entry : entrys){
-			Game g = gameRepository.findByGamenameAndStep(entry.getGamename(), step);
-			if(g != null) games.add(g);
-		}
-		return games;
-	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/gameentrys/{gamename}/individual", method = RequestMethod.GET)
 	public List<Entry> getGameEntrysIndividual(@PathVariable("gamename") String gamename){
@@ -83,10 +62,38 @@ public class EntrysAction {
 		return entrys;
 	}
 	
+	/**
+	 * 检验清退权限
+	 * @param game
+	 * @return
+	 */
+	private boolean authCheck(Game game){
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		if(game.getOwner().equals(username)) {
+			return true;
+		}
+		Manager manager = managerRepository.findByGamenameAndUsername(game.getGamename(), username);
+		if(manager != null) {
+			return true;
+		}
+		return false;
+	}
 	
+	/**
+	 * 删除个人参赛者
+	 * @param entryDelForm
+	 * @param bindingResult
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/entrys/individual", method = RequestMethod.PUT)
 	public Object delete(@Valid EntryDelForm entryDelForm,BindingResult bindingResult){
+		Game game = gameRepository.findByGamename(entryDelForm.getGamename());
+		if(game == null) return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+		if(!authCheck(game)){
+			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN); 
+		}
+		
 		List<String> usernames = entryDelForm.getUsernames();
 		List<Entry> deledEntrys = new ArrayList<Entry>();
 		for(String username: usernames){
@@ -98,10 +105,20 @@ public class EntrysAction {
 		return "ok";
 	}
 	
-
-
+	/**
+	 * 删除队伍参赛者		
+	 * @param entryDelForm
+	 * @param bindingResult
+	 * @return
+	 */
 	@RequestMapping(value = "/entrys/team", method = RequestMethod.PUT)
 	public @ResponseBody Object delete2(@Valid TeamEntryDelForm entryDelForm,BindingResult bindingResult){
+		Game game = gameRepository.findByGamename(entryDelForm.getGamename());
+		if(game == null) return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+		if(!authCheck(game)){
+			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN); 
+		}	
+		
 		List<String> teamids = entryDelForm.getTeamids();
 		List<TeamEntry> teamEntrys = teamEntryRepository.findByTeamids(teamids);
 		for(TeamEntry teamEntry: teamEntrys){

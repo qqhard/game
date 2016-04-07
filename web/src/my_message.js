@@ -31,15 +31,17 @@ class MyMessage extends React.Component {
     render() {
 
         return (
-            <Row>
-                <Col key={0} span="4">
-                    <Sider callBack={this.callBack.bind(this)} items={items}/>
-                </Col>
-                <Col key={1} span="20">
-                    {right[this.state.current]}
-                </Col>
+            <div className="container">
+                <Row>
+                    <Col key={0} span="4">
+                        <Sider callBack={this.callBack.bind(this)} items={items}/>
+                    </Col>
+                    <Col key={1} span="20">
+                        {right[this.state.current]}
+                    </Col>
 
-            </Row>
+                </Row>
+            </div>
         );
     }
 }

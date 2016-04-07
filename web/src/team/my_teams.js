@@ -33,10 +33,7 @@ class MyTeams extends React.Component {
             <MyInviteTeamList url={'/gameApi/teams/invited'}/>
         ];
         return (
-
-
-            <div>
-
+            <div className="container">
                 <Row>
                     <Col key={0} span="3">
                         <Sider callBack={this.callBack.bind(this)} items={items}/>

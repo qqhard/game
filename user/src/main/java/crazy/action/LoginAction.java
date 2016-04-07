@@ -25,7 +25,7 @@ public class LoginAction {
     
     @Autowired
     BCryptPasswordEncoder encoder;
-
+/*
     @RequestMapping(value = "/userApi/login", method = RequestMethod.GET)
     public ModelAndView showLogin(ModelAndView model, LoginForm loginForm) {
         log.info("登陆页面请求");
@@ -33,5 +33,6 @@ public class LoginAction {
         model.setViewName("login");
         return model;
     }
+ */
  
 }

@@ -23,22 +23,23 @@ class MyChecks extends React.Component {
 
         const right = {
             1: <ChecksUnTable />,
-            2: <ChecksMyTable username={this.props.params.username} />
+            2: <ChecksMyTable username={this.props.params.username}/>
         };
         return (
-            <Row>
-                <Col key={0} span="4">
-                    <Sider callBack={this.callBack.bind(this)} items={items}/>
-                </Col>
-                <Col key={1} span="20">
-                    {right[this.state.current]}
-                </Col>
+            <div className="container">
+                <Row>
+                    <Col key={0} span="4">
+                        <Sider callBack={this.callBack.bind(this)} items={items}/>
+                    </Col>
+                    <Col key={1} span="20">
+                        {right[this.state.current]}
+                    </Col>
 
-            </Row>
+                </Row>
+            </div>
         );
     }
 }
-
 
 
 export default MyChecks;

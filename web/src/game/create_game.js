@@ -9,7 +9,7 @@ class CreateGame extends React.Component {
     render() {
         console.log(this.context);
         return (
-            <div>
+            <div className="container">
                 <Row>
                     <Col offset="4" span="16">
                         <PageHeader>创建赛事

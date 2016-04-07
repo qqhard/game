@@ -12,7 +12,7 @@ class Teams extends React.Component {
     render() {
         return (
 
-            <div>
+            <div className="container">
                 <Row>
                     <TeamList url="/gameApi/teams"/>
                 </Row>

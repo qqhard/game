@@ -57,8 +57,9 @@ class GameManage extends React.Component {
 
                 </div>
             ),
-            <EntrysTable gamename={this.props.params.gamename} username={this.props.username}/>,
-            <ManagerTable gamename={this.props.params.gamename} username={this.props.username}/>,
+            <EntrysTable gamename={this.props.params.gamename}/>,
+            <ManagerTable gamename={this.props.params.gamename} 
+                          owner={this.state.game.owner}/>,
             <MessageRecordTable gamename={this.props.params.gamename}/>,
             <GameComment game={this.state.game} key={this.state.key}/>
         ];
@@ -67,7 +68,7 @@ class GameManage extends React.Component {
         }
 
         return (
-            <div>
+            <div className="container">
                 <Row>
                     <Col key={0} span="3"><Sider callBack={this.callBack.bind(this)} items={items}/></Col>
                     <Col key={1} span="20" offset="1">{right[this.state.current]}</Col>

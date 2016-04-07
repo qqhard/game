@@ -64,7 +64,7 @@ class GameForm extends React.Component {
             }
             _this.setState({provinceList: arr});
         }, 'json').error(function (e) {
-            if (e.status == 403) top.location = '/userApi/login';
+            if (e.status == 403) top.location = '/userApi/auth';
         });
 
 
@@ -292,7 +292,7 @@ class GameForm extends React.Component {
         }, 'json').error(function (e) {
             message.error("赛事提交失败！")
             if (e.status == 403) {
-                top.location = '/userApi/login';
+                top.location = '/userApi/auth';
             } else {
                 browserHistory.push('/');
             }

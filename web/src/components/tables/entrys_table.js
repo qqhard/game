@@ -27,7 +27,7 @@ class EntrysTable extends React.Component {
         $.get('/userApi/username', function (data) {
             this.setState({username: data});
         }.bind(this)).error(function (e) {
-            if (e.status == 403) top.location = '/userApi/login';
+            if (e.status == 403) top.location = '/userApi/auth';
         });
     }
 

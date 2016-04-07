@@ -7,13 +7,16 @@ import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
 import CsrfToken from '../common/csrf_token.js';
 import {Link} from 'react-router';
+import {getCookieValue} from '../common/get_cookie_value.js';
 
 
 class ManagerTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            data: [],
+            showInput: false,
+            showDelete: false
         };
     }
 
@@ -52,6 +55,8 @@ class ManagerTable extends React.Component {
                 message.error('权限问题！');
             } else if (e.status == 404) {
                 message.error('用户名不存在！');
+            } else if (e.status == 409) {
+                message.error('该用户已经加入管理组！');
             } else {
                 message.error('出现错误！');
             }
@@ -72,7 +77,7 @@ class ManagerTable extends React.Component {
                 var arr = this.state.data;
                 for (var i = 0; i < arr.length; i++) {
                     if (arr[i].key == record.key) {
-                        arr.splice(i,1);
+                        arr.splice(i, 1);
                         break;
                     }
                 }
@@ -91,7 +96,8 @@ class ManagerTable extends React.Component {
 
     render() {
         var _this = this;
-        const columns = [
+        const isOwner = this.props.owner == getCookieValue("username");
+        const columns = isOwner ? [
             {title: '用户名', dataIndex: 'username', key: 'username'}, {
                 title: '操作',
                 key: 'operation',
@@ -103,21 +109,25 @@ class ManagerTable extends React.Component {
                     );
                 }
             }
-        ];
+        ]: [ {title: '用户名', dataIndex: 'username', key: 'username'}];
         const innerButton = <Button onClick={this.handleSubmit.bind(this)}>添加</Button>;
+        const input =  isOwner ? (
+            <Row>
+                <Col span="8">
+                    <CsrfToken />
+                    <Input
+                        type="text"
+                        value={this.state.username}
+                        buttonAfter={innerButton}
+                        onChange={this.handleChange.bind(this)}
+                    />
+                </Col>
+            </Row>
+        ) : <div></div>;
+         
         return (
             <div>
-                <Row>
-                    <Col span="8">
-                        <CsrfToken />
-                        <Input
-                            type="text"
-                            value={this.state.username}
-                            buttonAfter={innerButton}
-                            onChange={this.handleChange.bind(this)}
-                        />
-                    </Col>
-                </Row>
+                {input}
                 <Row>
                     <Table
                         columns={columns}

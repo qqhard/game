@@ -25,7 +25,8 @@ import TeamManage from './team/team_manage.js'
 import TeamShow from './team/team_show.js'
 import Input from 'react-bootstrap/lib/Input'
 import Button from 'react-bootstrap/lib/Button'
-
+import Login from './auth/login.js';
+import Register from './auth/register.js';
 import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router'
 
 const ACTIVE = {color: 'black'};
@@ -34,8 +35,8 @@ const ACTIVE = {color: 'black'};
 const guestNav = (
     <ul className="nav navbar-nav navbar-right">
         <li><Link to="/games.html" activeStyle={ACTIVE}>赛事列表</Link></li>
-        <li><a href="/userApi/register">register</a></li>
-        <li><a href="/userApi/login">login</a></li>
+        <li><a href="/register.html">register</a></li>
+        <li><a href="/login.html">login</a></li>
     </ul>
 );
 
@@ -82,6 +83,7 @@ class App extends React.Component {
 
                 <li><Link to={my_message_url} activeStyle={ACTIVE}>消息 <span
                     className="badge">{this.state.msg_num}</span></Link></li>
+                <li><Link to="/themes.html" activeStyle={ACTIVE}>主题</Link></li>
                 <li><Link to="/teams.html" activeStyle={ACTIVE}>队伍列表</Link></li>
                 <li><Link to={my_games_url} activeStyle={ACTIVE}>我的赛事</Link></li>
                 <li><Link to={my_entrys_url} activeStyle={ACTIVE}>我参与的</Link></li>
@@ -124,8 +126,7 @@ class App extends React.Component {
                         </div>
                     </div>
                 </nav>
-
-                <div className="container">{this.props.children}</div>
+                {this.props.children}
             </div>
         )
     }
@@ -158,6 +159,8 @@ render((
             <Route path="/teammanage-:teamid.html" component={TeamManage}/>
             <Route path="/teamshow-:teamid.html" component={TeamShow}/>
             <Route path="/themes.html" component={Themes}/>
+            <Route path="/login.html" component={Login}/>
+            <Route path="/register.html" component={Register}/>
         </Route>
     </Router>
 ), document.getElementById('body'));

@@ -1,0 +1,151 @@
+
+.login-form-signin {
+  max-width: 45%;
+  padding: 15px;
+  color:#ffffff;
+  width:35%;
+  left:13.5%;
+  position:relative;
+}
+
+
+.login-form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.login-form-signin .form-control:focus {
+  z-index: 2;
+}
+.login-form-signin .login-form-signin-top {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.login-form-signin .login-form-signin-bottom {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.login-form-signin p {
+  display:inline;
+}
+.login-form-div{
+  width:100%;
+  background:url(/build/image/bkg1.jpg?100) no-repeat;
+  background-size:100% 100%;
+  padding-top:50px;
+  padding-bottom:30px;
+
+}
+
+.login-form-control-margin{
+  margin-bottom:20px;
+}
+
+.login-info{
+  width:60%;
+  color:#ffffff;
+  margin-left:3%;
+  text-align: center;
+}
+
+.login-info .login-info-detail{
+  width:60%;
+  text-align:left;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:30px;
+}
+
+.login-block{
+  margin-top:50px;
+  text-align:center;
+  color:#ffffff;
+}
+
+
+
+.regist-form-signin {
+  padding: 15px;
+  color:#ffffff;
+  width:80%;
+  margin-left:auto;
+  margin-right:auto;
+}
+.regist-form-signin h2{
+  font-style:italic;
+}
+.regist-form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.regist-form-signin .form-control:focus {
+  z-index: 2;
+}
+.regist-form-signin .form-signin-top {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.regist-form-signin .form-signin-body {
+  margin-bottom: -1px;
+  margin-top: -1px;
+  border-radius: 0;
+}
+.regist-form-signin .form-signin-bottom {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.regist-form-signin p {
+  display:inline;
+}
+
+
+.regist-form-div{
+  width:100%;
+  background:url(/build/image/bkg4.jpg) no-repeat;
+  background-size:100% 100%;
+  padding-bottom:20px;
+}
+
+.regist-form-div h1{
+  color:#ffffff;
+  text-align:center;
+}
+
+.regist-info{
+  width:60%;
+  float:left;
+  display:inline-block;
+  color:#ffffff;
+  margin-top:100px;
+}
+
+.regist-info .in-info{
+  width:82%;
+  margin-left:auto;
+  margin-right:auto;
+  padding:20px;
+  background-color:rgba(2,2,2,0.3);
+  border-radius: 10px;
+}
+
+.regist-form{
+  width:40%;
+  float:left;
+  display:inline-block;
+  margin-top:115px;
+  margin-bottom:60px;
+}
+

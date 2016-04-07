@@ -44,7 +44,7 @@ class TeamShow extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="container">
                 <Row>
                     <Col span="16">
                         <TeamInfo data={this.state.team} hasMessage={true}/>

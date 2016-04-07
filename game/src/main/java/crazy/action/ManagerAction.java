@@ -63,9 +63,20 @@ public class ManagerAction {
 		User user = userRepository.findByUsername(form.getUsername());
 		if (user == null)
 			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
-		Manager manager = form.update(new Manager());
-		managerRepository.insert(manager);
-		return manager;
+		
+		String lock = ("mana_"+game.getId().substring(game.getId().length() - 4)).intern();
+		boolean ok = true;
+		Manager manager = null;
+		synchronized(lock){
+			manager = managerRepository.findByGamenameAndUsername(form.getGamename(), form.getUsername());
+			if(manager != null) ok = false;
+			else{
+				manager = form.update(new Manager());
+				managerRepository.insert(manager);
+			}
+		}
+		if(ok)return manager;
+		else return new ResponseEntity<Object>(HttpStatus.CONFLICT);
 	}
 
 	@ResponseBody

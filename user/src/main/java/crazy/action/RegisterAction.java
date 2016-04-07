@@ -1,17 +1,16 @@
 package crazy.action;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.List;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,68 +18,48 @@ import org.springframework.web.servlet.ModelAndView;
 
 import crazy.dao.UserRepository;
 import crazy.form.RegisterForm;
-import crazy.utils.SendNotificationMail;
 import crazy.vo.User;
 
 @RestController
 @RequestMapping(value = "/userApi/register")
 public class RegisterAction {
-    private static final Logger log = LoggerFactory.getLogger(RegisterAction.class);
+	private static final Logger log = LoggerFactory.getLogger(RegisterAction.class);
 
-    @Autowired
-    private SendNotificationMail mail;
+	@Autowired
+	private UserRepository respository;
 
-    @Autowired
-    private UserRepository respository;
-    
-    @Autowired
-    private PasswordEncoder encoder;
+	@Autowired
+	private PasswordEncoder encoder;
 
-//    @RequestMapping(method = RequestMethod.GET)
-//    public Model showRegister(Model model, RegisterForm registerForm) {
-//        return model;
-//    }
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView showRegister(ModelAndView model, RegisterForm registerForm) {
-        model.setViewName("register");
-        return model;
-    }
+	@RequestMapping(method = RequestMethod.POST)
+	public Object post(@Valid RegisterForm registerForm, BindingResult bindlingResult) {
+		HashMap<String, Object> ret = new HashMap<>();
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView doRegister(@Valid RegisterForm registerForm, BindingResult bindlingResult, ModelAndView model, HttpSession httpSession) {
-        log.info("post请求到达用户注册函数");
+		if (bindlingResult.hasFieldErrors()) {
+			List<FieldError> errors = bindlingResult.getFieldErrors();
+			ret.put("status", "fail");
+			for (FieldError error : errors) {
+				ret.put(error.getField(), error.getCode());
+			}
+			return ret;
+		}
 
-        if (!registerForm.getPassword().equals(registerForm.getRePassword())) {
-            bindlingResult.rejectValue("rePassword", "两次密码不一致", "两次密码不一致");
-            model.setViewName("register");
-            return model;
-        }
+		String lock = ("user_" + registerForm.getUsername().substring(0, 4)).intern();
+		
+		synchronized(lock){
+			User user = respository.findByUsername(registerForm.getUsername());
+			if (user != null) {
+				ret.put("data", "用户名已经被占用");
+				ret.put("status", "fail");
+			}else{
+				user = registerForm.update(new User());
+				user.setAuthentications("USER");
+				user.setPassword(encoder.encode(user.getPassword()));
+				respository.insert(user);
+				ret.put("status", "ok");
+			}
+		}
 
-        if (bindlingResult.hasErrors()) {
-            log.info("表单错误");
-            model.setViewName("register");
-            return model;
-        }
-
-        User registerInDB = respository.findByUsername(registerForm.getUsername());
-
-        if (registerInDB != null) {
-            bindlingResult.rejectValue("username", "用户名被占用", "用户名被占用");
-            model.setViewName("register");
-            return model;
-        }
-        
-        log.info(registerForm.getUsername()+"表单验证成功");
-        
-        User newUser = registerForm.getUser();
-        newUser.setPassword(encoder.encode(newUser.getPassword()));
-        newUser.setAuthentications("USER");
-        respository.save(newUser);
-        
-        httpSession.setAttribute("login", registerForm.getUsername());
-
-        model.setViewName("redirect:/");
-
-        return model;
-    }
+		return ret;
+	}
 }
