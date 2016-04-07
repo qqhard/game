@@ -46,6 +46,10 @@ class Themes extends React.Component {
     }
 
     render() {
+        const styleLayout = {
+            labelClassName: "col-xs-2",
+            wrapperClassName: "col-xs-10"
+        };
         const cols = this.state.data.map(function (val, index) {
             var theme_url = `/theme/${val.name}/${this.state.game}`;
             var img_url = `http://domain.com/static/${val.name}/index.png`;
@@ -64,8 +68,8 @@ class Themes extends React.Component {
         return (
             <Grid>
                 <Row>
-                    <Col md={4} offset={4}>
-                        <Input type="select" placeholder="select"
+                    <Col md={6} offset={4}>
+                        <Input  {...styleLayout } style={{marginBottom:"10px"}} label="选择赛事" type="select" placeholder="select"
                                onChange={this.handleSelect.bind(this)}
                                value={this.state.game}
                         >
