@@ -15,10 +15,9 @@ class GameEvaluate extends React.Component {
     }
 
     componentDidMount() {
-        var _this = this;
         $.get('/gameApi/game/' + this.props.params.gamename, function (data) {
-            _this.setState({game: data});
-        });
+            this.setState({game: data});
+        }.bind(this));
     }
 
 
