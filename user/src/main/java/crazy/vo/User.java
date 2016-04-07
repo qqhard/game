@@ -21,6 +21,7 @@ public class User {
     private String authentications;
     private boolean emailActivated;
     private String randomEmailActivationCode;
+    private long emailSentTimestamp;
 
 
     private int provinceid;
@@ -144,6 +145,15 @@ public class User {
     }
 
     public void setRandomEmailActivationCode() {
+        this.setEmailActivated(false);
         this.randomEmailActivationCode = new BigInteger(130, new SecureRandom()).toString(32);
+    }
+
+    public long getEmailSentTimestamp() {
+        return emailSentTimestamp;
+    }
+
+    public void setEmailSentTimestamp(long emailSentTimestamp) {
+        this.emailSentTimestamp = emailSentTimestamp;
     }
 }

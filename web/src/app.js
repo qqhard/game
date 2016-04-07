@@ -26,6 +26,9 @@ import TeamShow from './team/team_show.js'
 import Input from 'react-bootstrap/lib/Input'
 import Button from 'react-bootstrap/lib/Button'
 
+import EmailActivationComponent from './email-activation-component.js'
+import CheckEmailActivationCodeComponent from './check-email-activation-code-component'
+
 import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router'
 
 const ACTIVE = {color: 'black'};
@@ -113,7 +116,7 @@ class App extends React.Component {
                                 <li><a id="menu-toggle" href="#"></a></li>
                                 <li>
                                     <form className="navbar-form navbar-left" role="search">
-                                        <Input bsSize="small" type="text" buttonAfter={innerButton} />
+                                        <Input bsSize="small" type="text" buttonAfter={innerButton}/>
                                     </form>
                                 </li>
 
@@ -158,6 +161,9 @@ render((
             <Route path="/teammanage-:teamid.html" component={TeamManage}/>
             <Route path="/teamshow-:teamid.html" component={TeamShow}/>
             <Route path="/themes.html" component={Themes}/>
+            <Route path="/emailActivation-:username.html" component={EmailActivationComponent}/>
+            <Route path="/checkEmailActivationCode-:username-:code.html"
+                   component={CheckEmailActivationCodeComponent}/>
         </Route>
     </Router>
 ), document.getElementById('body'));

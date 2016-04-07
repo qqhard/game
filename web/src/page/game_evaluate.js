@@ -35,7 +35,7 @@ class GameEvaluate extends React.Component {
                         <GameSteps game={this.state.game}/>
                     </Col>
                 </Row>
-                <GameRating gamename={this.state.game.gamename}/> 
+                <GameRating gamename={this.state.game.gamename}/>
                 <Row>
                     <Col xsOffset={1} xs={8}>
                         <GameComment game={this.state.game}/>

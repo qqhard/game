@@ -7,7 +7,9 @@ import message from 'antd/lib/message';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
 import PageHeader from 'react-bootstrap/lib/PageHeader';
-
+import Icon from 'antd/lib/icon';
+import 'antd/lib/index.css';
+import {Link} from 'react-router';
 
 class UserinfoPage extends React.Component {
     render() {
@@ -40,7 +42,8 @@ class UserinfoForm extends React.Component {
             phone: {'data': '', 'valid': null, 'help': null},
             provinceid: 0,
             collegeid: 0,
-            instituteid: 0
+            instituteid: 0,
+            isEmailActivated: false
         };
     }
 
@@ -68,7 +71,8 @@ class UserinfoForm extends React.Component {
                     phone: phone,
                     email: email,
                     sociolname: sociolname,
-                    studentid: studentid
+                    studentid: studentid,
+                    isEmailActivated: data.isEmailActivated
                 });
             }.bind(this)
         });
@@ -173,6 +177,18 @@ class UserinfoForm extends React.Component {
             'institutelabel': '学院'
         };
 
+        var emailActivationUrl = "/emailActivation-"+this.props.username+".html";
+
+        var emailStatus;
+        if (this.state.isEmailActivated) {
+            emailStatus = (
+                <span><Icon type="check-circle"/>邮箱已验证</span>
+            )
+        } else {
+            emailStatus = (
+                <span><Link to={emailActivationUrl}><Icon type="exclamation-circle"/>邮箱未验证</Link></span>
+            )
+        }
 
         return (
             <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)}>
@@ -213,6 +229,7 @@ class UserinfoForm extends React.Component {
                     <div className="col-sm-offset-2 col-sm-6">
                         <Button type="submit">提交</Button>
                     </div>
+                    {emailStatus}
                 </div>
             </form>
         );

@@ -15,9 +15,9 @@ import java.util.Map;
  * Created by g on 4/1/16.
  */
 @RestController
-public class CheckActivationLink {
+public class CheckActivationLinkAction {
 
-    private static final Logger log = LoggerFactory.getLogger(CheckActivationLink.class);
+    private static final Logger log = LoggerFactory.getLogger(CheckActivationLinkAction.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -28,14 +28,21 @@ public class CheckActivationLink {
         Map<String, String> ret = new HashMap<>();
         if (activationCode.trim().length() > 0 && SecurityContextHolder.getContext().getAuthentication().getName().equals(username)) {
             User me = userRepository.findByUsername(username);
+            if (me.getEmailActivated()) {
+                ret.put("status", "fail");
+                ret.put("message", "已通过验证");
+                return ret;
+            }
             if (me.getRandomEmailActivationCode().equals(activationCode)) {
                 me.setEmailActivated(true);
                 userRepository.save(me);
                 ret.put("status", "ok");
+                ret.put("message", "您的邮箱已通过验证");
                 return ret;
             }
         }
-        ret.put("status", "failed");
+        ret.put("status", "fail");
+        ret.put("message", "验证失败");
         return ret;
     }
 }
