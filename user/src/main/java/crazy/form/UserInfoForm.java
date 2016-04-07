@@ -27,7 +27,7 @@ public class UserInfoForm {
 
 
     public User update(User user) {
-        if (!user.getEmail().equals(email)) {
+        if (user.getEmail() == null || !user.getEmail().equals(email)) {
             user.setEmail(email);
             user.setEmailActivated(false);
         }

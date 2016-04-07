@@ -42,7 +42,7 @@ public class SendActivationEmailAction {
         }
 
         // check whether it has email
-        if (!(me.getEmail().contains("@") && me.getEmail().contains("."))) {
+        if (me.getEmail() == null || !(me.getEmail().contains("@") && me.getEmail().contains("."))) {
             ret.put("status", "fail");
             ret.put("message", "请先填写您的邮箱地址");
             return ret;
