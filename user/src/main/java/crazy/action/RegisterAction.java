@@ -23,43 +23,43 @@ import crazy.vo.User;
 @RestController
 @RequestMapping(value = "/userApi/register")
 public class RegisterAction {
-	private static final Logger log = LoggerFactory.getLogger(RegisterAction.class);
+    private static final Logger log = LoggerFactory.getLogger(RegisterAction.class);
 
-	@Autowired
-	private UserRepository respository;
+    @Autowired
+    private UserRepository respository;
 
-	@Autowired
-	private PasswordEncoder encoder;
+    @Autowired
+    private PasswordEncoder encoder;
 
-	@RequestMapping(method = RequestMethod.POST)
-	public Object post(@Valid RegisterForm registerForm, BindingResult bindlingResult) {
-		HashMap<String, Object> ret = new HashMap<>();
+    @RequestMapping(method = RequestMethod.POST)
+    public Object post(@Valid RegisterForm registerForm, BindingResult bindlingResult) {
+        HashMap<String, Object> ret = new HashMap<>();
 
-		if (bindlingResult.hasFieldErrors()) {
-			List<FieldError> errors = bindlingResult.getFieldErrors();
-			ret.put("status", "fail");
-			for (FieldError error : errors) {
-				ret.put(error.getField(), error.getCode());
-			}
-			return ret;
-		}
+        if (bindlingResult.hasFieldErrors()) {
+            List<FieldError> errors = bindlingResult.getFieldErrors();
+            ret.put("status", "fail");
+            for (FieldError error : errors) {
+                ret.put(error.getField(), error.getCode());
+            }
+            return ret;
+        }
 
-		String lock = ("user_" + registerForm.getUsername().substring(0, 4)).intern();
-		
-		synchronized(lock){
-			User user = respository.findByUsername(registerForm.getUsername());
-			if (user != null) {
-				ret.put("data", "用户名已经被占用");
-				ret.put("status", "fail");
-			}else{
-				user = registerForm.update(new User());
-				user.setAuthentications("USER");
-				user.setPassword(encoder.encode(user.getPassword()));
-				respository.insert(user);
-				ret.put("status", "ok");
-			}
-		}
+        String lock = ("user_" + registerForm.getUsername().substring(0, 4)).intern();
 
-		return ret;
-	}
+        synchronized (lock) {
+            User user = respository.findByUsername(registerForm.getUsername());
+            if (user != null) {
+                ret.put("data", "用户名已经被占用");
+                ret.put("status", "fail");
+            } else {
+                user = registerForm.update(new User());
+                user.setAuthentications("USER");
+                user.setPassword(encoder.encode(user.getPassword()));
+                respository.insert(user);
+                ret.put("status", "ok");
+            }
+        }
+
+        return ret;
+    }
 }
