@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.omg.CORBA.Any;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,42 +34,54 @@ public class UserInfoAction {
     @ResponseBody
     @RequestMapping(value = "/userApi/userinfo/{username}", method = RequestMethod.GET)
     public Object get(@PathVariable("username") String username) {
-    	if(!username.equals(SecurityContextHolder.getContext().getAuthentication().getName()) ){
-    		return "fail";
-    	}
-   
-		User user = respository.findByUsername(username);
-		return user;
+        if (!username.equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+            return "fail";
+        }
+
+        User user = respository.findByUsername(username);
+        Map<String, Object> userMap = new HashMap<>();
+        userMap.put("authentications", user.getAuthentications());
+        userMap.put("collegeid", user.getCollegeid());
+        userMap.put("email", user.getEmail());
+        userMap.put("instituteid", user.getInstituteid());
+        userMap.put("locked", user.isLocked());
+        userMap.put("phone", user.getPhone());
+        userMap.put("provinceid", user.getProvinceid());
+        userMap.put("sociolname", user.getSociolname());
+        userMap.put("studentid", user.getStudentid());
+        userMap.put("username", user.getUsername());
+        userMap.put("isEmailActivated", user.getEmailActivated());
+        return userMap;
 
     }
 
-    
+
     @ResponseBody
     @RequestMapping(value = "/userApi/userinfo/{username}", method = RequestMethod.PUT)
     @PreAuthorize("authentication.name == username")
     public Object put(@PathVariable("username") String username, UserInfoForm userInfoForm, BindingResult bindingResult) {
-    	Map<String,String> ret = new HashMap<String,String>();
-    	if(!username.equals(SecurityContextHolder.getContext().getAuthentication().getName())){
-    		ret.put("status", "fail");
-    		return ret;
-    	}
-    	
-		if(bindingResult.hasFieldErrors()){
-			List<FieldError> errors = bindingResult.getFieldErrors();
-			ret.put("status", "fail");
-			for(FieldError error : errors){
-				ret.put(error.getField(), error.getCode());
-			}
-			return ret;
-		}
-		
-		User user = respository.findByUsername(username);
-		user = userInfoForm.update(user);
-		respository.save(user);	
-		ret.put("status", "ok");
-		return ret;
+        Map<String, String> ret = new HashMap<String, String>();
+        if (!username.equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+            ret.put("status", "fail");
+            return ret;
+        }
+
+        if (bindingResult.hasFieldErrors()) {
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            ret.put("status", "fail");
+            for (FieldError error : errors) {
+                ret.put(error.getField(), error.getCode());
+            }
+            return ret;
+        }
+
+        User user = respository.findByUsername(username);
+        user = userInfoForm.update(user);
+        respository.save(user);
+        ret.put("status", "ok");
+        return ret;
 
     }
-    
-   
+
+
 }

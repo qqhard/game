@@ -27,7 +27,10 @@ import Input from 'react-bootstrap/lib/Input'
 import Button from 'react-bootstrap/lib/Button'
 import Login from './auth/login.js';
 import Register from './auth/register.js';
-import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router'
+import EmailActivationComponent from './email-activation-component.js';
+import CheckEmailActivationCodeComponent from './check-email-activation-code-component';
+
+import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router';
 
 const ACTIVE = {color: 'black'};
 
@@ -115,7 +118,7 @@ class App extends React.Component {
                                 <li><a id="menu-toggle" href="#"></a></li>
                                 <li>
                                     <form className="navbar-form navbar-left" role="search">
-                                        <Input bsSize="small" type="text" buttonAfter={innerButton} />
+                                        <Input bsSize="small" type="text" buttonAfter={innerButton}/>
                                     </form>
                                 </li>
 
@@ -161,6 +164,9 @@ render((
             <Route path="/themes.html" component={Themes}/>
             <Route path="/login.html" component={Login}/>
             <Route path="/register.html" component={Register}/>
+            <Route path="/emailActivation-:username.html" component={EmailActivationComponent}/>
+            <Route path="/checkEmailActivationCode-:username-:code.html"
+                   component={CheckEmailActivationCodeComponent}/>
         </Route>
     </Router>
 ), document.getElementById('body'));

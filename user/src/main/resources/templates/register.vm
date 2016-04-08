@@ -128,11 +128,11 @@ body {
 			  	<p>$status.errorMessage</p>
 			  	</div>
 			  	#springBind("registerForm.email")
-			  <input style="display:none" type="text" name="${status.expression}" id="rePassword" class="form-control form-signin-body" value="1102503740@qq.com" placeholder="邮箱" >
+			  <input style="display:none" type="text" name="${status.expression}" id="rePassword" class="form-control form-signin-body" value="" placeholder="邮箱" >
 			  	<p style="display:none" >$status.errorMessage</p>
 			  	
 			  	#springBind("registerForm.phone")
-			  <input style="display:none" type="text" name="${status.expression}" id="rePassword" class="form-control form-signin-bottom" value="15588376937" placeholder="电话" >
+			  <input style="display:none" type="text" name="${status.expression}" id="rePassword" class="form-control form-signin-bottom" value="" placeholder="电话" >
 			  	<p style="display:none">$status.errorMessage</p>
 			  	
 			  <input type="hidden" name="_csrf" value="${_csrf.token}">

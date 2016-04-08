@@ -9,12 +9,12 @@ import crazy.vo.User;
 
 public class UserInfoForm {
 
-	@NotBlank(message = "姓名不能为空")
-	private String sociolname;
+    @NotBlank(message = "姓名不能为空")
+    private String sociolname;
 
     @NotBlank(message = "学号不能为空")
     @Pattern(regexp = "\\d{9}", message = "学号格式错误")
-	private String studentid;
+    private String studentid;
     @NotBlank(message = "邮箱不能为空")
     @Email(message = "邮箱格式有误")
     private String email;
@@ -26,17 +26,20 @@ public class UserInfoForm {
     private int instituteid;
 
 
-    public User update(User user){
-    	user.setEmail(email);
-    	user.setPhone(phone);
-    	user.setSociolname(sociolname);
-    	user.setStudentid(studentid);
-    	user.setProvinceid(provinceid);
-    	user.setCollegeid(collegeid);
-    	user.setInstituteid(instituteid);
-		return user;
+    public User update(User user) {
+        if (user.getEmail() == null || !user.getEmail().equals(email)) {
+            user.setEmail(email);
+            user.setEmailActivated(false);
+        }
+        user.setPhone(phone);
+        user.setSociolname(sociolname);
+        user.setStudentid(studentid);
+        user.setProvinceid(provinceid);
+        user.setCollegeid(collegeid);
+        user.setInstituteid(instituteid);
+        return user;
     }
- 
+
     public UserInfoForm() {
     }
 
@@ -57,45 +60,45 @@ public class UserInfoForm {
         this.phone = phone;
     }
 
-	public String getSociolname() {
-		return sociolname;
-	}
+    public String getSociolname() {
+        return sociolname;
+    }
 
-	public void setSociolname(String sociolname) {
-		this.sociolname = sociolname;
-	}
+    public void setSociolname(String sociolname) {
+        this.sociolname = sociolname;
+    }
 
-	public String getStudentid() {
-		return studentid;
-	}
+    public String getStudentid() {
+        return studentid;
+    }
 
-	public void setStudentid(String studentid) {
-		this.studentid = studentid;
-	}
+    public void setStudentid(String studentid) {
+        this.studentid = studentid;
+    }
 
-	public int getProvinceid() {
-		return provinceid;
-	}
+    public int getProvinceid() {
+        return provinceid;
+    }
 
-	public void setProvinceid(int provinceid) {
-		this.provinceid = provinceid;
-	}
+    public void setProvinceid(int provinceid) {
+        this.provinceid = provinceid;
+    }
 
-	public int getCollegeid() {
-		return collegeid;
-	}
+    public int getCollegeid() {
+        return collegeid;
+    }
 
-	public void setCollegeid(int collegeid) {
-		this.collegeid = collegeid;
-	}
+    public void setCollegeid(int collegeid) {
+        this.collegeid = collegeid;
+    }
 
-	public int getInstituteid() {
-		return instituteid;
-	}
+    public int getInstituteid() {
+        return instituteid;
+    }
 
-	public void setInstituteid(int instituteid) {
-		this.instituteid = instituteid;
-	}
+    public void setInstituteid(int instituteid) {
+        this.instituteid = instituteid;
+    }
 
 
 }

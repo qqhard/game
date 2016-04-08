@@ -128,44 +128,46 @@ class EntryForm extends React.Component {
 
         const team = this.state.teams[this.state.team.data];
         var flag = false;
-        if (this.state.teamSign == 1) {
-            if (this.state.teamNum == team.nowNum) flag = true;
-        } else if (this.state.teamSign == 2) {
-            if (team.nowNum < this.state.teamNum) flag = true;
-        } else if (this.state.teamSign == 3) {
-            if (team.nowNum > this.state.teamNum) flag = true;
+        if (team != null) {
+            if (this.state.teamSign == 1) {
+                if (this.state.teamNum == team.nowNum) flag = true;
+            } else if (this.state.teamSign == 2) {
+                if (team.nowNum < this.state.teamNum) flag = true;
+            } else if (this.state.teamSign == 3) {
+                if (team.nowNum > this.state.teamNum) flag = true;
+            }
         }
 
 
         if (flag) {
             val.valid = 'success';
             val.help = '';
-        } else {
+        } else if (team==null) {
+            val.valid = 'error';
+            val.help = '请选择队伍！';
+        }else {
             val.valid = 'error';
             val.help = '所选队伍不符合赛事要求！';
         }
         this.setState({team: val});
-        if (flag) return true;
-        else return false;
+        return !!flag;
     }
 
     getIndividualBody() {
-        var body = 'username=' + this.props.username
+        return 'username=' + this.props.username
             + '&gamename=' + this.props.gamename
             + '&phone=' + this.state.phone.data
             + '&email=' + this.state.email.data
             + '&forms=' + this.userDefineFormToStr()
             + '&_csrf=' + $('input[name=_csrf]').val();
-        return body;
     }
 
     getTeamBody() {
-        var body = 'username=' + this.props.username
+        return 'username=' + this.props.username
             + '&gamename=' + this.props.gamename
             + '&teamid=' + this.state.teams[this.state.team.data].id
             + '&forms=' + this.userDefineFormToStr()
             + '&_csrf=' + $('input[name=_csrf]').val();
-        return body;
     }
 
     postEntry(url, body) {
@@ -188,7 +190,7 @@ class EntryForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        var flag = this.handlePhone(null) & this.handleEmail(null) & (!this.state.isTeam||this.handleTeam(null));
+        var flag = this.handlePhone(null) & this.handleEmail(null) & (!this.state.isTeam || this.handleTeam(null));
         if (!flag)return;
 
         var url = null;
