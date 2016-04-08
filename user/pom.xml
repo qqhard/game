@@ -124,6 +124,12 @@
 			<groupId>com.sun.mail</groupId>
 			<artifactId>javax.mail</artifactId>
 		</dependency>
+			
+		<dependency>
+             <groupId>com.valseek</groupId>
+             <artifactId>game-persist</artifactId>
+             <version>${project.version}</version>
+         </dependency>
 	</dependencies>
 
 	<build>

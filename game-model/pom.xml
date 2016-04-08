@@ -4,10 +4,14 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	
-	<groupId>com.valseek</groupId>
+	<parent>
+		<groupId>com.valseek</groupId>
+		<artifactId>game-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
 	<artifactId>game-model</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.1-SNAPSHOT</version>
 
 	<name>game-model</name>
 	<description>Demo project for Spring Boot</description>

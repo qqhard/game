@@ -3,14 +3,18 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>game</groupId>
-	<artifactId>crazy</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+    <parent>
+        <groupId>com.valseek</groupId>
+        <artifactId>game-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
 
-	<name>game</name>
+    <artifactId>message-web</artifactId>
+    <packaging>jar</packaging>
+
+	<name>message</name>
 	<description>Demo project for Spring Boot</description>
-	
+
 	<repositories>
         <repository>
                 <id>sonatype-nexus-staging</id>
@@ -24,7 +28,7 @@
                 </snapshots>
         </repository>
 	</repositories>
-	
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -169,10 +173,16 @@
 			<artifactId>json</artifactId>
 			<version>20160212</version>
 		</dependency>
-		
+dfs
+        <dependency>
+             <groupId>com.valseek</groupId>
+             <artifactId>game-persist</artifactId>
+             <version>${project.version}</version>
+        </dependency>
+
 	</dependencies>
-	
-	
+
+
 	<build>
 		<plugins>
 			<plugin>
@@ -187,7 +197,7 @@
                     </dependency>
                 </dependencies>
 			</plugin>
-			
+
 		</plugins>
 	</build>
 
