@@ -3,38 +3,19 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.valseek</groupId>
-        <artifactId>game-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>com.valseek</groupId>
+		<artifactId>game-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 
-    <artifactId>message-web</artifactId>
-    <packaging>jar</packaging>
+	<artifactId>message-web</artifactId>
+	<packaging>jar</packaging>
+
 
 	<name>message</name>
 	<description>Demo project for Spring Boot</description>
 
-	<repositories>
-        <repository>
-                <id>sonatype-nexus-staging</id>
-                <name>Sonatype Nexus Staging</name>
-                <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                <releases>
-                        <enabled>true</enabled>
-                </releases>
-                <snapshots>
-                        <enabled>true</enabled>
-                </snapshots>
-        </repository>
-	</repositories>
-
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.3.0.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -46,7 +27,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
-
+		 <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
 		<dependency>
                 <groupId>org.springframework.session</groupId>
@@ -137,51 +121,29 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-		</dependency>
-		<dependency>
-		   <groupId>com.jayway.jsonpath</groupId>
-		   <artifactId>json-path</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>javax.mail</artifactId>
 		</dependency>
-		<!-- ali email -->
+		
 		<dependency>
-             <groupId>com.aliyun</groupId>
-             <artifactId>aliyun-java-sdk-core</artifactId>
-             <version>2.2.2</version>
-      	</dependency>
-         <dependency>
-             <groupId>com.aliyun</groupId>
-             <artifactId>aliyun-java-sdk-dm</artifactId>
-             <version>2.0.0-rc1</version>
-         </dependency>
-		<!-- ali email -->
-		<!-- ali phone -->
-		 <dependency>
-             <groupId>com.alidayu</groupId>
-             <artifactId>taobao-sdk-java-auto</artifactId>
-             <version>1.0</version>
-         </dependency>
-		<!-- ali phone -->
+			<groupId>com.alidayu</groupId>
+			<artifactId>taobao-sdk-java-auto</artifactId>
+			<version>1.0</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>20160212</version>
 		</dependency>
-dfs
-        <dependency>
+		
+		
+		<dependency>
              <groupId>com.valseek</groupId>
              <artifactId>game-persist</artifactId>
              <version>${project.version}</version>
-        </dependency>
-
+         </dependency>
 	</dependencies>
-
 
 	<build>
 		<plugins>
@@ -197,7 +159,6 @@ dfs
                     </dependency>
                 </dependencies>
 			</plugin>
-
 		</plugins>
 	</build>
 

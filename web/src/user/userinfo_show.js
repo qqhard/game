@@ -24,7 +24,7 @@ class UserinfoShow extends React.Component {
     render() {
         if(!this.state.user)return <div></div>;
         return (
-            <div>
+            <div className="container">
                 <Row>
                     <Col span="16" offset="4">
                         <UserInfo data={this.state.user} hasMessage={true}/>
