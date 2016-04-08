@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
@@ -14,7 +12,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import crazy.dao.UserRepository;
 import crazy.form.RegisterForm;
@@ -23,7 +20,6 @@ import crazy.vo.User;
 @RestController
 @RequestMapping(value = "/userApi/register")
 public class RegisterAction {
-    private static final Logger log = LoggerFactory.getLogger(RegisterAction.class);
 
     @Autowired
     private UserRepository respository;

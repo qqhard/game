@@ -4,12 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.omg.CORBA.Any;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.ObjectFactory;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
@@ -21,12 +18,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import crazy.dao.UserRepository;
+import crazy.form.EmailForm;
 import crazy.form.UserInfoForm;
 import crazy.vo.User;
 
 @RestController
 public class UserInfoAction {
-    private static final Logger log = LoggerFactory.getLogger(UserInfoAction.class);
+
 
     @Autowired
     private UserRepository respository;
@@ -82,6 +80,32 @@ public class UserInfoAction {
         return ret;
 
     }
+    
+    @ResponseBody
+    @RequestMapping(value = "/userApi/userinfo/email", method = RequestMethod.PUT)
+    public Object putEmail(@Valid EmailForm emailForm, BindingResult bindingResult) {
+        Map<String, String> ret = new HashMap<String, String>();
+      
+        if (bindingResult.hasFieldErrors()) {
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            ret.put("status", "fail");
+            for (FieldError error : errors) {
+                ret.put(error.getField(), error.getCode());
+            }
+            return ret;
+        }
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        User user = respository.findByUsername(username);
+        user.setEmail(emailForm.getEmail());
+        respository.save(user);
+        
+        ret.put("status", "ok");
+        return ret;
+
+    }
+    
+    
 
 
 }

@@ -27,7 +27,7 @@ class EmailActivationComponent extends React.Component {
         return (
             <div>
                 <h1>{this.state.message}</h1>
-                <Button type="submit" size="large" onClick={this.sendEmail.bind(this)}>吃我验证邮件啦</Button>
+                <Button type="submit" size="large" onClick={this.sendEmail.bind(this)}>邮件验证</Button>
                 <form>
                     <CsrfToken /></form>
             </div>

@@ -45,4 +45,13 @@ public class CheckActivationLinkAction {
         ret.put("message", "验证失败");
         return ret;
     }
+    
+    @ResponseBody
+    @RequestMapping(value = "/userApi/emailActivation", method = RequestMethod.GET)
+    public Object getIsEmailActivation(){
+    	String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    	User user = userRepository.findByUsername(username);
+    	return user.getEmailActivated();
+    }
+    
 }

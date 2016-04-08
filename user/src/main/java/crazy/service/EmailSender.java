@@ -8,7 +8,6 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
-import org.springframework.stereotype.Service;
 
 public class EmailSender implements Runnable{
     private String title;
