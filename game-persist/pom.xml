@@ -9,27 +9,11 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>game-web</artifactId>
+	<artifactId>game-persist</artifactId>
 	<packaging>jar</packaging>
 
-	<name>game</name>
+	<name>game-persist</name>
 	<description>Demo project for Spring Boot</description>
-
-	<repositories>
-        <repository>
-                <id>sonatype-nexus-staging</id>
-                <name>Sonatype Nexus Staging</name>
-                <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                <releases>
-                        <enabled>true</enabled>
-                </releases>
-                <snapshots>
-                        <enabled>true</enabled>
-                </snapshots>
-        </repository>
-	</repositories>
-
-
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -37,19 +21,7 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-aop</artifactId>
-		</dependency>
-
-		  <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-		<dependency>
-                <groupId>org.springframework.session</groupId>
-                <artifactId>spring-session</artifactId>
-        </dependency>
+	
         <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-redis</artifactId>
@@ -60,19 +32,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-		<dependency>
-	        <groupId>org.springframework.security</groupId>
-	        <artifactId>spring-security-ldap</artifactId>
-	    </dependency>
-	    <dependency>
-	        <groupId>org.apache.directory.server</groupId>
-	        <artifactId>apacheds-server-jndi</artifactId>
-	        <version>1.5.5</version>
-	    </dependency>
-	    <dependency>
-	        <groupId>org.springframework.security</groupId>
-	        <artifactId>spring-security-web</artifactId>
-	    </dependency>
 	    <dependency>
 	        <groupId>org.springframework.security</groupId>
 	        <artifactId>spring-security-config</artifactId>
@@ -159,32 +118,14 @@
              <version>2.0.0-rc1</version>
          </dependency>
 		<!-- ali email -->
-	
 		<dependency>
              <groupId>com.valseek</groupId>
-             <artifactId>game-persist</artifactId>
+             <artifactId>game-model</artifactId>
              <version>${project.version}</version>
          </dependency>
 	</dependencies>
 
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<dependencies>
-                    <!--引入springloaded来实现动态加载-->
-                    <dependency>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>springloaded</artifactId>
-                        <version>1.2.5.RELEASE</version>
-                    </dependency>
-                </dependencies>
-			</plugin>
-
-		</plugins>
-	</build>
 
 
 </project>

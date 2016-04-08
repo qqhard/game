@@ -3,36 +3,22 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	
 	<groupId>com.valseek</groupId>
-	<artifactId>game-parent</artifactId>
+	<artifactId>game-model</artifactId>
+	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
 
-	<name>game-parent</name>
+	<name>game-model</name>
 	<description>Demo project for Spring Boot</description>
+
 
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
 	</properties>
-		
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.3.0.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-
-	<dependencies>
-	</dependencies>
 
 
-    <modules>
-        <module>game</module>
-        <module>user</module>
-        <module>game-model</module>
-        <module>game-persist</module>
-    </modules>
 
 </project>
