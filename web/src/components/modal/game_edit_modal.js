@@ -23,7 +23,7 @@ class GameEditModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            current: 'starttime',
+            current: 'alltime',
             starttime: {data: null, help: ''},
             duetime: {data: null, help: ''},
             endtime: {data: null, help: ''},
@@ -40,9 +40,9 @@ class GameEditModal extends React.Component {
             gametime: this.state.gametime,
             gameplace: this.state.gameplace
         };
-        newState.starttime.data = this.props.game.startTime;
-        newState.duetime.data = this.props.game.dueTime;
-        newState.endtime.data = this.props.game.endTime;
+        newState.starttime.data = new Date(this.props.game.startTime);
+        newState.duetime.data = new Date(this.props.game.dueTime);
+        newState.endtime.data = new Date(this.props.game.endTime);
         newState.gametime.data = this.props.game.gametime;
         newState.gameplace.data = this.props.game.gameplace;
         this.setState(newState);
@@ -138,7 +138,7 @@ class GameEditModal extends React.Component {
             type: 'PUT',
             data: data,
             success: function (data) {
-                if (data == 'ok') {
+                if (data) {
                     message.success('修改成功！');
                     this.props.onCancel()
                     this.props.updateGame(newGame);
@@ -151,42 +151,6 @@ class GameEditModal extends React.Component {
                 message.error('修改失败！');
             }
         });
-    }
-
-    submitStarttime() {
-        if (!this.handleStarttime(0))return;
-        const url = `/gameApi/game/${this.props.game.gamename}/starttime`;
-        const data = {
-            'startTime': Date.parse(this.state.starttime.data),
-            '_csrf': $('input[name=_csrf]').val()
-        };
-        var game = this.props.game;
-        game.startTime = Date.parse(this.state.starttime.data);
-        this.put(url, data, game);
-    }
-
-    submitDuetime() {
-        if (!this.handleDuetime(0))return;
-        const url = `/gameApi/game/${this.props.game.gamename}/duetime`;
-        const data = {
-            'dueTime': Date.parse(this.state.duetime.data),
-            '_csrf': $('input[name=_csrf]').val()
-        };
-        var game = this.props.game;
-        game.dueTime = Date.parse(this.state.duetime.data);
-        this.put(url, data, game);
-    }
-
-    submitEndtime() {
-        if (!this.handleEndtime(0))return;
-        const url = `/gameApi/game/${this.props.game.gamename}/endtime`;
-        const data = {
-            'endTime': Date.parse(this.state.endtime.data),
-            '_csrf': $('input[name=_csrf]').val()
-        };
-        var game = this.props.game;
-        game.endTime = Date.parse(this.state.endtime.data);
-        this.put(url, data, game);
     }
 
     submitGametime() {
@@ -213,11 +177,28 @@ class GameEditModal extends React.Component {
         this.put(url, data, game);
     }
 
+    submitAllTime() {
+        if (!this.handleStarttime(0))return;
+        if (!this.handleDuetime(0))return;
+        if (!this.handleEndtime(0))return;
+        
+        const url = `/gameApi/game/${this.props.game.gamename}/alltime`;
+        const data = {
+            startTime: Date.parse(this.state.starttime.data),
+            dueTime: Date.parse(this.state.duetime.data),
+            endTime: Date.parse(this.state.endtime.data),
+            _csrf: $('input[name=_csrf]').val()
+        };
+        var game = this.props.game;
+        game.startTime = Date.parse(this.state.starttime.data);
+        game.dueTime = Date.parse(this.state.duetime.data);
+        game.endTime = Date.parse(this.state.endtime.data);
+        this.put(url, data, game);
+    }
+
     handleOk() {
         const submitMap = {
-            'starttime': this.submitStarttime.bind(this),
-            'duetime': this.submitDuetime.bind(this),
-            'endtime': this.submitEndtime.bind(this),
+            'alltime': this.submitAllTime.bind(this),
             'gametime': this.submitGametime.bind(this),
             'gameplace': this.submitGameplace.bind(this)
         };
@@ -240,7 +221,7 @@ class GameEditModal extends React.Component {
         const starttime = (
             <div className="form-group">
                 <label>报名开始时间 </label>
-                <DatePicker key="starttime" showTime defaultValue={new Date(this.state.starttime.data)}
+                <DatePicker key="starttime" showTime defaultValue={this.state.starttime.data}
                             format="yyyy-MM-dd HH:mm:ss"
                             placeholder="请选择时间"
                             onChange={this.handleStarttime.bind(this)}/>
@@ -251,7 +232,7 @@ class GameEditModal extends React.Component {
         const duetime = (
             <div className="form-group">
                 <label>报名截止时间 </label>
-                <DatePicker key="duetime" showTime defaultValue={new Date(this.state.duetime.data)}
+                <DatePicker key="duetime" showTime defaultValue={this.state.duetime.data}
                             format="yyyy-MM-dd HH:mm:ss"
                             placeholder="请选择时间"
                             onChange={this.handleDuetime.bind(this)}/>
@@ -262,13 +243,14 @@ class GameEditModal extends React.Component {
         const endtime = (
             <div className="form-group">
                 <label >赛事结束时间 </label>
-                <DatePicker key="endtime" showTime defaultValue={new Date(this.state.endtime.data)}
+                <DatePicker key="endtime" showTime defaultValue={this.state.endtime.data}
                             format="yyyy-MM-dd HH:mm:ss"
                             placeholder="请选择时间"
                             onChange={this.handleEndtime.bind(this)}/>
                 <p>{this.state.endtime.help}</p>
             </div>
         );
+
 
         const timeTextarea = (
             <div className="form-group">
@@ -288,10 +270,16 @@ class GameEditModal extends React.Component {
             </div>
         );
 
+        const allTime = (
+            <div>
+                {starttime}
+                {duetime}
+                {endtime}
+            </div>
+        );
+
         const body = {
-            'starttime': starttime,
-            'duetime': duetime,
-            'endtime': endtime,
+            'alltime': allTime,
             'gametime': timeTextarea,
             'gameplace': placeTextarea
         };
@@ -305,14 +293,8 @@ class GameEditModal extends React.Component {
                 <Menu onClick={this.handleClick.bind(this)}
                       selectedKeys={[this.state.current]}
                       mode="horizontal">
-                    <Menu.Item key="starttime">
-                        <Icon type="edit"/>报名开始
-                    </Menu.Item>
-                    <Menu.Item key="duetime">
-                        <Icon type="edit"/>报名截止
-                    </Menu.Item>
-                    <Menu.Item key="endtime">
-                        <Icon type="edit"/>赛事结束
+                    <Menu.Item key="alltime">
+                        <Icon type="edit"/>更改时间
                     </Menu.Item>
                     <Menu.Item key="gametime">
                         <Icon type="edit"/>时间描述

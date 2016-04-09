@@ -61,10 +61,10 @@ class BelongsForm extends React.Component {
                 for (var i = 0; i < data.length; i++) {
                     arr.push({'key': data[i].collegeid, 'val': data[i].collegename});
                 }
-                this.setState({collegeList: arr});
+                this.setState({collegeList: arr, instituteid: arr});
             }.bind(this), 'json');
         } else {
-            this.setState({collegeList: arr});
+            this.setState({collegeList: arr, instituteid: arr});
         }
     }
 

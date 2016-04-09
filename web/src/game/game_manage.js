@@ -9,7 +9,7 @@ import GameSteps from './../components/game_steps/game_steps.js'
 import GameComment from './../components/game_comment/game_comment.js'
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
-import GameEditModal, {openGameEditModel, closeGameEditModel, updateGame} from '../components/modal/game_edit_modal.js';
+import {updateGame} from '../components/modal/game_edit_modal.js';
 
 
 const items = ["基本信息", "参赛者管理", "管理组", "信息记录", "赛事评论"];
@@ -39,16 +39,9 @@ class GameManage extends React.Component {
         var right = ["",
             (
                 <div>
-                    <GameEditModal
-                        visible={this.state.visible}
-                        game={this.state.game}
-                        onCancel={closeGameEditModel.bind(this)}
-                        updateGame={updateGame.bind(this)}
-                    />
                     <Row>
                         <Col span="18">
-                            <GameInfo data={this.state.game}/>
-                            <button className="btn btn-default" onClick={openGameEditModel.bind(this)}>信息修改</button>
+                            <GameInfo data={this.state.game} hasEdit={true} updateGame={updateGame.bind(this)} />
                         </Col>
                         <Col span="5" offset="1">
                             <GameSteps key="step" game={this.state.game}/>

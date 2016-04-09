@@ -246,14 +246,18 @@ class GameForm extends React.Component {
     }
 
     validAll() {
-        console.log(this.props.disabled);
-        if (!this.props.disabled)this.existGamename();
+        console.log(this.state.gamename.valid == 'success' || this.props.disabled);
+        console.log(this.handleGametitle());
+        console.log(this.handleBriefinfo());
+        console.log(this.handleGametime());
+        console.log(this.handleGameplace()); 
         return (this.state.gamename.valid == 'success' || this.props.disabled) & this.handleGametitle() &
             this.handleBriefinfo() & this.handleGametime() & this.handleGameplace();
     }
 
     handleSubmit() {
-        if (this.validAll() !== true)return;
+        console.log(this.validAll());
+        if (!this.validAll())return;
         var body = 'gamename=' + this.state.gamename.data
             + '&briefinfo=' + this.state.briefinfo.data
             + '&gametitle=' + this.state.gametitle.data
