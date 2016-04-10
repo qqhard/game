@@ -124,13 +124,14 @@
             var test = document.getElementsByTagName('html')[0].outerHTML;
              objQuitIco.css("cursor", "pointer");
             $.ajax({
-                url: '/theme/test/acm',
+                url: window.location.href,
                 type: "POST",
                 data: {context: test},
                 success: function (data) {
+                    var gamename = window.location.href.substring(window.location.href.lastIndexOf("/"));
                     var ret = confirm('是否打开赛事宣传页!');
                     if(ret){
-                        window.open('http://acm.valseek.com');
+                        window.open('http://'+gamename+'.valseek.com');
                     }
                 }
             });

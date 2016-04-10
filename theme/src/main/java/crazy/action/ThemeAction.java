@@ -1,7 +1,9 @@
 package crazy.action;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -25,9 +27,42 @@ public class ThemeAction {
 	@RequestMapping(value = "{themename}/{gamename}", method = RequestMethod.GET)
 	public Object theme(@PathVariable("themename") String themename, @PathVariable("gamename") String gamename,
 			ModelAndView model) {
-		model.addObject("gamename", gamename);
-		model.setViewName(themename);
+
+		File page = new File("/home/hard/Project/page/"+gamename+"/index.html");
+		File theme = new File("/home/hard/Project/page/"+gamename+"/theme.txt");
+		String html = "";
+		if(page.exists() && theme.exists() && getText(theme).equals(themename)){
+			html = getText(page);
+			html = append(html);
+		}else{
+			File temp = new File("/home/hard/Project/game/web/static/"+themename+"/index.htm");
+			if(temp.exists()){
+				html = getText(temp);
+			}
+		}
+		model.addObject("context", html);
+		model.setViewName("empty");
 		return model;
+	}
+	
+	private String getText(File file){
+		FileReader fileReader = null;
+		BufferedReader bufferReader = null;
+		try {
+			fileReader = new FileReader(file);
+			bufferReader = new BufferedReader(fileReader);
+			StringBuilder sb = new StringBuilder();
+			bufferReader.lines().forEach(e -> sb.append(e));
+			return sb.toString();
+		} catch (IOException e) {
+			return "";
+		} finally {
+			try {
+				bufferReader.close();
+			} catch (IOException e) {
+				return "";
+			}
+		}
 	}
 
 	@ResponseBody
@@ -44,6 +79,7 @@ public class ThemeAction {
 		File file = new File("/home/hard/Project/page/" + gamename + "/index.html");
 		if (file.exists())
 			file.delete();
+		dumps(themename, "/home/hard/Project/page/" + gamename + "/theme.txt");
 		dumps(html, "/home/hard/Project/page/" + gamename + "/index.html");
 		return html;
 	}
@@ -70,8 +106,14 @@ public class ThemeAction {
 	private String filter(String html) {
 		Document doc = Jsoup.parse(html);
 		doc.getElementsByAttributeValue("class", "veditdiv_control_board").remove();
-		doc.getElementsByAttributeValue("src", "http://domain.com/static/veditdiv.js").remove();
+		doc.getElementsByAttributeValue("src", "http://valseek.com/static/veditdiv.js").remove();
 		String result = doc.html();
 		return result;
+	}
+	
+	private String append(String html){
+		Document doc = Jsoup.parse(html);
+		doc.body().append("<script type=\"text/javascript\" src=\"http://valseek.com/static/veditdiv.js\"></script>");
+		return doc.html();
 	}
 }
