@@ -24,6 +24,7 @@ class EntrysTable extends React.Component {
     }
 
     componentWillMount() {
+        console.log('test');
         $.get('/userApi/username', function (data) {
             this.setState({username: data});
         }.bind(this)).error(function (e) {
@@ -34,6 +35,7 @@ class EntrysTable extends React.Component {
     componentDidMount() {
         $.get('/gameApi/gameentrys/' + this.props.gamename + '/individual', function (data) {
             var arr = [];
+            console.log("test"+data);
             for (var i in data) {
                 arr.push({
                     key: data[i].username,
@@ -222,7 +224,7 @@ class EntrysTable extends React.Component {
             onChange: this.onSelectChange.bind(this)
         };
         const hasSelected = selectedRowKeys.length > 0;
-        console.log(this.state.recvs);
+        console.log('test');
         return (
             <div>
                 <EmailMessageModal
@@ -231,7 +233,6 @@ class EntrysTable extends React.Component {
                     visible={this.state.visible}
                     url={this.state.url}
                     users={this.state.users}
-                    emails={this.state.emails}
                     onCancel={_this.callCancel.bind(_this)}
                 />
                 <PrivateMessageModal

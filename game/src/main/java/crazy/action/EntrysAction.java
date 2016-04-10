@@ -51,6 +51,7 @@ public class EntrysAction {
 	@RequestMapping(value = "/gameentrys/{gamename}/individual", method = RequestMethod.GET)
 	public List<Entry> getGameEntrysIndividual(@PathVariable("gamename") String gamename){
 		List<Entry> entrys = entryRepository.findByGamenameAndDeled(gamename,false);
+		System.out.println(entrys.size());
 		return entrys;
 	}
 	

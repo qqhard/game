@@ -41,17 +41,17 @@ class EmailMessageModal extends React.Component {
     }
 
     handleOk() {
-        alert(this.props.username);
         var ok = this.handleTitle(null) & this.handleBody(null);
         if (ok === false)return;
     
-        var body = 'users=' + this.props.users.join(',')
-            + '&addrs=' + this.props.emails.join(',')
-            + '&title=' + this.state.title
-            + '&body=' + this.state.body
-            + '&sender=' + this.props.username
-            + '&gamename=' + this.props.gamename
-            + '&_csrf=' + $("input[name=_csrf]").val();
+        var body = {
+            users: this.props.users.join(','),
+            title: this.state.title,
+            body: this.state.body,
+            sender: this.props.username,
+            gamename: this.props.gamename,
+            _csrf: $("input[name=_csrf]").val()
+        };
 
         $.post(this.props.url, body, function (data) {
             if (data == 'ok') {
