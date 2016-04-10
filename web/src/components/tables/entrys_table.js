@@ -240,7 +240,6 @@ class EntrysTable extends React.Component {
                     gamename={this.props.gamename}
                     visible={this.state.visible2}
                     users={this.state.users}
-                    url='/message/messages'
                     onCancel={_this.callCancel2.bind(_this)}
                 />
                 <PhoneMessageModal
@@ -249,7 +248,6 @@ class EntrysTable extends React.Component {
                     visible={this.state.visible4}
                     url={this.state.url}
                     users={this.state.users}
-                    phones={this.state.phones}
                     onCancel={_this.callCancel4.bind(_this)}
                 />
                 <EntryDelModal

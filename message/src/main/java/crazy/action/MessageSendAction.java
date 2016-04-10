@@ -37,7 +37,6 @@ import crazy.vo.Game;
 import crazy.vo.Manager;
 import crazy.vo.Message;
 import crazy.vo.MessageRecord;
-import crazy.vo.User;
 
 @RestController
 @RequestMapping(value = "/message")
@@ -90,7 +89,12 @@ public class MessageSendAction {
 		if (!authCheck(game))
 			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 
-		PhoneMessage.send(phoneForm.getPhones(), phoneForm.getType(), phoneForm.getText());
+		List<String> users = Arrays.asList(phoneForm.getUsers().split(","));
+		List<String> phoneList = userRepository.findByUsernameInList(users).stream().map(e -> e.getPhone())
+				.collect(Collectors.toList());
+		String phones = String.join(",", phoneList);
+		MessageSend.sendByPhone(phones, phoneForm.getType(), phoneForm.getText());
+		// PhoneMessage.send(phones, phoneForm.getType(), phoneForm.getText());
 		return "ok";
 	}
 
@@ -116,9 +120,8 @@ public class MessageSendAction {
 
 		List<String> users = Arrays.asList(emailForm.getUsers().split(","));
 		Object[] addrs = userRepository.findByUsernameInList(users).stream().map(e -> e.getEmail()).toArray();
-		for(Object addr : addrs){
-			MessageSend.sendByEmail((String)addr, emailForm.getTitle(),
-			emailForm.getBody());
+		for (Object addr : addrs) {
+			MessageSend.sendByEmail((String) addr, emailForm.getTitle(), emailForm.getBody());
 		}
 		return "ok";
 	}

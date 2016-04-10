@@ -41,7 +41,6 @@ class PhoneMessageModal extends React.Component {
 
         var body = {
             users: this.props.users.join(','),
-            phones: this.props.phones.join(','),
             sender: this.props.username,
             gamename: this.props.gamename,
             type: this.state.current,
