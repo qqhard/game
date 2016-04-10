@@ -9,9 +9,9 @@ public class Member {
 	private String id;
 	private String teamid;
 	private String username;
-	private Boolean accepted;
-	private Boolean applyed;
-	private Boolean invited;
+	private boolean accepted;
+	private boolean applyed;
+	private boolean invited;
 	public String getId() {
 		return id;
 	}
@@ -30,23 +30,24 @@ public class Member {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public Boolean getAccepted() {
+	public boolean isAccepted() {
 		return accepted;
 	}
-	public void setAccepted(Boolean accepted) {
+	public void setAccepted(boolean accepted) {
 		this.accepted = accepted;
 	}
-	public Boolean getApplyed() {
+	public boolean isApplyed() {
 		return applyed;
 	}
-	public void setApplyed(Boolean applyed) {
+	public void setApplyed(boolean applyed) {
 		this.applyed = applyed;
 	}
-	public Boolean getInvited() {
+	public boolean isInvited() {
 		return invited;
 	}
-	public void setInvited(Boolean invited) {
+	public void setInvited(boolean invited) {
 		this.invited = invited;
 	}
+
 	
 }

@@ -20,11 +20,11 @@
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,200italic,300italic,400italic,600italic,700italic'
           rel='stylesheet' type='text/css'>
     <!-- Global CSS -->
-    <link rel="stylesheet" href="http://domain.com/static/blockai/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://valseek.com/static/blockai/assets/plugins/bootstrap/css/bootstrap.min.css">
     <!-- Plugins CSS -->
-    <link rel="stylesheet" href="http://domain.com/static/blockai/assets/plugins/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="http://valseek.com/static/blockai/assets/plugins/font-awesome/css/font-awesome.css">
     <!-- Theme CSS -->
-    <link id="theme-style" rel="stylesheet" href="http://domain.com/static/blockai/assets/css/styles.css">
+    <link id="theme-style" rel="stylesheet" href="http://valseek.com/static/blockai/assets/css/styles.css">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -67,7 +67,7 @@
             <div class="container">
                 <h1 class="logo pull-left">
                     <a href="index.html">
-                        <img class="logo-image" src="http://domain.com/static/blockai/assets/images/logo.png" alt="3rd Wave Media logo"/>
+                        <img class="logo-image" src="http://valseek.com/static/blockai/assets/images/logo.png" alt="3rd Wave Media logo"/>
                         <span class="logo-title">3rd Wave Media</span>
                     </a>
                 </h1><!--//logo-->
@@ -125,16 +125,16 @@
 </footer><!--//footer-->
 
 <!-- Javascript -->
-<script type="text/javascript" src="http://domain.com/bower_components/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="http://domain.com/static/blockai/assets/plugins/jquery-migrate-1.2.1.min.js"></script>
-<script type="text/javascript" src="http://domain.com/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="http://domain.com/static/blockai/assets/plugins/jquery.easing.1.3.js"></script>
-<script type="text/javascript" src="http://domain.com/static/blockai/assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>
-<script type="text/javascript" src="http://domain.com/static/blockai/assets/plugins/jquery-placeholder/jquery.placeholder.js"></script>
-<script type="text/javascript" src="http://domain.com/static/blockai/assets/plugins/retina-1.3.0/retina.min.js"></script>
-<script type="text/javascript" src="http://domain.com/static/blockai/assets/js/form.js"></script>
-<script type="text/javascript" src="http://domain.com/static/blockai/assets/js/main.js"></script>
-<script type="text/javascript" src="http://domain.com/static/veditdiv.js"></script>
+<script type="text/javascript" src="http://valseek.com/bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="http://valseek.com/static/blockai/assets/plugins/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="http://valseek.com/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://valseek.com/static/blockai/assets/plugins/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="http://valseek.com/static/blockai/assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>
+<script type="text/javascript" src="http://valseek.com/static/blockai/assets/plugins/jquery-placeholder/jquery.placeholder.js"></script>
+<script type="text/javascript" src="http://valseek.com/static/blockai/assets/plugins/retina-1.3.0/retina.min.js"></script>
+<script type="text/javascript" src="http://valseek.com/static/blockai/assets/js/form.js"></script>
+<script type="text/javascript" src="http://valseek.com/static/blockai/assets/js/main.js"></script>
+<script type="text/javascript" src="http://valseek.com/static/veditdiv.js"></script>
 </body>
 </html> 
 

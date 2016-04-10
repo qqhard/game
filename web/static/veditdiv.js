@@ -128,7 +128,10 @@
                 type: "POST",
                 data: {context: test},
                 success: function (data) {
-                    window.open('http://acm.domain.com');
+                    var ret = confirm('是否打开赛事宣传页!');
+                    if(ret){
+                        window.open('http://acm.valseek.com');
+                    }
                 }
             });
         });

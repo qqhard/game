@@ -11,14 +11,14 @@
     } catch (e) {
     }</script>
     <link rel="stylesheet" href="http://i.icomoon.io/public/94125fb0b0/Diobox/style.css">
-    <link rel="stylesheet" href="http://domain.com/static/diobox/assets/css/main.css">
+    <link rel="stylesheet" href="http://valseek.com/static/diobox/assets/css/main.css">
 </head>
 <body>
 <div id="navbar-collapsible">
     <nav id="fixed-nav" class="navbar navbar-default navbar-fixed-top index">
         <div class="container-fluid">
             <div class="navbar-header"><a href="index.html" class="navbar-brand"><img
-                    src="http://domain.com/static/diobox/assets/images/diobox-logo-nav-index.svg" alt="Diobox logo"></a>
+                    src="http://valseek.com/static/diobox/assets/images/diobox-logo-nav-index.svg" alt="Diobox logo"></a>
                 <button type="button" data-toggle="collapse" data-target="#navbar_collapse" aria-expanded="false"
                         class="navbar-toggle collapsed"><span class="icon-bar"></span><span
                         class="icon-bar"></span><span class="icon-bar"></span></button>
@@ -76,7 +76,7 @@
 <section id="index_hero_section" class="hero index text-center index-section">
     <div class="hero-content container">
         <div class="row">
-            <div class="col-xs-10 col-xs-offset-1"><img id="hero_logo" src="http://domain.com/static/diobox/assets/images/diobox-logo.svg"
+            <div class="col-xs-10 col-xs-offset-1"><img id="hero_logo" src="http://valseek.com/static/diobox/assets/images/diobox-logo.svg"
                                                         alt="Diobox logo" class="hero-logo">
                 <h1 class="hero">The most advanced platform for managing events and guests.</h1>
                 <div class="watch-video"><a href="index.html#" data-toggle="modal" data-target="#videoModal"
@@ -92,7 +92,7 @@
             </a></div>
             <div class="col-sm-3 col-xs-12"><a
                     href="https://itunes.apple.com/us/app/diobox/id889676302?ls=1&amp;mt=8"><img
-                    src="http://domain.com/static/diobox/assets/images/appstore.svg" class="app-badge"></a></div>
+                    src="http://valseek.com/static/diobox/assets/images/appstore.svg" class="app-badge"></a></div>
         </div>
     </div>
     <div class="hero-nav container">
@@ -114,30 +114,30 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-12">
-                <div id="feature_icons" class="feature-icons-before-container"><img src="http://domain.com/static/diobox/assets/images/file-icons.png"
+                <div id="feature_icons" class="feature-icons-before-container"><img src="http://valseek.com/static/diobox/assets/images/file-icons.png"
                                                                                     alt="The old way"
                                                                                     class="lines-image">
-                    <div class="feature feature-contacts"><img src="http://domain.com/static/diobox/assets/images/feature-contacts.svg"
+                    <div class="feature feature-contacts"><img src="http://valseek.com/static/diobox/assets/images/feature-contacts.svg"
                                                                class="feature-icon"><span>Contacts</span></div>
-                    <div class="feature feature-invite"><img src="http://domain.com/static/diobox/assets/images/feature-invite.svg"
+                    <div class="feature feature-invite"><img src="http://valseek.com/static/diobox/assets/images/feature-invite.svg"
                                                              class="feature-icon"><span>Invite Design</span></div>
-                    <div class="feature feature-emails"><img src="http://domain.com/static/diobox/assets/images/feature-emails.svg"
+                    <div class="feature feature-emails"><img src="http://valseek.com/static/diobox/assets/images/feature-emails.svg"
                                                              class="feature-icon"><span>Send Emails</span></div>
-                    <div class="feature feature-list"><img src="http://domain.com/static/diobox/assets/images/feature-list.svg"
+                    <div class="feature feature-list"><img src="http://valseek.com/static/diobox/assets/images/feature-list.svg"
                                                            class="feature-icon"><span>Guest Lists</span></div>
-                    <div class="feature feature-seating"><img src="http://domain.com/static/diobox/assets/images/feature-seating.svg"
+                    <div class="feature feature-seating"><img src="http://valseek.com/static/diobox/assets/images/feature-seating.svg"
                                                               class="feature-icon"><span>Seating</span></div>
-                    <div class="feature feature-rsvp"><img src="http://domain.com/static/diobox/assets/images/feature-rsvp.svg"
+                    <div class="feature feature-rsvp"><img src="http://valseek.com/static/diobox/assets/images/feature-rsvp.svg"
                                                            class="feature-icon"><span>RSVP Capture</span></div>
-                    <div class="feature feature-checkin"><img src="http://domain.com/static/diobox/assets/images/feature-checkin.svg"
+                    <div class="feature feature-checkin"><img src="http://valseek.com/static/diobox/assets/images/feature-checkin.svg"
                                                               class="feature-icon"><span>Check In</span></div>
-                    <div class="feature feature-analytics"><img src="http://domain.com/static/diobox/assets/images/feature-analytics.svg"
+                    <div class="feature feature-analytics"><img src="http://valseek.com/static/diobox/assets/images/feature-analytics.svg"
                                                                 class="feature-icon"><span>Analytics</span></div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12"><img src="http://domain.com/static/diobox/assets/images/old-way-image.png" alt="The old way" class="flat-image">
+            <div class="col-xs-12"><img src="http://valseek.com/static/diobox/assets/images/old-way-image.png" alt="The old way" class="flat-image">
             </div>
         </div>
     </div>
@@ -146,9 +146,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-12">
-                <div class="feature-icons-after-container"><img src="http://domain.com/static/diobox/assets/images/diobox-way-lines.png"
+                <div class="feature-icons-after-container"><img src="http://valseek.com/static/diobox/assets/images/diobox-way-lines.png"
                                                                 alt="The Diobox way"><img
-                        src="http://domain.com/static/diobox/assets/images/crm-icon.svg"><span>CRM</span></div>
+                        src="http://valseek.com/static/diobox/assets/images/crm-icon.svg"><span>CRM</span></div>
             </div>
         </div>
     </div>
@@ -160,7 +160,7 @@
                     their relationships, allowing them to gain valuable insights over time.</p></div>
         </div>
         <div class="row">
-            <div class="col-xs-12"><img src="http://domain.com/static/diobox/assets/images/diobox-way-image.png" alt="The Diobox way"
+            <div class="col-xs-12"><img src="http://valseek.com/static/diobox/assets/images/diobox-way-image.png" alt="The Diobox way"
                                         class="flat-image"></div>
         </div>
         <div class="row text-center">
@@ -178,7 +178,7 @@
                 <p>Because it's not possible to remember everything.</p></div>
         </div>
         <div class="row">
-            <div class="col-xs-8 col-xs-offset-2"><img src="http://domain.com/static/diobox/assets/images/dots-image.png" alt="Connect the dots"
+            <div class="col-xs-8 col-xs-offset-2"><img src="http://valseek.com/static/diobox/assets/images/dots-image.png" alt="Connect the dots"
                                                        class="sm-fill"></div>
         </div>
         <div class="row">
@@ -189,7 +189,7 @@
                 and to your event.</p></div>
         </div>
         <div class="row">
-            <div class="col-xs-12"><img src="http://domain.com/static/diobox/assets/images/diobox-shot.jpg" alt="Diobox screenshot" class="sm-fill">
+            <div class="col-xs-12"><img src="http://valseek.com/static/diobox/assets/images/diobox-shot.jpg" alt="Diobox screenshot" class="sm-fill">
             </div>
         </div>
         <div class="row">
@@ -232,7 +232,7 @@
             </a></div>
             <div class="col-sm-3 col-xs-12 text-center"><a
                     href="https://itunes.apple.com/us/app/diobox/id889676302?ls=1&amp;mt=8"><img
-                    src="http://domain.com/static/diobox/assets/images/appstore.svg" class="app-badge"></a></div>
+                    src="http://valseek.com/static/diobox/assets/images/appstore.svg" class="app-badge"></a></div>
         </div>
     </div>
 </section>
@@ -254,7 +254,7 @@
 <section class="section footer">
     <div class="container">
         <div class="row">
-            <div class="col-sm-3 xs-hidden"><a href="index.html"><img src="http://domain.com/static/diobox/assets/images/diobox-logo-footer.svg"
+            <div class="col-sm-3 xs-hidden"><a href="index.html"><img src="http://valseek.com/static/diobox/assets/images/diobox-logo-footer.svg"
                                                                       alt="Diobox logo" class="logo"></a><span
                     class="copyright">© 2016 Diobox Inc.</span></div>
             <div class="col-sm-2 col-xs-6">
@@ -296,23 +296,23 @@
                         class="social-icon icon-social-md-round"></span></a></div>
             </div>
             <div class="col-sm-3 xs-shown xs-footer-logo text-center"><a href="index.html"><img
-                    src="http://domain.com/static/diobox/assets/images/diobox-logo-footer.svg" alt="Diobox logo" class="logo"></a><span
+                    src="http://valseek.com/static/diobox/assets/images/diobox-logo-footer.svg" alt="Diobox logo" class="logo"></a><span
                     class="copyright">© 2016 Diobox Inc.</span></div>
         </div>
     </div>
 </section>
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="http://domain.com/static/diobox/assets/js/carousel.js"></script>
-<script src="http://domain.com/static/diobox/assets/js/iconshift.js"></script>
-<script src="http://domain.com/static/diobox/assets/js/imageswap.js"></script>
-<script src="http://domain.com/static/diobox/assets/js/iphone-tables.js"></script>
-<script src="http://domain.com/static/diobox/assets/js/navbar.js"></script>
-<script src="http://domain.com/static/diobox/assets/js/retina.min.js"></script>
-<script src="http://domain.com/static/diobox/assets/js/slider.js"></script>
-<script src="http://domain.com/static/diobox/assets/js/typekit.js"></script>
-<script src="http://domain.com/static/diobox/assets/js/video.js"></script>
-<script src="http://domain.com/static/diobox/assets/js/static/lib/retina.min.js"></script>
+<script src="http://valseek.com/static/diobox/assets/js/carousel.js"></script>
+<script src="http://valseek.com/static/diobox/assets/js/iconshift.js"></script>
+<script src="http://valseek.com/static/diobox/assets/js/imageswap.js"></script>
+<script src="http://valseek.com/static/diobox/assets/js/iphone-tables.js"></script>
+<script src="http://valseek.com/static/diobox/assets/js/navbar.js"></script>
+<script src="http://valseek.com/static/diobox/assets/js/retina.min.js"></script>
+<script src="http://valseek.com/static/diobox/assets/js/slider.js"></script>
+<script src="http://valseek.com/static/diobox/assets/js/typekit.js"></script>
+<script src="http://valseek.com/static/diobox/assets/js/video.js"></script>
+<script src="http://valseek.com/static/diobox/assets/js/static/lib/retina.min.js"></script>
 <script>(function (i, s, o, g, r, a, m) {
     i['GoogleAnalyticsObject'] = r;
     i[r] = i[r] || function () {

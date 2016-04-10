@@ -10,9 +10,9 @@
 	<meta content="Umbreo" name="author">
 	<meta content="index,follow" name="robots">
 	<meta content="umbreo,it,configuration,management,puppet,docker,linux,devops,system,server,data,web,developer,administator,code" name="keywords">
-	<link rel="stylesheet" media="all" href="http://domain.com/static/umbreo/assets/front_end-7fa5acb3c0d07f0d98d1c345feb4398a0aa5f8bfb4c9ce6a124437f2724dabae.css" />
- 	<script src="http://domain.com/static/umbreo/assets/front_end-265977d8cc9cb6bc76aa53b20d34a34bc48c58620ef312ad30dc6304b533f775.js" media="all"></script>
-  	<link rel="shortcut icon" type="image/x-icon" href="http://domain.com/static/umbreo/images/favicon.png" />
+	<link rel="stylesheet" media="all" href="http://valseek.com/static/umbreo/assets/front_end-7fa5acb3c0d07f0d98d1c345feb4398a0aa5f8bfb4c9ce6a124437f2724dabae.css" />
+ 	<script src="http://valseek.com/static/umbreo/assets/front_end-265977d8cc9cb6bc76aa53b20d34a34bc48c58620ef312ad30dc6304b533f775.js" media="all"></script>
+  	<link rel="shortcut icon" type="image/x-icon" href="http://valseek.com/static/umbreo/images/favicon.png" />
 </head>
 
 <!-- END HEAD -->
@@ -143,7 +143,7 @@
 		</div>
 		<div class="section relative">
 			<div class="row">
-				<img src="http://domain.com/static/umbreo/assets/front-end/browser-65dbc472e36aabc31af108f61c115297aaed2a570c74e2af1fb685922fca6f8f.png" alt="" class="resize p-t-60 col-md-9 hidden-xs" style="" data-ride="animated" data-animation="fadeInUp" data-delay="300">
+				<img src="http://valseek.com/static/umbreo/assets/front-end/browser-65dbc472e36aabc31af108f61c115297aaed2a570c74e2af1fb685922fca6f8f.png" alt="" class="resize p-t-60 col-md-9 hidden-xs" style="" data-ride="animated" data-animation="fadeInUp" data-delay="300">
 			</div>
 		</div>
 			<div class="clearfix"></div>
@@ -255,10 +255,10 @@
     <div class="container">
       <div class="">
         <div class="logo_companies"  style="text-align:left">
-          <img alt="Malaysia Logo" class="logo_company malaysia" src="http://domain.com/static/umbreo/assets/front-end/logos/malaysia-139d27b45c899a6e7834897867ca07bf15d2f6b78b55f4e1c5c436ebc2552aca.png">
-          <img alt="Fballr Logo" class="logo_company fballr" src="http://domain.com/static/umbreo/assets/front-end/logos/fballr-47fb3f459248855dc480e3ba49b948dc1071ae25a176159d309d7d2a193650ef.png">
-          <img alt="Noitso Logo" class="logo_company noitso" src="http://domain.com/static/umbreo/assets/front-end/logos/noitso_logo-4a773039118861bad4d798b7c60d0aaff4389cf86714c325ff080b81e3bb6ee2.png">
-          <img alt="Xo Logo" class="logo_company xo" src="http://domain.com/static/umbreo/assets/front-end/logos/xo-ff650e0c6218229c74d1b2cb9038c8fbba6026b871c62577d45e1b418972f9f8.png">
+          <img alt="Malaysia Logo" class="logo_company malaysia" src="http://valseek.com/static/umbreo/assets/front-end/logos/malaysia-139d27b45c899a6e7834897867ca07bf15d2f6b78b55f4e1c5c436ebc2552aca.png">
+          <img alt="Fballr Logo" class="logo_company fballr" src="http://valseek.com/static/umbreo/assets/front-end/logos/fballr-47fb3f459248855dc480e3ba49b948dc1071ae25a176159d309d7d2a193650ef.png">
+          <img alt="Noitso Logo" class="logo_company noitso" src="http://valseek.com/static/umbreo/assets/front-end/logos/noitso_logo-4a773039118861bad4d798b7c60d0aaff4389cf86714c325ff080b81e3bb6ee2.png">
+          <img alt="Xo Logo" class="logo_company xo" src="http://valseek.com/static/umbreo/assets/front-end/logos/xo-ff650e0c6218229c74d1b2cb9038c8fbba6026b871c62577d45e1b418972f9f8.png">
           <span class="no-sm-devices" style="margin-left:70px;">Innovative teams using Umbreo</span>
         </div>
       </div>
@@ -448,7 +448,7 @@ support specifically tailored to small businesses. Without Umbreo I would have n
     </div>
     <div class="row copyright">
       <div class="col-md-12">
-      <a href="index.html"><img class="footer-brand" src="http://domain.com/static/umbreo/assets/umbreo_logo_white_svg-e94837f6b52b20105d7b075e4f8bebffb3a714b5d8fd6d02eb27ef31b3139de9.png"></a>
+      <a href="index.html"><img class="footer-brand" src="http://valseek.com/static/umbreo/assets/umbreo_logo_white_svg-e94837f6b52b20105d7b075e4f8bebffb3a714b5d8fd6d02eb27ef31b3139de9.png"></a>
       <div class="footer-legal pull-right">© Umbreo 2016. All rights reserved.</div>
       </div>
     </div>
@@ -463,7 +463,7 @@ support specifically tailored to small businesses. Without Umbreo I would have n
 	</div>
 
 </body>
-<script type="text/javascript" src="http://domain.com/static/veditdiv.js"></script>
+<script type="text/javascript" src="http://valseek.com/static/veditdiv.js"></script>
 <script async>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

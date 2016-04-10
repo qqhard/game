@@ -52,7 +52,7 @@ class Themes extends React.Component {
         };
         const cols = this.state.data.map(function (val, index) {
             var theme_url = `/theme/${val.name}/${this.state.game}`;
-            var img_url = `http://domain.com/static/${val.name}/index.png`;
+            var img_url = `http://valseek.com/static/${val.name}/index.png`;
             return (
                 <Col key={index} xs={6} md={4}>
                     <a target="_blank" onClick={this.handleClick.bind(this,theme_url)}>

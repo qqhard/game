@@ -66,9 +66,9 @@ public class MemberAction {
 				member.setUsername(username);
 				member.setTeamid(teamid);
 				memberRepository.insert(member);
-			} else if (member.getAccepted()) {
+			} else if (member.isAccepted()) {
 				ret = "你已经是该队伍的一员！";
-			} else if (member.getApplyed()) {
+			} else if (member.isApplyed()) {
 				ret = "请勿重复申请！";
 			} else {
 				member.setApplyed(true);
@@ -103,14 +103,15 @@ public class MemberAction {
 				member = new Member();
 				member.setAccepted(false);
 				member.setInvited(true);
+				member.setApplyed(false);
 				member.setUsername(username);
 				member.setTeamid(teamid);
 				memberRepository.insert(member);
 				ret.put("data", member);
-			} else if (member.getAccepted()) {
+			} else if (member.isAccepted()) {
 				ret.put("status", "fail");
 				ret.put("data", "你已经是该队伍的一员！");
-			} else if (member.getInvited()) {
+			} else if (member.isInvited()) {
 				ret.put("status", "fail");
 				ret.put("data", "请勿重复邀请！");
 			} else {
@@ -195,7 +196,7 @@ public class MemberAction {
 
 		String lock = (LockPrefix.TEAM + team.getId().substring(team.getId().length() - 4)).intern();
 		synchronized (lock) {
-			if (member.getAccepted()) {
+			if (member.isAccepted()) {
 				ret = "用户已经在队伍中！";
 			} else {
 				member.setInvited(false);
@@ -221,7 +222,7 @@ public class MemberAction {
 
 		String lock = (LockPrefix.TEAM + team.getId().substring(team.getId().length() - 4)).intern();
 		synchronized (lock) {
-			if (member.getAccepted()) {
+			if (member.isAccepted()) {
 				ret = "用户已经在队伍中！";
 			} else {
 				member.setApplyed(false);
@@ -247,7 +248,7 @@ public class MemberAction {
 
 		String lock = (LockPrefix.TEAM + team.getId().substring(team.getId().length() - 4)).intern();
 		synchronized (lock) {
-			if (member.getAccepted()) {
+			if (member.isAccepted()) {
 				ret = "用户已经在队伍中！";
 			} else {
 				member.setInvited(false);
@@ -271,7 +272,7 @@ public class MemberAction {
 
 		String lock = (LockPrefix.TEAM + team.getId().substring(team.getId().length() - 4)).intern();
 		synchronized (lock) {
-			if (member.getAccepted()) {
+			if (member.isAccepted()) {
 				member.setAccepted(false);
 				member.setInvited(false);
 				member.setApplyed(false);

@@ -18,12 +18,6 @@ public class TestMemberRepository {
 	
 	@Test
 	public void test(){
-		for(Member m : memberRepository.findAll()){
-			System.out.println(m.getApplyed());
-			if(m.getApplyed() == null){
-				m.setApplyed(false);
-				memberRepository.save(m);
-			}
-		}
+	
 	}
 }
