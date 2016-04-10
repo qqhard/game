@@ -27,7 +27,6 @@ import Input from 'react-bootstrap/lib/Input'
 import Button from 'react-bootstrap/lib/Button'
 import Login from './auth/login.js';
 import Register from './auth/register.js';
-import EmailActivationComponent from './email-activation-component.js';
 import CheckEmailActivationCodeComponent from './check-email-activation-code-component';
 
 import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router';
@@ -164,7 +163,6 @@ render((
             <Route path="/themes.html" component={Themes}/>
             <Route path="/login.html" component={Login}/>
             <Route path="/register.html" component={Register}/>
-            <Route path="/emailActivation-:username.html" component={EmailActivationComponent}/>
             <Route path="/checkEmailActivationCode-:username-:code.html"
                    component={CheckEmailActivationCodeComponent}/>
         </Route>

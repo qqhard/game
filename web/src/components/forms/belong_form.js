@@ -112,16 +112,16 @@ class BelongsForm extends React.Component {
 
         return (
             <div>
-                <Input type="select" {...styleLayout} name="provinceid" label={this.props.p.provincelabel}
+                <Input type="select" {...styleLayout} disabled={this.props.disabled} name="provinceid" label={this.props.p.provincelabel}
                        placeholder="select" value={this.state.provinceid}
                        onChange={this.handleSelectProvince.bind(this)}>
                     {provinceOptions}
                 </Input>
-                <Input type="select" {...styleLayout} name="collegeid" label={this.props.p.collegelabel}
+                <Input type="select" {...styleLayout} disabled={this.props.disabled} name="collegeid" label={this.props.p.collegelabel}
                        placeholder="select" value={this.state.collegeid} onChange={this.handleSelectCollege.bind(this)}>
                     {collegeOptions}
                 </Input>
-                <Input type="select" {...styleLayout} name="instituteid" label={this.props.p.institutelabel}
+                <Input type="select" {...styleLayout} disabled={this.props.disabled} name="instituteid" label={this.props.p.institutelabel}
                        placeholder="select" value={this.state.instituteid}
                        onChange={this.handleSelectInstitute.bind(this)}>
                     {instituteOptions}

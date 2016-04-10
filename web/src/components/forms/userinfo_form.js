@@ -2,7 +2,7 @@ import React from 'react';
 import Input from 'react-bootstrap/lib/Input';
 import CsrfToken from '../common/csrf_token';
 import Button from 'react-bootstrap/lib/Button';
-import BelongsForm, {callbackParent} from '../belong_form/belong_form.js';
+import BelongsForm, {callbackParent} from './belong_form.js';
 import message from 'antd/lib/message';
 import PageHeader from 'react-bootstrap/lib/PageHeader';
 import Icon from 'antd/lib/icon';

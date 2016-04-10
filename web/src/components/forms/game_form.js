@@ -5,7 +5,7 @@ import Button from '../../../node_modules/react-bootstrap/lib/Button'
 import {browserHistory} from 'react-router'
 import CsrfToken from '../common/csrf_token.js'
 import message from 'antd/lib/message';
-import BelongsForm, {callbackParent} from '../belong_form/belong_form.js';
+import BelongsForm, {callbackParent} from './belong_form.js';
 import Row from '../../../node_modules/react-bootstrap/lib/Row'
 import Col from '../../../node_modules/react-bootstrap/lib/Col'
 
@@ -256,7 +256,6 @@ class GameForm extends React.Component {
     }
 
     handleSubmit() {
-        console.log(this.validAll());
         if (!this.validAll())return;
         var body = 'gamename=' + this.state.gamename.data
             + '&briefinfo=' + this.state.briefinfo.data

@@ -1,8 +1,9 @@
 import React from 'react';
 import EntryForm from './components/forms/entry_form.js';
 import PageHeader from 'react-bootstrap/lib/PageHeader';
-import Row from 'antd/lib/row';
-import Col from 'antd/lib/col';
+import Row from 'react-bootstrap/lib/Row';
+import Col from 'react-bootstrap/lib/Col';
+import GameLimitInfo from './components/info/game_limit_info.js';
 
 class EntryPage extends React.Component {
     constructor(props) {
@@ -18,17 +19,24 @@ class EntryPage extends React.Component {
 
     render() {
         console.log(this.context);
+        var gameLimitInfo = null;
+        if(!!this.state.game) gameLimitInfo = <GameLimitInfo data={this.state.game}/>;
         return (
-            <div>
+            <div className="container">
                 <Row>
-                    <Col offset="4" span="16">
+                    <Col xsOffset={1} xs={10}>
                         <PageHeader>{this.state.game.gametitle}
                             <small> {this.state.game.briefinfo} </small>
                         </PageHeader>
                     </Col>
                 </Row>
                 <Row>
-                    <Col offset="4" span="20">
+                    <Col xsOffset={2} xs={8}>
+                        {gameLimitInfo} 
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xsOffset={1} xs={12}>
                         <EntryForm username={this.props.params.username} gamename={this.props.params.gamename}/>
                     </Col>
                 </Row>
