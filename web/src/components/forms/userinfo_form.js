@@ -184,7 +184,7 @@ class UserinfoForm extends React.Component {
     handleEmail(e) {
         var data = e == null ? this.state.email.data : e.target.value;
         var newEmail = {data: data, valid: '', help: ''};
-        var re = /^\w[a-zA-Z0-9_\.]*@\w[a-zA-Z0-9\.]*\w$/gi;
+        var re = /^.+@.+$/gi;
         if (data == null || data.length == 0) {
             newEmail.valid = 'error';
             newEmail.help = '请输入邮箱地址'
