@@ -1,11 +1,9 @@
 import React from 'react';
 import Menu from 'antd/lib/menu';
-import Icon from 'antd/lib/icon';
-import Row from 'antd/lib/row';
-import Col from 'antd/lib/col';
+import {Link} from 'react-router';
 
-class Sider extends React.Component{
-    constructor(props){
+class Sider extends React.Component {
+    constructor(props) {
         super(props);
         this.state = {
             current: '1',
@@ -20,15 +18,27 @@ class Sider extends React.Component{
         });
         this.props.callBack(e.key);
     }
+
     onToggle(info) {
         this.setState({
             openKeys: info.open ? info.keyPath : info.keyPath.slice(1)
         });
     }
+
     render() {
-        const items = this.props.items.map(function (data, index) {
+        var items = this.props.items.map(function (data, index) {
             return <Menu.Item key={index+1}>{data}</Menu.Item>;
         });
+        
+        if (!!this.props.aButton) {
+            let temp = this.props.aButton;
+            let aButton = (
+                <Menu.Item key={10}>
+                    <Link  key={10} to={temp.href}>{temp.text}</Link>
+                </Menu.Item>
+            );
+            items.push(aButton);
+        }
         return (
             <Menu onClick={this.handleClick.bind(this)}
                   openKeys={this.state.openKeys}

@@ -115,11 +115,6 @@ class App extends React.Component {
                             <a className="navbar-brand" href="/">Game Factory</a>
                             <ul className="nav navbar-nav">
                                 <li><a id="menu-toggle" href="#"></a></li>
-                                <li>
-                                    <form className="navbar-form navbar-left" role="search">
-                                        <Input bsSize="small" type="text" buttonAfter={innerButton}/>
-                                    </form>
-                                </li>
 
                             </ul>
                         </div>

@@ -349,7 +349,7 @@ class GameForm extends React.Component {
         return (
             <form className="form-horizontal">
 
-                <Input type="text" label="赛事域名" disabled={this.props.disabled} {...styleLayout} addonAfter=".domain.com"
+                <Input type="text" label="赛事域名" disabled={this.props.disabled} {...styleLayout} addonAfter=".valseek.com"
                        onBlur={this.existGamename.bind(this)}
                        help={this.state.gamename.help} value={this.state.gamename.data}
                        bsStyle={this.state.gamename.valid} onChange={this.handleGamename.bind(this)}/>

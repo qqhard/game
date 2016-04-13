@@ -27,14 +27,15 @@ class MyGames extends React.Component {
     render() {
 
 
+        const aButton = {
+            href:'/team.html',
+            text:'创建队伍'
+        };
         return (
             <div className="container">
                 <Row>
                     <Col key={0} span="3">
-                        <Sider callBack={this.callBack.bind(this)} items={items}/>
-                        <div style={{textAlign:'center'}}>
-                            <Link className="btn btn-default" to="/game.html">创建赛事</Link>
-                        </div>
+                        <Sider callBack={this.callBack.bind(this)} items={items} aButton={aButton}/>
                     </Col>
                     <Col key={1} span="20" offset="1">{right[this.state.current - 1]}</Col>
                 </Row>
