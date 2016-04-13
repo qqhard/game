@@ -37,7 +37,7 @@ class EntryPage extends React.Component {
                 </Row>
                 <Row>
                     <Col xsOffset={1} xs={12}>
-                        <EntryForm username={this.props.params.username} gamename={this.props.params.gamename}/>
+                        <EntryForm gamename={this.props.params.gamename}/>
                     </Col>
                 </Row>
             </div>

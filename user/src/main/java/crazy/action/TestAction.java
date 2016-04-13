@@ -21,11 +21,6 @@ public class TestAction {
 	@Autowired
 	private SessionRegistry sessionRegistry;
 
-	@RequestMapping(value = "/test_username", method = RequestMethod.GET)
-	public String testUsername() {
-		return SecurityContextHolder.getContext().getAuthentication().getName();
-	}
-	
 	
 	
 	@RequestMapping(value = "/tests", method = RequestMethod.GET)

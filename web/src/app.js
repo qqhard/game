@@ -28,7 +28,7 @@ import Button from 'react-bootstrap/lib/Button'
 import Login from './auth/login.js';
 import Register from './auth/register.js';
 import CheckEmailActivationCodeComponent from './check-email-activation-code-component';
-
+import 'antd/lib/index.css';
 import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router';
 
 const ACTIVE = {color: 'black'};
@@ -53,7 +53,7 @@ class App extends React.Component {
     }
 
     componentWillMount() {
-        $.get('/userApi/userinfo', function (data) {
+        $.get('/userApi/userrole', function (data) {
             console.log(data);
             this.setState({username: data.username, role: data.role});
         }.bind(this)).error(function (e) {
@@ -109,7 +109,7 @@ class App extends React.Component {
 
         return (
             <div>
-                <nav className="navbar navbar-default navbar-fixed-top">
+                <nav className="navbar navbar-default navbar-fixed-top" style={{zIndex:100}}>
                     <div className="container-fluid">
                         <div className="navbar-header">
                             <a className="navbar-brand" href="/">Game Factory</a>
@@ -138,7 +138,7 @@ render((
             <Route path="/games-:username.html" component={MyGames}/>
             <Route path="/entrys-:username.html" component={MyEntrys}/>
             <Route path="/game.html" component={CreateGame}/>
-            <Route path="/entry-:username-:gamename.html" component={EntryPage}/>
+            <Route path="/entry-:gamename.html" component={EntryPage}/>
             <Route path="/userinfo-:username.html" component={UserinfoPage}/>
             <Route path="/userinfoshow-:username.html" component={UserinfoShow}/>
             <Route path="/game-:gamename.html" component={ShowGame}/>

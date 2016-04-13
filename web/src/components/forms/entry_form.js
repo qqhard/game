@@ -34,6 +34,7 @@ class EntryForm extends React.Component {
     }
 
     fetchBelongName(provinceid, collegeid, instituteid) {
+        if (!provinceid || !collegeid || !instituteid)return;
         const belong_url = `/gameApi/belong/${provinceid}/${collegeid}/${instituteid}`;
         $.get(belong_url, function (data) {
             this.setState(data);
@@ -41,10 +42,13 @@ class EntryForm extends React.Component {
     }
 
     componentDidMount() {
-        var user_url = '/userApi/userinfo/' + this.props.username;
+        var user_url = '/userApi/userinfo';
         var game_url = '/gameApi/game/' + this.props.gamename;
         var team_url = `/gameApi/teams/${this.props.username}?entryed=false`;
         $.get(user_url, function (data) {
+            if(data.length>100){
+                message.info('请先登陆再进行报名!');
+            }
             var phone = this.state.phone;
             var email = this.state.email;
             phone['data'] = data.phone;
@@ -56,7 +60,8 @@ class EntryForm extends React.Component {
                 isEmailActivated: data.isEmailActivated,
                 user: data
             });
-        }.bind(this));
+        }.bind(this)).error(function (e) {
+        });
         $.get(game_url, function (data) {
             if (!(data.teamSign == 0 && data.teamNum == 1))this.setState({isTeam: true});
             var forms = data.formList;

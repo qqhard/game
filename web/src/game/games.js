@@ -30,7 +30,7 @@ class Games extends React.Component {
     render() {
         const cols = this.state.data.map(function (val, index) {
             var game_url = "/game-" + val.gamename + ".html";
-            var entry_url = "/entry-" + this.state.username + '-' + val.gamename + '.html';
+            var entry_url = "/entry-" + val.gamename + '.html';
             const percent = ( Date.parse(new Date()) - val.startTime) / (val.dueTime - val.startTime) * 100;
             return (
                 <Col key={index} xs={6} md={4}>

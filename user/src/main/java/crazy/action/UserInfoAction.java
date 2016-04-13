@@ -30,11 +30,12 @@ public class UserInfoAction {
     private UserRepository respository;
 
     @ResponseBody
-    @RequestMapping(value = "/userApi/userinfo/{username}", method = RequestMethod.GET)
-    public Object get(@PathVariable("username") String username) {
-        if (!username.equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
-            return "fail";
-        }
+    @RequestMapping(value = "/userApi/userinfo", method = RequestMethod.GET)
+    public Object get() {
+    	
+    	String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    	System.out.println(username);
+   
 
         User user = respository.findByUsername(username);
         Map<String, Object> userMap = new HashMap<>();

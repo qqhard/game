@@ -1,6 +1,5 @@
 import React from 'react';
 import PageHeader from 'react-bootstrap/lib/PageHeader';
-import 'antd/lib/index.css';
 import {Link} from 'react-router';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';

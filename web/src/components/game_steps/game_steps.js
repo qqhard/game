@@ -1,6 +1,5 @@
 import React from 'react';
 import Steps from 'antd/lib/steps';
-import 'antd/lib/index.css';
 import {timeFormat} from '../common/time_format.js';
 
 const Step = Steps.Step;

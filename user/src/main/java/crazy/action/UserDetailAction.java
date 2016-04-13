@@ -32,7 +32,7 @@ public class UserDetailAction {
 	}
 
 
-	@RequestMapping(value = "/userApi/userinfo", method = RequestMethod.GET)
+	@RequestMapping(value = "/userApi/userrole", method = RequestMethod.GET)
 //	@PreAuthorize("hasAnyAuthority('adm')")
 	@ResponseBody
 	public Object testUserinfo() {

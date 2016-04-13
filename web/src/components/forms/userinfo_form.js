@@ -6,7 +6,6 @@ import BelongsForm, {callbackParent} from './belong_form.js';
 import message from 'antd/lib/message';
 import PageHeader from 'react-bootstrap/lib/PageHeader';
 import Icon from 'antd/lib/icon';
-import 'antd/lib/index.css';
 import {Link} from 'react-router';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -101,7 +100,7 @@ class UserinfoForm extends React.Component {
     }
 
     componentWillMount() {
-        var url = '/userApi/userinfo/' + this.props.username;
+        var url = '/userApi/userinfo';
         var phone = this.state.phone;
         var email = this.state.email;
         var sociolname = this.state.sociolname;

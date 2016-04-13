@@ -53,8 +53,6 @@ class GameEditModal extends React.Component {
         if (value != 0)starttime.data = value;
         if (!starttime.data || starttime.data.length == 0) {
             starttime.help = '不能为空！';
-        } else if (starttime.data <= new Date()) {
-            starttime.help = '不能选择一个比现在早的时间！';
         } else if (starttime.data >= this.state.duetime.data) {
             starttime.help = '开始报名时间不能晚于报名截止时间！';
         } else if (starttime.data >= this.state.endtime.data) {
@@ -181,7 +179,7 @@ class GameEditModal extends React.Component {
         if (!this.handleStarttime(0))return;
         if (!this.handleDuetime(0))return;
         if (!this.handleEndtime(0))return;
-        
+
         const url = `/gameApi/game/${this.props.game.gamename}/alltime`;
         const data = {
             startTime: Date.parse(this.state.starttime.data),

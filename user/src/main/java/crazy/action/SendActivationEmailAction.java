@@ -51,9 +51,9 @@ public class SendActivationEmailAction {
         // check datetime
         long nowTimestamp = new Date().getTime();
         long timeDelta = nowTimestamp - me.getEmailSentTimestamp();
-        if (timeDelta / 1000 / 60 < 10) {
+        if (timeDelta / 1000 / 60 < 1) {
             ret.put("status", "fail");
-            ret.put("message", "10分钟内只能发送一封验证邮件");
+            ret.put("message", "1分钟内只能发送一封验证邮件");
             return ret;
         }
 
