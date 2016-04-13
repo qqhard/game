@@ -46,10 +46,10 @@
                 "border-bottom-right-radius": 10,
                 // "border":"5px dotted #222222",
                 "width": 0,
-                "height":"100%",
+                "height": "100%",
                 "z-index": 9999,
                 "padding-right": "8px",
-                "position":"fixed",
+                "position": "fixed",
 
             });
             operBoard.attr("class", "veditdiv_control_board");
@@ -122,7 +122,7 @@
             event.stopPropagation();
 
             var test = document.getElementsByTagName('html')[0].outerHTML;
-             objQuitIco.css("cursor", "pointer");
+            objQuitIco.css("cursor", "pointer");
             $.ajax({
                 url: window.location.href,
                 type: "POST",
@@ -130,8 +130,8 @@
                 success: function (data) {
                     var gamename = window.location.href.substring(window.location.href.lastIndexOf("/"));
                     var ret = confirm('是否打开赛事宣传页!');
-                    if(ret){
-                        window.open('http://'+gamename+'.valseek.com');
+                    if (ret) {
+                        window.open('http://' + gamename + '.valseek.com');
                     }
                 }
             });
@@ -241,7 +241,7 @@
             objOperBoard.css('overflow', 'auto');
             this.isShow = 1;
             objOperBoard.css({
-                width:250
+                width: 250
             });
             $(".initpos").trigger("initPos");
         }
@@ -250,7 +250,7 @@
             this.isShow = 0;
             //alert((screen.availHeight/2-16)+"xx"+(screen.availHeight/2-16));
             objOperBoard.css('overflow', 'hidden');
-            objOperBoard.css("width",0);
+            objOperBoard.css("width", 0);
             objOperBoard.attr("hidden", true);
         }
 

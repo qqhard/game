@@ -1,0 +1,208 @@
+<!DOCTYPE html><!--[if lt IE 8]>
+<html lang="en" class="ie"><![endif]--><!--[if gt IE 8]><!-->
+<html lang="en"><!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <title>Harp, the static web server with built-in preprocessing</title>
+    <style type="text/css">.wf-loading {
+        visibility: hidden;
+    }
+
+    .wf-active {
+        visibility: visible;
+    }
+
+    .wf-inactive {
+        visibility: visible;
+    }</style>
+    <script>(function () {
+        document.documentElement.className += " js ";
+    })();
+    WebFontConfig = {
+        google: {
+            families: ['Open+Sans:400italic,300,400,600:latin']
+        },
+        timeout: 2000
+    };
+    (function () {
+        var wf = document.createElement('script');
+        wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+                '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+        wf.type = 'text/javascript';
+        wf.async = 'true';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(wf, s);
+    })();
+    // Stay in Standalone mode, MIT via http://git.io/iApOyQ
+    (function (a, b, c) {
+        if (c in b && b[c]) {
+            var d, e = a.location, f = /^(a|html)$/i;
+            a.addEventListener("click", function (a) {
+                d = a.target;
+                while (!f.test(d.nodeName))d = d.parentNode;
+                "href" in d && (chref = d.href).replace(e.href, "").indexOf("#") && (!/^[a-z\+\.\-]+:/i.test(chref) || chref.indexOf(e.protocol + "//" + e.host) === 0) && (a.preventDefault(), e.href = d.href)
+            }, !1)
+        }
+    })(document, window.navigator, "standalone");</script>
+    <link rel="stylesheet" href="/static/harpjs/css/application.css" type="text/css">
+    <link rel="apple-touch-icon" href="http://harpjs.com/apple-touch-icon.png">
+    <link rel="alternate" type="application/rss+xml" href="http://harpjs.com/blog/feed.xml" title="Harp">
+    <meta name="description"
+          content="Harp is a production-ready web server. Rapidly build static sites and client-side applications using Markdown, Sass, CoffeeScript, and more—no configuration necessary.">
+    <meta name="author" content="Chloi Inc.">
+    <meta name="handheldfriendly" content="true">
+    <meta name="mobileoptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Harp Docs">
+    <meta name="google-site-verification" content="8B8VnWspU2WbG_QaA_IYI5aoQpLZme6vrmOAasygOeA">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="cleartype" content="on">
+</head>
+<body>
+<div class="st-container">
+    <div class="st-pusher">
+        <nav role="navigation" id="nav" class="nav navbar st-menu jumbotron-knockout">
+            <div class="container"><a href="index.html" class="navbar-brand visible-lg"><img src="/static/harpjs/images/wordmark.svg"
+                                                                                             alt="Harp"
+                                                                                             class="wordmark"></a>
+                <ul class="nav navbar-nav nav-push pull-right">
+                    <li><a href="index.html" class="nav-push-item nav-push-navbar hidden-lg"><img
+                            src="/static/harpjs/images/wordmark.svg" alt="Harp" class="wordmark"></a></li>
+                    <li><a href="http://harpjs.com/docs" class="nav-push-item veditdiv" data-toggle="veditdiv" data-id="test_8">Documentation</a></li>
+                    <li><a href="http://harpjs.com/blog" class="nav-push-item veditdiv" data-toggle="veditdiv" data-id="test_9">Blog</a></li>
+                    <li><a href="http://harpjs.com/community" class="nav-push-item veditdiv" data-toggle="veditdiv" data-id="test_10">Community</a></li>
+                    <li><a href="https://github.com/sintaxi/harp" class="nav-push-item veditdiv" data-toggle="veditdiv" data-id="test_11">GitHub</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div id="st-content" class="st-content">
+            <header class="jumbotron-knockout">
+                <div class="container"><a id="toggle" href="index.html#navigation" class="navbar-toggle"></a><a
+                        href="index.html" class="navbar-brand hidden-lg"><img src="/static/harpjs/images/wordmark.svg" alt="Harp"
+                                                                              class="wordmark"></a></div>
+            </header>
+            <div class="jumbotron jumbotron-knockout section-splash">
+                <div class="container">
+                    <div class="col-12 col-sm-6 col-lg-7">
+                        <h1 class="veditdiv" data-toggle="veditdiv" data-id="test_1">
+                            The static web server with built-in preprocessing.
+                        </h1>
+                        <p class="veditdiv" data-toggle="veditdiv" data-id="test_7">Harp serves Jade, Markdown, EJS, CoffeeScript, Sass, <abbr>LESS</abbr> and Stylus as <abbr>HTML</abbr>,
+                            <abbr>CSS</abbr> &amp; JavaScript—no configuration necessary.</p>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-5">
+                        <pre id="install" class="section-install">
+                        <code class="language-sh">
+                            <span class="no-break veditdiv" data-toggle="veditdiv" data-id="test_2">报名开始: 明天下午</span>
+                            <span class="no-break veditdiv" data-toggle="veditdiv" data-id="test_3">报名截止: 明天下午</span>
+                            <span class="no-break veditdiv" data-toggle="veditdiv" data-id="test_4">报名截止: 明天下午</span>
+                            <span class="no-break veditdiv" data-toggle="veditdiv" data-id="test_5">报名截止: 明天下午</span>
+                        </code>
+                        </pre>
+                        <a href="http://harpjs.com/docs/quick-start"
+                           class="btn btn-success btn-large">
+                            <span class="veditdiv" data-toggle="veditdiv" data-id="test_6">Install Harp</span>
+                        </a>
+                    </div>
+                </div>
+                <img src="/static/harpjs/images/headerwaves.png" alt="" class="section-waves"></div>
+            <div class="container st-content-inner">
+                <div class="section-features">
+                    <div class="row">
+                        <div class="col-12 col-lg-10 col-offset-1"><h2 class="h1 feature-header">Here’s how Harp
+                            helps</h2></div>
+                    </div>
+                    <div class="feature">
+                        <div class="row">
+                            <div class="col-12 col-lg-5"><img src="/static/harpjs/images/features/feature-preprocessors.png"
+                                                              class="image-feature"></div>
+                            <div class="col-12 col-lg-5 col-offset-1"><h3>Automatic preprocessing</h3>
+                                <p>Harp automatically preprocesses code and serves it to the browser as HTML, CSS, and
+                                    JavaScript. Now you can focus on writing instead of wrangling.</p><a
+                                        href="http://harpjs.com/docs/quick-start">Get started</a></div>
+                        </div>
+                        <div class="row">
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="col-12 col-lg-4 col-offset-1"><h3>Preprocessors are built-in</h3>
+                            <p>Harp already includes the preprocessors you love: <a
+                                    href="http://harpjs.com/docs/development/markdown">Markdown</a>, <a
+                                    href="http://harpjs.com/docs/development/jade">Jade</a>, <a
+                                    href="http://harpjs.com/docs/development/ejs">EJS</a>, <a
+                                    href="http://harpjs.com/docs/development/less">LESS</a>, <a
+                                    href="http://harpjs.com/docs/development/stylus">Stylus</a>, <a
+                                    href="http://harpjs.com/docs/development/sass">Sass</a> and <a
+                                    href="http://harpjs.com/docs/development/coffeescript">CoffeeScript</a>, are all
+                                available without any configuration or setup necessary.</p></div>
+                        <div class="col-12 col-lg-6">
+                            <div class="row"><a href="http://harpjs.com/docs/development/less" class="col-lg-6"><img
+                                    alt="Write CSS with LESS" src="/static/harpjs/images/icons/less-logo.svg"></a><a
+                                    href="http://harpjs.com/docs/development/sass" class="col-lg-6"><img
+                                    alt="Write CSS with Sass" src="/static/harpjs/images/icons/sass-logo.svg"></a><a
+                                    href="http://harpjs.com/docs/development/stylus" class="col-lg-6"><img
+                                    alt="Write CSS with Stylus" src="/static/harpjs/images/icons/stylus-logo.svg"></a><a
+                                    href="http://harpjs.com/docs/development/coffeescript" class="col-lg-6"><img
+                                    alt="Write JavaScript with CoffeeScript"
+                                    src="/static/harpjs/images/icons/coffeescript-logo.svg"></a><a
+                                    href="http://harpjs.com/docs/development/markdown" class="col-lg-6"><img
+                                    alt="Markdown" src="/static/harpjs/images/icons/markdown-logo.svg"></a><a
+                                    href="http://harpjs.com/docs/development/jade" class="col-lg-6"><img alt="Jade"
+                                                                                                         src="/static/harpjs/images/icons/jade-logo.svg"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="row">
+                            <div class="col-12 col-lg-5 col-offset-1"><img
+                                    src="/static/harpjs/images/features/feature-layout-partial.png" class="image-feature"></div>
+                            <div class="col-12 col-lg-5"><h3>The beloved Layout/Partial paradigm</h3>
+                                <p>Keep your code clean and organized: reuse common elements with <a
+                                        href="http://harpjs.com/docs/development/partial">partials</a>, and maintain a
+                                    consistent site design with <a href="http://harpjs.com/docs/development/layout">layouts</a>.
+                                    Harp makes both paradigms available to Jade and <abbr>EJS</abbr>.</p></div>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="col-12 col-lg-5 col-offset-1"><h3>All inside a fast, lightweight web server</h3>
+                            <p>Harp intelligently compiles assets as the browser needs them, so it’s insanely fast. All
+                                you have to do is Save and Refresh.</p><a href="http://harpjs.com/docs/quick-start">Get
+                                started</a></div>
+                        <div class="col-12 col-lg-5"><img src="/static/harpjs/images/features/feature-server.png"
+                                                          class="image-feature"></div>
+                    </div>
+                    <div class="feature">
+                        <div class="row">
+                            <div class="col-12 col-lg-5"><img src="/static/harpjs/images/features/feature-datajson.png"
+                                                              class="image-feature"></div>
+                            <div class="col-12 col-lg-5 col-offset-1"><h3>Flexible, custom metadata</h3>
+                                <p>Move from static assets to truly dynamic content by passing metadata into your views
+                                    and pages. Using your favorite templating engine, variables and loops make writing
+                                    Harp applications fun and powerful.</p><a href="http://harpjs.com/docs/quick-start">Get
+                                    started</a></div>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="col-12 col-lg-5 col-offset-1"><h3>Compile and deploy</h3>
+                            <p>Whether you’re making a GitHub project page, or a mobile application using Apache
+                                Cordova/PhoneGap, you can easily compile your code to <abbr>HTML</abbr>,
+                                <abbr>CSS</abbr> &amp; JavaScript and host it anywhere.</p></div>
+                        <div class="col-12 col-lg-6"><a href="http://harpjs.com/docs/deployment/github-pages"
+                                                        class="col-lg-6"><img title="GitHub"
+                                                                              src="/static/harpjs/images/icons/github-logo.svg"></a><a
+                                href="http://harpjs.com/docs/deployment/heroku" class="col-lg-6"><img title="Heroku"
+                                                                                                      src="/static/harpjs/images/icons/heroku-logo.svg"></a><img
+                                title="Cordova" src="/static/harpjs/images/icons/cordova-logo.svg" class="col-lg-6"><img
+                                title="FireFox OS" src="/static/harpjs/images/icons/firefox-os-logo.svg" class="col-lg-6"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="http://valseek.com/bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="http://valseek.com/static/veditdiv.js"></script>
+</body>
+</html>

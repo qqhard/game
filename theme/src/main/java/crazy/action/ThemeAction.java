@@ -52,7 +52,7 @@ public class ThemeAction {
 			fileReader = new FileReader(file);
 			bufferReader = new BufferedReader(fileReader);
 			StringBuilder sb = new StringBuilder();
-			bufferReader.lines().forEach(e -> sb.append(e));
+			bufferReader.lines().forEach(e -> sb.append(e+"\n"));
 			return sb.toString();
 		} catch (IOException e) {
 			return "";

@@ -20,7 +20,7 @@ public class TestThemeRepository {
 	public void test(){
 		
 		Theme theme = new Theme();
-		theme.setName("diobox");
+		theme.setName("harpjs");
 		themeRepository.save(theme);
 	}
 }
