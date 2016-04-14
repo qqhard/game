@@ -212,9 +212,13 @@ class UserinfoForm extends React.Component {
             data: body,
             success: function (data) {
                 message.success("个人信息修改成功！");
+                var nextEmailActivated = this.state.isEmailActivated;
+                if(this.state.initEmail!=this.state.email.data){
+                    nextEmailActivated = false;
+                }
                 this.setState({
                     initEmail: this.state.email.data,
-                    isEmailActivated: false
+                    isEmailActivated: nextEmailActivated 
                 });
             }.bind(this)
         });
@@ -233,18 +237,7 @@ class UserinfoForm extends React.Component {
 
         var emailActivationUrl = "/emailActivation-" + this.props.username + ".html";
 
-        var emailStatus;
-        if (this.state.isEmailActivated) {
-            emailStatus = (
-                <span style={{lineHeight:"20px"}}><Icon type="check-circle"/>邮箱已验证</span>
-            )
-        } else {
-            emailStatus = (
-                <span style={{lineHeight:"30px"}}><Link to={emailActivationUrl}><Icon
-                    type="exclamation-circle"/>邮箱未验证</Link></span>
-            )
-        }
-
+        console.log(this.state.isEmailActivated); 
         return (
             <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)}>
                 <Input type="text" name="studentid"

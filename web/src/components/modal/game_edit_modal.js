@@ -24,9 +24,9 @@ class GameEditModal extends React.Component {
         super(props);
         this.state = {
             current: 'alltime',
-            starttime: {data: null, help: ''},
-            duetime: {data: null, help: ''},
-            endtime: {data: null, help: ''},
+            starttime: {data: null, help: '', disabled: false},
+            duetime: {data: null, help: '', disabled: false},
+            endtime: {data: null, help: '', disabled: false},
             gametime: {data: null, help: ''},
             gameplace: {data: null, help: ''}
         }
@@ -40,9 +40,13 @@ class GameEditModal extends React.Component {
             gametime: this.state.gametime,
             gameplace: this.state.gameplace
         };
+        const nowTime = new Date();
         newState.starttime.data = new Date(this.props.game.startTime);
+        if (newState.starttime.data < nowTime)newState.starttime.disabled = true;
         newState.duetime.data = new Date(this.props.game.dueTime);
+        if (newState.duetime.data < nowTime)newState.duetime.disabled = true;
         newState.endtime.data = new Date(this.props.game.endTime);
+        if (newState.endtime.data < nowTime)newState.endtime.disabled = true;
         newState.gametime.data = this.props.game.gametime;
         newState.gameplace.data = this.props.game.gameplace;
         this.setState(newState);
@@ -70,8 +74,6 @@ class GameEditModal extends React.Component {
         if (value != 0)duetime.data = value;
         if (!duetime.data || duetime.data.length == 0) {
             duetime.help = '不能为空！';
-        } else if (duetime.data <= new Date()) {
-            duetime.help = '不能选择一个比现在早的时间！';
         } else if (duetime.data <= this.state.starttime.data) {
             duetime.help = '报名截止时间不能早于报名开始时间！';
         } else if (duetime.data >= this.state.endtime.data) {
@@ -215,14 +217,18 @@ class GameEditModal extends React.Component {
     }
 
     render() {
-
+        const nowTime = new Date();
         const starttime = (
             <div className="form-group">
                 <label>报名开始时间 </label>
-                <DatePicker key="starttime" showTime defaultValue={this.state.starttime.data}
-                            format="yyyy-MM-dd HH:mm:ss"
-                            placeholder="请选择时间"
-                            onChange={this.handleStarttime.bind(this)}/>
+                <DatePicker
+                    key="starttime"
+                    showTime
+                    disabled={this.state.starttime.disabled}
+                    defaultValue={this.state.starttime.data}
+                    format="yyyy-MM-dd HH:mm:ss"
+                    placeholder="请选择时间"
+                    onChange={this.handleStarttime.bind(this)}/>
                 <p>{this.state.starttime.help}</p>
             </div>
         );
@@ -230,8 +236,10 @@ class GameEditModal extends React.Component {
         const duetime = (
             <div className="form-group">
                 <label>报名截止时间 </label>
-                <DatePicker key="duetime" showTime defaultValue={this.state.duetime.data}
+                <DatePicker key="duetime" showTime
+                            defaultValue={this.state.duetime.data}
                             format="yyyy-MM-dd HH:mm:ss"
+                            disabled={this.state.duetime.disabled}
                             placeholder="请选择时间"
                             onChange={this.handleDuetime.bind(this)}/>
                 <p>{this.state.duetime.help}</p>
@@ -241,8 +249,11 @@ class GameEditModal extends React.Component {
         const endtime = (
             <div className="form-group">
                 <label >赛事结束时间 </label>
-                <DatePicker key="endtime" showTime defaultValue={this.state.endtime.data}
+                <DatePicker key="endtime" showTime
+                            defaultValue={this.state.endtime.data}
                             format="yyyy-MM-dd HH:mm:ss"
+                            disabled={this.state.endtime.disabled}
+                            placeholder="请选择时间"
                             placeholder="请选择时间"
                             onChange={this.handleEndtime.bind(this)}/>
                 <p>{this.state.endtime.help}</p>
