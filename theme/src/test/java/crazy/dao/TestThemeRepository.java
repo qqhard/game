@@ -4,6 +4,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.BasicQuery;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -15,12 +18,10 @@ import crazy.vo.Theme;
 @WebAppConfiguration
 public class TestThemeRepository {
 	@Autowired
-	private ThemeRepository themeRepository;
+	private MongoTemplate mongo;
+	
 	@Test
 	public void test(){
-		
-		Theme theme = new Theme();
-		theme.setName("harpjs");
-		themeRepository.save(theme);
+		mongo.remove(new BasicQuery("{name:'diobox'}"), Theme.class);
 	}
 }

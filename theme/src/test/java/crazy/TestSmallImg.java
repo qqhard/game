@@ -7,9 +7,9 @@ import org.junit.Test;
 public class TestSmallImg {
 	@Test
 	public void test() {
-		boolean flag = fetch("http://valseek.com/static/harpjs/index.htm","/tmp/test.png");
+		boolean flag = fetch("http://valseek.com/static/gupshup/index.htm","/tmp/test.png");
 		System.out.println(flag);
-		flag = shrink("/tmp/test.png","/home/hard/Project/game/web/static/harpjs/index.png");
+		flag = shrink("/tmp/test.png","/home/hard/Project/game/web/static/gupshup/index.png");
 		System.out.println(flag);
 	}
 

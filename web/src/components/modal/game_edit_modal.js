@@ -27,8 +27,8 @@ class GameEditModal extends React.Component {
             starttime: {data: null, help: '', disabled: false},
             duetime: {data: null, help: '', disabled: false},
             endtime: {data: null, help: '', disabled: false},
-            gametime: {data: null, help: ''},
-            gameplace: {data: null, help: ''}
+            gametime: {data: null, help: '', disabled: false},
+            gameplace: {data: null, help: '', disabled: false}
         }
     }
 
@@ -48,7 +48,9 @@ class GameEditModal extends React.Component {
         newState.endtime.data = new Date(this.props.game.endTime);
         if (newState.endtime.data < nowTime)newState.endtime.disabled = true;
         newState.gametime.data = this.props.game.gametime;
+        if (newState.endtime.data < nowTime)newState.gametime.disabled = true;
         newState.gameplace.data = this.props.game.gameplace;
+        if (newState.endtime.data < nowTime)newState.gameplace.disabled = true;
         this.setState(newState);
     }
 
@@ -264,8 +266,12 @@ class GameEditModal extends React.Component {
         const timeTextarea = (
             <div className="form-group">
                 <label >赛事的时间描述</label>
-                <textarea key="gametime" className="form-control" value={this.state.gametime.data}
-                          onChange={this.handleGametime.bind(this)}></textarea>
+                <textarea key="gametime" className="form-control"
+                          value={this.state.gametime.data}
+                          onChange={this.handleGametime.bind(this)}
+                          disabled={this.state.gametime.disabled}
+                >
+                </textarea>
                 <p>{this.state.gametime.help}</p>
             </div>
         );
@@ -273,8 +279,12 @@ class GameEditModal extends React.Component {
         const placeTextarea = (
             <div className="form-group">
                 <label >赛事的地点描述</label>
-                <textarea key="gameplace" className="form-control" value={this.state.gameplace.data}
-                          onChange={this.handleGameplace.bind(this)}></textarea>
+                <textarea key="gameplace" className="form-control"
+                          value={this.state.gameplace.data}
+                          onChange={this.handleGameplace.bind(this)}
+                          disabled={this.state.gameplace.disabled}
+                >
+                </textarea>
                 <p>{this.state.gameplace.help}</p>
             </div>
         );
