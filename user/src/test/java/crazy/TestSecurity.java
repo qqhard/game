@@ -30,6 +30,8 @@ public class TestSecurity {
 				.apply(springSecurity())
 				.build();
 	}
+	
+	
 	@Test
 	public void test(){
 		
