@@ -48,6 +48,7 @@ class EntryForm extends React.Component {
         $.get(user_url, function (data) {
             if(data.length>100){
                 message.info('请先登陆再进行报名!');
+                browserHistory.push('/login.html');
             }
             var phone = this.state.phone;
             var email = this.state.email;

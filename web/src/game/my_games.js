@@ -28,8 +28,8 @@ class MyGames extends React.Component {
 
 
         const aButton = {
-            href:'/team.html',
-            text:'创建队伍'
+            href:'/game.html',
+            text:'创建赛事'
         };
         return (
             <div className="container">
