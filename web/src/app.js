@@ -26,6 +26,7 @@ import TeamShow from './team/team_show.js'
 import Input from 'react-bootstrap/lib/Input'
 import Button from 'react-bootstrap/lib/Button'
 import Login from './auth/login.js';
+import LoginCheckEmail from './auth/login_check_email.js';
 import Register from './auth/register.js';
 import CheckEmailActivationCodeComponent from './check-email-activation-code-component';
 import 'antd/lib/index.css';
@@ -158,6 +159,7 @@ render((
             <Route path="/themes.html" component={Themes}/>
             <Route path="/login.html" component={Login}/>
             <Route path="/register.html" component={Register}/>
+            <Route path="/login-check-email-:code.html" component={LoginCheckEmail}/>
             <Route path="/checkEmailActivationCode-:username-:code.html"
                    component={CheckEmailActivationCodeComponent}/>
         </Route>

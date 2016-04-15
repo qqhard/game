@@ -29,7 +29,7 @@ public class CheckActivationLinkAction {
         if (activationCode.trim().length() > 0 && SecurityContextHolder.getContext().getAuthentication().getName().equals(username)) {
             User me = userRepository.findByUsername(username);
             if (me.getEmailActivated()) {
-                ret.put("status", "fail");
+                ret.put("status", "ok");
                 ret.put("message", "已通过验证");
                 return ret;
             }

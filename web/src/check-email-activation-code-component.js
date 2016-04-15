@@ -1,13 +1,11 @@
 import React from 'react';
 import {render} from 'react-dom'
-import message from 'antd/lib/message';
-import Button from 'react-bootstrap/lib/Button';
+import { browserHistory } from 'react-router';
 
 class CheckEmailActivationCodeComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            status: '',
             message: ''
         }
     }
@@ -15,7 +13,12 @@ class CheckEmailActivationCodeComponent extends React.Component {
     componentWillMount() {
         var url = '/userApi/'+this.props.params.username+'/checkActivation/'+this.props.params.code;
         $.get(url, function (data) {
-            this.setState({status: data.status, message: data.message});
+            if (data.status == 'ok'){
+                this.setState({message: data.message});
+            }else{
+                const next_url = `/login-check-email-${this.props.params.code}.html`;
+                browserHistory.push(next_url);
+            }
         }.bind(this))
     }
 
