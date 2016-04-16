@@ -8,6 +8,7 @@ import Steps from 'antd/lib/steps';
 import RegisterForm from './components/forms/register_form.js';
 import LoginForm from './components/forms/login_form.js';
 import UserinfoForm from './components/forms/userinfo_form.js';
+import EntryInfo from './components/info/entry_info.js';
 const Step = Steps.Step;
 
 class EntryPage extends React.Component {
@@ -15,6 +16,7 @@ class EntryPage extends React.Component {
         super(props);
         this.state = {
             game: '',
+            entry: null,
             step: 0
         };
     }
@@ -25,8 +27,9 @@ class EntryPage extends React.Component {
         }.bind(this));
         $.get(`/gameApi/game/entry/${this.props.params.gamename}`, function (data) {
             if (!!data) {
-                this.setState({step: 4});
-            }else{
+                console.log(data);
+                this.setState({step: 4, entry: data});
+            } else {
                 $.get('/userApi/userinfo', function (data) {
                     this.setState({step: 2})
                 }.bind(this)).error(function (error) {
@@ -58,7 +61,9 @@ class EntryPage extends React.Component {
             <Col xsOffset={2} xs={8}><LoginForm nextStep={this.nextStep.bind(this)} query=""/></Col>,
             <Col><UserinfoForm nextStep={this.nextStep.bind(this)}/></Col>,
             <EntryForm nextStep={this.nextStep.bind(this)} gamename={this.props.params.gamename}/>,
-            <Col>站位</Col>
+            <Col>
+                <EntryInfo entry={this.state.entry} />
+            </Col>
         ]
 
         return (
