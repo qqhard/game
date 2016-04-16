@@ -97,7 +97,7 @@ class BelongsForm extends React.Component {
     render() {
         const styleLayout = {
             labelClassName: "col-xs-2",
-            wrapperClassName: "col-xs-6"
+            wrapperClassName: "col-xs-8"
         };
         // const right = {display: 'inline'}
         var provinceOptions = this.state.provinceList.map(function (data, index) {

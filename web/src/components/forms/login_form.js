@@ -53,8 +53,12 @@ class LoginForm extends React.Component {
             password: this.state.password.data,
             _csrf: $('input[name=_csrf]').val()
         };
-        $.post(`/userApi/login?checkEmail=${this.props.code}`, data, function (data) {
-            browserHistory.push(`/userinfo-${this.state.username.data}.html`);
+        $.post(`/userApi/login${this.props.query}`, data, function (data) {
+            if(!!this.props.nextStep){
+                this.props.nextStep(); 
+            }else{
+                browserHistory.push(`/userinfo-${this.state.username.data}.html`);
+            }
             message.success('登陆成功！');
         }.bind(this)).error(function (e) {
             var password = this.state.password;
@@ -67,7 +71,7 @@ class LoginForm extends React.Component {
     render() {
         return (
             <div>
-                <form className="login-form-signin" onSubmit={this.handleSubmit.bind(this)}>
+                <form className="form-signin" onSubmit={this.handleSubmit.bind(this)}>
                     <CsrfToken />
                     <Input type="text" placeholder="用户名"
                            onChange={this.handleUsername.bind(this)}

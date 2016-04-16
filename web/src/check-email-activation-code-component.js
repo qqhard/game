@@ -11,15 +11,15 @@ class CheckEmailActivationCodeComponent extends React.Component {
     }
 
     componentWillMount() {
-        var url = '/userApi/'+this.props.params.username+'/checkActivation/'+this.props.params.code;
+        var url = '/userApi/checkActivation/'+this.props.params.code;
         $.get(url, function (data) {
             if (data.status == 'ok'){
                 this.setState({message: data.message});
-            }else{
-                const next_url = `/login-check-email-${this.props.params.code}.html`;
-                browserHistory.push(next_url);
             }
-        }.bind(this))
+        }.bind(this)).error(function () {
+            const next_url = `/login-check-email-${this.props.params.code}.html`;
+            browserHistory.push(next_url);
+        }.bind(this));
     }
 
     render() {

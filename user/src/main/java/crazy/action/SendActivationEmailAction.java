@@ -26,9 +26,10 @@ public class SendActivationEmailAction {
     private UserRepository userRepository;
 
     @ResponseBody
-    @RequestMapping(value = "/userApi/{username}/emailActivation", method = RequestMethod.POST, produces = "application/json")
-    public Object emailActivation(@PathVariable("username") String username, HttpServletRequest request) {
-        Map<String, String> ret = new HashMap<>();
+    @RequestMapping(value = "/userApi/emailActivation", method = RequestMethod.POST, produces = "application/json")
+    public Object emailActivation(HttpServletRequest request) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    	Map<String, String> ret = new HashMap<>();
         if (!username.equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
             ret.put("status", "fail");
             ret.put("message", "没有权限");

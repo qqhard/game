@@ -12,7 +12,7 @@ import Col from 'react-bootstrap/lib/Col';
 
 const styleLayout = {
     labelClassName: "col-xs-2",
-    wrapperClassName: "col-xs-6"
+    wrapperClassName: "col-xs-8"
 };
 
 
@@ -28,7 +28,7 @@ class EmailCheck extends React.Component {
 
     sendEmail() {
         var body = '_csrf=' + $("input[name=_csrf]").val();
-        var url = '/userApi/' + this.props.username + '/emailActivation';
+        var url = '/userApi/emailActivation';
         $.post(url, body, function (data) {
             this.setState({message: data.message});
         }.bind(this));
@@ -204,7 +204,7 @@ class UserinfoForm extends React.Component {
         e.preventDefault();
         if (!(this.handleEmail() & this.handlePhone() & this.handleSociolname() & this.handleStudentid())) return false;
         var body = $(e.target).serialize();
-        var url = '/userApi/userinfo/' + this.props.username;
+        var url = '/userApi/userinfo';
         console.log(url);
         $.ajax({
             url: url,
@@ -220,6 +220,12 @@ class UserinfoForm extends React.Component {
                     initEmail: this.state.email.data,
                     isEmailActivated: nextEmailActivated 
                 });
+                if(!!this.props.nextStep){
+                    if(nextEmailActivated)this.props.nextStep();
+                    else{
+                        message.warn('验证邮箱后才可以报名！');
+                    }
+                }
             }.bind(this)
         });
         console.log(body);
@@ -264,7 +270,6 @@ class UserinfoForm extends React.Component {
                     handleEmail={this.handleEmail.bind(this)}
                     isEmailActivated={this.state.isEmailActivated}
                     isChange={this.state.initEmail!=this.state.email.data}
-                    username={this.props.username}
                     value={this.state.email.data}
                     help={this.state.email.help}
                     valid={this.state.email.valid}

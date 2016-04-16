@@ -7,7 +7,6 @@ import crazy.vo.Entry;
 import crazy.vo.UserDefineForm;
 
 public class EntryForm {
-	private String username;
 	private String gamename;
 	private String phone;
 	private String email;
@@ -26,19 +25,12 @@ public class EntryForm {
 		return ret;
 	}
 	public Entry update(Entry entry){
-		entry.setUsername(username);
 		entry.setGamename(gamename);
 		entry.setEmail(email);
 		entry.setPhone(phone);
 		entry.setDeled(false);
 		entry.setFormList(getUserDefindFormList());
 		return entry;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
 	}
 	public String getGamename() {
 		return gamename;

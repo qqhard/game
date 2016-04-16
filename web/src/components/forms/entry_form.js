@@ -10,7 +10,7 @@ import Col from 'react-bootstrap/lib/Col';
 
 const styleLayout = {
     labelClassName: "col-xs-2",
-    wrapperClassName: "col-xs-6"
+    wrapperClassName: "col-xs-8"
 };
 
 class EntryForm extends React.Component {
@@ -48,7 +48,7 @@ class EntryForm extends React.Component {
         $.get(user_url, function (data) {
             if(data.length>100){
                 message.info('请先登陆再进行报名!');
-                browserHistory.push('/login.html');
+               // browserHistory.push('/login.html');
             }
             var phone = this.state.phone;
             var email = this.state.email;
@@ -181,8 +181,7 @@ class EntryForm extends React.Component {
     }
 
     getIndividualBody() {
-        return 'username=' + this.props.username
-            + '&gamename=' + this.props.gamename
+        return 'gamename=' + this.props.gamename
             + '&phone=' + this.state.phone.data
             + '&email=' + this.state.email.data
             + '&forms=' + this.userDefineFormToStr()
@@ -190,8 +189,7 @@ class EntryForm extends React.Component {
     }
 
     getTeamBody() {
-        return 'username=' + this.props.username
-            + '&gamename=' + this.props.gamename
+        return 'gamename=' + this.props.gamename
             + '&teamid=' + this.state.teams[this.state.team.data].id
             + '&forms=' + this.userDefineFormToStr()
             + '&_csrf=' + $('input[name=_csrf]').val();
@@ -202,9 +200,9 @@ class EntryForm extends React.Component {
         $.post(url, body, function (data) {
             if (data.status == 'ok') {
                 message.success("报名成功！");
-                setTimeout(function () {
-                    browserHistory.push('game-' + gamename + '.html');
-                }, 1500);
+                if(!!this.props.nextStep){
+                    this.props.nextStep();
+                }
             } else {
                 message.error(data.data)
             }

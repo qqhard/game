@@ -9,6 +9,7 @@ class LoginCheckEmail extends React.Component {
         super(props);
     }
     render(){
+        const query = `?checkEmail=${this.props.params.code}`;
         return (
             <div className="container">
                 <Row>
@@ -20,7 +21,7 @@ class LoginCheckEmail extends React.Component {
                 </Row>
                 <Row>
                     <Col offset="5" span="20">
-                        <LoginForm code={this.props.params.code}/>
+                        <LoginForm query={query}/>
                     </Col>
                 </Row>
             </div>

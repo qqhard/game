@@ -41,11 +41,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     			.authenticated();
     	http.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);
     	
-    	http.formLogin().loginPage("/login.html")
+    	http.formLogin()
     		.loginProcessingUrl("/userApi/login")
     		.successHandler(loginSuccessHandler())
     		.failureHandler(loginFailureHandler())
     		.permitAll();
+    	
+
     	
     	http
     		.logout()

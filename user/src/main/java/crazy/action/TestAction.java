@@ -21,7 +21,10 @@ public class TestAction {
 	@Autowired
 	private SessionRegistry sessionRegistry;
 
-	
+	@RequestMapping(value = "/userApi/failure", method = RequestMethod.GET)
+	public String testT() {
+		return "test";
+	}
 	
 	@RequestMapping(value = "/tests", method = RequestMethod.GET)
 	public String test() {
