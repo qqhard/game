@@ -55,7 +55,7 @@ class LoginForm extends React.Component {
         };
         $.post(`/userApi/login${this.props.query}`, data, function (data) {
             if(!!this.props.nextStep){
-                this.props.nextStep(); 
+                top.location.reload();
             }else{
                 browserHistory.push(`/userinfo-${this.state.username.data}.html`);
             }

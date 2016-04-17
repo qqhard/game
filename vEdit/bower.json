@@ -1,0 +1,21 @@
+{
+  "name": "vedit",
+  "description": "vedit",
+  "main": "webpack.config.js",
+  "authors": [
+    "hard"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/qqhard/game",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery-ui": "~1.11.4"
+  }
+}

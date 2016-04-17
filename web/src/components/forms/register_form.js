@@ -82,6 +82,7 @@ class RegisterForm extends React.Component {
         console.log(data);
         $.post('/userApi/login', data, function (data) {
             message.success('自动登录成功');
+            top.location.reload();
         }.bind(this)).error(function (e) {
             message.error('自动登陆失败');
             browserHistory.push("/login.html");

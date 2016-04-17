@@ -1,6 +1,8 @@
 import createOperIco from './createOperIco.js';
 import OperBoard from './OperBoard.js';
 import Listener from './Listener.js';
+global.$ = require('jquery');
+require('jquery-ui/slider.js');
 (()=> {
     var operateIco = null;
     var operateBoard = null;

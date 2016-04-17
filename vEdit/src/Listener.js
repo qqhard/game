@@ -29,6 +29,22 @@ class Listener {
             this.operDiv.css(attr, `${val}`);
         });
     }
+
+    onSliderInit(input, attr){
+        let size = this.operDiv.css('font-size');
+        input.css(this.)
+    }
+
+    onSliderChange(input, attr, unit){
+        input.on('mouseup.veditdiv',()=>{
+            let val = input.slider('option','value');
+            this.operDiv.css(attr, `${val}${unit}`);  
+        });
+        input.on('keyup.veditdiv',()=>{
+            let val = input.slider('option','value');
+            this.operDiv.css(attr, `${val}${unit}`);
+        });
+    }
 }
 
 export default Listener;

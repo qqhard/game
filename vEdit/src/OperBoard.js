@@ -6,6 +6,7 @@ import HrefChanger from './HrefChanger.js';
 import FontFamliyChanger from './FontFamliyChanger.js';
 import Label from './Label.js';
 import FontSizeChanger from './FontSizeChanger.js';
+import SliderChanger from './SliderChanger.js';
 
 class OperBoard {
     constructor(listener) {
@@ -49,14 +50,14 @@ class OperBoard {
         this.objOperBoard.append(new Label('字体'));
         this.objOperBoard.append(this.fontFamliy);
         
-        this.fontSize = new FontSizeChanger();
-        this.listener.onSelectCssChange(this.fontSize,'font-size');
-        this.objOperBoard.append(new Label('字号'));
-        this.objOperBoard.append(this.fontSize);
         // if(this.objOperDiv[0].tagName == 'A'){
         //     this.objHrefInput = new HrefChanger(this.objOperBoard);
         //     this.objOperBoard.append(this.objHrefInput);
         // }
+        this.fontSize = new SliderChanger(0,300);
+        this.listener.onSliderChange(this.fontSize,'font-size','px');
+        this.objOperBoard.append(new Label('字号'));
+        this.objOperBoard.append(this.fontSize);
     }
     
     setOperDiv(operDiv){
