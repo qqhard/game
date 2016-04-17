@@ -2,9 +2,12 @@ class SliderChanger {
     constructor(min,max) {
         this.input = function () {
             var input = $(`<div></div>`);
-            input.slider();
+            input.slider({animate: true,range: "min"});
             input.css({
-                'margin-top':'10px',
+                'margin-left':'20px',
+                'margin-right':'20px',
+                'margin-top':'5px',
+                'margin-bottom':'5px',
                 'border-bottom-left-radius': '4px',
                 'border-bottom-right-radius': '4px',
                 'border-top-left-radius': '4px',
@@ -13,6 +16,10 @@ class SliderChanger {
                 'height': '.8em',
                 'position': 'relative',
                 'text-align': 'left',
+            });
+            input.find('.ui-slider-range').css({
+                'background':'rgb(75, 140, 223)',
+                'height':'100%'
             });
             input.find('a').css({
                 'border': '1px solid #d3d3d3',

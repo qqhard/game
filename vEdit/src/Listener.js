@@ -30,19 +30,55 @@ class Listener {
         });
     }
 
-    onSliderInit(input, attr){
-        let size = this.operDiv.css('font-size');
-        input.css(this.)
+    onSliderFloatInit(input, attr, unit) {
+        let size = this.operDiv.css(attr);
+        input.slider('option', 'value', size * 100);
     }
 
-    onSliderChange(input, attr, unit){
-        input.on('mouseup.veditdiv',()=>{
-            let val = input.slider('option','value');
-            this.operDiv.css(attr, `${val}${unit}`);  
+    onSliderFloatChange(input, attr) {
+        input.slider({
+            slide: ()=>this.operDiv.css(attr, `${input.slider('value') / 100.0}`),
+            change: ()=>this.operDiv.css(attr, `${input.slider('value') / 100.0}`)
         });
-        input.on('keyup.veditdiv',()=>{
-            let val = input.slider('option','value');
-            this.operDiv.css(attr, `${val}${unit}`);
+    }
+
+    onSliderInit(input, attr, unit) {
+        let sizeStr = this.operDiv.css(attr);
+        let size = sizeStr.substring(0, sizeStr.indexOf(unit));
+        input.slider('option', 'value', size);
+    }
+
+    onSliderChange(input, attr, unit) {
+        input.slider({
+            slide: ()=>this.operDiv.css(attr, `${input.slider('value')}${unit}`),
+            change: ()=>this.operDiv.css(attr, `${input.slider('value')}${unit}`)
+        });
+    }
+
+    onColorInit(input, attr) {
+        let color = this.operDiv.css(attr);
+        var arr = color.substring(color.indexOf('(')+1,color.indexOf(')')).split(',');
+        for(let i in arr){
+            arr[i] = arr[i].trim();
+        }
+        input.red.slider('option','value',parseInt(arr[0]));
+        input.green.slider('option','value',parseInt(arr[1]));
+        input.blue.slider('option','value',parseInt(arr[2]));
+    }
+
+
+    onColorChange(input, attr) {
+        input.red.slider({
+            slide: ()=>this.operDiv.css(attr, input.refreshSwatch()),
+            change: ()=>this.operDiv.css(attr, input.refreshSwatch())
+        });
+        input.green.slider({
+            slide: ()=>this.operDiv.css(attr, input.refreshSwatch()),
+            change: ()=>this.operDiv.css(attr, input.refreshSwatch())
+        });
+        input.blue.slider({
+            slide: ()=>this.operDiv.css(attr, input.refreshSwatch()),
+            change: ()=>this.operDiv.css(attr, input.refreshSwatch())
         });
     }
 }

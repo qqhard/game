@@ -168,13 +168,13 @@
 
 	var _Label2 = _interopRequireDefault(_Label);
 
-	var _FontSizeChanger = __webpack_require__(12);
-
-	var _FontSizeChanger2 = _interopRequireDefault(_FontSizeChanger);
-
 	var _SliderChanger = __webpack_require__(19);
 
 	var _SliderChanger2 = _interopRequireDefault(_SliderChanger);
+
+	var _ColorChanger = __webpack_require__(20);
+
+	var _ColorChanger2 = _interopRequireDefault(_ColorChanger);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -224,14 +224,39 @@
 	        this.objOperBoard.append(new _Label2.default('字体'));
 	        this.objOperBoard.append(this.fontFamliy);
 
-	        // if(this.objOperDiv[0].tagName == 'A'){
-	        //     this.objHrefInput = new HrefChanger(this.objOperBoard);
-	        //     this.objOperBoard.append(this.objHrefInput);
-	        // }
-	        this.fontSize = new _SliderChanger2.default(0, 300);
-	        this.listener.onSliderChange(this.fontSize, 'font-size', 'px');
-	        this.objOperBoard.append(new _Label2.default('字号'));
-	        this.objOperBoard.append(this.fontSize);
+	        this.colors = [{ label: '内容颜色', attr: 'color', input: null }, { label: '背景颜色', attr: 'background-color', input: null }, { label: '边框颜色', attr: 'border-color', input: null }];
+
+	        for (var i in this.colors) {
+	            var input = new _ColorChanger2.default();
+	            this.listener.onColorChange(input, this.colors[i].attr);
+	            this.objOperBoard.append(new _Label2.default(this.colors[i].label));
+	            this.objOperBoard.append(input.input());
+	            this.colors[i].input = input;
+	        }
+
+	        this.opacity = new _SliderChanger2.default(0, 100);
+	        this.listener.onSliderFloatChange(this.opacity, 'opacity');
+	        this.objOperBoard.append(new _Label2.default('透明度'));
+	        this.objOperBoard.append(this.opacity);
+
+	        // var objInputBackgroundColor = textInputBlock("背景颜色 ：", "background-color", null);
+	        // var objInputTextColor = textInputBlock("文字颜色 ：", "color", null);
+	        // var objInputBorder = textInputBlock("边框属性 ：", "border", null);
+	        // var objInputOpacity = textInputBlock("透明度值 ：", "opacity", null);
+	        this.inputs = [{ label: '字体大小', attr: 'font-size', min: 0, max: 300, unit: 'px', input: null }, { label: '总圆角', attr: 'border-radius', min: 0, max: 100, unit: 'px', input: null }, { label: '边框宽度', attr: 'border-width', min: 0, max: 10, unit: 'px', input: null }, { label: '元素宽度', attr: 'width', min: 0, max: 1500, unit: 'px', input: null }, { label: '元素高度', attr: 'height', min: 0, max: 1500, unit: 'px', input: null },
+	        // {label: '元素左距', attr: 'left', min: 0, max: 500, unit: 'px', input: null},
+	        // {label: '元素上距', attr: 'top', min: 0, max: 500, unit: 'px', input: null},
+	        // {label: '元素右距', attr: 'right', min: 0, max: 500, unit: 'px', input: null},
+	        // {label: '元素下距', attr: 'bottom', min: 0, max: 500, unit: 'px', input: null},
+	        { label: '上外边距', attr: 'margin-top', min: 0, max: 500, unit: 'px', input: null }, { label: '下外边距', attr: 'margin-bottom', min: 0, max: 500, unit: 'px', input: null }, { label: '左外边距', attr: 'margin-left', min: 0, max: 500, unit: 'px', input: null }, { label: '右外边距', attr: 'margin-right', min: 0, max: 500, unit: 'px', input: null }, { label: '上内边距', attr: 'padding-top', min: 0, max: 500, unit: 'px', input: null }, { label: '下内边距', attr: 'padding-bottom', min: 0, max: 500, unit: 'px', input: null }, { label: '左内边距', attr: 'padding-left', min: 0, max: 500, unit: 'px', input: null }, { label: '右内边距', attr: 'padding-right', min: 0, max: 500, unit: 'px', input: null }, { label: '左上圆角', attr: 'border-top-left-radius', min: 0, max: 100, unit: 'px', input: null }, { label: '左下圆角', attr: 'border-bottom-left-radius', min: 0, max: 100, unit: 'px', input: null }, { label: '右上圆角', attr: 'border-top-right-radius', min: 0, max: 100, unit: 'px', input: null }, { label: '右下圆角', attr: 'border-bottom-right-radius', min: 0, max: 100, unit: 'px', input: null }];
+
+	        for (var _i in this.inputs) {
+	            var _input = new _SliderChanger2.default(this.inputs[_i].min, this.inputs[_i].max);
+	            this.listener.onSliderChange(_input, this.inputs[_i].attr, this.inputs[_i].unit);
+	            this.objOperBoard.append(new _Label2.default(this.inputs[_i].label));
+	            this.objOperBoard.append(_input);
+	            this.inputs[_i].input = _input;
+	        }
 	    }
 
 	    _createClass(OperBoard, [{
@@ -266,6 +291,13 @@
 	        value: function initOperBoard() {
 	            this.listener.onTextInit(this.objInputTextArea);
 	            this.listener.onAttrInit(this.objHrefTextArea, 'href');
+	            this.listener.onSliderFloatInit(this.opacity, 'opacity');
+	            for (var i in this.colors) {
+	                this.listener.onColorInit(this.colors[i].input, this.colors[i].attr);
+	            }
+	            for (var _i2 in this.inputs) {
+	                this.listener.onSliderInit(this.inputs[_i2].input, this.inputs[_i2].attr, this.inputs[_i2].unit);
+	            }
 	            // if(this.objOperDiv[0].tagName == 'A'){
 	            //    
 	            //     this.objHrefInput.val(this.objOperDiv.attr('href'));
@@ -580,36 +612,7 @@
 	exports.default = Label;
 
 /***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _styel = __webpack_require__(10);
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var fontSizes = [{ name: '小六', value: '8px' }, { name: '六号', value: '10px' }, { name: '五号', value: '14px' }, { name: '小四', value: '16px' }, { name: '四号', value: '18px' }, { name: '小三', value: '20px' }];
-
-	var FontSizeChanger = function FontSizeChanger() {
-	    _classCallCheck(this, FontSizeChanger);
-
-	    var options = fontSizes.map(function (val, index) {
-	        return '<option value="' + val.value + '">' + val.name + '</option>';
-	    });
-
-	    var select = $('<select>' + options + '</select>');
-	    select.css(_styel.selectCss);
-	    return select;
-	};
-
-	exports.default = FontSizeChanger;
-
-/***/ },
+/* 12 */,
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -12238,17 +12241,86 @@
 	            });
 	        }
 	    }, {
-	        key: 'onSliderChange',
-	        value: function onSliderChange(input, attr, unit) {
+	        key: 'onSliderFloatInit',
+	        value: function onSliderFloatInit(input, attr, unit) {
+	            var size = this.operDiv.css(attr);
+	            input.slider('option', 'value', size * 100);
+	        }
+	    }, {
+	        key: 'onSliderFloatChange',
+	        value: function onSliderFloatChange(input, attr) {
 	            var _this2 = this;
 
-	            input.on('mouseup.veditdiv', function () {
-	                var val = input.slider('option', 'value');
-	                _this2.operDiv.css(attr, '' + val + unit);
+	            input.slider({
+	                slide: function slide() {
+	                    return _this2.operDiv.css(attr, '' + input.slider('value') / 100.0);
+	                },
+	                change: function change() {
+	                    return _this2.operDiv.css(attr, '' + input.slider('value') / 100.0);
+	                }
 	            });
-	            input.on('keyup.veditdiv', function () {
-	                var val = input.slider('option', 'value');
-	                _this2.operDiv.css(attr, '' + val + unit);
+	        }
+	    }, {
+	        key: 'onSliderInit',
+	        value: function onSliderInit(input, attr, unit) {
+	            var sizeStr = this.operDiv.css(attr);
+	            var size = sizeStr.substring(0, sizeStr.indexOf(unit));
+	            input.slider('option', 'value', size);
+	        }
+	    }, {
+	        key: 'onSliderChange',
+	        value: function onSliderChange(input, attr, unit) {
+	            var _this3 = this;
+
+	            input.slider({
+	                slide: function slide() {
+	                    return _this3.operDiv.css(attr, '' + input.slider('value') + unit);
+	                },
+	                change: function change() {
+	                    return _this3.operDiv.css(attr, '' + input.slider('value') + unit);
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'onColorInit',
+	        value: function onColorInit(input, attr) {
+	            var color = this.operDiv.css(attr);
+	            var arr = color.substring(color.indexOf('(') + 1, color.indexOf(')')).split(',');
+	            for (var i in arr) {
+	                arr[i] = arr[i].trim();
+	            }
+	            input.red.slider('option', 'value', parseInt(arr[0]));
+	            input.green.slider('option', 'value', parseInt(arr[1]));
+	            input.blue.slider('option', 'value', parseInt(arr[2]));
+	        }
+	    }, {
+	        key: 'onColorChange',
+	        value: function onColorChange(input, attr) {
+	            var _this4 = this;
+
+	            input.red.slider({
+	                slide: function slide() {
+	                    return _this4.operDiv.css(attr, input.refreshSwatch());
+	                },
+	                change: function change() {
+	                    return _this4.operDiv.css(attr, input.refreshSwatch());
+	                }
+	            });
+	            input.green.slider({
+	                slide: function slide() {
+	                    return _this4.operDiv.css(attr, input.refreshSwatch());
+	                },
+	                change: function change() {
+	                    return _this4.operDiv.css(attr, input.refreshSwatch());
+	                }
+	            });
+	            input.blue.slider({
+	                slide: function slide() {
+	                    return _this4.operDiv.css(attr, input.refreshSwatch());
+	                },
+	                change: function change() {
+	                    return _this4.operDiv.css(attr, input.refreshSwatch());
+	                }
 	            });
 	        }
 	    }]);
@@ -12275,9 +12347,12 @@
 
 	    this.input = function () {
 	        var input = $('<div></div>');
-	        input.slider();
+	        input.slider({ animate: true, range: "min" });
 	        input.css({
-	            'margin-top': '10px',
+	            'margin-left': '20px',
+	            'margin-right': '20px',
+	            'margin-top': '5px',
+	            'margin-bottom': '5px',
 	            'border-bottom-left-radius': '4px',
 	            'border-bottom-right-radius': '4px',
 	            'border-top-left-radius': '4px',
@@ -12286,6 +12361,10 @@
 	            'height': '.8em',
 	            'position': 'relative',
 	            'text-align': 'left'
+	        });
+	        input.find('.ui-slider-range').css({
+	            'background': 'rgb(75, 140, 223)',
+	            'height': '100%'
 	        });
 	        input.find('a').css({
 	            'border': '1px solid #d3d3d3',
@@ -12313,6 +12392,131 @@
 	};
 
 	exports.default = SliderChanger;
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var sliderDiv = {
+	    'margin-left': '20px',
+	    'margin-right': '20px',
+	    'margin-top': '5px',
+	    'margin-bottom': '5px',
+	    'border-bottom-left-radius': '4px',
+	    'border-bottom-right-radius': '4px',
+	    'border-top-left-radius': '4px',
+	    'border-top-right-radius': '4px',
+	    'border': '1px solid #aaaaaa',
+	    'height': '.8em',
+	    'position': 'relative',
+	    'text-align': 'left'
+	};
+	var sliderRange = {
+	    'background': 'rgb(75, 140, 223)',
+	    'height': '100%'
+	};
+	var sliderHandle = {
+	    'border': '1px solid #d3d3d3',
+	    'background': '#e6e6e6',
+	    'font-weight': 'normal',
+	    'color': '#555555',
+	    'top': '-.3em',
+	    'margin-left': '-.6em',
+	    'position': 'absolute',
+	    'z-index': '2',
+	    'width': '1.2em',
+	    'height': '1.2em',
+	    'cursor': 'default',
+	    'border-bottom-left-radius': '4px',
+	    'border-bottom-right-radius': '4px',
+	    'border-top-left-radius': '4px',
+	    'border-top-right-radius': '4px'
+	};
+
+	var ColorChanger = function () {
+	    function ColorChanger() {
+	        _classCallCheck(this, ColorChanger);
+
+	        this.div = $('<div></div>');
+	        this.red = $('<div></div>');
+	        this.green = $('<div></div>');
+	        this.blue = $('<div></div>');
+	        this.red.slider({
+	            orientation: "horizontal",
+	            range: "min",
+	            max: 255,
+	            value: 255
+	        });
+	        this.red.css(sliderDiv);
+	        this.red.find('.ui-slider-range').css({ 'background': '#ef2929', 'height': '100%' });
+	        this.red.find('a').css(sliderHandle);
+
+	        this.green.slider({
+	            orientation: "horizontal",
+	            range: "min",
+	            max: 255,
+	            value: 140
+	        });
+	        this.green.css(sliderDiv);
+	        this.green.find('.ui-slider-range').css({ 'background': '#8ae234', 'height': '100%' });
+	        this.green.find('a').css(sliderHandle);
+
+	        this.blue.slider({
+	            orientation: "horizontal",
+	            range: "min",
+	            max: 255,
+	            value: 60
+	        });
+	        this.blue.css(sliderDiv);
+	        this.blue.find('.ui-slider-range').css({ 'background': '#729fcf', 'height': '100%' });
+	        this.blue.find('a').css(sliderHandle);
+
+	        this.div.append(this.red);
+	        this.div.append(this.green);
+	        this.div.append(this.blue);
+	    }
+
+	    _createClass(ColorChanger, [{
+	        key: 'input',
+	        value: function input() {
+	            return this.div;
+	        }
+	    }, {
+	        key: 'hexFromRGB',
+	        value: function hexFromRGB(r, g, b) {
+	            var hex = [r.toString(16), g.toString(16), b.toString(16)];
+	            $.each(hex, function (nr, val) {
+	                if (val.length === 1) {
+	                    hex[nr] = "0" + val;
+	                }
+	            });
+	            return hex.join("").toUpperCase();
+	        }
+	    }, {
+	        key: 'refreshSwatch',
+	        value: function refreshSwatch() {
+	            var red = this.red.slider("value"),
+	                green = this.green.slider("value"),
+	                blue = this.blue.slider("value"),
+	                hex = this.hexFromRGB(red, green, blue);
+	            return "#" + hex;
+	        }
+	    }]);
+
+	    return ColorChanger;
+	}();
+
+	exports.default = ColorChanger;
 
 /***/ }
 /******/ ]);
