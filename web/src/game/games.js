@@ -34,7 +34,7 @@ class Games extends React.Component {
             const percent = ( Date.parse(new Date()) - val.startTime) / (val.dueTime - val.startTime) * 100;
             return (
                 <Col key={index} xs={6} md={4}>
-                    <Thumbnail src="http://img3.91.com/uploads/allimg/141110/703-141110105223.jpg" alt="242x200">
+                    <Thumbnail src="http://acmgnyr.org/icpclogo_big.png" alt="242x200">
                         <ProgressLine percent={percent} strokeWidth={5} showInfo={false}/>
                         <h3>{val.gametitle}</h3>
                         <p>{val.briefinfo}</p>
