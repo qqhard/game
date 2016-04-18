@@ -61,9 +61,15 @@ class Listener {
         for(let i in arr){
             arr[i] = arr[i].trim();
         }
+        console.log(arr);
         input.red.slider('option','value',parseInt(arr[0]));
         input.green.slider('option','value',parseInt(arr[1]));
         input.blue.slider('option','value',parseInt(arr[2]));
+        if(arr.length == 3){
+            input.opac.slider('option','value', 100);
+        }else if(arr.length == 4){
+            input.opac.slider('option','value',parseFloat(arr[3])*100);
+        }
     }
 
 
@@ -77,6 +83,10 @@ class Listener {
             change: ()=>this.operDiv.css(attr, input.refreshSwatch())
         });
         input.blue.slider({
+            slide: ()=>this.operDiv.css(attr, input.refreshSwatch()),
+            change: ()=>this.operDiv.css(attr, input.refreshSwatch())
+        });
+        input.opac.slider({
             slide: ()=>this.operDiv.css(attr, input.refreshSwatch()),
             change: ()=>this.operDiv.css(attr, input.refreshSwatch())
         });

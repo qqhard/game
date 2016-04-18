@@ -1,1 +1,0 @@
-jQuery(document).ready(function(){var t=navigator.userAgent;(t.match(/iPhone/)||$(window).width()<700)&&setTimeout(function(){jQuery(".iphone-tab").click()},500),t.match(/iPad/)&&setTimeout(function(){jQuery(".ipad-tab").click()},500)});

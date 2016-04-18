@@ -40,11 +40,11 @@ class ColorChanger {
         this.red = $('<div></div>');
         this.green = $('<div></div>');
         this.blue = $('<div></div>');
+        this.opac = $('<div></div>');
         this.red.slider({
             orientation: "horizontal",
             range: "min",
-            max: 255,
-            value: 255
+            max: 255
         });
         this.red.css(sliderDiv);
         this.red.find('.ui-slider-range').css({'background': '#ef2929', 'height': '100%'});
@@ -53,8 +53,7 @@ class ColorChanger {
         this.green.slider({
             orientation: "horizontal",
             range: "min",
-            max: 255,
-            value: 140
+            max: 255
         });
         this.green.css(sliderDiv);
         this.green.find('.ui-slider-range').css({'background': '#8ae234', 'height': '100%'});
@@ -63,42 +62,37 @@ class ColorChanger {
         this.blue.slider({
             orientation: "horizontal",
             range: "min",
-            max: 255,
-            value: 60
+            max: 255
         });
         this.blue.css(sliderDiv);
         this.blue.find('.ui-slider-range').css({'background': '#729fcf', 'height': '100%'});
         this.blue.find('a').css(sliderHandle);
 
+        this.opac.slider({
+            orientation: "horizontal",
+            range: "min",
+            max: 100
+        });
+        this.opac.css(sliderDiv);
+        this.opac.find('.ui-slider-range').css({'height': '100%'});
+        this.opac.find('a').css(sliderHandle);
+        
         this.div.append(this.red);
         this.div.append(this.green);
         this.div.append(this.blue);
+        this.div.append(this.opac);
     }
 
     input() {
         return this.div;
     }
     
-    hexFromRGB(r, g, b) {
-        var hex = [
-            r.toString(16),
-            g.toString(16),
-            b.toString(16)
-        ];
-        $.each(hex, function (nr, val) {
-            if (val.length === 1) {
-                hex[nr] = "0" + val;
-            }
-        });
-        return hex.join("").toUpperCase();
-    }
-
     refreshSwatch() {
         var red = this.red.slider("value"),
             green = this.green.slider("value"),
             blue = this.blue.slider("value"),
-            hex = this.hexFromRGB(red, green, blue);
-        return "#"+hex;
+            opac = this.opac.slider("value")/100.0;
+        return `rgba(${red},${green},${blue},${opac})`;
     }
 }
 

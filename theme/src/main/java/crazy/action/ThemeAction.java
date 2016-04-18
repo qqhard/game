@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import crazy.config.Common;
 import crazy.form.HtmlForm;
 
 @RestController
@@ -28,14 +29,14 @@ public class ThemeAction {
 	public Object theme(@PathVariable("themename") String themename, @PathVariable("gamename") String gamename,
 			ModelAndView model) {
 
-		File page = new File("/home/hard/Project/page/"+gamename+"/index.html");
-		File theme = new File("/home/hard/Project/page/"+gamename+"/theme.txt");
+		File page = new File(Common.GameWebPage()+gamename+"/index.html");
+		File theme = new File(Common.GameWebPage()+gamename+"/theme.txt");
 		String html = "";
 		if(page.exists() && theme.exists() && getText(theme).equals(themename)){
 			html = getText(page);
 			html = append(html);
 		}else{
-			File temp = new File("/home/hard/Project/game/web/static/"+themename+"/index.htm");
+			File temp = new File(Common.GameWebStatic()+themename+"/index.htm");
 			if(temp.exists()){
 				html = getText(temp);
 			}
@@ -72,15 +73,16 @@ public class ThemeAction {
 
 		
 		String html = filter(form.getContext());
+		html = "<!DOCTYPE html>"+html;
 
-		File dir = new File("/home/hard/Project/page/" + gamename);
+		File dir = new File(Common.GameWebPage() + gamename);
 		if (!dir.exists())
 			dir.mkdir();
-		File file = new File("/home/hard/Project/page/" + gamename + "/index.html");
+		File file = new File(Common.GameWebPage() + gamename + "/index.html");
 		if (file.exists())
 			file.delete();
-		dumps(themename, "/home/hard/Project/page/" + gamename + "/theme.txt");
-		dumps(html, "/home/hard/Project/page/" + gamename + "/index.html");
+		dumps(themename, Common.GameWebPage() + gamename + "/theme.txt");
+		dumps(html, Common.GameWebPage() + gamename + "/index.html");
 		return html;
 	}
 
@@ -105,15 +107,16 @@ public class ThemeAction {
 
 	private String filter(String html) {
 		Document doc = Jsoup.parse(html);
+		doc.getElementsByAttributeValue("class", "veditdiv_control_ico").remove();
 		doc.getElementsByAttributeValue("class", "veditdiv_control_board").remove();
-		doc.getElementsByAttributeValue("src", "http://valseek.com/static/veditdiv.js").remove();
+		doc.getElementsByAttributeValue("src", "http://valseek.com/static/vEdit.js").remove();
 		String result = doc.html();
 		return result;
 	}
 	
 	private String append(String html){
 		Document doc = Jsoup.parse(html);
-		doc.body().append("<script type=\"text/javascript\" src=\"http://valseek.com/static/veditdiv.js\"></script>");
+		doc.body().append("<script type=\"text/javascript\" src=\"http://valseek.com/static/vEdit.js\"></script>");
 		return doc.html();
 	}
 }

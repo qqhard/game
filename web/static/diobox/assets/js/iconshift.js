@@ -1,1 +1,0 @@
-jQuery(function(){var o=$("#feature_icons"),s=$("#diobox_way");$(window).scroll(function(){$(window).width()>=768&&(o.length&&$(window).scrollTop()-o.offset().top>-80?(o.addClass("scrolled"),s.css("opacity",1)):(o.removeClass("scrolled"),s.css("opacity",0)))})});

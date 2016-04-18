@@ -1,6 +1,5 @@
-<!DOCTYPE html><!--[if lt IE 8]>
-<html lang="en" class="ie"><![endif]--><!--[if gt IE 8]><!-->
-<html lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <title>Harp, the static web server with built-in preprocessing</title>
@@ -15,36 +14,7 @@
     .wf-inactive {
         visibility: visible;
     }</style>
-    <script>(function () {
-        document.documentElement.className += " js ";
-    })();
-    WebFontConfig = {
-        google: {
-            families: ['Open+Sans:400italic,300,400,600:latin']
-        },
-        timeout: 2000
-    };
-    (function () {
-        var wf = document.createElement('script');
-        wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-                '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-        wf.type = 'text/javascript';
-        wf.async = 'true';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(wf, s);
-    })();
-    // Stay in Standalone mode, MIT via http://git.io/iApOyQ
-    (function (a, b, c) {
-        if (c in b && b[c]) {
-            var d, e = a.location, f = /^(a|html)$/i;
-            a.addEventListener("click", function (a) {
-                d = a.target;
-                while (!f.test(d.nodeName))d = d.parentNode;
-                "href" in d && (chref = d.href).replace(e.href, "").indexOf("#") && (!/^[a-z\+\.\-]+:/i.test(chref) || chref.indexOf(e.protocol + "//" + e.host) === 0) && (a.preventDefault(), e.href = d.href)
-            }, !1)
-        }
-    })(document, window.navigator, "standalone");</script>
-    <link rel="stylesheet" href="/static/harpjs/css/application.css" type="text/css">
+    <link rel="stylesheet" href="http://valseek.com/static/harpjs/css/application.css" type="text/css">
     <link rel="apple-touch-icon" href="http://harpjs.com/apple-touch-icon.png">
     <link rel="alternate" type="application/rss+xml" href="http://harpjs.com/blog/feed.xml" title="Harp">
     <meta name="description"
@@ -64,24 +34,31 @@
 <div class="st-container">
     <div class="st-pusher">
         <nav role="navigation" id="nav" class="nav navbar st-menu jumbotron-knockout">
-            <div class="container"><a href="index.html" class="navbar-brand visible-lg"><img src="/static/harpjs/images/wordmark.svg"
-                                                                                             alt="Harp"
-                                                                                             class="wordmark"></a>
+            <div class="container"><a href="index.html" class="navbar-brand visible-lg"><img
+                    src="http://valseek.com/static/harpjs/images/wordmark.svg"
+                    alt="Harp"
+                    class="wordmark"></a>
                 <ul class="nav navbar-nav nav-push pull-right">
                     <li><a href="index.html" class="nav-push-item nav-push-navbar hidden-lg"><img
-                            src="/static/harpjs/images/wordmark.svg" alt="Harp" class="wordmark"></a></li>
-                    <li><a href="http://harpjs.com/docs" class="nav-push-item veditdiv" data-toggle="veditdiv" data-id="test_8">Documentation</a></li>
-                    <li><a href="http://harpjs.com/blog" class="nav-push-item veditdiv" data-toggle="veditdiv" data-id="test_9">Blog</a></li>
-                    <li><a href="http://harpjs.com/community" class="nav-push-item veditdiv" data-toggle="veditdiv" data-id="test_10">Community</a></li>
-                    <li><a href="https://github.com/sintaxi/harp" class="nav-push-item veditdiv" data-toggle="veditdiv" data-id="test_11">GitHub</a></li>
+                            src="http://valseek.com/static/harpjs/images/wordmark.svg" alt="Harp" class="wordmark"></a>
+                    </li>
+                    <li><a href="http://harpjs.com/docs" class="nav-push-item veditdiv" data-toggle="veditdiv"
+                           data-id="test_8">Documentation</a></li>
+                    <li><a href="http://harpjs.com/blog" class="nav-push-item veditdiv" data-toggle="veditdiv"
+                           data-id="test_9">Blog</a></li>
+                    <li><a href="http://harpjs.com/community" class="nav-push-item veditdiv" data-toggle="veditdiv"
+                           data-id="test_10">Community</a></li>
+                    <li><a href="https://github.com/sintaxi/harp" class="nav-push-item veditdiv" data-toggle="veditdiv"
+                           data-id="test_11">GitHub</a></li>
                 </ul>
             </div>
         </nav>
         <div id="st-content" class="st-content">
             <header class="jumbotron-knockout">
                 <div class="container"><a id="toggle" href="index.html#navigation" class="navbar-toggle"></a><a
-                        href="index.html" class="navbar-brand hidden-lg"><img src="/static/harpjs/images/wordmark.svg" alt="Harp"
-                                                                              class="wordmark"></a></div>
+                        href="index.html" class="navbar-brand hidden-lg"><img
+                        src="http://valseek.com/static/harpjs/images/wordmark.svg" alt="Harp"
+                        class="wordmark"></a></div>
             </header>
             <div class="jumbotron jumbotron-knockout section-splash">
                 <div class="container">
@@ -89,7 +66,8 @@
                         <h1 class="veditdiv" data-toggle="veditdiv" data-id="test_1">
                             The static web server with built-in preprocessing.
                         </h1>
-                        <p class="veditdiv" data-toggle="veditdiv" data-id="test_7">Harp serves Jade, Markdown, EJS, CoffeeScript, Sass, <abbr>LESS</abbr> and Stylus as <abbr>HTML</abbr>,
+                        <p class="veditdiv" data-toggle="veditdiv" data-id="test_7">Harp serves Jade, Markdown, EJS,
+                            CoffeeScript, Sass, <abbr>LESS</abbr> and Stylus as <abbr>HTML</abbr>,
                             <abbr>CSS</abbr> &amp; JavaScript—no configuration necessary.</p>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-5">
@@ -107,7 +85,7 @@
                         </a>
                     </div>
                 </div>
-                <img src="/static/harpjs/images/headerwaves.png" alt="" class="section-waves"></div>
+                <img src="http://valseek.com/static/harpjs/images/headerwaves.png" alt="" class="section-waves"></div>
             <div class="container st-content-inner">
                 <div class="section-features">
                     <div class="row">
@@ -116,8 +94,9 @@
                     </div>
                     <div class="feature">
                         <div class="row">
-                            <div class="col-12 col-lg-5"><img src="/static/harpjs/images/features/feature-preprocessors.png"
-                                                              class="image-feature"></div>
+                            <div class="col-12 col-lg-5"><img
+                                    src="http://valseek.com/static/harpjs/images/features/feature-preprocessors.png"
+                                    class="image-feature"></div>
                             <div class="col-12 col-lg-5 col-offset-1"><h3>Automatic preprocessing</h3>
                                 <p>Harp automatically preprocesses code and serves it to the browser as HTML, CSS, and
                                     JavaScript. Now you can focus on writing instead of wrangling.</p><a
@@ -139,25 +118,30 @@
                                 available without any configuration or setup necessary.</p></div>
                         <div class="col-12 col-lg-6">
                             <div class="row"><a href="http://harpjs.com/docs/development/less" class="col-lg-6"><img
-                                    alt="Write CSS with LESS" src="/static/harpjs/images/icons/less-logo.svg"></a><a
+                                    alt="Write CSS with LESS"
+                                    src="http://valseek.com/static/harpjs/images/icons/less-logo.svg"></a><a
                                     href="http://harpjs.com/docs/development/sass" class="col-lg-6"><img
-                                    alt="Write CSS with Sass" src="/static/harpjs/images/icons/sass-logo.svg"></a><a
+                                    alt="Write CSS with Sass"
+                                    src="http://valseek.com/static/harpjs/images/icons/sass-logo.svg"></a><a
                                     href="http://harpjs.com/docs/development/stylus" class="col-lg-6"><img
-                                    alt="Write CSS with Stylus" src="/static/harpjs/images/icons/stylus-logo.svg"></a><a
+                                    alt="Write CSS with Stylus"
+                                    src="http://valseek.com/static/harpjs/images/icons/stylus-logo.svg"></a><a
                                     href="http://harpjs.com/docs/development/coffeescript" class="col-lg-6"><img
                                     alt="Write JavaScript with CoffeeScript"
-                                    src="/static/harpjs/images/icons/coffeescript-logo.svg"></a><a
+                                    src="http://valseek.com/static/harpjs/images/icons/coffeescript-logo.svg"></a><a
                                     href="http://harpjs.com/docs/development/markdown" class="col-lg-6"><img
-                                    alt="Markdown" src="/static/harpjs/images/icons/markdown-logo.svg"></a><a
+                                    alt="Markdown"
+                                    src="http://valseek.com/static/harpjs/images/icons/markdown-logo.svg"></a><a
                                     href="http://harpjs.com/docs/development/jade" class="col-lg-6"><img alt="Jade"
-                                                                                                         src="/static/harpjs/images/icons/jade-logo.svg"></a>
+                                                                                                         src="http://valseek.com/static/harpjs/images/icons/jade-logo.svg"></a>
                             </div>
                         </div>
                     </div>
                     <div class="feature">
                         <div class="row">
                             <div class="col-12 col-lg-5 col-offset-1"><img
-                                    src="/static/harpjs/images/features/feature-layout-partial.png" class="image-feature"></div>
+                                    src="http://valseek.com/static/harpjs/images/features/feature-layout-partial.png"
+                                    class="image-feature"></div>
                             <div class="col-12 col-lg-5"><h3>The beloved Layout/Partial paradigm</h3>
                                 <p>Keep your code clean and organized: reuse common elements with <a
                                         href="http://harpjs.com/docs/development/partial">partials</a>, and maintain a
@@ -170,13 +154,15 @@
                             <p>Harp intelligently compiles assets as the browser needs them, so it’s insanely fast. All
                                 you have to do is Save and Refresh.</p><a href="http://harpjs.com/docs/quick-start">Get
                                 started</a></div>
-                        <div class="col-12 col-lg-5"><img src="/static/harpjs/images/features/feature-server.png"
-                                                          class="image-feature"></div>
+                        <div class="col-12 col-lg-5"><img
+                                src="http://valseek.com/static/harpjs/images/features/feature-server.png"
+                                class="image-feature"></div>
                     </div>
                     <div class="feature">
                         <div class="row">
-                            <div class="col-12 col-lg-5"><img src="/static/harpjs/images/features/feature-datajson.png"
-                                                              class="image-feature"></div>
+                            <div class="col-12 col-lg-5"><img
+                                    src="http://valseek.com/static/harpjs/images/features/feature-datajson.png"
+                                    class="image-feature"></div>
                             <div class="col-12 col-lg-5 col-offset-1"><h3>Flexible, custom metadata</h3>
                                 <p>Move from static assets to truly dynamic content by passing metadata into your views
                                     and pages. Using your favorite templating engine, variables and loops make writing
@@ -191,18 +177,20 @@
                                 <abbr>CSS</abbr> &amp; JavaScript and host it anywhere.</p></div>
                         <div class="col-12 col-lg-6"><a href="http://harpjs.com/docs/deployment/github-pages"
                                                         class="col-lg-6"><img title="GitHub"
-                                                                              src="/static/harpjs/images/icons/github-logo.svg"></a><a
+                                                                              src="http://valseek.com/static/harpjs/images/icons/github-logo.svg"></a><a
                                 href="http://harpjs.com/docs/deployment/heroku" class="col-lg-6"><img title="Heroku"
-                                                                                                      src="/static/harpjs/images/icons/heroku-logo.svg"></a><img
-                                title="Cordova" src="/static/harpjs/images/icons/cordova-logo.svg" class="col-lg-6"><img
-                                title="FireFox OS" src="/static/harpjs/images/icons/firefox-os-logo.svg" class="col-lg-6"></div>
+                                                                                                      src="http://valseek.com/static/harpjs/images/icons/heroku-logo.svg"></a><img
+                                title="Cordova" src="http://valseek.com/static/harpjs/images/icons/cordova-logo.svg"
+                                class="col-lg-6"><img
+                                title="FireFox OS"
+                                src="http://valseek.com/static/harpjs/images/icons/firefox-os-logo.svg"
+                                class="col-lg-6"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script type="text/javascript" src="http://valseek.com/bower_components/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="http://valseek.com/static/veditdiv.js"></script>
+<script type="text/javascript" src="http://valseek.com/static/vEdit.js"></script>
 </body>
 </html>
