@@ -11,6 +11,10 @@ import javax.validation.Valid;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,15 +24,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import crazy.config.Common;
+import crazy.dao.GameRepository;
 import crazy.form.HtmlForm;
+import crazy.vo.Game;
 
 @RestController
 @RequestMapping(value = "/theme")
 public class ThemeAction {
+	@Autowired
+	private GameRepository gameRepository;
+	
 	@RequestMapping(value = "{themename}/{gamename}", method = RequestMethod.GET)
 	public Object theme(@PathVariable("themename") String themename, @PathVariable("gamename") String gamename,
 			ModelAndView model) {
-
+		
 		File page = new File(Common.GameWebPage()+gamename+"/index.html");
 		File theme = new File(Common.GameWebPage()+gamename+"/theme.txt");
 		String html = "";
@@ -70,8 +79,10 @@ public class ThemeAction {
 	@RequestMapping(value = "{themename}/{gamename}", method = RequestMethod.POST)
 	public Object save(@Valid HtmlForm form, BindingResult bindingResult, @PathVariable("themename") String themename,
 			@PathVariable("gamename") String gamename) {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Game game = gameRepository.findByGamename(gamename);
+		if(!username.equals(game.getOwner()))return new ResponseEntity<Object>(HttpStatus.FORBIDDEN); 
 
-		
 		String html = filter(form.getContext());
 		html = "<!DOCTYPE html>"+html;
 
