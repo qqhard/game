@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     context: __dirname + "/src",
@@ -31,6 +32,16 @@ module.exports = {
     },
     plugins: [
         commonsPlugin,
-        new webpack.NoErrorsPlugin()
+        new webpack.NoErrorsPlugin(),
+        new HtmlWebpackPlugin({
+            filename: '../../index.html',
+            hash:true,
+            template: 'my-index.html',
+            inject:'body',
+            minify:{
+                removeComments:true,
+                collapseWhitespace:true
+            }
+        })
     ]
 };
