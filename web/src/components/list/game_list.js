@@ -70,7 +70,7 @@ class GameNode extends React.Component {
         const href = getGameHref(this.props.game, this.props.isManage);
         return (
             <li className="list-group-item">
-                <h2 className="list-group-item-heading">
+                <h2 className="list-group-item-heading game-name">
                     <Link to={href} activeStyle={ACTIVE}>{this.props.game.gamename}</Link>
                 </h2>
                 <p className="list-group-item-text">{this.props.game.briefinfo}</p>

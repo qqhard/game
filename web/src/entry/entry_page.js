@@ -1,14 +1,15 @@
 import React from 'react';
-import EntryForm from './components/forms/entry_form.js';
+import EntryForm from './../components/forms/entry_form.js';
 import PageHeader from 'react-bootstrap/lib/PageHeader';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
-import GameLimitInfo from './components/info/game_limit_info.js';
+import GameLimitInfo from './../components/info/game_limit_info.js';
 import Steps from 'antd/lib/steps';
-import RegisterForm from './components/forms/register_form.js';
-import LoginForm from './components/forms/login_form.js';
-import UserinfoForm from './components/forms/userinfo_form.js';
-import EntryInfo from './components/info/entry_info.js';
+import RegisterForm from './../components/forms/register_form.js';
+import LoginForm from './../components/forms/login_form.js';
+import UserinfoForm from './../components/forms/userinfo_form.js';
+import EntryInfo from './../components/info/entry_info.js';
+import './entry.scss';
 const Step = Steps.Step;
 
 class EntryPage extends React.Component {
@@ -77,7 +78,7 @@ class EntryPage extends React.Component {
             <div className="container">
                 <Row>
                     <Col xsOffset={1} xs={10}>
-                        <PageHeader>{this.state.game.gametitle}
+                        <PageHeader className="game-name">{this.state.game.gametitle}
                             <small> {this.state.game.briefinfo} </small>
                         </PageHeader>
                     </Col>

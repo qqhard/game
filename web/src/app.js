@@ -6,7 +6,7 @@ import Themes from './themes.js'
 import MyEntrys from './my_entrys.js'
 import MyChecks from './game/my_checks.js'
 import CreateGame from './game/create_game.js'
-import EntryPage from './entry_page.js'
+import EntryPage from './entry/entry_page.js'
 import ShowGame from './show_game.js'
 import CheckGame from './game/check_game.js'
 import UserinfoPage from './user/userinfo_page.js'
@@ -29,6 +29,7 @@ import LoginCheckEmail from './auth/login_check_email.js';
 import Register from './auth/register.js';
 import CheckEmailActivationCodeComponent from './check-email-activation-code-component';
 import 'antd/lib/index.css';
+import './app.scss';
 import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router';
 
 const ACTIVE = {color: 'black'};

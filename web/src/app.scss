@@ -1,0 +1,22 @@
+@font-face {
+  font-family: 'Drifttype';
+  src: url('/static/font/Drifttype.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'tiza';
+  src: url('/static/font/tiza.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.navbar-brand{
+  font-family: Drifttype;
+  font-size:30px;
+}
+
+.game-name {
+  font-family: tiza;
+}
