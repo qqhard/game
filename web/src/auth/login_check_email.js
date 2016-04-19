@@ -13,14 +13,14 @@ class LoginCheckEmail extends React.Component {
         return (
             <div className="container">
                 <Row>
-                    <Col offset="5" span="14">
+                    <Col offset="6" span="12">
                         <PageHeader>Sign In
                             <small> to check your email</small>
                         </PageHeader>
                     </Col>
                 </Row>
                 <Row>
-                    <Col offset="5" span="20">
+                    <Col offset="8" span="8">
                         <LoginForm query={query}/>
                     </Col>
                 </Row>
