@@ -269,11 +269,11 @@ class EntryForm extends React.Component {
 
         return (
             <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)}>
-                <Input type="text" disabled={true} label="省份" value={this.state.provincename}
+                <Input type="text" disabled={true} label="省份" value={this.state.provincename||'未填写'}
                        help={this.state.province.help} bsStyle={this.state.province.valid} {...styleLayout}/>
-                <Input type="text" disabled={true} label="高校" value={this.state.collegename}
+                <Input type="text" disabled={true} label="高校" value={this.state.collegename||'未填写'}
                        help={this.state.college.help} bsStyle={this.state.college.valid} {...styleLayout}/>
-                <Input type="text" disabled={true} label="学院" value={this.state.institutename}
+                <Input type="text" disabled={true} label="学院" value={this.state.institutename||'未填写'}
                        help={this.state.institute.help} bsStyle={this.state.institute.valid} {...styleLayout} />
                 <Input type="text" disabled={true} label="手机" {...styleLayout} help={this.state.phone.help}
                        bsStyle={this.state.phone.valid} value={this.state.phone.data}

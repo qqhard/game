@@ -51,9 +51,9 @@ class GameLimitInfo extends React.Component {
                 <h3>赛事地点：</h3>
                 <p>{this.props.data.gameplace}</p>
 
-                <h3>省份限制： {this.state.provincename}</h3>
-                <h3>高校限制： {this.state.collegename}</h3>
-                <h3>学院限制： {this.state.institutename}</h3>
+                <h3>省份限制： {this.state.provincename||'无限制'}</h3>
+                <h3>高校限制： {this.state.collegename||'无限制'}</h3>
+                <h3>学院限制： {this.state.institutename||'无限制'}</h3>
                 {entryType}
             </Jumbotron>
 

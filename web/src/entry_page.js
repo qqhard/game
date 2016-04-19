@@ -23,6 +23,7 @@ class EntryPage extends React.Component {
 
     componentDidMount() {
         $.get('/gameApi/game/' + this.props.params.gamename, function (data) {
+            console.log(data);
             this.setState({game: data});
         }.bind(this));
         $.get(`/gameApi/game/entry/${this.props.params.gamename}`, function (data) {
@@ -40,6 +41,13 @@ class EntryPage extends React.Component {
     }
 
     nextStep() {
+        if (this.state.step == 3) {
+            $.get(`/gameApi/game/entry/${this.props.params.gamename}`, function (data) {
+                if (!!data) {
+                    this.setState({entry: data});
+                }
+            }.bind(this));
+        }
         this.setState({step: this.state.step + 1});
     }
 
@@ -48,7 +56,6 @@ class EntryPage extends React.Component {
     }
 
     render() {
-        console.log(this.context);
         var gameLimitInfo = null;
         if (!!this.state.game) gameLimitInfo = <GameLimitInfo data={this.state.game}/>;
 
@@ -62,7 +69,7 @@ class EntryPage extends React.Component {
             <Col><UserinfoForm nextStep={this.nextStep.bind(this)}/></Col>,
             <EntryForm nextStep={this.nextStep.bind(this)} gamename={this.props.params.gamename}/>,
             <Col>
-                <EntryInfo entry={this.state.entry} />
+                <EntryInfo entry={this.state.entry}/>
             </Col>
         ]
 

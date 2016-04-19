@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {render} from 'react-dom'
 import MyGames from './game/my_games.js'
 import Games from './game/games.js'
@@ -17,13 +17,12 @@ import GameSubmited from './page/game_submited.js'
 import GameFailed from './page/game_failed.js'
 import GameEdit from './page/game_edit.js'
 import GameEvaluate from './page/game_evaluate.js'
-
+import GameDetailEdit from './game/game_detail_edit.js';
 import TeamPage from './team/team_page.js'
 import MyTeams from './team/my_teams.js'
 import Teams from './team/teams.js'
 import TeamManage from './team/team_manage.js'
 import TeamShow from './team/team_show.js'
-import Input from 'react-bootstrap/lib/Input'
 import Button from 'react-bootstrap/lib/Button'
 import Login from './auth/login.js';
 import LoginCheckEmail from './auth/login_check_email.js';
@@ -143,6 +142,7 @@ render((
             <Route path="/userinfo-:username.html" component={UserinfoPage}/>
             <Route path="/userinfoshow-:username.html" component={UserinfoShow}/>
             <Route path="/game-:gamename.html" component={ShowGame}/>
+            <Route path="/gamedetailedit-:gamename.html" component={GameDetailEdit}/>
             <Route path="/gamecheck-:gamename.html" component={CheckGame}/>
             <Route path="/gamemanage-:gamename.html" component={GameManage}/>
             <Route path="/message-:username.html" component={MyMessage}/>

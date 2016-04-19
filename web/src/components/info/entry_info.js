@@ -17,7 +17,6 @@ class EntryInfo extends React.Component {
         return (
             <Jumbotron>
                 <h2>报名成功！</h2><br />
-                <h2>报名信息:</h2><br />
                 {forms}
             </Jumbotron>
         );
