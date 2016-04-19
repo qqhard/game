@@ -124,6 +124,7 @@ class App extends React.Component {
                         </div>
                     </div>
                 </nav>
+                <div style={{height:'20px'}}></div>
                 {this.props.children}
             </div>
         )

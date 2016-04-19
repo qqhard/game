@@ -111,7 +111,7 @@ class Register extends React.Component {
 
     render() {
         return (
-            <div className="regist-form-div">
+            <div className="regist-form-div" style={{marginTop:'-20px'}}>
                 <CsrfToken />
                 <div className="regist-info">
                     <div className="in-info">

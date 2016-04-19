@@ -64,7 +64,7 @@ class Login extends React.Component {
 
     render() {
         return (
-            <div>
+            <div style={{marginTop:'-20px'}}>
                 <CsrfToken />
                 <div className="login-form-div">
                     <div className="login-info">
