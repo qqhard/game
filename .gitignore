@@ -121,7 +121,7 @@ local.properties
 
 # PDT-specific
 .buildpath
-
+web/index.html
 # sbteclipse plugin
 .target
 
