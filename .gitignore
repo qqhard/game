@@ -122,6 +122,10 @@ local.properties
 
 # PDT-specific
 .buildpath
+<<<<<<< HEAD
+=======
+
+>>>>>>> ca70ed2ca7f6320914719837708f0537e4993b70
 # sbteclipse plugin
 .target
 
