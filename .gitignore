@@ -12,6 +12,7 @@
 /**.project
 build/
 .mvn
+web/index.html
 node_modules
 bower_components
 /.recommenders
@@ -121,7 +122,6 @@ local.properties
 
 # PDT-specific
 .buildpath
-web/index.html
 # sbteclipse plugin
 .target
 
