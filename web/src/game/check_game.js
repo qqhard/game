@@ -1,5 +1,5 @@
 import React from 'react';
-import GameDetailInfo from '../components/info/game_detail_info.js'
+import GameCheckInfo from '../components/info/game_check_info.js'
 import GameSteps from './../components/game_steps/game_steps.js';
 import CsrfToken from './../components/common/csrf_token.js';
 import Grid from '../../node_modules/react-bootstrap/lib/Grid'
@@ -109,7 +109,7 @@ class CheckGame extends React.Component {
             <Grid>
                 <Row>
                     <Col xsOffset={2} xs={7}>
-                        <GameDetailInfo data={this.state.game}/>
+                        <GameCheckInfo data={this.state.game}/>
                         <CheckForm gamename={this.state.game.gamename} step={this.state.game.step}/>
                     </Col>
                     <Col xs={3}>

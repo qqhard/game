@@ -1,10 +1,11 @@
 import React from 'react';
-import GameInfo from './components/info/game_info.js';
+import GameInfo from './../components/info/game_info.js';
 import Grid from 'react-bootstrap/lib/Grid'
 import Row from 'react-bootstrap/lib/Row'
 import Col from 'react-bootstrap/lib/Col'
-import GameSteps from './components/game_steps/game_steps.js'
-import GameComment from './components/game_comment/game_comment'
+import GameSteps from './../components/game_steps/game_steps.js'
+import GameComment from './../components/game_comment/game_comment'
+import GameDetailInfo from './../components/info/game_detail_info'
 
 class ShowGame extends React.Component {
     constructor(props) {
@@ -33,6 +34,12 @@ class ShowGame extends React.Component {
                     <Col xs={3}>
                         <GameSteps game={this.state.game}/>
                     </Col>
+                </Row>
+                <Row>
+                    <Col xsOffset={1} xs={8}>
+                        <GameDetailInfo gamename={this.state.game.gamename}/>
+                    </Col>
+
                 </Row>
                 <Row>
                     <Col xsOffset={1} xs={8}>

@@ -10,9 +10,9 @@ import GameComment from './../components/game_comment/game_comment.js'
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
 import {updateGame} from '../components/modal/game_edit_modal.js';
+import GameDetailForm from '../components/forms/game_detail_form.js';
 
-
-const items = ["基本信息", "参赛者管理", "管理组", "信息记录", "赛事评论"];
+const items = ["基本信息", "赛事详情", "参赛者", "管理组", "信息记录", "赛事评论"];
 
 class GameManage extends React.Component {
     constructor(props) {
@@ -41,7 +41,7 @@ class GameManage extends React.Component {
                 <div>
                     <Row>
                         <Col span="18">
-                            <GameInfo data={this.state.game} hasEdit={true} updateGame={updateGame.bind(this)} />
+                            <GameInfo data={this.state.game} hasEdit={true} updateGame={updateGame.bind(this)}/>
                         </Col>
                         <Col span="5" offset="1">
                             <GameSteps key="step" game={this.state.game}/>
@@ -50,14 +50,15 @@ class GameManage extends React.Component {
 
                 </div>
             ),
+            <GameDetailForm gamename={this.props.params.gamename}/>,
             <EntrysTable gamename={this.props.params.gamename}/>,
-            <ManagerTable gamename={this.props.params.gamename} 
+            <ManagerTable gamename={this.props.params.gamename}
                           owner={this.state.game.owner}/>,
             <MessageRecordTable gamename={this.props.params.gamename}/>,
             <GameComment game={this.state.game} key={this.state.key}/>
         ];
         if (!(this.state.game.teamSign == 0 && this.state.game.teamNum == 1)) {
-            right[2] = <TeamEntrysTable gamename={this.props.params.gamename} username={this.props.username}/>;
+            right[3] = <TeamEntrysTable gamename={this.props.params.gamename} username={this.props.username}/>;
         }
         return (
             <div className="container">

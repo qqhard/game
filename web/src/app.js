@@ -7,7 +7,7 @@ import MyEntrys from './my_entrys.js'
 import MyChecks from './game/my_checks.js'
 import CreateGame from './game/create_game.js'
 import EntryPage from './entry/entry_page.js'
-import ShowGame from './show_game.js'
+import ShowGame from './game/show_game.js'
 import CheckGame from './game/check_game.js'
 import UserinfoPage from './user/userinfo_page.js'
 import UserinfoShow from './user/userinfo_show.js'
@@ -17,7 +17,6 @@ import GameSubmited from './page/game_submited.js'
 import GameFailed from './page/game_failed.js'
 import GameEdit from './page/game_edit.js'
 import GameEvaluate from './page/game_evaluate.js'
-import GameDetailEdit from './game/game_detail_edit.js';
 import TeamPage from './team/team_page.js'
 import MyTeams from './team/my_teams.js'
 import Teams from './team/teams.js'
@@ -144,7 +143,6 @@ render((
             <Route path="/userinfo-:username.html" component={UserinfoPage}/>
             <Route path="/userinfoshow-:username.html" component={UserinfoShow}/>
             <Route path="/game-:gamename.html" component={ShowGame}/>
-            <Route path="/gamedetailedit-:gamename.html" component={GameDetailEdit}/>
             <Route path="/gamecheck-:gamename.html" component={CheckGame}/>
             <Route path="/gamemanage-:gamename.html" component={GameManage}/>
             <Route path="/message-:username.html" component={MyMessage}/>
