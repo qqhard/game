@@ -33,7 +33,7 @@
     "webpack": "^1.12.14"
   },
   "dependencies": {
-    "react-medium-editor": "^1.6.3",
+    "medium-editor": "^5.16.1",
     "react-rating": "^0.2.2"
   }
 }

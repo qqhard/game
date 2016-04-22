@@ -2,7 +2,7 @@ import React from 'react';
 import CsrfToken from '../common/csrf_token.js';
 import 'medium-editor/dist/css/medium-editor.css';
 import 'medium-editor/dist/css/themes/bootstrap.css';
-import Editor from 'react-medium-editor/lib/editor.js';
+import Editor from '../editor/editor.js';
 import PageHeader from 'react-bootstrap/lib/PageHeader';
 import message from 'antd/lib/message';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
