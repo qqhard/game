@@ -20,7 +20,7 @@ class TeamInfo extends React.Component {
         return (
             <Jumbotron>
                 {messageControl}
-                <h2>{this.props.data.cnname} (英文名:{this.props.data.enname})</h2><br/>
+                <h2>{this.props.data.cnname}({this.props.data.enname})</h2><br/>
                 <h3>队长：{leader}</h3><br/>
                 <h3>招募人数：{this.props.data.limitNum}</h3><br/>
 

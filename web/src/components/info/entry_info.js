@@ -8,8 +8,7 @@ class EntryInfo extends React.Component {
 
     render() {
         var forms = null;
-        if(!!this.props.entry){
-            console.log(this.props.entry);
+        if(!!this.props.entry&&!!this.props.entry.formList){
             forms = this.props.entry.formList.map(function (val, index) {
                 return <h3 key={index}>{`${val.name} : ${val.value}`}</h3>;
             }.bind(this));

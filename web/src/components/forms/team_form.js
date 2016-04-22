@@ -18,16 +18,14 @@ class TeamForm extends React.Component {
             enname: {'data': '', 'valid': null, 'help': null},
             cnname: {'data': '', 'valid': null, 'help': null},
             info: {'data': '', 'valid': null, 'help': null},
-            num: {'data': 2, 'valid': null, 'help': null}
+            num: {'data': '', 'valid': null, 'help': null}
         }
     }
 
     handleEnname(e) {
         var val = this.state.enname;
         if (!!e) val.data = e.target.value;
-        var re = /^[a-zA-Z0-9]+$/;
-
-
+        var re = /^[a-zA-Z0-9\s-_]+$/;
         if (val.data.length == 0) {
             val.valid = 'error';
             val.help = '不能为空';
@@ -96,7 +94,6 @@ class TeamForm extends React.Component {
                     +'&info='+this.state.info.data
                     +'&num='+this.state.num.data
                     +'&_csrf='+$('input[name=_csrf]').val();
-        alert(body);
         $.post('/gameApi/team',body,function (data) {
             if(data.status == 'ok'){
                 message.success('队伍创建成功！');
@@ -129,6 +126,7 @@ class TeamForm extends React.Component {
                 />
                 <Input type="text" label="成员数量" {...styleLayout}
                        onChange={this.handleNum.bind(this)}
+                       value={this.state.num.data}
                        bsStyle={this.state.num.valid}
                        help={this.state.num.help}
                 />

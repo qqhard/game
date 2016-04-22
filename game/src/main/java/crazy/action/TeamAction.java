@@ -61,10 +61,17 @@ public class TeamAction {
 	public Object gets() {
 		return teamRepository.findByEntryed(false);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/myteams", method = RequestMethod.GET)
+	public Object getMyTeams(@RequestParam("entryed") Boolean entryed) {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		return teamRepository.findByLeaderAndEntryed(username, entryed);
+	}
 
 	@ResponseBody
 	@RequestMapping(value = "/teams/{leader}", method = RequestMethod.GET)
-	public Object getMyTeams(@PathVariable("leader") String leader, @RequestParam("entryed") Boolean entryed) {
+	public Object getTeams(@PathVariable("leader") String leader, @RequestParam("entryed") Boolean entryed) {
 		return teamRepository.findByLeaderAndEntryed(leader, entryed);
 	}
 

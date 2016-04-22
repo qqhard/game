@@ -44,7 +44,7 @@ class EntryForm extends React.Component {
     componentDidMount() {
         var user_url = '/userApi/userinfo';
         var game_url = '/gameApi/game/' + this.props.gamename;
-        var team_url = `/gameApi/teams/${this.props.username}?entryed=false`;
+        var team_url = `/gameApi/myteams?entryed=false`;
         $.get(user_url, function (data) {
             if(data.length>100){
                 message.info('请先登陆再进行报名!');
@@ -73,7 +73,9 @@ class EntryForm extends React.Component {
             this.setState({game: data});
             this.setState({forms: arr, teamSign: data.teamSign, teamNum: data.teamNum});
         }.bind(this));
+        console.log('test');
         $.get(team_url, function (data) {
+            console.log(data);
             this.setState({teams: data});
         }.bind(this));
     }
