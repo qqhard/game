@@ -74,6 +74,7 @@ class TeamEntrysTable extends React.Component {
         var teams = [];
         var phones = [];
         for (var i in selectedRecords) {
+            console.log(selectedRecords[i]);
             users = users.concat(selectedRecords[i].users);
             emails = emails.concat(selectedRecords[i].emails);
             phones = phones.concat(selectedRecords[i].phones);
@@ -238,10 +239,15 @@ class TeamEntrysTable extends React.Component {
             }
         }];
 
-        const {loading, selectedRowKeys} = this.state;
+        const {selectedRowKeys} = this.state;
         const rowSelection = {
             selectedRowKeys,
-            onChange: this.onSelectChange.bind(this)
+            onChange: this.onSelectChange.bind(this),
+            getCheckboxProps(record) {
+                return {
+                    disabled: record.isSon
+                };
+            }
         };
         const hasSelected = selectedRowKeys.length > 0;
 

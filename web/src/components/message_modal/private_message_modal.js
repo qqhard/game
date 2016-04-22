@@ -34,7 +34,7 @@ class PrivateMessageModal extends React.Component {
             + '&sender=' + this.props.username
             + '&gamename=' + this.props.gamename
             + '&_csrf=' + $("input[name=_csrf]").val();
-        alert(body);
+
         $.post('/message/messages', body, function (data) {
             if (data == 'ok') {
                 this.setState({text: '', textHelp: ''});

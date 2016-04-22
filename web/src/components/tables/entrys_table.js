@@ -35,13 +35,15 @@ class EntrysTable extends React.Component {
     componentDidMount() {
         $.get('/gameApi/gameentrys/' + this.props.gamename + '/individual', function (data) {
             var arr = [];
-            console.log("test"+data);
+            console.log(data);
             for (var i in data) {
                 arr.push({
-                    key: data[i].username,
-                    username: data[i].username,
-                    phone: data[i].phone,
-                    email: data[i].email
+                    key: data[i].entry.username,
+                    username: data[i].entry.username,
+                    phone: data[i].user.phone,
+                    email: data[i].user.email,
+                    sociolname: data[i].user.sociolname,
+                    studentid: data[i].user.studentid
                 });
             }
             this.setState({entrys: arr});
@@ -199,6 +201,12 @@ class EntrysTable extends React.Component {
         }, {
             title: '邮箱',
             dataIndex: 'email'
+        },{
+            title: '姓名',
+            dataIndex: 'sociolname'
+        },{
+            title: '学号',
+            dataIndex: 'studentid'
         }, {
             title: '操作',
             key: 'operation',
