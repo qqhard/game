@@ -6,4 +6,6 @@
 	<root level="INFO">
 		<appender-ref ref="FILE" />
 	</root>
+	<include resource="org/springframework/boot/logging/logback/base.xml"/>
+	<jmxConfigurator/>
 </configuration>

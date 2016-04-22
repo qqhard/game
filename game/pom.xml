@@ -60,15 +60,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-		<dependency>
-	        <groupId>org.springframework.security</groupId>
-	        <artifactId>spring-security-ldap</artifactId>
-	    </dependency>
-	    <dependency>
-	        <groupId>org.apache.directory.server</groupId>
-	        <artifactId>apacheds-server-jndi</artifactId>
-	        <version>1.5.5</version>
-	    </dependency>
 	    <dependency>
 	        <groupId>org.springframework.security</groupId>
 	        <artifactId>spring-security-web</artifactId>
@@ -165,6 +156,12 @@
              <artifactId>game-persist</artifactId>
              <version>${project.version}</version>
          </dependency>
+         
+         <dependency>
+		    <groupId>de.codecentric</groupId>
+		    <artifactId>spring-boot-admin-starter-client</artifactId>
+		    <version>1.3.2</version>
+		</dependency>
 	</dependencies>
 
 
