@@ -6,7 +6,7 @@ import PrivateMessageModal from '../message_modal/private_message_modal.js';
 import PhoneMessageModal from '../message_modal/phone_message_modal.js';
 import EmailMessageModal from '../message_modal/email_message_modal.js';
 import EntryDelModal from '../message_modal/entry_del_modal.js';
-
+import FileDownloadForm from '../forms/file_download_form.js';
 
 class EntrysTable extends React.Component {
 
@@ -274,6 +274,7 @@ class EntrysTable extends React.Component {
                         <Button onClick={this.showModalBatch.bind(this,'/message/email')}
                                 disabled={!hasSelected}>群发邮件</Button>
                         <Button onClick={this.showPhoneModalBatch.bind(this)} disabled={!hasSelected}>群发短信</Button>
+                        <FileDownloadForm type="excel" gamename={this.props.gamename}/>
                         <Button onClick={this.showDelModalBatch.bind(this)} disabled={!hasSelected} bsStyle="danger">批量清退</Button>
                     </ButtonGroup>
                     <span style={{ marginLeft: 8 }}>{hasSelected ? `选择了 ${selectedRowKeys.length} 个参赛者` : ''}</span>

@@ -34,10 +34,6 @@
 		</dependency>
 	    <dependency>
 	        <groupId>org.springframework.security</groupId>
-	        <artifactId>spring-security-config</artifactId>
-	    </dependency>
-	    <dependency>
-	        <groupId>org.springframework.security</groupId>
 	        <artifactId>spring-security-test</artifactId>
 	    </dependency>
 	    <dependency>
@@ -62,31 +58,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-velocity</artifactId>
-		</dependency>
-
-
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+	
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-logging</artifactId>
-		</dependency>
-		<dependency>
-	        <groupId>org.springframework.boot</groupId>
-	        <artifactId>spring-boot-devtools</artifactId>
-	        <optional>false</optional>
-	    </dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -102,22 +78,7 @@
 		   <groupId>com.jayway.jsonpath</groupId>
 		   <artifactId>json-path</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.sun.mail</groupId>
-			<artifactId>javax.mail</artifactId>
-		</dependency>
-		<!-- ali email -->
-		<dependency>
-             <groupId>com.aliyun</groupId>
-             <artifactId>aliyun-java-sdk-core</artifactId>
-             <version>2.2.2</version>
-      	</dependency>
-         <dependency>
-             <groupId>com.aliyun</groupId>
-             <artifactId>aliyun-java-sdk-dm</artifactId>
-             <version>2.0.0-rc1</version>
-         </dependency>
-		<!-- ali email -->
+
 		<dependency>
              <groupId>com.valseek</groupId>
              <artifactId>game-model</artifactId>
