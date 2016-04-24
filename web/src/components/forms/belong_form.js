@@ -1,6 +1,5 @@
 import React from 'react';
 import Input from 'react-bootstrap/lib/Input';
-// import Button from 'react-bootstrap/lib/Button';
 
 class BelongsForm extends React.Component {
     constructor(props) {

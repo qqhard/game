@@ -2,6 +2,7 @@ package crazy.action;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -56,10 +57,10 @@ public class ExcelAction {
 		List<String> usernames = entrys.stream().map(e -> e.getUsername()).collect(Collectors.toList());
 		query = new Query(Criteria.where("username").in(usernames));
 		List<User> users = userRepository.findByUsernameInList(usernames);
-		
+
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		try {
-			createEntryExcel(entrys,users,workbook);
+			createEntryExcel(entrys, users, workbook);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -69,23 +70,21 @@ public class ExcelAction {
 			workbook.write(out);
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		} finally{
+		} finally {
 			workbook.close();
 		}
-	
-		HttpHeaders headers = new HttpHeaders();  
-	    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);  
-	    headers.setContentDispositionFormData("attachment", gamename+".xls");
-	   
-		return new ResponseEntity<byte[]>(out.toByteArray(),  
-			                                  headers, HttpStatus.CREATED);
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		headers.setContentDispositionFormData("attachment", gamename + ".xls");
+
+		return new ResponseEntity<byte[]>(out.toByteArray(), headers, HttpStatus.CREATED);
 	}
 
-
 	private void createEntryExcel(List<Entry> entrys, List<User> users, HSSFWorkbook workbook) throws IOException {
-		Map<String, User> map = users.stream().collect(Collectors.toMap(User::getUsername, e -> e));
+		Map<String, User> map = new HashMap<String, User>();
+		users.forEach(e -> map.put(e.getUsername(), e));
 
-	
 		// 获取参数个数作为excel列数
 		int columeCount = 5;
 

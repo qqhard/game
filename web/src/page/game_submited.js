@@ -4,7 +4,6 @@ import Grid from 'react-bootstrap/lib/Grid'
 import Row from 'react-bootstrap/lib/Row'
 import Col from 'react-bootstrap/lib/Col'
 import GameSteps from '../components/game_steps/game_steps.js'
-import CheckShow from '../components/forms/check_show.js'
 import {Link} from 'react-router';
 
 class GameSubmited extends React.Component {

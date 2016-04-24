@@ -1,10 +1,7 @@
-import assign from 'object-assign';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 var MediumEditor = require('medium-editor');
-
-const displayName = 'MediumEditor';
 
 class Editor extends React.Component {
     constructor(props) {

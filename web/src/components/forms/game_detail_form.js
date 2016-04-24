@@ -6,8 +6,8 @@ import Editor from '../editor/editor.js';
 import PageHeader from 'react-bootstrap/lib/PageHeader';
 import message from 'antd/lib/message';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
-import Button from 'react-bootstrap/lib/Button';
 import './form.scss';
+
 const tipText = `在此输入赛事详情，选中文字会出现编辑条！
 支持h1,h2,h3,h4,h5
 `;

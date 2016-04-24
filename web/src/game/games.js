@@ -4,7 +4,7 @@ import Grid from '../../node_modules/react-bootstrap/lib/Grid';
 import Row from '../../node_modules/react-bootstrap/lib/Row';
 import Col from '../../node_modules/react-bootstrap/lib/Col';
 import Thumbnail from '../../node_modules/react-bootstrap/lib/Thumbnail';
-import {Progress} from 'antd';
+import Progress from 'antd/lib/progress';
 const ProgressLine = Progress.Line;
 
 const ACTIVE = {color: 'white'}

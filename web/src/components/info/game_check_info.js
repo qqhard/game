@@ -1,7 +1,4 @@
 import React from 'react';
-import Grid from 'react-bootstrap/lib/Grid';
-import Row from 'react-bootstrap/lib/Row';
-import Col from 'react-bootstrap/lib/Col';
 import Jumbotron from 'react-bootstrap/lib/Jumbotron';
 import Static from 'react-bootstrap/lib/FormControls/Static';
 

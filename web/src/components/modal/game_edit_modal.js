@@ -219,7 +219,6 @@ class GameEditModal extends React.Component {
     }
 
     render() {
-        const nowTime = new Date();
         const starttime = (
             <div className="form-group">
                 <label>报名开始时间 </label>

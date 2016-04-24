@@ -8,7 +8,6 @@ import Col from '../../node_modules/react-bootstrap/lib/Col'
 import ButtonGroup from '../../node_modules/react-bootstrap/lib/ButtonGroup'
 import Button from '../../node_modules/react-bootstrap/lib/Button'
 import Input from '../../node_modules/react-bootstrap/lib/Input'
-// import { browserHistory } from 'react-router';
 import message from 'antd/lib/message';
 
 class CheckForm extends React.Component {

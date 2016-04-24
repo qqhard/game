@@ -1,5 +1,6 @@
 import React from 'react';
-import {Row, Col} from 'antd';
+import Col from 'antd/lib/col';
+import Row from 'antd/lib/row'
 import Sider from './../components/sider/sider.js';
 import ChecksUnTable from './../components/tables/checks_un_table.js';
 import ChecksMyTable from './../components/tables/checks_my_table.js';

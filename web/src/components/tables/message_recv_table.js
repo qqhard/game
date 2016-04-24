@@ -1,8 +1,5 @@
 import React from 'react';
 import Table from 'antd/lib/table';
-import message from 'antd/lib/message';
-import Modal from 'antd/lib/modal';
-import Label from 'react-bootstrap/lib/Label';
 import {timeFormat} from '../common/time_format.js';
 import {textBrief} from '../common/text_brief.js';
 

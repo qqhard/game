@@ -4,9 +4,7 @@ import CsrfToken from '../common/csrf_token';
 import Button from 'react-bootstrap/lib/Button';
 import BelongsForm, {callbackParent} from './belong_form.js';
 import message from 'antd/lib/message';
-import PageHeader from 'react-bootstrap/lib/PageHeader';
 import Icon from 'antd/lib/icon';
-import {Link} from 'react-router';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 
@@ -233,15 +231,12 @@ class UserinfoForm extends React.Component {
     }
 
     render() {
-        const right = {display: 'inline'};
         const params = {
             'first': '不选择',
             'provincelabel': '省份',
             'collegelabel': '高校',
             'institutelabel': '学院'
         };
-
-        var emailActivationUrl = "/emailActivation-" + this.props.username + ".html";
 
         console.log(this.state.isEmailActivated); 
         return (

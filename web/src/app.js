@@ -30,6 +30,7 @@ import CheckEmailActivationCodeComponent from './check-email-activation-code-com
 import 'antd/lib/index.css';
 import './app.scss';
 import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router';
+import Footer from './components/common/footer.js';
 
 const ACTIVE = {color: 'black'};
 
@@ -105,7 +106,6 @@ class App extends React.Component {
         else if (this.state.role == 'ADMIN') nav = adminNav;
         else nav = guestNav;
 
-        const innerButton = <Button >search</Button>;
 
         return (
             <div>
@@ -124,7 +124,10 @@ class App extends React.Component {
                     </div>
                 </nav>
                 <div style={{height:'20px'}}></div>
-                {this.props.children}
+                <div style={{minHeight:'600px'}}>
+                    {this.props.children}
+                </div>
+                <Footer />
             </div>
         )
     }

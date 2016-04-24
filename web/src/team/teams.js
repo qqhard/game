@@ -1,7 +1,6 @@
 import React from 'react';
 import TeamList from '../components/list/team_list.js';
 import Row from 'antd/lib/row';
-import Col from 'antd/lib/col';
 
 
 class Teams extends React.Component {

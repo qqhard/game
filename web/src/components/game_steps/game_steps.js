@@ -37,7 +37,6 @@ class GameSteps extends React.Component {
         const startTime = this.props.game.startTime;
         const dueTime = this.props.game.dueTime;
         const endTime = this.props.game.endTime;
-        const nowTime = Date.parse(new Date());
         const status = this.getStatus();
         const steps = [{
             status: status[0],

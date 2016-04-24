@@ -2,7 +2,6 @@ import React from 'react';
 import message from 'antd/lib/message';
 import Modal from 'antd/lib/modal';
 import Button from 'react-bootstrap/lib/Button';
-import Jumbotron from 'react-bootstrap/lib/Jumbotron';
 
 class MemberInviteModal extends React.Component{
     constructor(props){

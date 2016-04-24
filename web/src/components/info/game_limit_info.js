@@ -1,8 +1,5 @@
 import React from 'react';
-import Row from '../../../node_modules/react-bootstrap/lib/Row'
-import Col from '../../../node_modules/react-bootstrap/lib/Col'
 import Jumbotron from '../../../node_modules/react-bootstrap/lib/Jumbotron';
-import {timeFormat} from '../common/time_format.js';
 
 class GameLimitInfo extends React.Component {
     constructor(props) {

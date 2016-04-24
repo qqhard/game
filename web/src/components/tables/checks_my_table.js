@@ -1,7 +1,5 @@
 import React from 'react';
 import Table from 'antd/lib/table';
-// import Label from 'react-bootstrap/lib/Label';
-// import {timeFormat} from '../common/time_format.js'
 
 const columns = [
     {title: '域名', dataIndex: 'gamename', key: 'gamename'},

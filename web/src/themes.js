@@ -4,7 +4,6 @@ import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Thumbnail from 'react-bootstrap/lib/Thumbnail';
-import {Progress} from 'antd';
 import Input from 'react-bootstrap/lib/Input';
 import message from 'antd/lib/message';
 

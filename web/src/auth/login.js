@@ -45,7 +45,7 @@ class Login extends React.Component {
     handleSubmit(e) {
         e.preventDefault(); 
         var flag = this.handleUsername(null) & this.handlePassword(null);
-        if(flag == false) return ;
+        if(!flag) return ;
         
         var data = {
             username: this.state.username.data,

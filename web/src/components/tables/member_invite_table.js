@@ -1,7 +1,6 @@
 import React from 'react';
 import Table from 'antd/lib/table';
 import message from 'antd/lib/message';
-import Input from 'react-bootstrap/lib/Input'
 
 class MemberInviteTable extends React.Component {
     handleClick(record){

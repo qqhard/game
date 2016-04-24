@@ -1,0 +1,42 @@
+#footer a {
+  color: #888;
+}
+
+#footer {
+  border-top: 1px solid #eee;
+  padding: 40px 0;
+  line-height: 1.6;
+  vertical-align: top;
+}
+
+footer {
+  display: block;
+}
+
+#footer .site-link dt {
+  margin-bottom: 20px;
+  color: #333;
+  line-height: 1.5;
+}
+
+#footer .copyright {
+  text-align: center;
+  font-size: 13px;
+}
+
+#footer dt {
+  line-height: 1.5;
+}
+
+#footer .site-link {
+  margin: 0 0 40px;
+}
+
+#footer .site-link dd {
+  margin: 5px 0;
+  font-size: 13px;
+}
+
+#footer dd a{
+  display:inline-block;
+}
