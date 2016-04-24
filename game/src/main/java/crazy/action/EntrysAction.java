@@ -61,7 +61,10 @@ public class EntrysAction {
 		List<Entry> entrys = entryRepository.findByGamenameAndDeled(gamename, false);
 		List<String> query = entrys.stream().map(e -> e.getUsername()).collect(Collectors.toList());
 		List<User> users = userRepository.findByUsernameInList(query);
-		Map<String, User> map = users.stream().collect(Collectors.toMap(User::getUsername, e -> e));
+		Map<String, User> map = new HashMap<>();
+		//bug 原因不明
+		//Map<String, User> map = users.stream().collect(Collectors.toMap(e.getUsername(), e -> e));
+		users.stream().forEach(e->map.put(e.getUsername(), e));
 		List<HashMap<String,Object> > ret = new ArrayList<HashMap<String,Object>>();
 		for(Entry entry: entrys){
 			HashMap<String,Object> tmp = new HashMap<>();

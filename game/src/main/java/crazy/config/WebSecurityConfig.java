@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
       	http
       		.authorizeRequests()
-				.antMatchers("/games","/game/*","/management/**").permitAll()
+				.antMatchers("/games","/game/*","/game/detail/*").permitAll()
 //				.antMatchers("/management/**").hasAuthority("SUPERUSER")
 				.anyRequest()
 				.authenticated();
