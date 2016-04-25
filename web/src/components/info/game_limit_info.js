@@ -12,7 +12,9 @@ class GameLimitInfo extends React.Component {
     }
 
     fetchBelongName(provinceid, collegeid, instituteid) {
-        if (!provinceid || !collegeid || !instituteid)return;
+        if(!provinceid)provinceid = 0;
+        if(!collegeid)collegeid = 0;
+        if(!instituteid)instituteid = 0;
         const belong_url = `/gameApi/belong/${provinceid}/${collegeid}/${instituteid}`;
         $.get(belong_url, function (data) {
             this.setState(data);

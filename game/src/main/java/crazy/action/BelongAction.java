@@ -49,6 +49,10 @@ public class BelongAction {
 			ret.put("provincename", province.getName());
 			ret.put("collegename", "");
 			ret.put("institutename", "");
+		}else{
+			ret.put("provincename", "");
+			ret.put("collegename", "");
+			ret.put("institutename", "");
 		}
 		return ret;
 	}

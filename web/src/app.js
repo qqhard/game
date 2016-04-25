@@ -51,6 +51,7 @@ class App extends React.Component {
             msg_num: 0,
             role: 'GUEST'
         }
+        $('#loading').remove();
     }
 
     componentWillMount() {

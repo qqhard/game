@@ -3,16 +3,74 @@
 <head>
     <title>Game Factory</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <!--<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>-->
-
-    <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.js"></script>
     <!--<script src="bower_components/jquery/dist/jquery.min.js"></script>-->
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <style>
+        .spinner {
+            margin: 100px auto;
+            width: 90px;
+            height: 90px;
+            position: relative;
+            text-align: center;
+
+            -webkit-animation: rotate 2.0s infinite linear;
+            animation: rotate 2.0s infinite linear;
+        }
+
+        .dot1, .dot2 {
+            width: 60%;
+            height: 60%;
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            background-color: #67CF22;
+            border-radius: 100%;
+
+            -webkit-animation: bounce 2.0s infinite ease-in-out;
+            animation: bounce 2.0s infinite ease-in-out;
+        }
+        .dot2 {
+            top: auto;
+            bottom: 0px;
+            -webkit-animation-delay: -1.0s;
+            animation-delay: -1.0s;
+        }
+        @-webkit-keyframes rotate { 100% { -webkit-transform: rotate(360deg) }}
+        @keyframes rotate { 100% { transform: rotate(360deg); -webkit-transform: rotate(360deg) }}
+
+        @-webkit-keyframes bounce {
+            0%, 100% { -webkit-transform: scale(0.0) }
+            50% { -webkit-transform: scale(1.0) }
+        }
+        @keyframes bounce {
+            0%, 100% {
+                transform: scale(0.0);
+                -webkit-transform: scale(0.0);
+            } 50% {
+                  transform: scale(1.0);
+                  -webkit-transform: scale(1.0);
+              }
+        }
+        
+        #loading p {
+            text-align: center;
+            font-size: 30px;
+        }
+    </style>
     <script>var duoshuoQuery = {short_name: "testlacko"};</script>
     <script src="http://static.duoshuo.com/embed.js"></script>
     <base href="/">
 </head>
 <body style="padding-top: 50px;">
+<div id="loading">
+    <div class="spinner">
+        <div class="dot1"></div>
+        <div class="dot2"></div>
+    </div>
+    <p>Loading . . .</p>
+</div>
 <div id="body"></div>
+<script src="//cdn.bootcss.com/jquery/2.2.1/jquery.js"></script>
 </body>
 </html>
