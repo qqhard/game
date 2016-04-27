@@ -2,8 +2,8 @@ import React from 'react';
 import {render} from 'react-dom'
 import MyGames from './game/my_games.js'
 import Games from './game/games.js'
-import Themes from './themes.js'
-import MyEntrys from './my_entrys.js'
+import Themes from './theme/themes.js'
+import MyEntrys from './entry/my_entrys.js'
 import MyChecks from './game/my_checks.js'
 import CreateGame from './game/create_game.js'
 import EntryPage from './entry/entry_page.js'
@@ -12,7 +12,7 @@ import CheckGame from './game/check_game.js'
 import UserinfoPage from './user/userinfo_page.js'
 import UserinfoShow from './user/userinfo_show.js'
 import GameManage from './game/game_manage.js'
-import MyMessage from './my_message.js'
+import MyMessage from './message/my_message.js'
 import GameSubmited from './page/game_submited.js'
 import GameFailed from './page/game_failed.js'
 import GameEdit from './page/game_edit.js'
@@ -26,7 +26,7 @@ import Button from 'react-bootstrap/lib/Button'
 import Login from './auth/login.js';
 import LoginCheckEmail from './auth/login_check_email.js';
 import Register from './auth/register.js';
-import CheckEmailActivationCodeComponent from './check-email-activation-code-component';
+import CheckEmailActivationCodeComponent from './auth/check-email-activation-code-component';
 import 'antd/lib/index.css';
 import './app.scss';
 import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router';
@@ -38,8 +38,8 @@ const ACTIVE = {color: 'black'};
 const guestNav = (
     <ul className="nav navbar-nav navbar-right">
         <li><Link to="/games.html" activeStyle={ACTIVE}>赛事列表</Link></li>
-        <li><a href="/register.html">register</a></li>
-        <li><a href="/login.html">login</a></li>
+        <li><Link to="/register.html">register</Link></li>
+        <li><Link to="/login.html">login</Link></li>
     </ul>
 );
 
@@ -113,7 +113,7 @@ class App extends React.Component {
                 <nav className="navbar navbar-default navbar-fixed-top" style={{zIndex:100}}>
                     <div className="container-fluid">
                         <div className="navbar-header">
-                            <a className="navbar-brand" href="/">Game Factory</a>
+                            <Link className="navbar-brand" to="/">Game Factory</Link>
                             <ul className="nav navbar-nav">
                                 <li><a id="menu-toggle" href="#"></a></li>
 

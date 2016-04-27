@@ -7,6 +7,10 @@ import PhoneMessageModal from '../message_modal/phone_message_modal.js';
 import EmailMessageModal from '../message_modal/email_message_modal.js';
 import EntryDelModal from '../message_modal/entry_del_modal.js';
 import FileDownloadForm from '../forms/file_download_form.js';
+import Select from 'antd/lib/select';
+import EntryGroupModal, {showGroupModal, cancelGroupModal, addGroup} from '../modal/entry_group_modal.js';
+
+const Option = Select.Option;
 
 class EntrysTable extends React.Component {
 
@@ -18,8 +22,7 @@ class EntrysTable extends React.Component {
             entrys: [],
             url: '',
             users: [],
-            emails: [],
-            phones: []
+            groups: []
         }
     }
 
@@ -32,36 +35,64 @@ class EntrysTable extends React.Component {
         });
     }
 
-    componentDidMount() {
+    fetchEntrys() {
         $.get('/gameApi/gameentrys/' + this.props.gamename + '/individual', function (data) {
             var arr = [];
-            console.log(data);
             for (var i in data) {
                 arr.push({
-                    key: data[i].entry.username,
+                    key: data[i].entry.id,
                     username: data[i].entry.username,
-                    phone: data[i].user.phone,
-                    email: data[i].user.email,
                     sociolname: data[i].user.sociolname,
-                    studentid: data[i].user.studentid
+                    studentid: data[i].user.studentid,
+                    email:data[i].user.email,
+                    phone:data[i].user.phone
                 });
             }
             this.setState({entrys: arr});
         }.bind(this));
+
+    }
+
+    fetchGroups() {
+        $.get(`/gameApi/groups/${this.props.gamename}`, (data)=> {
+            var arr = [{id: 'all', groupname: '全体参赛者'}];
+            arr = arr.concat(data);
+            this.setState({groups: arr});
+        });
+    }
+
+    fetchGroup(groupid){
+        $.get(`/gameApi/group/${this.props.gamename}/${groupid}`,(data)=>{
+            var arr = [];
+            for (var i in data) {
+                arr.push({
+                    key: data[i].entry.id,
+                    username: data[i].entry.username,
+                    sociolname: data[i].user.sociolname,
+                    studentid: data[i].user.studentid,
+                    email:data[i].user.email,
+                    phone:data[i].user.phone
+                });
+            }
+            this.setState({entrys: arr});
+        });
+    }
+
+    componentDidMount() {
+        this.fetchEntrys();
+        this.fetchGroups();
     }
 
     onSelectChange(selectedRowKeys, selectedRecords) {
         console.log('selectedRowKeys changed: ', selectedRecords);
         this.setState({selectedRowKeys});
         var users = [];
-        var emails = [];
-        var phones = [];
+        var entryids = [];
         for (var i in selectedRecords) {
+            entryids.push(selectedRecords[i].key);
             users.push(selectedRecords[i].username);
-            emails.push(selectedRecords[i].email);
-            phones.push(selectedRecords[i].phone);
         }
-        this.setState({users: users, emails: emails, phones: phones});
+        this.setState({entryids: entryids, users: users});
     }
 
     showModal(url, record) {
@@ -69,8 +100,6 @@ class EntrysTable extends React.Component {
             visible: true,
             url: url,
             users: [record.username],
-            emails: [record.email],
-            phones: [record.phone]
         });
     }
 
@@ -85,8 +114,6 @@ class EntrysTable extends React.Component {
         this.setState({
             visible2: true,
             users: [record.username],
-            emails: [record.email],
-            phones: [record.phone]
         });
     }
 
@@ -100,8 +127,6 @@ class EntrysTable extends React.Component {
         this.setState({
             visible3: true,
             users: [record.username],
-            emails: [record.email],
-            phones: [record.phone]
         });
     }
 
@@ -115,8 +140,6 @@ class EntrysTable extends React.Component {
         this.setState({
             visible4: true,
             users: [record.username],
-            emails: [record.email],
-            phones: [record.phone]
         });
     }
 
@@ -164,29 +187,32 @@ class EntrysTable extends React.Component {
         if (this.state.selectedRowKeys.length < this.state.entrys.length) {
             var keys = [];
             var users = [];
-            var emails = [];
-            var phones = [];
-            for(var i in this.state.entrys){
+            for (var i in this.state.entrys) {
                 keys.push(this.state.entrys[i].key);
                 users.push(this.state.entrys[i].username);
-                emails.push(this.state.entrys[i].email);
-                phones.push(this.state.entrys[i].phone);
             }
             this.setState({
                 selectedRowKeys: keys,
+                entryids: keys,
                 users: users,
-                emails: emails,
-                phones: phones
             });
         } else {
             this.setState({
                 selectedRowKeys: [],
+                entryids: [],
                 users: [],
-                emails: [],
-                phones: []
             });
         }
 
+    }
+
+    handleGroup(value) {
+        if(value=="all"){
+            this.fetchEntrys();
+        }else{
+            this.fetchGroup(value);
+        }
+        this.setState({selectedRowKeys:[]});
     }
 
     render() {
@@ -201,10 +227,10 @@ class EntrysTable extends React.Component {
         }, {
             title: '邮箱',
             dataIndex: 'email'
-        },{
+        }, {
             title: '姓名',
             dataIndex: 'sociolname'
-        },{
+        }, {
             title: '学号',
             dataIndex: 'studentid'
         }, {
@@ -232,7 +258,12 @@ class EntrysTable extends React.Component {
             onChange: this.onSelectChange.bind(this)
         };
         const hasSelected = selectedRowKeys.length > 0;
-        console.log('test');
+
+
+        const groupOptions = this.state.groups.map((val, index)=> {
+            return <Option value={val.id} key={index}>{val.groupname}</Option>
+        });
+
         return (
             <div>
                 <EmailMessageModal
@@ -266,10 +297,17 @@ class EntrysTable extends React.Component {
                     onCancel={_this.callCancel3.bind(_this)}
                     onClear={_this.callDelEntry.bind(_this)}
                 />
-
+                <EntryGroupModal
+                    entryids={this.state.entryids}
+                    gamename={this.props.gamename}
+                    visible={this.state.groupModalVisible}
+                    onCancel={cancelGroupModal.bind(_this)}
+                    addGroup={addGroup.bind(this)}
+                />
                 <div style={{ marginBottom: 16 }}>
                     <ButtonGroup>
                         <Button onClick={this.selectAll.bind(this)}>跨页全选</Button>
+                        <Button onClick={showGroupModal.bind(this)} disabled={!hasSelected}>增加分组</Button>
                         <Button onClick={this.showPrivateModalBatch.bind(this)} disabled={!hasSelected}>群发私信</Button>
                         <Button onClick={this.showModalBatch.bind(this,'/message/email')}
                                 disabled={!hasSelected}>群发邮件</Button>
@@ -278,6 +316,11 @@ class EntrysTable extends React.Component {
                         <Button onClick={this.showDelModalBatch.bind(this)} disabled={!hasSelected} bsStyle="danger">批量清退</Button>
                     </ButtonGroup>
                     <span style={{ marginLeft: 8 }}>{hasSelected ? `选择了 ${selectedRowKeys.length} 个参赛者` : ''}</span>
+
+                    <Select defaultValue="全体参赛者" style={{ width: 200, float:'right' }}
+                            onChange={this.handleGroup.bind(this)}>
+                        {groupOptions}
+                    </Select>
                 </div>
                 <Table rowSelection={rowSelection} columns={columns} dataSource={this.state.entrys}/>
             </div>

@@ -1,8 +1,8 @@
 import React from 'react';
-import GameList from './components/list/game_list.js';
+import GameList from './../components/list/game_list.js';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
-import Sider from './components/sider/sider.js';
+import Sider from './../components/sider/sider.js';
 
 const items = ['我报名的', '已经开始', '已经结束'];
 

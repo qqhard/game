@@ -30,6 +30,7 @@ public class EntryForm {
 		entry.setPhone(phone);
 		entry.setDeled(false);
 		entry.setFormList(getUserDefindFormList());
+		entry.setEntryTime(System.currentTimeMillis());
 		return entry;
 	}
 	public String getGamename() {

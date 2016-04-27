@@ -1,9 +1,9 @@
 import React from 'react';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
-import Sider from './components/sider/sider.js';
-import MessageSendTable from './components/tables/message_send_table.js';
-import MessageRecvTable from './components/tables/message_recv_table.js';
+import Sider from './../components/sider/sider.js';
+import MessageSendTable from './../components/tables/message_send_table.js';
+import MessageRecvTable from './../components/tables/message_recv_table.js';
 
 const items = ["收信箱", "已发送"];
 

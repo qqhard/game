@@ -41,7 +41,7 @@ import crazy.vo.User;
 @RestController
 @RequestMapping(value = "/game/entry")
 public class EntryAction {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(EntryAction.class);
 	@Autowired
 	private TeamEntryRepository teamEntryRepository;
@@ -60,16 +60,14 @@ public class EntryAction {
 
 	@Autowired
 	private GameRepository gameRepository;
-	
 
 	@ResponseBody
 	@RequestMapping(value = "{gamename}", method = RequestMethod.GET)
 	public Object get(@PathVariable("gamename") String gamename) {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Entry entry = entryRepository.findByUsernameAndGamename(username, gamename);
+		Entry entry = entryRepository.findByUsernameAndGamenameAndDeled(username, gamename, false);
 		return entry;
 	}
-	
 
 	@ResponseBody
 	@RequestMapping(value = "individual", method = RequestMethod.POST)
@@ -85,7 +83,7 @@ public class EntryAction {
 		}
 
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-	
+
 		Game game = gameRepository.findByGamename(entryForm.getGamename());
 		if (game == null)
 			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
@@ -112,11 +110,13 @@ public class EntryAction {
 				entry = entryForm.update(new Entry());
 				entry.setUsername(username);
 				entryRepository.insert(entry);
+				log.info("{} entry {} success！", username, game.getGamename());
 				ret.put("status", "ok");
 			} else if (entry.getDeled()) {
 				entry = entryForm.update(entry);
 				entry.setDeled(false);
 				entryRepository.save(entry);
+				log.info("{} entry {} success！", username, game.getGamename());
 				ret.put("status", "ok");
 			} else {
 				ret.put("status", "fail");
@@ -182,15 +182,15 @@ public class EntryAction {
 				return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
 			if (!username.equals(team.getLeader()))
 				return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
-			if(!checkGameNumLimit(game, team))
+			if (!checkGameNumLimit(game, team))
 				return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
-			
+
 			String entryLock = LockPrefix.lockTeamEntry(game.getGamename()).intern();
 			synchronized (entryLock) {
 				List<Member> members = memberRepository.findByTeamidAndAccepted(team.getId(), true);
 				List<String> userQuery = members.stream().map(e -> e.getUsername()).collect(Collectors.toList());
 				userQuery.add(team.getLeader());
-				
+
 				List<Entry> entrys = entryRepository.findByGamenameAndInUsernames(game.getGamename(), userQuery);
 				if (entrys.size() > 0) {
 					ret.put("status", "fail");
@@ -217,13 +217,13 @@ public class EntryAction {
 				entryRepository.save(entrys);
 
 			}
-			
+
 			team.setGamename(game.getGamename());
 			team.setEntryed(true);
 			teamRepository.save(team);
 		}
-
 		
+		log.info("team {} entry {} success！", teamEntryForm.getTeamid(), game.getGamename());
 		ret.put("status", "ok");
 		return ret;
 	}

@@ -19,6 +19,7 @@ public class Entry {
 	private String phone;
 	private String email;
 	private Boolean deled;
+	private long entryTime;
 	private List<UserDefineForm> formList;
 	public String getId() {
 		return id;
@@ -61,6 +62,12 @@ public class Entry {
 	}
 	public void setDeled(Boolean deled) {
 		this.deled = deled;
+	}
+	public long getEntryTime() {
+		return entryTime;
+	}
+	public void setEntryTime(long entryTime) {
+		this.entryTime = entryTime;
 	}
 	
 }

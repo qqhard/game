@@ -24,10 +24,10 @@ class GameCheckInfo extends React.Component {
             {'label': '高校限制', 'name': 'collegename'},
             {'label': '学院限制', 'name': 'institutename'}
         ].map(function (val, index) {
-            return <Static {...style} label={val.label} value={this.props.data[val.name]}/>;
+            return <Static {...style} key={index} label={val.label} value={this.props.data[val.name]}/>;
         }.bind(this));
         const formList = this.props.data.formList.map(function (val, index) {
-            return <Static {...style} label={"自定义表单" + index} value={val.name}/>;
+            return <Static {...style} key={index} label={"自定义表单" + index} value={val.name}/>;
         });
 
         return (

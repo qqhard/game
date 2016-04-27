@@ -5,7 +5,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     context: __dirname + "/src",
     entry: {
-        app: './app.js'
+        app: './app.js',
+        admin: './admin.js'
     },
     output: {
         path: __dirname + '/build/js',
@@ -35,8 +36,20 @@ module.exports = {
         new webpack.NoErrorsPlugin(),
         new HtmlWebpackPlugin({
             filename: '../../index.html',
+            excludeChunks: ['admin'],
             hash:true,
             template: 'my-index.html',
+            inject:'body',
+            minify:{
+                removeComments:true,
+                collapseWhitespace:true
+            }
+        }),
+        new HtmlWebpackPlugin({
+            filename: '../../admin.html',
+            excludeChunks: ['app'],
+            hash:true,
+            template: 'admin.html',
             inject:'body',
             minify:{
                 removeComments:true,
