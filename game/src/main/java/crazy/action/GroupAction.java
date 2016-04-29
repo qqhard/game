@@ -32,7 +32,7 @@ import crazy.vo.User;
 
 @RestController
 public class GroupAction {
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
@@ -65,15 +65,17 @@ public class GroupAction {
 		Group group = groupRepository.findOne(new ObjectId(groupid));
 		if (!group.getGamename().equals(gamename))
 			return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
-		Query query = new Query(Criteria.where("id").in(group.getEntryids()));
+		Query query = new Query(
+				Criteria.where("id").in(group.getEntryids()).and("deled").is(false));
+
 		List<Entry> entrys = mongo.find(query, Entry.class);
 		List<String> usernames = entrys.stream().map(e -> e.getUsername()).collect(Collectors.toList());
 		List<User> users = userRepository.findByUsernameInList(usernames);
 		Map<String, User> map = new HashMap<>();
-		users.stream().forEach(e->map.put(e.getUsername(), e));
-		List<HashMap<String,Object> > ret = new ArrayList<HashMap<String,Object>>();
-		for(Entry entry: entrys){
-			HashMap<String,Object> tmp = new HashMap<>();
+		users.stream().forEach(e -> map.put(e.getUsername(), e));
+		List<HashMap<String, Object>> ret = new ArrayList<HashMap<String, Object>>();
+		for (Entry entry : entrys) {
+			HashMap<String, Object> tmp = new HashMap<>();
 			tmp.put("entry", entry);
 			tmp.put("user", map.get(entry.getUsername()));
 			ret.add(tmp);
@@ -91,7 +93,7 @@ public class GroupAction {
 		System.out.println("test");
 		if (!hasAuth)
 			return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
-		
+
 		Group group = form.update(new Group());
 		Query query = new Query(Criteria.where("gamename").is(group.getGamename()).and("id").in(group.getEntryids()));
 		List<Entry> entrys = mongo.find(query, Entry.class);

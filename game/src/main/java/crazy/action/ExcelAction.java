@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 import crazy.dao.UserRepository;
 import crazy.vo.Entry;
 import crazy.vo.Game;
+import crazy.vo.Group;
 import crazy.vo.User;
 
 @RestController
@@ -44,7 +45,7 @@ public class ExcelAction {
 	@Autowired
 	private UserRepository userRepository;
 
-	@RequestMapping(value = "{gamename}", method = RequestMethod.GET)
+	@RequestMapping(value = "{gamename}/individual", method = RequestMethod.GET)
 	public Object get(@PathVariable("gamename") String gamename, HttpServletResponse res) throws IOException {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Query query = new Query(Criteria.where("gamename").is(gamename).and("owner").is(username));
@@ -58,13 +59,36 @@ public class ExcelAction {
 		query = new Query(Criteria.where("username").in(usernames));
 		List<User> users = userRepository.findByUsernameInList(usernames);
 
+		String[] titleArray = { "用户名", "姓名", "学号", "邮箱", "电话" };
+		HashMap<String, User> usernameToUserMap = new HashMap<String, User>();
+		users.forEach(user -> usernameToUserMap.put(user.getUsername(), user));
+		HashMap<String, String[]> map = new HashMap<>();
+		entrys.forEach(entry -> {
+			String[] tmp = new String[5];
+			User user = usernameToUserMap.get(entry.getUsername());
+			tmp[0] = entry.getUsername();
+			tmp[1] = user.getSociolname();
+			tmp[2] = user.getStudentid();
+			tmp[3] = user.getEmail();
+			tmp[4] = user.getPhone();
+			map.put(entry.getId(), tmp);
+		});
+
+		query = new Query(Criteria.where("gamename").is(gamename));
+		List<Group> groups = mongo.find(query, Group.class);
+
 		HSSFWorkbook workbook = new HSSFWorkbook();
-		try {
-			createEntryExcel(entrys, users, workbook);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+
+		List<String[]> context = map.values().stream().collect(Collectors.toList());
+		addSheet("全部参赛者", titleArray, context, workbook);
+
+		for (Group group : groups) {
+			context = group.getEntryids().stream().map(e -> map.get(e)).filter(e -> e != null)
+					.collect(Collectors.toList());
+			if (context.size() > 0)
+				addSheet(group.getGroupname(), titleArray, context, workbook);
 		}
+
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		try {
 			workbook.write(out);
@@ -79,6 +103,38 @@ public class ExcelAction {
 		headers.setContentDispositionFormData("attachment", gamename + ".xls");
 
 		return new ResponseEntity<byte[]>(out.toByteArray(), headers, HttpStatus.CREATED);
+	}
+
+	private void addSheet(String name, String[] titleArray, List<String[]> context, HSSFWorkbook workbook) {
+		HSSFSheet sheet = workbook.createSheet(name);
+		// 创建第一栏
+		int columeCount = titleArray.length;
+		HSSFRow headRow = sheet.createRow(0);
+		for (int m = 0; m < columeCount; m++) {
+			HSSFCell cell = headRow.createCell(m);
+			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+			sheet.setColumnWidth(m, 6000);
+			HSSFCellStyle style = workbook.createCellStyle();
+			HSSFFont font = workbook.createFont();
+			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+			short color = HSSFColor.RED.index;
+			font.setColor(color);
+			style.setFont(font);
+			// 填写数据
+			cell.setCellStyle(style);
+			cell.setCellValue(titleArray[m]);
+
+		}
+		int index = 0;
+
+		for (String[] rowContext : context) {
+			HSSFRow row = sheet.createRow(index + 1);
+			for (int n = 0; n < columeCount; n++) {
+				row.createCell(n);
+				row.getCell(n).setCellValue(rowContext[n]);
+			}
+			index++;
+		}
 	}
 
 	private void createEntryExcel(List<Entry> entrys, List<User> users, HSSFWorkbook workbook) throws IOException {
