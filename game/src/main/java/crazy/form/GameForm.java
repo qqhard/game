@@ -26,8 +26,8 @@ public class GameForm {
 	private String collegename;
 	private String institutename;
 	private String userDefineForm;
-	private int teamSign;
-	private int teamNum;
+	private int teamMin;
+	private int teamMax;
 	public List<UserDefineForm> getUserDefindFormList(){
 		List<UserDefineForm> ret = new ArrayList<UserDefineForm>();
 		if(userDefineForm !=null && !"".equals(userDefineForm)){
@@ -51,8 +51,8 @@ public class GameForm {
 		game.setInstituteid(instituteid);
 		game.setInstitutename(institutename);
 		game.setFormList(getUserDefindFormList());
-		game.setTeamNum(teamNum);
-		game.setTeamSign(teamSign);
+		game.setTeamMin(teamMin);
+		game.setTeamMax(teamMax);
 		return game;
 	}
 	public String getGamename() {
@@ -127,17 +127,18 @@ public class GameForm {
 	public void setInstitutename(String institutename) {
 		this.institutename = institutename;
 	}
-	public int getTeamSign() {
-		return teamSign;
+	public int getTeamMin() {
+		return teamMin;
 	}
-	public void setTeamSign(int teamSign) {
-		this.teamSign = teamSign;
+	public void setTeamMin(int teamMin) {
+		this.teamMin = teamMin;
 	}
-	public int getTeamNum() {
-		return teamNum;
+	public int getTeamMax() {
+		return teamMax;
 	}
-	public void setTeamNum(int teamNum) {
-		this.teamNum = teamNum;
+	public void setTeamMax(int teamMax) {
+		this.teamMax = teamMax;
 	}
+
 	
 }

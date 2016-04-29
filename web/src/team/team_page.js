@@ -19,7 +19,7 @@ class TeamPage extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col offset="4" span="20">
+                    <Col offset="4" span="16">
                         <TeamForm />
                     </Col>
                 </Row>

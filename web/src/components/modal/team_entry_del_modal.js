@@ -3,7 +3,7 @@ import message from 'antd/lib/message';
 import Modal from 'antd/lib/modal';
 import CsrfToken from '../common/csrf_token.js';
 
-class EntryDelModal extends React.Component {
+class TeamEntryDelModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -25,16 +25,16 @@ class EntryDelModal extends React.Component {
         }
     }
 
-    delEntrys(userStr, csrf ,filter) {
+    delEntrys(teamStr, csrf ,filter) {
 
-        var body = 'users=' + userStr
-            + '&gamename=' + this.props.gamename
-            + '&_csrf=' + csrf;
-        alert(body);
         $.ajax({
-            url: '/gameApi/entrys/individual',
+            url: '/gameApi/entrys/team',
             type: 'PUT',
-            data: body,
+            data: {
+                _csrf: csrf,
+                gamename: this.props.gamename,
+                teams: teamStr
+            },
             success: function (data) {
                 if (data == 'ok') {
                     this.setState({text: '', textHelp: ''});
@@ -51,13 +51,13 @@ class EntryDelModal extends React.Component {
         });
     }
 
-    msgEntrys(userStr, csrf) {
-        var body = 'users=' + userStr
+    msgEntrys(teamStr, csrf) {
+        var body = 'teams=' + teamStr 
             + '&text=' + this.state.text
             + '&sender=' + this.props.username
             + '&gamename=' + this.props.gamename
             + '&_csrf=' + csrf;
-        $.post('/message/messages', body, function (data) {
+        $.post('/message/messages/teams', body, function (data) {
             console.log(data);
         }.bind(this));
     }
@@ -67,16 +67,16 @@ class EntryDelModal extends React.Component {
         var ok = this.handleText(null);
         if (ok === false)return;
 
-        var userStr = this.props.users.join(",");
+        var teamStr = this.props.teams.join(",");
         var csrf = $("input[name=_csrf]").val();
 
         var filter = [];
-        for(var i in this.props.users){
-            filter[this.props.users[i]] = true;
+        for(var i in this.props.teams){
+            filter[this.props.teams[i]] = true;
         }
 
-        this.msgEntrys(userStr, csrf);
-        this.delEntrys(userStr, csrf, filter);
+        this.msgEntrys(teamStr, csrf);
+        this.delEntrys(teamStr, csrf, filter);
 
     }
 
@@ -107,4 +107,4 @@ class EntryDelModal extends React.Component {
     }
 }
 
-export default EntryDelModal;
+export default TeamEntryDelModal;

@@ -18,7 +18,7 @@ class GameForm extends React.Component {
             briefinfo: {'data': '', 'valid': null, 'help': null},
             gametime: {'data': '', 'valid': null, 'help': null},
             gameplace: {'data': '', 'valid': null, 'help': null},
-            team: {'sign': 0, 'num': 1, 'min': 1},
+            team: {min: 1, max: 1},
             provinceid: 0,
             provincename: '无限制',
             collegeid: 0,
@@ -175,22 +175,18 @@ class GameForm extends React.Component {
         return gameplace.valid == 'success' || gameplace.valid == 'warning';
     }
 
-    handleTeamSign(e) {
+
+    handleTeamMin(e) {
         var val = this.state.team;
-        val.sign = e.target.value;
-        if (val.sign == 0) {
-            val.num = val.min = 1;
-        } else if (val.sign == 1) {
-            val.num = val.min = 3;
-        } else if (val.sign == 2) {
-            val.num = val.min = 1;
-        }
+        if (e.target.value > val.max)return;
+        val.min = e.target.value;
         this.setState({team: val});
     }
 
-    handleTeamNum(e) {
+    handleTeamMax(e) {
         var val = this.state.team;
-        if (e != null) val.num = e.target.value;
+        if (val.min > e.target.value)return;
+        val.max = e.target.value;
         this.setState({team: val});
     }
 
@@ -250,7 +246,7 @@ class GameForm extends React.Component {
         console.log(this.handleGametitle());
         console.log(this.handleBriefinfo());
         console.log(this.handleGametime());
-        console.log(this.handleGameplace()); 
+        console.log(this.handleGameplace());
         return (this.state.gamename.valid == 'success' || this.props.disabled) & this.handleGametitle() &
             this.handleBriefinfo() & this.handleGametime() & this.handleGameplace();
     }
@@ -268,11 +264,10 @@ class GameForm extends React.Component {
             + '&provincename=' + this.state.provincename
             + '&collegename=' + this.state.collegename
             + '&institutename=' + this.state.institutename
-            + '&teamSign=' + this.state.team.sign
-            + '&teamNum=' + this.state.team.num
+            + '&teamMin=' + this.state.team.min
+            + '&teamMax=' + this.state.team.max
             + '&userDefineForm=' + this.userDefineFormToStr()
             + '&_csrf=' + $('input[name=_csrf]').val();
-        console.log(body);
 
         if (!this.props.game)this.postForm(body);
         else this.putForm(body);
@@ -327,7 +322,7 @@ class GameForm extends React.Component {
     render() {
         const styleLayout = {
             labelClassName: "col-xs-2",
-            wrapperClassName: "col-xs-6"
+            wrapperClassName: "col-xs-8"
         };
 
         // const right = {display: 'inline'};
@@ -349,7 +344,8 @@ class GameForm extends React.Component {
         return (
             <form className="form-horizontal">
 
-                <Input type="text" label="赛事域名" disabled={this.props.disabled} {...styleLayout} addonAfter=".valseek.com"
+                <Input type="text" label="赛事域名" disabled={this.props.disabled} {...styleLayout}
+                       addonAfter=".valseek.com"
                        onBlur={this.existGamename.bind(this)}
                        help={this.state.gamename.help} value={this.state.gamename.data}
                        bsStyle={this.state.gamename.valid} onChange={this.handleGamename.bind(this)}/>
@@ -373,18 +369,15 @@ class GameForm extends React.Component {
                 <Input label="队伍人数" {...styleLayout}>
                     <Row>
                         <Col xs={6}>
-                            <Input type="select" placeholder="select"
-                                   onChange={this.handleTeamSign.bind(this)}
-                                   value={this.state.team.sign}>
-                                <option value="0">=</option>
-                                <option value="1">&lt;</option>
-                                <option value="2">&gt;</option>
-                            </Input>
+                            <Input type="number" min={1}
+                                   value={this.state.team.min}
+                                   onChange={this.handleTeamMin.bind(this)}
+                                   className="form-control"/>
                         </Col>
                         <Col xs={6}>
-                            <Input type="number" min={this.state.team.min}
-                                   value={this.state.team.num}
-                                   onChange={this.handleTeamNum.bind(this)}
+                            <Input type="number" min={1}
+                                   value={this.state.team.max}
+                                   onChange={this.handleTeamMax.bind(this)}
                                    className="form-control"/>
                         </Col>
                     </Row>

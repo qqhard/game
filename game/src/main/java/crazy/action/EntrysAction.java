@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import crazy.dao.EntryRepository;
 import crazy.dao.GameRepository;
 import crazy.dao.ManagerRepository;
-import crazy.dao.TeamEntryRepository;
 import crazy.dao.TeamRepository;
 import crazy.dao.UserRepository;
 import crazy.form.EntryDelForm;
@@ -31,16 +30,12 @@ import crazy.vo.Entry;
 import crazy.vo.Game;
 import crazy.vo.Manager;
 import crazy.vo.Team;
-import crazy.vo.TeamEntry;
 import crazy.vo.User;
 
 @RestController
 public class EntrysAction {
 	@Autowired
 	private EntryRepository entryRepository;
-
-	@Autowired
-	private TeamEntryRepository teamEntryRepository;
 
 	@Autowired
 	private TeamRepository teamRepository;
@@ -62,12 +57,13 @@ public class EntrysAction {
 		List<String> query = entrys.stream().map(e -> e.getUsername()).collect(Collectors.toList());
 		List<User> users = userRepository.findByUsernameInList(query);
 		Map<String, User> map = new HashMap<>();
-		//bug 原因不明
-		//Map<String, User> map = users.stream().collect(Collectors.toMap(e.getUsername(), e -> e));
-		users.stream().forEach(e->map.put(e.getUsername(), e));
-		List<HashMap<String,Object> > ret = new ArrayList<HashMap<String,Object>>();
-		for(Entry entry: entrys){
-			HashMap<String,Object> tmp = new HashMap<>();
+		// bug 原因不明
+		// Map<String, User> map =
+		// users.stream().collect(Collectors.toMap(e.getUsername(), e -> e));
+		users.stream().forEach(e -> map.put(e.getUsername(), e));
+		List<HashMap<String, Object>> ret = new ArrayList<HashMap<String, Object>>();
+		for (Entry entry : entrys) {
+			HashMap<String, Object> tmp = new HashMap<>();
 			tmp.put("entry", entry);
 			tmp.put("user", map.get(entry.getUsername()));
 			ret.add(tmp);
@@ -77,9 +73,9 @@ public class EntrysAction {
 
 	@ResponseBody
 	@RequestMapping(value = "/gameentrys/{gamename}/team", method = RequestMethod.GET)
-	public List<TeamEntry> getGameEntrysTeam(@PathVariable("gamename") String gamename) {
-		List<TeamEntry> entrys = teamEntryRepository.findByGamenameAndDeled(gamename, false);
-		return entrys;
+	public Object getGameEntrysTeam(@PathVariable("gamename") String gamename) {
+		List<Team> teams = teamRepository.findByGamenameAndEntryedAndDeled(gamename, true, false);
+		return teams;
 	}
 
 	/**
@@ -145,15 +141,10 @@ public class EntrysAction {
 		}
 
 		List<String> teamids = entryDelForm.getTeamids();
-		List<TeamEntry> teamEntrys = teamEntryRepository.findByTeamids(teamids);
-		for (TeamEntry teamEntry : teamEntrys) {
-			teamEntry.setDeled(true);
-		}
-		teamEntryRepository.save(teamEntrys);
+
 		List<Team> teams = teamRepository.findByIds(teamids);
 		for (Team team : teams) {
 			team.setEntryed(false);
-			team.setGamename(null);
 		}
 		teamRepository.save(teams);
 		return "ok";

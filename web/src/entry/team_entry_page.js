@@ -1,5 +1,5 @@
 import React from 'react';
-import EntryForm from './../components/forms/entry_form.js';
+import TeamForm from './../components/forms/team_form.js';
 import PageHeader from 'react-bootstrap/lib/PageHeader';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -12,7 +12,7 @@ import EntryInfo from './../components/info/entry_info.js';
 import './entry.scss';
 const Step = Steps.Step;
 
-class EntryPage extends React.Component {
+class TeamEntryPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -68,7 +68,7 @@ class EntryPage extends React.Component {
             </Col>,
             <Col xsOffset={2} xs={8}><LoginForm nextStep={this.nextStep.bind(this)} query=""/></Col>,
             <Col><UserinfoForm nextStep={this.nextStep.bind(this)}/></Col>,
-            <EntryForm nextStep={this.nextStep.bind(this)} gamename={this.props.params.gamename}/>,
+            <TeamForm nextStep={this.nextStep.bind(this)} gamename={this.props.params.gamename}/>,
             <Col>
                 <EntryInfo entry={this.state.entry}/>
             </Col>
@@ -94,8 +94,8 @@ class EntryPage extends React.Component {
                             <Step title="用户注册" icon="user" description={toRegister}/>
                             <Step title="用户登录" icon="user" description={toLogin}/>
                             <Step title="用户信息" icon="solution"/>
-                            <Step title="参赛信息" icon="edit"/>
-                            <Step title="报名成功" icon="check-circle-o"/>
+                            <Step title="队伍信息" icon="team"/>
+                            <Step title="队伍申请成功" icon="check-circle-o"/>
                         </Steps>
                     </Col>
                 </Row>
@@ -109,4 +109,4 @@ class EntryPage extends React.Component {
     }
 }
 
-export default EntryPage;
+export default TeamEntryPage;

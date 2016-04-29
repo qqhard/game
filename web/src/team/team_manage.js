@@ -6,7 +6,8 @@ import TeamList from '../components/list/member_list.js';
 import MemberApplyTable from '../components/tables/member_apply_table.js';
 import MemberInviteTable from '../components/tables/member_invite_table.js';
 import CsrfToken from '../components/common/csrf_token.js';
-import MemberInviteModal from '../components/modal/member_invite_modal.js'
+import MemberInviteModal from '../components/modal/member_invite_modal.js';
+import TeamEntryModal,{handleEntry} from '../components/modal/team_entry_modal.js';
 
 const addKey = function (data) {
     for (var i in data) {
@@ -95,10 +96,10 @@ class TeamManage extends React.Component {
         var invites = this.state.invites;
         member.key = member.username;
         invites.push(member);
-        this.setState({invites:invites});
+        this.setState({invites: invites});
     }
 
-    callDel(member){
+    callDel(member) {
         var members = this.state.members;
         for (var i in members) {
             if (members[i].username == member.username) {
@@ -150,6 +151,10 @@ class TeamManage extends React.Component {
                                 team={this.state.team}
                                 csrf={$('input[name=_csrf]').val()}
                                 onInvite={this.callInvite.bind(this)}
+                            />
+                            <TeamEntryModal
+                                team={this.state.team}
+                                csrf={$('input[name=_csrf]').val()}
                             />
                         </Row>
                     </Col>

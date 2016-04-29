@@ -22,10 +22,8 @@ class EntryForm extends React.Component {
             phone: {'data': '', 'valid': null, 'help': null},
             email: {'data': '', 'valid': null, 'help': null},
             forms: [{'name': 'qq', 'data': '', 'valid': null, 'help': null}],
-            teams: [],
-            isTeam: false,
-            teamSign: 0,
-            teamNum: 1,
+            teamMin: 0,
+            teamMax: 0,
             team: {data: 0, valid: null, help: null},
             province: {help: '', valid: null},
             college: {help: '', valid: null},
@@ -46,9 +44,8 @@ class EntryForm extends React.Component {
         var game_url = '/gameApi/game/' + this.props.gamename;
         var team_url = `/gameApi/myteams?entryed=false`;
         $.get(user_url, function (data) {
-            if(data.length>100){
+            if (data.length > 100) {
                 message.info('请先登陆再进行报名!');
-               // browserHistory.push('/login.html');
             }
             var phone = this.state.phone;
             var email = this.state.email;
@@ -64,19 +61,13 @@ class EntryForm extends React.Component {
         }.bind(this)).error(function (e) {
         });
         $.get(game_url, function (data) {
-            if (!(data.teamSign == 0 && data.teamNum == 1))this.setState({isTeam: true});
             var forms = data.formList;
             var arr = [];
             for (var i = 0; i < forms.length; i++) {
                 arr.push({'name': forms[i].name, 'data': '', 'valid': null, 'help': ''});
             }
             this.setState({game: data});
-            this.setState({forms: arr, teamSign: data.teamSign, teamNum: data.teamNum});
-        }.bind(this));
-        console.log('test');
-        $.get(team_url, function (data) {
-            console.log(data);
-            this.setState({teams: data});
+            this.setState({forms: arr, teamMin: data.teamMin, teamMax: data.teamMax});
         }.bind(this));
     }
 
@@ -151,48 +142,10 @@ class EntryForm extends React.Component {
         return new_lsit.join('#');
     }
 
-    handleTeam(e) {
-        var val = this.state.team;
-        if (!!e) val.data = e.target.value;
-
-        const team = this.state.teams[this.state.team.data];
-        var flag = false;
-        if (team != null) {
-            if (this.state.teamSign == 0) {
-                if (this.state.teamNum == team.nowNum) flag = true;
-            } else if (this.state.teamSign == 1) {
-                if (team.nowNum < this.state.teamNum) flag = true;
-            } else if (this.state.teamSign == 2) {
-                if (team.nowNum > this.state.teamNum) flag = true;
-            }
-        }
-
-
-        if (flag) {
-            val.valid = 'success';
-            val.help = '';
-        } else if (team == null) {
-            val.valid = 'error';
-            val.help = '请选择队伍！';
-        } else {
-            val.valid = 'error';
-            val.help = '所选队伍不符合赛事要求！';
-        }
-        this.setState({team: val});
-        return !!flag;
-    }
-
     getIndividualBody() {
         return 'gamename=' + this.props.gamename
             + '&phone=' + this.state.phone.data
             + '&email=' + this.state.email.data
-            + '&forms=' + this.userDefineFormToStr()
-            + '&_csrf=' + $('input[name=_csrf]').val();
-    }
-
-    getTeamBody() {
-        return 'gamename=' + this.props.gamename
-            + '&teamid=' + this.state.teams[this.state.team.data].id
             + '&forms=' + this.userDefineFormToStr()
             + '&_csrf=' + $('input[name=_csrf]').val();
     }
@@ -202,7 +155,7 @@ class EntryForm extends React.Component {
         $.post(url, body, function (data) {
             if (data.status == 'ok') {
                 message.success("报名成功！");
-                if(!!this.props.nextStep){
+                if (!!this.props.nextStep) {
                     this.props.nextStep();
                 }
             } else {
@@ -218,18 +171,11 @@ class EntryForm extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         this.handleBelong();
-        var flag = this.handleBelong() & this.handlePhone(null) & this.handleEmail(null) & (!this.state.isTeam || this.handleTeam(null));
+        var flag = this.handleBelong() & this.handlePhone(null) & this.handleEmail(null);
         if (!flag)return;
 
-        var url = null;
-        var body = null;
-        if (this.state.isTeam) {
-            url = '/gameApi/game/entry/team';
-            body = this.getTeamBody();
-        } else {
-            url = '/gameApi/game/entry/individual';
-            body = this.getIndividualBody();
-        }
+        const url = '/gameApi/entry/individual';
+        const body = this.getIndividualBody();
         this.postEntry(url, body);
     }
 
@@ -240,21 +186,6 @@ class EntryForm extends React.Component {
                           label={val.name} value={val.data} onChange={this.handleUserDefineForm.bind(this,index)}/>;
         }.bind(this));
         var teamSelect = <div></div>;
-        if (this.state.isTeam) {
-            const options = this.state.teams.map(function (val, index) {
-                return <option key={index} value={index}>{val.cnname}({val.enname})</option>
-            });
-            teamSelect = (
-                <Input type="select" {...styleLayout} name="team" label="队伍选择" placeholder="select"
-                       value={this.state.team.data}
-                       onChange={this.handleTeam.bind(this)}
-                       bsStyle={this.state.team.valid}
-                       help={this.state.team.help}
-                >
-                    {options}
-                </Input>
-            );
-        }
 
         var emailIcon = null;
         if (this.state.isEmailActivated) {
@@ -295,7 +226,6 @@ class EntryForm extends React.Component {
                     </Row>
                 </Input>
                 {forms}
-                {teamSelect}
                 <CsrfToken/>
                 <div className="form-group">
                     <div className="col-sm-offset-2 col-sm-6">

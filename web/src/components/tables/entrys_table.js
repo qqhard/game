@@ -2,10 +2,10 @@ import React from 'react';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Button from 'react-bootstrap/lib/Button';
 import Table from 'antd/lib/table';
-import PrivateMessageModal from '../message_modal/private_message_modal.js';
-import PhoneMessageModal from '../message_modal/phone_message_modal.js';
-import EmailMessageModal from '../message_modal/email_message_modal.js';
-import EntryDelModal from '../message_modal/entry_del_modal.js';
+import PrivateMessageModal from '../modal/private_message_modal.js';
+import PhoneMessageModal from '../modal/phone_message_modal.js';
+import EmailMessageModal from '../modal/email_message_modal.js';
+import EntryDelModal from '../modal/entry_del_modal.js';
 import FileDownloadForm from '../forms/file_download_form.js';
 import Select from 'antd/lib/select';
 import EntryGroupModal, {showGroupModal, cancelGroupModal, addGroup} from '../modal/entry_group_modal.js';
@@ -270,7 +270,6 @@ class EntrysTable extends React.Component {
                     username={this.state.username}
                     gamename={this.props.gamename}
                     visible={this.state.visible}
-                    url={this.state.url}
                     users={this.state.users}
                     onCancel={_this.callCancel.bind(_this)}
                 />

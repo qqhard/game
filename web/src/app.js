@@ -7,6 +7,7 @@ import MyEntrys from './entry/my_entrys.js'
 import MyChecks from './game/my_checks.js'
 import CreateGame from './game/create_game.js'
 import EntryPage from './entry/entry_page.js'
+import TeamEntryPage from './entry/team_entry_page.js'
 import ShowGame from './game/show_game.js'
 import CheckGame from './game/check_game.js'
 import UserinfoPage from './user/userinfo_page.js'
@@ -22,7 +23,6 @@ import MyTeams from './team/my_teams.js'
 import Teams from './team/teams.js'
 import TeamManage from './team/team_manage.js'
 import TeamShow from './team/team_show.js'
-import Button from 'react-bootstrap/lib/Button'
 import Login from './auth/login.js';
 import LoginCheckEmail from './auth/login_check_email.js';
 import Register from './auth/register.js';
@@ -51,7 +51,7 @@ class App extends React.Component {
             msg_num: 0,
             role: 'GUEST'
         }
-        $('#loading').remove();
+        document.getElementById('loading').remove();
     }
 
     componentWillMount() {
@@ -144,6 +144,7 @@ render((
             <Route path="/entrys-:username.html" component={MyEntrys}/>
             <Route path="/game.html" component={CreateGame}/>
             <Route path="/entry-:gamename.html" component={EntryPage}/>
+            <Route path="/teamentry-:gamename.html" component={TeamEntryPage}/>
             <Route path="/userinfo-:username.html" component={UserinfoPage}/>
             <Route path="/userinfoshow-:username.html" component={UserinfoShow}/>
             <Route path="/game-:gamename.html" component={ShowGame}/>

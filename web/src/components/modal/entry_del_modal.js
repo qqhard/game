@@ -3,7 +3,7 @@ import message from 'antd/lib/message';
 import Modal from 'antd/lib/modal';
 import CsrfToken from '../common/csrf_token.js';
 
-class TeamEntryDelModal extends React.Component {
+class EntryDelModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -25,16 +25,16 @@ class TeamEntryDelModal extends React.Component {
         }
     }
 
-    delEntrys(teamStr, csrf ,filter) {
-
+    delEntrys(userStr, csrf ,filter) {
+        var body = {
+            users: userStr,
+            gamename: this.props.gamename,
+            _csrf: csrf
+        }
         $.ajax({
-            url: '/gameApi/entrys/team',
+            url: '/gameApi/entrys/individual',
             type: 'PUT',
-            data: {
-                _csrf: csrf,
-                gamename: this.props.gamename,
-                teams: teamStr
-            },
+            data: body,
             success: function (data) {
                 if (data == 'ok') {
                     this.setState({text: '', textHelp: ''});
@@ -57,7 +57,7 @@ class TeamEntryDelModal extends React.Component {
             + '&sender=' + this.props.username
             + '&gamename=' + this.props.gamename
             + '&_csrf=' + csrf;
-        $.post('/message/messages', body, function (data) {
+        $.post('/message/messages/users', body, function (data) {
             console.log(data);
         }.bind(this));
     }
@@ -67,17 +67,16 @@ class TeamEntryDelModal extends React.Component {
         var ok = this.handleText(null);
         if (ok === false)return;
 
-        var teamStr = this.props.teams.join(",");
         var userStr = this.props.users.join(",");
         var csrf = $("input[name=_csrf]").val();
 
         var filter = [];
-        for(var i in this.props.teams){
-            filter[this.props.teams[i]] = true;
+        for(var i in this.props.users){
+            filter[this.props.users[i]] = true;
         }
 
         this.msgEntrys(userStr, csrf);
-        this.delEntrys(teamStr, csrf, filter);
+        this.delEntrys(userStr, csrf, filter);
 
     }
 
@@ -108,4 +107,4 @@ class TeamEntryDelModal extends React.Component {
     }
 }
 
-export default TeamEntryDelModal;
+export default EntryDelModal;

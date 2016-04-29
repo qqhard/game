@@ -40,16 +40,25 @@ class PhoneMessageModal extends React.Component {
         }
 
         var body = {
-            users: this.props.users.join(','),
             sender: this.props.username,
             gamename: this.props.gamename,
             type: this.state.current,
             text: text,
             _csrf: $("input[name=_csrf]").val()
         }
+        var url = null; 
+        if(!!this.props.users){
+            body.users = this.props.users.join(',');
+            url = '/message/phone/users';
+        }
+        if(!!this.props.teams){
+            body.teams= this.props.teams.join(',');
+            url = '/message/phone/teams';
+        }
+        
         console.log(body);
         $.ajax({
-            url: 'message/phone',
+            url: url,
             data: body,
             type: 'POST',
             success: function (data) {

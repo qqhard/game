@@ -29,17 +29,10 @@ class GameLimitInfo extends React.Component {
         if (this.props.data == '')return <Jumbotron/>;
 
         var entryType = null;
-        if (this.props.data.teamSign == 0 && this.props.data.teamNum == 1) {
+        if (this.props.data.teamMin == 1 && this.props.data.teamMax == 1) {
             entryType = <h3>参赛形式： 个人</h3>;
         } else {
-            var tmp = null;
-            if (this.props.data.teamSign == 0) {
-                tmp = this.props.data.teamNum + '人';
-            } else if (this.props.data.teamSign == 1) {
-                tmp = '小于' + this.props.data.teamNum + '人';
-            } else if (this.props.data.teamSign == 2) {
-                tmp = '大于' + this.props.data.teamNum + '人';
-            }
+            var tmp = `${this.props.data.teamMin}到${this.props.data.teamMax}`;
             entryType = <h3>参赛形式： 队伍({tmp})</h3>;
         }
 

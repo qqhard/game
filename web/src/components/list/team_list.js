@@ -62,7 +62,7 @@ class TeamNode extends React.Component {
             <li className="list-group-item">
                 <PageHeader>
                     <Link to={href}>{this.props.team.cnname}</Link>
-                    <small>（队长<Link to={href}>{this.props.team.leader}</Link>）</small>
+                    <small>（{this.props.team.identity}:<Link to={href}>{this.props.team.owner}</Link>）</small>
                     <small> 人数上限:<Label>{this.props.team.limitNum}</Label>人 目前已招募:<Label>{this.props.team.nowNum}</Label>人
                     </small>
                 </PageHeader>
@@ -82,7 +82,7 @@ class MyUnEntryedTeamNode extends React.Component {
             <li className="list-group-item">
                 <PageHeader>
                     <Link to={href}>{this.props.team.cnname}</Link>
-                    <small>（队长<Link to={href}>{this.props.team.leader}</Link>）</small>
+                    <small>（{this.props.team.identity}:<Link to={href}>{this.props.team.owner}</Link>）</small>
                     <small> 人数上限:<Label>{this.props.team.limitNum}</Label>人 目前已招募:<Label>{this.props.team.nowNum}</Label>人
                     </small>
                 </PageHeader>
@@ -102,7 +102,7 @@ class MyEntryedTeamNode extends React.Component {
             <li className="list-group-item">
                 <PageHeader>
                     <Link to={href}>{this.props.team.cnname}</Link>
-                    <small>（队长<Link to={href}>{this.props.team.leader}</Link>）</small>
+                    <small>（{this.props.team.identity}:<Link to={href}>{this.props.team.owner}</Link>）</small>
                     <small> 人数上限:<Label>{this.props.team.limitNum}</Label>人 目前已招募:<Label>{this.props.team.nowNum}</Label>人
                     </small>
                 </PageHeader>
@@ -122,7 +122,7 @@ class MyMemberTeamNode extends React.Component {
             <li className="list-group-item">
                 <PageHeader>
                     <Link to={href}>{this.props.team.cnname}</Link>
-                    <small>（队长<Link to={href}>{this.props.team.leader}</Link>）</small>
+                    <small>（{this.props.team.identity}:<Link to={href}>{this.props.team.owner}</Link>）</small>
                     <small> 人数上限:<Label>{this.props.team.limitNum}</Label>人 目前已招募:<Label>{this.props.team.nowNum}</Label>人
                     </small>
                 </PageHeader>
@@ -201,7 +201,7 @@ class MyInviteTeamNode extends React.Component {
             <li className="list-group-item">
                 <PageHeader>
                     <Link to={href}>{this.props.team.cnname}</Link>
-                    <small>（队长<Link to={href}>{this.props.team.leader}</Link>）</small>
+                    <small>（{this.props.team.identity}:<Link to={href}>{this.props.team.owner}</Link>）</small>
                     <small> 人数上限:<Label>{this.props.team.limitNum}</Label>人 目前已招募:<Label>{this.props.team.nowNum}</Label>人</small>
                 </PageHeader>
 

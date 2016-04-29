@@ -45,15 +45,23 @@ class EmailMessageModal extends React.Component {
         if (ok === false)return;
     
         var body = {
-            users: this.props.users.join(','),
             title: this.state.title,
             body: this.state.body,
             sender: this.props.username,
             gamename: this.props.gamename,
             _csrf: $("input[name=_csrf]").val()
         };
-
-        $.post(this.props.url, body, function (data) {
+        var url = null;
+        if(!!this.props.users){
+            body.users = this.props.users.join(',');
+            url = '/message/email/users';
+        }
+        if(!!this.props.teams){
+            body.teams = this.props.teams.join(',');
+            url = '/message/email/teams';
+        }
+        
+        $.post(url, body, function (data) {
             if (data == 'ok') {
                 this.setState({title: '', titleHelp: '', body: '', bodyHelp: ''});
                 message.success("信息成功发送！");

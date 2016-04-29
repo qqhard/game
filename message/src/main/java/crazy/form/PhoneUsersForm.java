@@ -1,38 +1,23 @@
 package crazy.form;
 
+import java.util.Map;
+
 import crazy.vo.MessageRecord;
 
-public class EmailForm {
+public class PhoneUsersForm {
 	private String users;
-	private String title;
-	private String body;
+	private String type;
+	private Map<String, String> text;
 	private String sender;
 	private String gamename;
 
 	public MessageRecord update(MessageRecord record) {
-		record.setUsers(users);
-		record.setTitle(title);
+		record.setTitle(gamename + "的群发短信");
 		record.setGamename(gamename);
-		record.setBody(body);
+
 		record.setSender(sender);
 		record.setSendtime(System.currentTimeMillis());
 		return record;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getBody() {
-		return body;
-	}
-
-	public void setBody(String body) {
-		this.body = body;
 	}
 
 	public String getUsers() {
@@ -41,6 +26,22 @@ public class EmailForm {
 
 	public void setUsers(String users) {
 		this.users = users;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Map<String, String> getText() {
+		return text;
+	}
+
+	public void setText(Map<String, String> text) {
+		this.text = text;
 	}
 
 	public String getSender() {

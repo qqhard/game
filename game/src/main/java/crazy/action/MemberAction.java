@@ -92,7 +92,7 @@ public class MemberAction {
 		Team team = teamRepository.findById(teamid);
 		if (team == null)
 			return "fail";
-		if (!team.getLeader().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
+		if (!team.getOwner().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
 			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 
 		ret.put("status", "ok");
@@ -139,7 +139,7 @@ public class MemberAction {
 		String lock = (LockPrefix.TEAM + team.getId().substring(team.getId().length() - 4)).intern();
 		synchronized (lock) {
 			int nowNum = memberRepository.countByTeamidAndAccepted(team.getId(), true);
-			if (nowNum + 1 >= team.getLimitNum()) {
+			if (nowNum + 1 >= team.getMinNum()) {
 				ret = "人数已经达到上限！";
 			} else {
 				member.setAccepted(true);
@@ -161,13 +161,13 @@ public class MemberAction {
 		Team team = teamRepository.findById(member.getTeamid());
 		if (team == null)
 			return "fail";
-		if (!team.getLeader().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
+		if (!team.getOwner().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
 			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 
 		String lock = (LockPrefix.TEAM + team.getId().substring(team.getId().length() - 4)).intern();
 		synchronized (lock) {
 			int nowNum = memberRepository.countByTeamidAndAccepted(team.getId(), true);
-			if (nowNum + 1 >= team.getLimitNum()) {
+			if (nowNum + 1 >= team.getMaxNum()) {
 				ret = "人数已经达到上限！";
 			} else {
 				member.setAccepted(true);
@@ -191,7 +191,7 @@ public class MemberAction {
 		Team team = teamRepository.findById(member.getTeamid());
 		if (team == null)
 			return "fail";
-		if (!team.getLeader().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
+		if (!team.getOwner().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
 			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 
 		String lock = (LockPrefix.TEAM + team.getId().substring(team.getId().length() - 4)).intern();
@@ -217,7 +217,7 @@ public class MemberAction {
 		Team team = teamRepository.findById(member.getTeamid());
 		if (team == null)
 			return "fail";
-		if (!team.getLeader().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
+		if (!team.getOwner().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
 			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 
 		String lock = (LockPrefix.TEAM + team.getId().substring(team.getId().length() - 4)).intern();
@@ -243,7 +243,7 @@ public class MemberAction {
 		Team team = teamRepository.findById(member.getTeamid());
 		if (team == null)
 			return "fail";
-		if (!team.getLeader().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
+		if (!team.getOwner().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
 			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 
 		String lock = (LockPrefix.TEAM + team.getId().substring(team.getId().length() - 4)).intern();
@@ -267,7 +267,7 @@ public class MemberAction {
 			return "fail";
 		String ret = "ok";
 		Team team = teamRepository.findById(member.getTeamid());
-		if (!team.getLeader().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
+		if (!team.getOwner().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
 			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 
 		String lock = (LockPrefix.TEAM + team.getId().substring(team.getId().length() - 4)).intern();

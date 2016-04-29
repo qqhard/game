@@ -4,15 +4,14 @@ import java.util.Map;
 
 import crazy.vo.MessageRecord;
 
-public class PhoneForm {
-	private String users;
+public class PhoneTeamsForm {
+	private String teams;
 	private String type;
 	private Map<String, String> text;
 	private String sender;
 	private String gamename;
 
 	public MessageRecord update(MessageRecord record) {
-		record.setUsers(users);
 		record.setTitle(gamename + "的群发短信");
 		record.setGamename(gamename);
 
@@ -21,12 +20,12 @@ public class PhoneForm {
 		return record;
 	}
 
-	public String getUsers() {
-		return users;
+	public String getTeams() {
+		return teams;
 	}
 
-	public void setUsers(String users) {
-		this.users = users;
+	public void setTeams(String teams) {
+		this.teams = teams;
 	}
 
 	public String getType() {

@@ -2,10 +2,10 @@ import React from 'react';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Button from 'react-bootstrap/lib/Button';
 import Table from 'antd/lib/table';
-import PrivateMessageModal from '../message_modal/private_message_modal.js';
-import EmailMessageModal from '../message_modal/email_message_modal.js';
-import PhoneMessageModal from '../message_modal/phone_message_modal.js';
-import TeamEntryDelModal from '../message_modal/team_entry_del_modal.js';
+import PrivateMessageModal from '../modal/private_message_modal.js';
+import EmailMessageModal from '../modal/email_message_modal.js';
+import PhoneMessageModal from '../modal/phone_message_modal.js';
+import TeamEntryDelModal from '../modal/team_entry_del_modal.js';
 import {Link} from 'react-router';
 
 class TeamEntrysTable extends React.Component {
@@ -17,9 +17,6 @@ class TeamEntrysTable extends React.Component {
             loading: false,
             entrys: [],
             url: '',
-            users: [],
-            emails: [],
-            phones: [],
             teams: []
         }
     }
@@ -33,32 +30,21 @@ class TeamEntrysTable extends React.Component {
     }
 
     componentDidMount() {
-        $.get('/gameApi/gameentrys/' + this.props.gamename + '/team', function (data) {
-            console.log(data);
+        const entrys_url = `/gameApi/gameentrys/${this.props.gamename}/team`;
+        $.get(entrys_url, function (data) {
             var arr = [];
             for (var i in data) {
-                const team_href = 'teamshow-' + data[i].teamid + '.html';
-                var teamName = data[i].teamCnname;
-                if (!!data[i].teamEnname) teamName += `(${data[i].teamEnname})`;
-                var teamName = <Link to={team_href}>{teamName}</Link>;
-                const users = data[i].users.map(function (val, index) {
-                    const userinfo = 'userinfoshow-' + val + '.html';
-                    return {
-                        key: data[i].teamid + val,
-                        teamName: <Link to={userinfo}>{val}</Link>,
-                        isSon: true
-                    }
-                });
-                console.log(users);
+                const team_href = `teamshow-${data[i].id}.html`;
+                const owner_href = `userinfoshow-${data[i].owner}.html`;
+                const cnname = <Link to={team_href}>{data[i].cnname}</Link>;
+                const enname = <Link to={team_href}>{data[i].enname}</Link>;
+                const owner = <Link to={team_href}>{`${data[i].identity}:${data[i].owner}`}</Link>;
                 arr.push({
-                    key: data[i].teamid,
-                    teamName: teamName,
-                    teamNum: data[i].teamNum,
-                    emails: data[i].emails,
-                    phones: data[i].phones,
-                    users: data[i].users,
-                    isSon: false,
-                    children: users
+                    key: data[i].id,
+                    cnname: cnname,
+                    enname: enname,
+                    owner: owner,
+                    nowNum: data[i].nowNum
                 });
             }
             this.setState({entrys: arr});
@@ -69,26 +55,18 @@ class TeamEntrysTable extends React.Component {
         console.log('selectedRowKeys changed: ', selectedRecords);
         this.setState({selectedRowKeys});
 
-        var users = [];
-        var emails = [];
         var teams = [];
         var phones = [];
         for (var i in selectedRecords) {
-            console.log(selectedRecords[i]);
-            users = users.concat(selectedRecords[i].users);
-            emails = emails.concat(selectedRecords[i].emails);
-            phones = phones.concat(selectedRecords[i].phones);
             teams.push(selectedRecords[i].key);
         }
-        this.setState({users: users, emails: emails, teams: teams, phones: phones});
+        this.setState({teams: teams});
     }
 
     showModal(url, record) {
         this.setState({
             visible: true,
             url: url,
-            users: record.users,
-            emails: record.emails,
             teams: [record.key]
         });
     }
@@ -103,8 +81,6 @@ class TeamEntrysTable extends React.Component {
     showPrivateModal(record) {
         this.setState({
             visible2: true,
-            users: record.users,
-            emails: record.emails,
             teams: [record.key]
         });
     }
@@ -118,8 +94,6 @@ class TeamEntrysTable extends React.Component {
     showDelModal(record) {
         this.setState({
             visible3: true,
-            users: record.users,
-            emails: record.emails,
             teams: [record.key]
         });
     }
@@ -133,8 +107,6 @@ class TeamEntrysTable extends React.Component {
     showPhoneModal(record) {
         this.setState({
             visible4: true,
-            users: [record.username],
-            phones: record.phones,
             teams: [record.key]
         });
     }
@@ -175,51 +147,44 @@ class TeamEntrysTable extends React.Component {
             if (filter[this.state.entrys[i].key] === true)continue;
             entrys.push(this.state.entrys[i]);
         }
-        this.setState({entrys: entrys, users: [], emails: [], teams: [], phones: []});
+        this.setState({entrys: entrys, teams: []});
     }
 
     selectAll() {
         if (this.state.selectedRowKeys.length < this.state.entrys.length) {
             var keys = [];
-            var users = [];
-            var emails = [];
             var teams = [];
-            var phones = [];
             for (var i in this.state.entrys) {
                 keys.push(this.state.entrys[i].key);
-                users = users.concat(this.state.entrys[i].users);
-                emails = emails.concat(this.state.entrys[i].emails);
                 teams.push(this.state.entrys[i].key);
-                phones.push(this.state.entrys[i].phone);
             }
             this.setState({
                 selectedRowKeys: keys,
-                users: users,
-                emails: emails,
                 teams: teams,
-                phones: phones
             });
         } else {
             this.setState({
                 selectedRowKeys: [],
-                users: [],
-                emails: [],
                 teams: [],
-                phones: []
             });
         }
 
     }
 
     render() {
-        console.log(this.state.text);
         var _this = this;
         const columns = [{
-            title: '队名',
-            dataIndex: 'teamName'
+            title: '中文队名',
+            dataIndex: 'cnname'
+        }, {
+            title: '英文队名',
+            dataIndex: 'enname'
         }, {
             title: '人数',
-            dataIndex: 'teamNum'
+            dataIndex: 'nowNum'
+        }, {
+            title: '拥有者',
+            dataIndex: 'owner'
         }, {
             title: '操作',
             key: 'operation',
@@ -250,38 +215,32 @@ class TeamEntrysTable extends React.Component {
             }
         };
         const hasSelected = selectedRowKeys.length > 0;
-
         return (
             <div>
                 <EmailMessageModal
                     username={this.state.username}
                     gamename={this.props.gamename}
                     visible={this.state.visible}
-                    url={this.state.url}
-                    users={this.state.users}
-                    emails={this.state.emails}
+                    teams={this.state.teams}
                     onCancel={_this.callCancel.bind(_this)}
                 />
                 <PrivateMessageModal
                     username={this.state.username}
                     gamename={this.props.gamename}
+                    teams={this.state.teams}
                     visible={this.state.visible2}
-                    users={this.state.users}
-                    url='/message/messages'
                     onCancel={_this.callCancel2.bind(_this)}
                 />
                 <PhoneMessageModal
                     username={this.state.username}
                     gamename={this.props.gamename}
+                    teams={this.state.teams}
                     visible={this.state.visible4}
-                    url={this.state.url}
-                    users={this.state.users}
-                    phones={this.state.phones}
                     onCancel={_this.callCancel4.bind(_this)}
                 />
                 <TeamEntryDelModal
-                    users={this.state.users}
                     teams={this.state.teams}
+                    users={this.state.users}
                     username={this.state.username}
                     gamename={this.props.gamename}
                     visible={this.state.visible3}

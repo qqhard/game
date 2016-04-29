@@ -24,8 +24,8 @@ public class Game {
 	private String collegename;
 	private int instituteid;
 	private String institutename;
-	private int teamSign;
-	private int teamNum;
+	private int teamMin;
+	private int teamMax;
 	private long startTime;
 	private long dueTime;
 	private long endTime;
@@ -155,17 +155,18 @@ public class Game {
 	public void setFormList(List<UserDefineForm> formList) {
 		this.formList = formList;
 	}
-	public int getTeamSign() {
-		return teamSign;
+	
+	public int getTeamMin() {
+		return teamMin;
 	}
-	public void setTeamSign(int teamSign) {
-		this.teamSign = teamSign;
+	public void setTeamMin(int teamMin) {
+		this.teamMin = teamMin;
 	}
-	public int getTeamNum() {
-		return teamNum;
+	public int getTeamMax() {
+		return teamMax;
 	}
-	public void setTeamNum(int teamNum) {
-		this.teamNum = teamNum;
+	public void setTeamMax(int teamMax) {
+		this.teamMax = teamMax;
 	}
 	public long getDueTime() {
 		return dueTime;

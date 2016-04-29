@@ -24,7 +24,7 @@ class MessageRecordTable extends React.Component {
         $.get(url, function (data) {
 
             for (var i in data) {
-                var users = data[i].users.split(",");
+                var users = data[i].users;
                 for(var j in users){
                     users[j] = (
                         <span>

@@ -10,9 +10,10 @@ import crazy.vo.Team;
 
 public interface TeamRepository  extends MongoRepository<Team, ObjectId>{
 	public List<Team> findByEntryed(boolean entryed);
-	public List<Team> findByLeader(String leader);
-	public List<Team> findByLeaderAndEntryed(String leader,Boolean entryed);
+	public List<Team> findByOwner(String owner);
+	public List<Team> findByOwnerAndEntryed(String owner,Boolean entryed);
 	public Team findById(String id);
 	@Query("{'id':{'$in':?0}}")
 	public List<Team> findByIds(List<String> ids);
+	public List<Team> findByGamenameAndEntryedAndDeled(String gamename,boolean entryed,boolean deled);
 }

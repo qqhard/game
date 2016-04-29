@@ -29,13 +29,22 @@ class PrivateMessageModal extends React.Component {
         var ok = this.handleText(null);
         if(ok === false)return ;
         
-        var body = 'users=' + this.props.users.join(',')
-            + '&text=' + this.state.text
-            + '&sender=' + this.props.username
-            + '&gamename=' + this.props.gamename
-            + '&_csrf=' + $("input[name=_csrf]").val();
-
-        $.post('/message/messages', body, function (data) {
+        var body = {
+            text:this.state.text,
+            sender:this.props.username,
+            gamename:this.props.gamename,
+            _csrf:$("input[name=_csrf]").val()
+        }
+        var url = null; 
+        if(!!this.props.users){
+            body.users = this.props.users.join(',');
+            url = '/message/messages/users';
+        }
+        if(!!this.props.teams){
+            body.teams = this.props.teams.join(',');
+            url = '/message/messages/teams';
+        }
+        $.post(url, body, function (data) {
             if (data == 'ok') {
                 this.setState({text: '', textHelp: ''});
                 message.success("信息成功发送！");

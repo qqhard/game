@@ -29,8 +29,14 @@ class Games extends React.Component {
 
     render() {
         const cols = this.state.data.map(function (val, index) {
+            console.log(val);
             var game_url = "/game-" + val.gamename + ".html";
-            var entry_url = "/entry-" + val.gamename + '.html';
+            var entry_url = null;
+            if(val.teamMin == 1 && val.teamMax == 1){
+                entry_url = "/entry-" + val.gamename + '.html';
+            }else{
+                entry_url = "/teamentry-" + val.gamename + '.html';
+            }
             const percent = ( Date.parse(new Date()) - val.startTime) / (val.dueTime - val.startTime) * 100;
             return (
                 <Col key={index} xs={6} md={4}>

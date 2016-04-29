@@ -1,16 +1,18 @@
 package crazy.action;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,27 +27,22 @@ import org.springframework.web.bind.annotation.RestController;
 import crazy.common.LockPrefix;
 import crazy.dao.EntryRepository;
 import crazy.dao.GameRepository;
-import crazy.dao.MemberRepository;
-import crazy.dao.TeamEntryRepository;
 import crazy.dao.TeamRepository;
 import crazy.dao.UserRepository;
 import crazy.form.EntryForm;
 import crazy.form.TeamEntryForm;
+import crazy.service.EntryAuthService;
+import crazy.service.TeamAuthService;
 import crazy.vo.Entry;
 import crazy.vo.Game;
-import crazy.vo.Member;
 import crazy.vo.Team;
-import crazy.vo.TeamEntry;
 import crazy.vo.User;
 
 @RestController
-@RequestMapping(value = "/game/entry")
+@RequestMapping(value = "/entry")
 public class EntryAction {
-
 	private static final Logger log = LoggerFactory.getLogger(EntryAction.class);
-	@Autowired
-	private TeamEntryRepository teamEntryRepository;
-
+	
 	@Autowired
 	private EntryRepository entryRepository;
 
@@ -53,13 +50,19 @@ public class EntryAction {
 	private TeamRepository teamRepository;
 
 	@Autowired
-	private MemberRepository memberRepository;
-
-	@Autowired
 	private UserRepository userRepository;
 
 	@Autowired
 	private GameRepository gameRepository;
+	
+	@Autowired
+	private EntryAuthService entryAuthService;
+	
+	@Autowired
+	private TeamAuthService teamAuthService;
+	
+	@Autowired
+	private MongoTemplate mongo;
 
 	@ResponseBody
 	@RequestMapping(value = "{gamename}", method = RequestMethod.GET)
@@ -100,7 +103,7 @@ public class EntryAction {
 				|| (game.getInstituteid() != 0 && game.getInstituteid() != user.getInstituteid()))
 			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 
-		if (!(game.getTeamSign() == 0 && game.getTeamNum() == 1))
+		if (!(game.getTeamMin() == 1 && game.getTeamMax() == 1))
 			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 
 		String lock = (LockPrefix.USER + username.substring(0, 4)).intern();
@@ -127,32 +130,6 @@ public class EntryAction {
 		return ret;
 	}
 
-	private TeamEntry buildTeamEntry(TeamEntryForm teamEntryForm, Team team) {
-		TeamEntry teamEntry = new TeamEntry();
-		teamEntry.setDeled(false);
-		teamEntry.setGamename(teamEntryForm.getGamename());
-		teamEntry.setTeamid(teamEntryForm.getTeamid());
-		teamEntry.setTeamCnname(team.getCnname());
-		teamEntry.setTeamEnname(team.getEnname());
-		teamEntry.setTeamInfo(team.getInfo());
-		teamEntry.setTeamNum(team.getNowNum());
-		teamEntry.setUsers(new ArrayList<String>());
-		teamEntry.setEmails(new ArrayList<String>());
-		teamEntry.setPhones(new ArrayList<String>());
-		return teamEntry;
-	}
-
-	private boolean checkGameNumLimit(Game game, Team team) {
-		if (game.getTeamSign() == 0 && team.getNowNum() == game.getTeamNum()) {
-			return true;
-		} else if (game.getTeamSign() == 1 && team.getNowNum() < game.getTeamNum()) {
-			return true;
-		} else if (game.getTeamSign() == 2 && team.getNowNum() > game.getTeamNum()) {
-			return true;
-		}
-		return false;
-	}
-
 	@ResponseBody
 	@RequestMapping(value = "team", method = RequestMethod.POST)
 	public Object postTeam(@Valid TeamEntryForm teamEntryForm, BindingResult bindingResult) {
@@ -167,63 +144,22 @@ public class EntryAction {
 		}
 
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Game game = gameRepository.findByGamename(teamEntryForm.getGamename());
-		if (game == null)
-			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
-		long now = System.currentTimeMillis();
-		if (!(game.isDeled() == false && game.getStep() == 2 && now > game.getStartTime() && now < game.getDueTime()))
-			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
-
-		String teamLock = (LockPrefix.TEAM
-				+ teamEntryForm.getTeamid().substring(teamEntryForm.getTeamid().length() - 4)).intern();
-		synchronized (teamLock) {
-			Team team = teamRepository.findById(teamEntryForm.getTeamid());
-			if (team == null || team.getEntryed())
-				return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
-			if (!username.equals(team.getLeader()))
-				return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
-			if (!checkGameNumLimit(game, team))
-				return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
-
-			String entryLock = LockPrefix.lockTeamEntry(game.getGamename()).intern();
-			synchronized (entryLock) {
-				List<Member> members = memberRepository.findByTeamidAndAccepted(team.getId(), true);
-				List<String> userQuery = members.stream().map(e -> e.getUsername()).collect(Collectors.toList());
-				userQuery.add(team.getLeader());
-
-				List<Entry> entrys = entryRepository.findByGamenameAndInUsernames(game.getGamename(), userQuery);
-				if (entrys.size() > 0) {
-					ret.put("status", "fail");
-					ret.put("data", "队伍中有已经参赛的成员！");
-					return ret;
-				}
-
-				TeamEntry teamEntry = buildTeamEntry(teamEntryForm, team);
-				List<User> users = userRepository.findByUsernameInList(userQuery);
-				for (User user : users) {
-					teamEntry.getUsers().add(user.getUsername());
-					teamEntry.getPhones().add(user.getPhone());
-					teamEntry.getEmails().add(user.getEmail());
-				}
-				teamEntryRepository.insert(teamEntry);
-
-				entrys = userQuery.stream().map(e -> {
-					Entry entry = new Entry();
-					entry.setGamename(game.getGamename());
-					entry.setUsername(e);
-					entry.setDeled(false);
-					return entry;
-				}).collect(Collectors.toList());
-				entryRepository.save(entrys);
-
-			}
-
-			team.setGamename(game.getGamename());
-			team.setEntryed(true);
-			teamRepository.save(team);
+		Team team = teamRepository.findById(teamEntryForm.getTeamid());
+		if(!teamAuthService.checkOwner(username, team)){
+			return new ResponseEntity<Object>("权限问题！",HttpStatus.FORBIDDEN);
+		}
+		if(team.isEntryed()){
+			return new ResponseEntity<Object>("请勿重复报名！",HttpStatus.FORBIDDEN);
+		}
+		if(entryAuthService.checkTeamEntry(team)){
+			return new ResponseEntity<Object>("队伍不符合要求！",HttpStatus.FORBIDDEN); 
 		}
 		
-		log.info("team {} entry {} success！", teamEntryForm.getTeamid(), game.getGamename());
+		Query query = new Query(Criteria.where("id").is(teamEntryForm.getTeamid()));
+		Update update = new Update().set("entryed", true);
+		mongo.updateFirst(query, update, Team.class);
+		
+		log.info("team {} entry {} success！", teamEntryForm.getTeamid(), team.getGamename());
 		ret.put("status", "ok");
 		return ret;
 	}

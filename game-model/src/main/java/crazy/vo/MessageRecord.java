@@ -1,5 +1,7 @@
 package crazy.vo;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,7 +14,7 @@ public class MessageRecord {
 	private String sender;
 	@Indexed
 	private String gamename;
-	private String users;
+	private List<String> users;
 	private String title;
 	private String body;
 	private long sendtime;
@@ -24,10 +26,10 @@ public class MessageRecord {
 		this.id = id;
 	}
 	
-	public String getUsers() {
+	public List<String> getUsers() {
 		return users;
 	}
-	public void setUsers(String users) {
+	public void setUsers(List<String> users) {
 		this.users = users;
 	}
 	public String getTitle() {

@@ -57,8 +57,8 @@ class GameManage extends React.Component {
             <MessageRecordTable gamename={this.props.params.gamename}/>,
             <GameComment game={this.state.game} key={this.state.key}/>
         ];
-        if (!(this.state.game.teamSign == 0 && this.state.game.teamNum == 1)) {
-            right[3] = <TeamEntrysTable gamename={this.props.params.gamename} username={this.props.username}/>;
+        if(this.state.game.teamMin>1){
+            right[3] = <TeamEntrysTable gamename={this.props.params.gamename}/>;
         }
         return (
             <div className="container">

@@ -8,7 +8,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import crazy.GameApplication;
-import crazy.vo.Team;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = GameApplication.class)
@@ -16,8 +15,7 @@ import crazy.vo.Team;
 public class TestTeamRepository {
 	@Autowired
 	private TeamRepository teamRepository;
-	@Autowired
-	private TeamEntryRepository t;
+
 	@Autowired
 	private MemberRepository memberRepository;
 	@Test

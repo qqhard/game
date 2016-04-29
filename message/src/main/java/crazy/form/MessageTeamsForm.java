@@ -1,15 +1,11 @@
 package crazy.form;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import crazy.vo.Message;
 import crazy.vo.MessageRecord;
 
-public class MessagesForm {
+public class MessageTeamsForm {
 	private String gamename;
 	private String sender;
-	private String users;
+	private String teams;
 	private String text;
 	
 	public MessageRecord getMessageRecord(){
@@ -17,26 +13,11 @@ public class MessagesForm {
 		record.setBody(text);
 		record.setTitle(gamename+" messages");
 		record.setGamename(gamename);
-		record.setUsers(users);
 		record.setSender(sender);
 		record.setSendtime(System.currentTimeMillis());
 		return record;
 	}
 	
-	public List<Message> getMessages(){
-		List<Message> ret = new ArrayList<Message>();
-		String[] parts = users.split(",");
-		for(String part: parts){
-			Message msg = new Message();
-			msg.setSender(sender);
-			msg.setRecver(part);
-			msg.setSendTime(System.currentTimeMillis());
-			msg.setReadTime(0);
-			msg.setText(text);
-			ret.add(msg);
-		}
-		return ret;
-	}
 	public String getGamename() {
 		return gamename;
 	}
@@ -49,13 +30,13 @@ public class MessagesForm {
 	public void setSender(String sender) {
 		this.sender = sender;
 	}
-	
-	public String getUsers() {
-		return users;
+
+	public String getTeams() {
+		return teams;
 	}
 
-	public void setUsers(String users) {
-		this.users = users;
+	public void setTeams(String teams) {
+		this.teams = teams;
 	}
 
 	public String getText() {

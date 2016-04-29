@@ -7,6 +7,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,9 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import crazy.dao.GameRepository;
 import crazy.dao.MemberRepository;
 import crazy.dao.TeamRepository;
 import crazy.form.TeamForm;
+import crazy.service.EntryAuthService;
+import crazy.vo.Game;
 import crazy.vo.Member;
 import crazy.vo.Team;
 
@@ -29,6 +34,14 @@ public class TeamAction {
 
 	@Autowired
 	private MemberRepository memberRepository;
+	
+	@Autowired
+	private GameRepository gameRepository;
+	
+	@Autowired
+	private EntryAuthService entryAuthService;
+	
+
 
 	@ResponseBody
 	@RequestMapping(value = "/team", method = RequestMethod.POST)
@@ -37,13 +50,21 @@ public class TeamAction {
 
 		if (bindingResult.hasFieldErrors()) {
 			ret.put("status", "fail");
+			System.out.println(bindingResult.getFieldError());
 			return ret;
 		}
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		boolean hasAuth = entryAuthService.checkTeamApply(username, teamForm.getGamename());
+		if(!hasAuth)return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+		
+		Game game = gameRepository.findByGamename(teamForm.getGamename());
 		Team team = new Team();
 		team = teamForm.update(team);
-		team.setLeader(username);
+		team.setGamename(game.getGamename());
+		team.setOwner(username);
 		team.setEntryed(false);
+		team.setMinNum(game.getTeamMin());
+		team.setMaxNum(game.getTeamMax());
 		teamRepository.insert(team);
 		ret.put("status", "ok");
 		ret.put("data", team.getId());
@@ -66,13 +87,13 @@ public class TeamAction {
 	@RequestMapping(value = "/myteams", method = RequestMethod.GET)
 	public Object getMyTeams(@RequestParam("entryed") Boolean entryed) {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		return teamRepository.findByLeaderAndEntryed(username, entryed);
+		return teamRepository.findByOwnerAndEntryed(username, entryed);
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/teams/{leader}", method = RequestMethod.GET)
 	public Object getTeams(@PathVariable("leader") String leader, @RequestParam("entryed") Boolean entryed) {
-		return teamRepository.findByLeaderAndEntryed(leader, entryed);
+		return teamRepository.findByOwnerAndEntryed(leader, entryed);
 	}
 
 	@ResponseBody
@@ -104,9 +125,11 @@ public class TeamAction {
 				map.put("cnname", team.getCnname());
 				map.put("enname", team.getEnname());
 				map.put("info", team.getInfo());
-				map.put("limitNum", team.getLimitNum());
+				map.put("minNum", team.getMinNum());
+				map.put("maxNum", team.getMaxNum());
 				map.put("nowNum", team.getNowNum());
-				map.put("leader", team.getLeader());
+				map.put("owner", team.getOwner());
+				map.put("identity", team.getIdentity());
 				map.put("memberid", member.getId());
 				ret.add(map);
 			}

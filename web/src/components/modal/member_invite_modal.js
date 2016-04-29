@@ -49,8 +49,8 @@ class MemberInviteModal extends React.Component{
 
     render() {
         return (
-            <div>
-                <Button onClick={this.showModal.bind(this)}>邀请</Button>
+            <div style={{display:'inline-block'}}>
+                <Button onClick={this.showModal.bind(this)}>邀请队员</Button>
                 <Modal title="用户邀请" visible={this.state.visible}
                        onOk={this.handleOk.bind(this)} onCancel={this.handleCancel.bind(this)}>
                     <input type="text" className="form-control"
