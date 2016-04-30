@@ -151,7 +151,7 @@ public class EntryAction {
 		if(team.isEntryed()){
 			return new ResponseEntity<Object>("请勿重复报名！",HttpStatus.FORBIDDEN);
 		}
-		if(entryAuthService.checkTeamEntry(team)){
+		if(!entryAuthService.checkTeamEntry(team)){
 			return new ResponseEntity<Object>("队伍不符合要求！",HttpStatus.FORBIDDEN); 
 		}
 		

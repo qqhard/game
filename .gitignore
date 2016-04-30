@@ -13,6 +13,7 @@
 build/
 .mvn
 web/index.html
+backup/
 web/admin.html
 node_modules
 bower_components

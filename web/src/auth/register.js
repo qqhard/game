@@ -9,6 +9,7 @@ class Register extends React.Component {
         super(props);
         this.state = {
             username: {data: '', valid: null, help: null},
+            email: {data: '', valid: null, help: null},
             password: {data: '', valid: null, help: null},
             repassword: {data: '', valid: null, help: null},
         };
@@ -34,6 +35,25 @@ class Register extends React.Component {
         this.setState({username: username});
         if (username.valid == "success") return true;
         return false;
+    }
+
+    handleEmail(e) {
+        var data = e == null ? this.state.email.data : e.target.value;
+        var newEmail = {data: data, valid: '', help: ''};
+        var re = /^.+@.+$/gi;
+        if (data == null || data.length == 0) {
+            newEmail.valid = 'error';
+            newEmail.help = '请输入邮箱地址'
+        } else if (!re.test(data)) {
+            newEmail.valid = 'error';
+            newEmail.help = '无效的邮箱地址'
+        }
+        else {
+            newEmail.valid = 'success';
+            newEmail.help = ''
+        }
+        this.setState({email: newEmail});
+        return newEmail.valid == 'success'
     }
 
     handlePassword(e) {
@@ -95,6 +115,7 @@ class Register extends React.Component {
 
         var data = {
             username: this.state.username.data,
+            email: this.state.email.data,
             password: this.state.password.data,
             rePassword: this.state.repassword.data,
             _csrf: $('input[name=_csrf]').val()
@@ -114,20 +135,18 @@ class Register extends React.Component {
             <div className="regist-form-div" style={{marginTop:'-20px'}}>
                 <CsrfToken />
                 <div className="regist-info">
-                    <div className="in-info">
-                        <h1>Game Factory 简介</h1>
-                        <h3> 校园赛事平台将校园中赛事举办流程抽象为计算机系统，为赛事的举办者和参与者提供一个统一的web平台，以解决现在单纯线下赛事所遇到的种种问题。</h3>
-                        <h3>
-                            通过赛事平台，用户可以发布和管理赛事，通过模版为赛事制定个性化主页，通过唯一的二级域名进行访问。而参与者可以通过平台了解到校内网的赛事信息并参与报名，针对需要组队的赛事系统给出了队伍招募的解决方案。平台提供必要的短信，邮件和私信等信息交互手段。针对赛事列表，系统将完成对其个性化排序。</h3>
-                    </div>
                 </div>
                 <div className="regist-form" onSubmit={this.handleSubmit.bind(this)}>
                     <form className="regist-form-signin">
-                        <h2>Fast Register</h2>
                         <Input type="text" placeholder="用户名"
                                onChange={this.handleUsername.bind(this)}
                                bsStyle={this.state.username.valid}
                                help={this.state.username.help}
+                        />
+                        <Input type="text" placeholder="邮箱"
+                               onChange={this.handleEmail.bind(this)}
+                               bsStyle={this.state.email.valid}
+                               help={this.state.email.help}
                         />
                         <Input type="password" placeholder="密码"
                                onChange={this.handlePassword.bind(this)}

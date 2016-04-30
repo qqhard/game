@@ -55,7 +55,7 @@ public class TeamAction {
 		}
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		boolean hasAuth = entryAuthService.checkTeamApply(username, teamForm.getGamename());
-		if(!hasAuth)return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+		if(!hasAuth)return new ResponseEntity<String>("您不符合参赛条件",HttpStatus.FORBIDDEN);
 		
 		Game game = gameRepository.findByGamename(teamForm.getGamename());
 		Team team = new Team();

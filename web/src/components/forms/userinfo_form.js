@@ -1,290 +1,304 @@
 import React from 'react';
-import Input from 'react-bootstrap/lib/Input';
-import CsrfToken from '../common/csrf_token';
-import Button from 'react-bootstrap/lib/Button';
-import BelongsForm, {callbackParent} from './belong_form.js';
-import message from 'antd/lib/message';
+import Form from 'antd/lib/form';
+import Input from 'antd/lib/input';
+import Button from 'antd/lib/button';
+import Col from 'antd/lib/col';
 import Icon from 'antd/lib/icon';
-import Row from 'react-bootstrap/lib/Row';
-import Col from 'react-bootstrap/lib/Col';
+import CsrfToken from '../common/csrf_token';
+import Cascader from 'antd/lib/cascader';
+import message from 'antd/lib/message';
 
-const styleLayout = {
-    labelClassName: "col-xs-2",
-    wrapperClassName: "col-xs-8"
-};
-
-
-class EmailCheck extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            message: '',
-            isSubmit: false
-        };
-    }
-
-
-    sendEmail() {
-        var body = '_csrf=' + $("input[name=_csrf]").val();
-        var url = '/userApi/emailActivation';
-        $.post(url, body, function (data) {
-            this.setState({message: data.message});
-        }.bind(this));
-    }
-
-    handleClick() {
-        this.sendEmail();
-        this.setState({isSubmit: true});
-    }
-
-    handleChange(e) {
-        this.props.handleEmail(e);
-    }
-
-    render() {
-        var span = null;
-
-        if (this.props.isEmailActivated) {
-            span = <span style={{lineHeight:"30px",color:'green'}}><Icon type="check-circle"/>邮箱已验证</span>;
-        } else {
-            if (this.state.isSubmit) {
-                span = <span style={{lineHeight:"30px",color:'origin'}}><Icon type="check-circle"/>{this.state.message}</span>;
-            } else if (this.props.isChange) {
-                span = <span style={{lineHeight:"30px",color:'red'}}><Icon type="cross-circle"/>重新提交方可验证</span>;
-            } else {
-                span = (
-                    <span style={{lineHeight:"30px"}}>
-                        <a onClick={this.handleClick.bind(this)}><Icon type="exclamation-circle"/>邮箱未验证</a>
-                </span>
-                );
-            }
-        }
-
-        return (
-            <Input label="邮件" {...styleLayout}>
-                <Row>
-                    <Col xs={8}>
-                        <Input type="text" name="email" value={this.props.value}
-                               onChange={this.handleChange.bind(this)}
-                               onBlur={this.props.handleEmail}
-                               help={this.props.help}
-                               bsStyle={this.props.valid}
-                        />
-                    </Col>
-                    <Col xs={4}>
-                        {span}
-                    </Col>
-                </Row>
-            </Input>
-        );
-
-    }
-}
+const FormItem = Form.Item;
+const createForm = Form.create;
 
 class UserinfoForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            sociolname: {'data': '', 'valid': null, 'help': null},
-            studentid: {'data': '', 'valid': null, 'help': null},
-            email: {'data': '', 'valid': null, 'help': null},
-            phone: {'data': '', 'valid': null, 'help': null},
             provinceid: 0,
             collegeid: 0,
             instituteid: 0,
-            initEmail: '',
+            isEmailActivated: false,
+            checked: false,
+            belongOptions: [],
+        }
+    }
 
-        };
+    initBelong(provinceid, collegeid, instituteid) {
+        $.get('/gameApi/provinces', (data)=> {
+            var options = [];
+            var provinceIndex = -1;
+            for (var i = 0; i < data.length; i++) {
+                options.push({
+                    value: data[i].provinceid,
+                    label: data[i].name,
+                    children: [
+                        {value: '', label: ''}
+                    ]
+                });
+                if (provinceid == data[i].provinceid) {
+                    provinceIndex = i;
+                }
+            }
+            if (provinceIndex != -1) {
+                $.get(`/gameApi/colleges/${provinceid}`, (data)=> {
+                    var collegeIndex = -1;
+                    var options2 = [];
+                    for (var i in data) {
+                        options2.push({
+                            value: data[i].collegeid,
+                            label: data[i].collegename,
+                            children: [
+                                {value: '', label: ''}
+                            ]
+                        });
+                        if (collegeid == data[i].collegeid) {
+                            collegeIndex = i;
+                        }
+                    }
+                    options[provinceIndex].children = options2;
+                    if (collegeIndex != -1) {
+                        $.get(`/gameApi/institutes/${collegeid}`, (data) => {
+                            var options3 = [];
+                            for (var i in data) {
+                                options3.push({
+                                    value: data[i].instituteid,
+                                    label: data[i].institutename,
+                                });
+                            }
+                            options2[collegeIndex].children = options3;
+                            this.setState({belongOptions: options});
+                        });
+                    } else {
+                        this.setState({belongOptions: options});
+                    }
+                });
+            } else {
+                this.setState({belongOptions: options});
+            }
+        }, 'json').error(function (e) {
+            if (e.status == 403) top.location = '/userApi/auth';
+        });
     }
 
     componentWillMount() {
         var url = '/userApi/userinfo';
-        var phone = this.state.phone;
-        var email = this.state.email;
-        var sociolname = this.state.sociolname;
-        var studentid = this.state.studentid;
         $.ajax({
             type: "get",
             url: url,
             dataType: "json",
             async: false,
             success: function (data) {
-                console.log(data);
-                phone['data'] = data.phone;
-                email['data'] = data.email;
-                sociolname['data'] = data.sociolname;
-                studentid['data'] = data.studentid;
                 this.setState({
+                    isEmailActivated: data.isEmailActivated,
                     provinceid: data.provinceid,
                     collegeid: data.collegeid,
                     instituteid: data.instituteid,
-                    phone: phone,
-                    email: email,
-                    initEmail: email.data,
-                    sociolname: sociolname,
-                    studentid: studentid,
-                    isEmailActivated: data.isEmailActivated
+                });
+                this.initBelong(data.provinceid, data.collegeid, data.instituteid);
+                this.props.form.setFieldsValue({
+                    phone: data.phone,
+                    email: data.email,
+                    sociolname: data.sociolname,
+                    studentid: data.studentid,
                 });
             }.bind(this)
         });
     }
 
-    handleStudentid(e) {
-        var data = e == null ? this.state.studentid.data : e.target.value;
-        var newStudentID;
-        var re = /^[a-zA-Z0-9]+$/g;
-        if (data == null || data.length == 0) {
-            newStudentID = {'data': data, 'valid': 'error', 'help': '请输入学号'}
-        } else if (!re.test(data)) {
-            newStudentID = {'data': data, 'valid': 'error', 'help': '无效的学号'}
-        }
-        else {
-            newStudentID = {'data': data, 'valid': 'success', 'help': ''}
-        }
-        this.setState({studentid: newStudentID});
-        return newStudentID.valid == 'success'
+    checkEmail() {
+        var body = '_csrf=' + $("input[name=_csrf]").val();
+        var url = '/userApi/emailActivation';
+        $.post(url, body, function (data) {
+            this.setState({message: data.message, checking: true});
+        }.bind(this));
     }
-
-    handleSociolname(e) {
-        var data = e == null ? this.state.sociolname.data : e.target.value;
-        var newSocialName = {data: data, valid: '', help: ''};
-        if (data == null || data.length == 0) {
-            newSocialName.valid = 'error';
-            newSocialName.help = '请输入姓名'
-        } else {
-            newSocialName.valid = 'success';
-            newSocialName.help = ''
-        }
-        this.setState({sociolname: newSocialName});
-        return newSocialName.valid == 'success'
-    }
-
-    handlePhone(e) {
-        var data = e == null ? this.state.phone.data : e.target.value;
-        var newPhone = {data: data, valid: '', help: ''};
-        var re = /^\d+$/g;
-        if (data == null || data.length == 0) {
-            newPhone.valid = 'error';
-            newPhone.help = '请输入手机号'
-        } else if (data.length < 5 || !re.test(data)) {
-            newPhone.valid = 'error';
-            newPhone.help = '无效的手机号'
-        }
-        else {
-            newPhone.valid = 'success';
-            newPhone.help = ''
-        }
-        this.setState({phone: newPhone});
-        return newPhone.valid == 'success'
-    }
-
-    handleEmail(e) {
-        var data = e == null ? this.state.email.data : e.target.value;
-        var newEmail = {data: data, valid: '', help: ''};
-        var re = /^.+@.+$/gi;
-        if (data == null || data.length == 0) {
-            newEmail.valid = 'error';
-            newEmail.help = '请输入邮箱地址'
-        } else if (!re.test(data)) {
-            newEmail.valid = 'error';
-            newEmail.help = '无效的邮箱地址'
-        }
-        else {
-            newEmail.valid = 'success';
-            newEmail.help = ''
-        }
-        this.setState({email: newEmail});
-        return newEmail.valid == 'success'
-    }
-
 
     handleSubmit(e) {
         e.preventDefault();
-        if (!(this.handleEmail() & this.handlePhone() & this.handleSociolname() & this.handleStudentid())) return false;
-        var body = $(e.target).serialize();
-        var url = '/userApi/userinfo';
-        console.log(url);
-        $.ajax({
-            url: url,
-            type: 'PUT',
-            data: body,
-            success: function (data) {
-                message.success("个人信息修改成功！");
-                var nextEmailActivated = this.state.isEmailActivated;
-                if(this.state.initEmail!=this.state.email.data){
-                    nextEmailActivated = false;
+        this.props.form.validateFields((errors, values) => {
+            if (!!errors) {
+                message.error('表单有误！');
+                return;
+            }
+            var url = '/userApi/userinfo';
+            values._csrf = $("input[name=_csrf]").val();
+            values.provinceid = this.state.provinceid;
+            values.collegeid = this.state.collegeid;
+            values.instituteid = this.state.instituteid;
+            console.log(values);
+            $.ajax({
+                url: url,
+                type: 'PUT',
+                data: values,
+                success: function (data) {
+                    message.success("个人信息修改成功！");
+                    if(!!this.props.nextStep){
+                        if(this.state.isEmailActivated)this.props.nextStep();
+                        else{
+                            message.warn('验证邮箱后才可以报名！');
+                        }
+                    }
+                }.bind(this)
+            });
+        });
+    }
+
+    handleBelong(value) {
+        if (value.length > 0 && value[0] != this.state.provinceid) {
+            $.get('/gameApi/colleges/' + value[0], function (data) {
+                var children = [];
+                for (var i in data) {
+                    children.push({
+                        value: data[i].collegeid,
+                        label: data[i].collegename,
+                        children: [
+                            {value: '', label: ''}
+                        ]
+                    });
                 }
-                this.setState({
-                    initEmail: this.state.email.data,
-                    isEmailActivated: nextEmailActivated 
-                });
-                if(!!this.props.nextStep){
-                    if(nextEmailActivated)this.props.nextStep();
-                    else{
-                        message.warn('验证邮箱后才可以报名！');
+
+                var options = this.state.belongOptions;
+                for (var i = 0; i < options.length; i++) {
+                    if (options[i].value == value[0]) {
+                        options[i].children = children;
+                        break;
                     }
                 }
-            }.bind(this)
-        });
-        console.log(body);
-        return true;
+                this.setState({belongOptions: options, provinceid: value[0]});
+            }.bind(this));
+        }
+        if (value.length > 1 && value[1] != this.state.collegeid) {
+            $.get('/gameApi/institutes/' + value[1], function (data) {
+                var children = [];
+                for (var i in data) {
+                    children.push({
+                        value: data[i].instituteid,
+                        label: data[i].institutename,
+                    });
+                }
+
+                var options = this.state.belongOptions;
+                var flag = false;
+                for (var i = 0; i < options.length; i++) {
+                    if (options[i].value == value[0]) {
+                        var options2 = options[i].children;
+                        for (var j in options2) {
+                            if (options2[j].value == value[1]) {
+                                options2[j].children = children;
+                                flag = true;
+                                break;
+                            }
+                        }
+                        if (flag)break;
+                    }
+                }
+                this.setState({belongOptions: options, collegeid: value[1]});
+            }.bind(this));
+        }
+        if (value.length > 2 && value[2] != this.state.instituteid) {
+            this.setState({instituteid: value[2]});
+        }
+        if (value.length < 3 || value[0] == 0 || value[1] == 0 || value[2] == 0) {
+            this.setState({belongValid:'error'}); 
+        }else{
+            this.setState({belongValid:'success'}); 
+        }
+    }
+
+    getEmailIcon(checked, checking) {
+        if (checked) {
+            return <span style={{lineHeight:"30px",color:'#87d068'}}><Icon type="check-circle"/>邮箱已验证</span>;
+
+        } else {
+            if (checking) {
+                return <span style={{lineHeight:"30px",color:'origin'}}><Icon type="check-circle"/>{this.state.message}</span>;
+            } else {
+                return <a onClick={this.checkEmail.bind(this)}><Icon type="exclamation-circle"/>邮箱未验证</a>;
+            }
+        }
+
     }
 
     render() {
-        const params = {
-            'first': '不选择',
-            'provincelabel': '省份',
-            'collegelabel': '高校',
-            'institutelabel': '学院'
-        };
-
-        console.log(this.state.isEmailActivated); 
+        const {getFieldProps} = this.props.form;
+        const studentidProps = getFieldProps('studentid', {
+            rules: [
+                {required: true,min:1, message: '学号不能为空！'}
+            ]
+        });
+        const sociolnameProps = getFieldProps('sociolname', {
+            rules: [
+                {required: true, message: '姓名不能为空！',}
+            ],
+        });
+        const phoneProps = getFieldProps('phone', {
+            rules: [
+                {required: true, message: '手机号码不能为空'},
+                {len: 11, message: '手机号码长度有误'},
+                {pattern: /^\d+$/g, message: '手机号码只能是数字'}
+            ]
+        });
+        const emailProps = getFieldProps('email', {});
         return (
-            <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)}>
-                <Input type="text" name="studentid"
-                       value={this.state.studentid.data}
-                       onChange={this.handleStudentid.bind(this)}
-                       onBlur={this.handleStudentid.bind(this)}
-                       help={this.state.studentid.help}
-                       bsStyle={this.state.studentid.valid}
-                       label="学号" {...styleLayout} />
-                <Input type="text" name="sociolname"
-                       value={this.state.sociolname.data}
-                       help={this.state.sociolname.help}
-                       bsStyle={this.state.sociolname.valid}
-                       onChange={this.handleSociolname.bind(this)}
-                       onBlur={this.handleSociolname.bind(this)}
-                       label="姓名" {...styleLayout} />
-                <Input type="text" name="phone" value={this.state.phone.data}
-                       onChange={this.handlePhone.bind(this)}
-                       onBlur={this.handlePhone.bind(this)}
-                       help={this.state.phone.help}
-                       bsStyle={this.state.phone.valid}
-                       label="手机" {...styleLayout} />
-                <EmailCheck
-                    handleEmail={this.handleEmail.bind(this)}
-                    isEmailActivated={this.state.isEmailActivated}
-                    isChange={this.state.initEmail!=this.state.email.data}
-                    value={this.state.email.data}
-                    help={this.state.email.help}
-                    valid={this.state.email.valid}
-                />
-                <BelongsForm
-                    callbackParent={callbackParent.bind(this)} p={params}
-                    provinceid={this.state.provinceid}
-                    collegeid={this.state.collegeid}
-                    instituteid={this.state.instituteid}
-                />
-                <CsrfToken/>
-                <div className="form-group">
-                    <div className="col-sm-offset-2 col-sm-6">
-                        <Button type="submit">提交</Button>
-                    </div>
 
-                </div>
-            </form>
+            <Form horizontal form={this.props.form}>
+                <CsrfToken />
+                <FormItem
+                    label="学号："
+                    labelCol={{ span: 5 }}
+                    wrapperCol={{ span: 12 }}
+                    hasFeedback
+                >
+                    <Input {...studentidProps} />
+                </FormItem>
+                <FormItem
+                    label="姓名："
+                    labelCol={{ span: 5 }}
+                    wrapperCol={{ span: 12 }}
+                    hasFeedback
+                >
+                    <Input {...sociolnameProps}/>
+                </FormItem>
+                <FormItem
+                    label="手机："
+                    labelCol={{ span: 5 }}
+                    wrapperCol={{ span: 12 }}
+                    hasFeedback
+                >
+                    <Input {...phoneProps}/>
+                </FormItem>
+                <FormItem
+                    label="邮箱："
+                    labelCol={{ span: 5 }}
+                    wrapperCol={{ span: 12 }}
+                    hasFeedback
+                >
+                    <Col span="16">
+                        <Input disabled {...emailProps}/>
+                    </Col>
+                    <Col span="7" offset="1">
+                        {this.getEmailIcon(this.state.isEmailActivated, this.state.checking)}
+                    </Col>
+                </FormItem>
+                <FormItem
+                    label="学院："
+                    labelCol={{ span: 5 }}
+                    wrapperCol={{ span: 12 }}
+                    validateStatus={this.state.belongValid}
+                >
+                    <Cascader
+                        options={this.state.belongOptions}
+                        defaultValue={[this.state.provinceid,this.state.collegeid,this.state.instituteid]}
+                        onChange={this.handleBelong.bind(this)}
+                        changeOnSelect style={{width:'100%'}}/>
+                </FormItem>
+                <FormItem wrapperCol={{ span: 5, offset: 5}}>
+                    <Button type="primary" onClick={this.handleSubmit.bind(this)}>确定</Button>
+                </FormItem>
+            </Form>
         );
     }
 }
 
-export default UserinfoForm;
+export default createForm()(UserinfoForm);

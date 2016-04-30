@@ -43,10 +43,10 @@ class Login extends React.Component {
     }
 
     handleSubmit(e) {
-        e.preventDefault(); 
+        e.preventDefault();
         var flag = this.handleUsername(null) & this.handlePassword(null);
-        if(!flag) return ;
-        
+        if (!flag) return;
+
         var data = {
             username: this.state.username.data,
             password: this.state.password.data,
@@ -58,7 +58,7 @@ class Login extends React.Component {
             var password = this.state.password;
             password.help = "用户名或密码错误！";
             password.valid = "error";
-            this.setState({password:password});
+            this.setState({password: password});
         }.bind(this));
     }
 
@@ -70,13 +70,13 @@ class Login extends React.Component {
                     <div className="login-info">
                         <h2>Game Factory</h2>
                         <div className='login-info-detail'>
-                            <h4> Game Factory can make your games more effective. And this will be a new O2O model.</h4>
-                            <h4> You can register you game here.Joiners can take part in by group or just one
+                            <h4> Game Factory can make your games more effective.</h4>
+                            <h4> Joiners can take part in by group or just one
                                 person.</h4>
                         </div>
                     </div>
 
-                    <form className="login-form-signin" onSubmit={this.handleSubmit.bind(this)}> 
+                    <form className="login-form-signin" onSubmit={this.handleSubmit.bind(this)}>
                         <Input type="text" placeholder="用户名"
                                onChange={this.handleUsername.bind(this)}
                                bsStyle={this.state.username.valid}
@@ -87,7 +87,7 @@ class Login extends React.Component {
                                bsStyle={this.state.password.valid}
                                help={this.state.password.help}
                         />
-                        <button className="btn-login btn btn-lg btn-primary btn-block"> 
+                        <button className="btn-login btn btn-lg btn-primary btn-block">
                             Login in
                         </button>
                     </form>

@@ -7,10 +7,16 @@ class BelongsForm extends React.Component {
         this.state = {
             provinceList: [{'key': 0, 'val': this.props.p.first}],
             provinceid: 0,
+            provinceValid: null,
+            provinceHelp: '',
             collegeList: [{'key': 0, 'val': this.props.p.first}],
             collegeid: 0,
+            collegeValid: null,
+            collegeHelp: '',
             instituteList: [{'key': 0, 'val': this.props.p.first}],
-            instituteid: 0
+            instituteid: 0,
+            instituteValid: null,
+            instituteHelp: ''
         };
     }
 
@@ -56,6 +62,7 @@ class BelongsForm extends React.Component {
         this.props.callbackParent(val, text, 0, this.props.p.first, 0, this.props.p.first);
         var arr = [{'key': 0, 'val': this.props.p.first}];
         if (val > 0) {
+            this.setState({ provinceValid: 'success', provinceHelp: ''});
             $.get('/gameApi/colleges/' + val, function (data) {
                 for (var i = 0; i < data.length; i++) {
                     arr.push({'key': data[i].collegeid, 'val': data[i].collegename});
@@ -63,8 +70,9 @@ class BelongsForm extends React.Component {
                 this.setState({collegeList: arr, instituteid: arr});
             }.bind(this), 'json');
         } else {
-            this.setState({collegeList: arr, instituteid: arr});
+            this.setState({collegeList: arr, instituteid: arr, provinceValid: 'error', provinceHelp: '省份不能为空!'});
         }
+
     }
 
     handleSelectCollege(event) {
@@ -74,6 +82,7 @@ class BelongsForm extends React.Component {
         this.props.callbackParent(this.state.provinceid, this.state.provincename, val, text, 0, this.props.p.first);
         var arr = [{'key': 0, 'val': this.props.p.first}];
         if (val > 0) {
+            this.setState({collegeValid: 'success', collegeHelp: ''});
             $.get('/gameApi/institutes/' + val, function (data) {
                 for (var i = 0; i < data.length; i++) {
                     arr.push({'key': data[i].instituteid, 'val': data[i].institutename});
@@ -81,7 +90,7 @@ class BelongsForm extends React.Component {
                 this.setState({instituteList: arr});
             }.bind(this), 'json');
         } else {
-            this.setState({instituteList: arr});
+            this.setState({instituteList: arr, collegeValid: 'error', collegeHelp: '学校不能为空!'});
         }
 
     }
@@ -91,6 +100,11 @@ class BelongsForm extends React.Component {
         var text = event.target.options[event.target.selectedIndex].text;
         this.setState({instituteid: val, institutename: text});
         this.props.callbackParent(this.state.provinceid, this.state.provincename, this.state.collegeid, this.state.collegename, val, text);
+        if (val > 0) {
+            this.setState({instituteValid: 'success', instituteHelp: ''});
+        } else {
+            this.setState({instituteValid: 'error', instituteHelp: '学院不能为空！'});
+        }
     }
 
     render() {
@@ -98,7 +112,7 @@ class BelongsForm extends React.Component {
             labelClassName: "col-xs-2",
             wrapperClassName: "col-xs-8"
         };
-        // const right = {display: 'inline'}
+
         var provinceOptions = this.state.provinceList.map(function (data, index) {
             return <option key={index} value={data.key}>{data.val}</option>
         });
@@ -111,18 +125,30 @@ class BelongsForm extends React.Component {
 
         return (
             <div>
-                <Input type="select" {...styleLayout} disabled={this.props.disabled} name="provinceid" label={this.props.p.provincelabel}
+                <Input type="select" {...styleLayout} disabled={this.props.disabled} name="provinceid"
+                       label={this.props.p.provincelabel}
                        placeholder="select" value={this.state.provinceid}
-                       onChange={this.handleSelectProvince.bind(this)}>
+                       onChange={this.handleSelectProvince.bind(this)}
+                       bsStyle={this.state.provinceValid}
+                       help={this.state.provinceHelp}
+                >
                     {provinceOptions}
                 </Input>
-                <Input type="select" {...styleLayout} disabled={this.props.disabled} name="collegeid" label={this.props.p.collegelabel}
-                       placeholder="select" value={this.state.collegeid} onChange={this.handleSelectCollege.bind(this)}>
+                <Input type="select" {...styleLayout} disabled={this.props.disabled} name="collegeid"
+                       label={this.props.p.collegelabel}
+                       placeholder="select" value={this.state.collegeid} onChange={this.handleSelectCollege.bind(this)}
+                       bsStyle={this.state.collegeValid}
+                       help={this.state.collegeHelp}
+                >
                     {collegeOptions}
                 </Input>
-                <Input type="select" {...styleLayout} disabled={this.props.disabled} name="instituteid" label={this.props.p.institutelabel}
+                <Input type="select" {...styleLayout} disabled={this.props.disabled} name="instituteid"
+                       label={this.props.p.institutelabel}
                        placeholder="select" value={this.state.instituteid}
-                       onChange={this.handleSelectInstitute.bind(this)}>
+                       onChange={this.handleSelectInstitute.bind(this)}
+                       bsStyle={this.state.instituteValid}
+                       help={this.state.instituteHelp}
+                >
                     {instituteOptions}
                 </Input>
             </div>

@@ -101,7 +101,8 @@ class TeamForm extends React.Component {
                 message.error('队伍创建失败！');
             }
         }.bind(this)).error(function (e) {
-            message.error('队伍创建失败！');
+            console.log(e);
+            message.error('队伍创建失败:'+e.responseText);
         });
     }
 

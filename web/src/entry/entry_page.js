@@ -63,9 +63,7 @@ class EntryPage extends React.Component {
         const toLogin = <a onClick={this.setStep.bind(this,1)}>已经拥有系统账号</a>;
         const toRegister = <a onClick={this.setStep.bind(this,0)}>注册新账号</a>;
         const entryStep = [
-            <Col xsOffset={2} xs={8}>
-                <RegisterForm nextStep={this.nextStep.bind(this)}/>
-            </Col>,
+            <RegisterForm nextStep={this.nextStep.bind(this)}/>,
             <Col xsOffset={2} xs={8}><LoginForm nextStep={this.nextStep.bind(this)} query=""/></Col>,
             <Col><UserinfoForm nextStep={this.nextStep.bind(this)}/></Col>,
             <EntryForm nextStep={this.nextStep.bind(this)} gamename={this.props.params.gamename}/>,
