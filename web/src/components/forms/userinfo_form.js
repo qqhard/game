@@ -96,12 +96,12 @@ class UserinfoForm extends React.Component {
                     instituteid: data.instituteid,
                 });
                 this.initBelong(data.provinceid, data.collegeid, data.instituteid);
-                this.props.form.setFieldsValue({
-                    phone: data.phone,
-                    email: data.email,
-                    sociolname: data.sociolname,
-                    studentid: data.studentid,
-                });
+                var initData = {};
+                if(!!data.phone)initData.phone = data.phone;
+                if(!!data.email)initData.email = data.email;
+                if(!!data.sociolname)initData.sociolname = data.sociolname;
+                if(!!data.studentid)initData.studentid = data.studentid;
+                this.props.form.setFieldsValue(initData);
             }.bind(this)
         });
     }

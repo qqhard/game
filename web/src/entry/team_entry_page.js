@@ -68,10 +68,9 @@ class TeamEntryPage extends React.Component {
             </Col>,
             <Col xsOffset={2} xs={8}><LoginForm nextStep={this.nextStep.bind(this)} query=""/></Col>,
             <Col><UserinfoForm nextStep={this.nextStep.bind(this)}/></Col>,
-            <TeamForm nextStep={this.nextStep.bind(this)} gamename={this.props.params.gamename}/>,
-            <Col>
-                <EntryInfo entry={this.state.entry}/>
-            </Col>
+            <Row>
+                <TeamForm nextStep={this.nextStep.bind(this)} gamename={this.props.params.gamename}/>
+            </Row>
         ]
 
         return (
@@ -94,8 +93,7 @@ class TeamEntryPage extends React.Component {
                             <Step title="用户注册" icon="user" description={toRegister}/>
                             <Step title="用户登录" icon="user" description={toLogin}/>
                             <Step title="用户信息" icon="solution"/>
-                            <Step title="队伍信息" icon="team"/>
-                            <Step title="队伍申请成功" icon="check-circle-o"/>
+                            <Step title="队伍申请" icon="team"/>
                         </Steps>
                     </Col>
                 </Row>
