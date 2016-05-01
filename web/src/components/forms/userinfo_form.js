@@ -145,6 +145,13 @@ class UserinfoForm extends React.Component {
     }
 
     handleBelong(value) {
+        if(value.length == 0){
+            this.setState({provinceid:0,collegeid:0,instituteid:0});
+        }else if(value.length == 1){
+            this.setState({collegeid:0,instituteid:0});
+        }else if(value.length == 2){
+            this.setState({instituteid:0});
+        }
         if (value.length > 0 && value[0] != this.state.provinceid) {
             $.get('/gameApi/colleges/' + value[0], function (data) {
                 var children = [];
@@ -204,6 +211,7 @@ class UserinfoForm extends React.Component {
         }else{
             this.setState({belongValid:'success'}); 
         }
+        
     }
 
     getEmailIcon(checked, checking) {

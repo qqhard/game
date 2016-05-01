@@ -44,9 +44,11 @@ class GameEditModal extends React.Component {
         newState.starttime.data = new Date(this.props.game.startTime);
         if (newState.starttime.data < nowTime)newState.starttime.disabled = true;
         newState.duetime.data = new Date(this.props.game.dueTime);
-        if (newState.duetime.data < nowTime)newState.duetime.disabled = true;
         newState.endtime.data = new Date(this.props.game.endTime);
-        if (newState.endtime.data < nowTime)newState.endtime.disabled = true;
+        if (newState.endtime.data < nowTime){
+            newState.duetime.disabled = true
+            newState.endtime.disabled = true;
+        }
         newState.gametime.data = this.props.game.gametime;
         if (newState.endtime.data < nowTime)newState.gametime.disabled = true;
         newState.gameplace.data = this.props.game.gameplace;

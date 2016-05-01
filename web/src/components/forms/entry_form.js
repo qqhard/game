@@ -32,7 +32,7 @@ class EntryForm extends React.Component {
     }
 
     fetchBelongName(provinceid, collegeid, instituteid) {
-        if (!provinceid || !collegeid || !instituteid)return;
+        if (!provinceid && !collegeid && !instituteid)return;
         const belong_url = `/gameApi/belong/${provinceid}/${collegeid}/${instituteid}`;
         $.get(belong_url, function (data) {
             this.setState(data);
@@ -51,6 +51,7 @@ class EntryForm extends React.Component {
             var email = this.state.email;
             phone['data'] = data.phone;
             email['data'] = data.email;
+            console.log(data);
             this.fetchBelongName(data.provinceid, data.collegeid, data.instituteid);
             this.setState({
                 phone: phone,

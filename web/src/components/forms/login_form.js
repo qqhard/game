@@ -1,8 +1,16 @@
 import React from 'react';
-import Input from 'react-bootstrap/lib/Input';
-import { browserHistory } from 'react-router';
+import {browserHistory} from 'react-router';
 import CsrfToken from '../common/csrf_token.js';
 import message from 'antd/lib/message';
+import Form from 'antd/lib/form';
+import Input from 'antd/lib/input';
+import Button from 'antd/lib/button';
+
+const FormItem = Form.Item;
+const createForm = Form.create;
+function noop() {
+    return false;
+}
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -54,9 +62,9 @@ class LoginForm extends React.Component {
             _csrf: $('input[name=_csrf]').val()
         };
         $.post(`/userApi/login${this.props.query}`, data, function (data) {
-            if(!!this.props.nextStep){
+            if (!!this.props.nextStep) {
                 top.location.reload();
-            }else{
+            } else {
                 browserHistory.push(`/userinfo-${this.state.username.data}.html`);
             }
             message.success('登陆成功！');
@@ -68,28 +76,67 @@ class LoginForm extends React.Component {
         }.bind(this));
     }
 
+    handleSubmit(e) {
+        e.preventDefault();
+        this.props.form.validateFields((errors, values) => {
+            if (!!errors) {
+                message.error('表单有误！');
+                return;
+            }
+            values._csrf = $("input[name=_csrf]").val();
+            $.post(`/userApi/login${this.props.query}`, values, (data)=> {
+                if (!!this.props.nextStep) {
+                    top.location.reload();
+                } else {
+                    browserHistory.push(`/userinfo-${this.state.username.data}.html`);
+                }
+                message.success('登陆成功');
+            }).error((e)=> {
+                message.error('用户名或密码错误');
+            });
+        });
+    }
+
     render() {
+        const {getFieldProps} = this.props.form;
+        const usernameProps = getFieldProps('username', {
+            rules: [
+                {required: true, message: '学号不能为空！'}
+            ]
+        });
+        const passProps = getFieldProps('password', {
+            rules: [
+                {required: true, whitespace: true, message: '请填写密码'},
+            ]
+        });
         return (
-            <div>
-                <form className="form-signin" onSubmit={this.handleSubmit.bind(this)}>
-                    <CsrfToken />
-                    <Input type="text" placeholder="用户名"
-                           onChange={this.handleUsername.bind(this)}
-                           bsStyle={this.state.username.valid}
-                           help={this.state.username.help}
+            <Form horizontal form={this.props.form}>
+                <CsrfToken />
+                <FormItem
+                    label="用户名："
+                    labelCol={{ span: 5 }}
+                    wrapperCol={{ span: 12 }}
+                    hasFeedback
+                >
+                    <Input {...usernameProps} />
+                </FormItem>
+                <FormItem
+                    labelCol={{ span: 5 }}
+                    wrapperCol={{ span: 12 }}
+                    hasFeedback
+                    label="密码：">
+                    <Input {...passProps}
+                        type="password"
+                        onContextMenu={noop} onPaste={noop} onCopy={noop} onCut={noop}
+                        autoComplete="off"
                     />
-                    <Input type="password" placeholder="密码"
-                           onChange={this.handlePassword.bind(this)}
-                           bsStyle={this.state.password.valid}
-                           help={this.state.password.help}
-                    />
-                    <button className="btn-login btn btn-lg btn-primary btn-block">
-                        Login in
-                    </button>
-                </form>
-            </div>
+                </FormItem>
+                <FormItem wrapperCol={{ span: 5, offset: 5}}>
+                    <Button type="primary" onClick={this.handleSubmit.bind(this)}>登陆</Button>
+                </FormItem>
+            </Form>
         );
     }
 }
 
-export default LoginForm;
+export default createForm()(LoginForm);

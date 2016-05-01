@@ -127,7 +127,6 @@ class RegisterForm extends React.Component {
             $.post('/userApi/register', values, function (data) {
                 if (data.status == "ok") {
                     message.success("注册成功！");
-                    if (!!this.props.nextStep) this.props.nextStep();
                     this.autoLogin(values.username, values.password);
                 } else {
                     message.error(data.data);
