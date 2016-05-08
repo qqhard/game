@@ -69,7 +69,7 @@ class TeamEntryPage extends React.Component {
             <Col xsOffset={2} xs={8}><LoginForm nextStep={this.nextStep.bind(this)} query=""/></Col>,
             <Col><UserinfoForm nextStep={this.nextStep.bind(this)}/></Col>,
             <Row>
-                <TeamForm nextStep={this.nextStep.bind(this)} gamename={this.props.params.gamename}/>
+                <TeamForm game={this.state.game} gamename={this.props.params.gamename}/>
             </Row>
         ]
 

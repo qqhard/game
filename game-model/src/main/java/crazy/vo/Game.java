@@ -31,7 +31,7 @@ public class Game {
 	private long endTime;
 	private long submitTime;
 	private long acceptTime;
-	
+	private String logoPath;
 	private long step;
 	private boolean deled;
 	private List<UserDefineForm> formList;
@@ -173,6 +173,12 @@ public class Game {
 	}
 	public void setDueTime(long dueTime) {
 		this.dueTime = dueTime;
+	}
+	public String getLogoPath() {
+		return logoPath;
+	}
+	public void setLogoPath(String logoPath) {
+		this.logoPath = logoPath;
 	}
 	
 }

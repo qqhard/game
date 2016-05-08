@@ -1,155 +1,160 @@
-import React from 'react'
-import Input from 'react-bootstrap/lib/Input'
-import Button from 'react-bootstrap/lib/Button'
+import React from 'react';
+import Form from 'antd/lib/form';
+import Input from 'antd/lib/input';
+import Select from 'antd/lib/select';
+import Button from 'antd/lib/button';
+import CsrfToken from '../common/csrf_token';
 import {browserHistory} from 'react-router'
-import CsrfToken from '../common/csrf_token.js'
 import message from 'antd/lib/message';
+import './form.scss';
 
-const styleLayout = {
-    labelClassName: "col-xs-2",
-    wrapperClassName: "col-xs-8"
+const formItemLayout = {
+    labelCol: {span: 5} ,
+    wrapperCol :{ span: 12 }
 };
+const FormItem = Form.Item;
+const createForm = Form.create;
+const Option = Select.Option;
+
+const checkEmpty = function(rule, value, callback){
+    if(!value){
+        callback();
+    }else{
+        if(value.replace(/\s*/g,"").length == 0){
+            callback([new Error('输入格式错误！')]);
+        } else if(value.indexOf('#')>=0){
+            callback([new Error('输入格式错误！')]);
+        } else{
+            callback();
+        }
+    }
+}
 
 class TeamForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            enname: {data: '', valid: null, help: null},
-            cnname: {data: '', valid: null, help: null},
-            info: {data: '', valid: null, help: null},
-            identity: {data: '队长', valid: null, help: null},
-            num: {data: '', valid: null, help: null}
         }
     }
 
-    handleEnname(e) {
-        var val = this.state.enname;
-        if (!!e) val.data = e.target.value;
-        var re = /^[a-zA-Z0-9\s-_]+$/;
-        if (val.data.length == 0) {
-            val.valid = 'error';
-            val.help = '不能为空';
-        } else if (!re.test(val.data)) {
-            val.valid = 'error';
-            val.help = '只能为字母';
-        } else {
-            val.valid = 'success';
-            val.help = '';
-        }
-        this.setState({enname: val});
-        return val.valid == 'success';
-    }
-
-    handleCnname(e) {
-        var val = this.state.cnname;
-        if (!!e) val.data = e.target.value;
-        if (val.data.length == 0) {
-            val.valid = 'error';
-            val.help = '不能为空';
-        } else {
-            val.valid = 'success';
-            val.help = '';
-        }
-        this.setState({cnname: val});
-        return val.valid == 'success';
-    }
-
-    handleIdentity(e) {
-        var val = this.state.identity;
-        if(!!e)val.data = e.target.value;
-        val.valid = 'success';
-        this.setState({identity: val});
-        return val.valid == 'success';
-    }
-
-    handleInfo(e) {
-        var val = this.state.info;
-        if (!!e) val.data = e.target.value;
-        if (val.data.length == 0) {
-            val.valid = 'error';
-            val.help = '不能为空';
-        } else {
-            val.valid = 'success';
-            val.help = '';
-        }
-        this.setState({info: val});
-        return val.valid == 'success';
-    }
-
-
-    handleSubmit() {
-        console.log('teset');
-        var flag = this.handleCnname(null) & this.handleEnname(null) & this.handleIdentity(null) & this.handleInfo(null);
-        if (!flag) return;
-        console.log('teset');
-        const body = {
-            enname: this.state.enname.data,
-            cnname: this.state.cnname.data,
-            info: this.state.info.data,
-            identity: this.state.identity.data,
-            gamename: this.props.gamename,
-            _csrf: $('input[name=_csrf]').val()
-        }
-        console.log(body);
-        $.post('/gameApi/team', body, function (data) {
-            if (data.status == 'ok') {
-                message.success('队伍创建成功！');
-                setTimeout(function () {
-                    browserHistory.push("/teammanage-" + data.data + ".html");
-                }, 1000);
-            } else {
-                message.error('队伍创建失败！');
+    handleSubmit(e) {
+        e.preventDefault();
+        this.props.form.validateFields((errors, values) => {
+            if (!!errors) {
+                message.error('表单有误！');
+                return;
             }
-        }.bind(this)).error(function (e) {
-            console.log(e);
-            message.error('队伍创建失败:'+e.responseText);
+            const forms = this.props.game.formList.map((val,index)=>{
+                const value = values[`form-${index}`];
+                delete values[`form-${index}`];
+                return `${val.name}=${value}`; 
+            });
+            values.forms = forms.join("#");
+            values.gamename = this.props.gamename;
+            values._csrf = $('input[name=_csrf]').val();
+            console.log(values);
+            $.post('/gameApi/team', values, function (data) {
+                if (data.status == 'ok') {
+                    message.success('队伍创建成功！');
+                    setTimeout(function () {
+                        browserHistory.push("/teammanage-" + data.data + ".html");
+                    }, 500);
+                } else {
+                    message.error('队伍创建失败！');
+                }
+            }.bind(this)).error(function (e) {
+                message.error('队伍创建失败:'+e.responseText);
+            });
         });
     }
 
-    render() {
 
+    render() {
+        const {getFieldProps} = this.props.form;
+        const ennameProps = getFieldProps('enname', {
+            rules: [
+                {required: true, message: '请填写英文队名！'},
+                {pattern: /^\w[a-zA-Z0-9 ]*$/g, message: '仅能输入字母,数字和空格！'}
+            ]
+        });
+        const cnnameProps = getFieldProps('cnname', {
+            rules: [
+                {required: true,min:1, message: '请填写中文队名！'},
+                { validator: checkEmpty},
+            ]
+        });
+        const identityProps = getFieldProps('identity', {
+            rules: [
+                { required: true, message: '请选择您的身份！' }
+            ],
+        });
+        const infoProps = getFieldProps('info', {
+            rules: [
+                { required: true, message: '请选择队伍简介！' },
+                { min:3,max:50, message: '字数应在3到50之间!' },
+                { validator: checkEmpty},
+            ],
+        });
+        
+        const formList = this.props.game.formList.map((val,index)=>{
+            const userDefineFormProps = getFieldProps(`form-${index}`,{
+                rules: [
+                    { required: true, message: `请填写${val.name}!`},
+                    { validator: checkEmpty},
+                ]
+            });
+            return (
+                <FormItem
+                    label={`${val.name}：`}
+                    {...formItemLayout}
+                    hasFeedback
+                >
+                    <Input {...userDefineFormProps}/>
+                </FormItem>
+            ); 
+        });
 
         return (
-
-            <form className="form-horizontal">
-                <Input type="text" label="英文队名" {...styleLayout}
-                       onChange={this.handleEnname.bind(this)}
-                       bsStyle={this.state.enname.valid}
-                       value={this.state.enname.data}
-                       help={this.state.enname.help}
-                />
-                <Input type="text" label="中文队名" {...styleLayout}
-                       onChange={this.handleCnname.bind(this)}
-                       value={this.state.cnname.data}
-                       bsStyle={this.state.cnname.valid}
-                       help={this.state.cnname.help}
-                />
-                <Input type="select" label="您的身份" {...styleLayout}
-                       onChange={this.handleIdentity.bind(this)}
-                       value={this.state.identity.data}
-                       bsStyle={this.state.identity.valid}
-                       help={this.state.identity.help}
+        
+            <Form horizontal form={this.props.form}>
+                <CsrfToken />
+                <FormItem
+                    label="英文名："
+                    {...formItemLayout}
+                    hasFeedback
                 >
-                    <option value="队长">队长</option>
-                    <option value="教练">教练</option>
-                    <option value="指导老师">指导老师</option>
-                </Input>
-                <Input type="textarea" label="队伍介绍" {...styleLayout}
-                       onChange={this.handleInfo.bind(this)}
-                       value={this.state.info.data}
-                       bsStyle={this.state.info.valid}
-                       help={this.state.info.help}
-                />
-                <CsrfToken/>
-                <div className="form-group">
-                    <div className="col-sm-offset-2 col-sm-8">
-                        <Button onClick={this.handleSubmit.bind(this)}>提 交</Button>
-                    </div>
-                </div>
-            </form>
+                    <Input {...ennameProps} />
+                </FormItem>
+                <FormItem
+                    {...formItemLayout}
+                    label="中文名："
+                    hasFeedback
+                >
+                    <Input {...cnnameProps}/>
+                </FormItem>
+                <FormItem
+                    {...formItemLayout}
+                    label="您的身份：">
+                    <Select {...identityProps} placeholder="您的身份" style={{ width: '100%' }}>
+                        <Option value="队长">队长</Option>
+                        <Option value="教练">教练</Option>
+                        <Option value="指导老师">指导老师</Option>
+                    </Select>
+                </FormItem>
+                <FormItem
+                    {...formItemLayout}
+                    label="队伍简介："
+                    hasFeedback
+                >
+                    <Input {...infoProps} type="textarea"/>
+                </FormItem>
+                {formList}
+                <FormItem wrapperCol={{ span: 5, offset: 5}}>
+                    <Button type="primary" onClick={this.handleSubmit.bind(this)}>确定</Button>
+                </FormItem>
+            </Form>
         );
     }
-
 }
 
-export default TeamForm;
+export default createForm()(TeamForm);

@@ -1,5 +1,7 @@
 package crazy.vo;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,6 +20,9 @@ public class Team {
 	private String info;
 	private boolean entryed;
 	private boolean deled;
+	private long applyTime;
+	private long entryTime;
+	private List<UserDefineForm> formList;
 	public String getId() {
 		return id;
 	}
@@ -89,6 +94,24 @@ public class Team {
 	}
 	public void setDeled(boolean deled) {
 		this.deled = deled;
+	}
+	public long getApplyTime() {
+		return applyTime;
+	}
+	public void setApplyTime(long applyTime) {
+		this.applyTime = applyTime;
+	}
+	public long getEntryTime() {
+		return entryTime;
+	}
+	public void setEntryTime(long entryTime) {
+		this.entryTime = entryTime;
+	}
+	public List<UserDefineForm> getFormList() {
+		return formList;
+	}
+	public void setFormList(List<UserDefineForm> formList) {
+		this.formList = formList;
 	}
 	
 

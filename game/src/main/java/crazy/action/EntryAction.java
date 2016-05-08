@@ -156,7 +156,7 @@ public class EntryAction {
 		}
 		
 		Query query = new Query(Criteria.where("id").is(teamEntryForm.getTeamid()));
-		Update update = new Update().set("entryed", true);
+		Update update = new Update().set("entryed", true).set("entryTime", System.currentTimeMillis());
 		mongo.updateFirst(query, update, Team.class);
 		
 		log.info("team {} entry {} success！", teamEntryForm.getTeamid(), team.getGamename());

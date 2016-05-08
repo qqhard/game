@@ -31,6 +31,11 @@ class TeamInfo extends React.Component {
         }
         return limitNum; 
     }
+    getFormList(){
+        return this.props.data.formList.map((val,index)=>{
+            return <p key={index}>{val.name}：{val.value}</p>
+        });
+    }
     render() {
         if (!this.props.data)return <Jumbotron></Jumbotron>;
         const href = `game-${this.props.data.gamename}.html`;
@@ -46,7 +51,7 @@ class TeamInfo extends React.Component {
                 <h3>参与赛事：<Link to={href}>{this.props.data.gamename}</Link></h3><br />
                 <h3>{this.props.data.identity}：{owner}</h3><br/>
                 {this.getLimitNum()}
-
+                {this.getFormList()}
                 <p>{this.props.data.info}</p><br/>
             </Jumbotron>
         )
