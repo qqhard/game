@@ -44,24 +44,32 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	__webpack_require__(1);
+	module.exports = __webpack_require__(1);
+
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 
-	var _createOperIco = __webpack_require__(1);
+	var _createOperIco = __webpack_require__(2);
 
 	var _createOperIco2 = _interopRequireDefault(_createOperIco);
 
-	var _OperBoard = __webpack_require__(2);
+	var _OperBoard = __webpack_require__(3);
 
 	var _OperBoard2 = _interopRequireDefault(_OperBoard);
 
-	var _Listener = __webpack_require__(14);
+	var _Listener = __webpack_require__(15);
 
 	var _Listener2 = _interopRequireDefault(_Listener);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	global.$ = __webpack_require__(15);
-	__webpack_require__(16);
+	global.$ = __webpack_require__(16);
+	__webpack_require__(17);
 	(function () {
 	    var operateIco = null;
 	    var operateBoard = null;
@@ -102,7 +110,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 1 */
+/* 2 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -129,7 +137,7 @@
 	}
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -140,39 +148,39 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _HiddenIco = __webpack_require__(3);
+	var _HiddenIco = __webpack_require__(4);
 
 	var _HiddenIco2 = _interopRequireDefault(_HiddenIco);
 
-	var _QuitIco = __webpack_require__(5);
+	var _QuitIco = __webpack_require__(6);
 
 	var _QuitIco2 = _interopRequireDefault(_QuitIco);
 
-	var _SaveIco = __webpack_require__(6);
+	var _SaveIco = __webpack_require__(7);
 
 	var _SaveIco2 = _interopRequireDefault(_SaveIco);
 
-	var _TextChanger = __webpack_require__(7);
+	var _TextChanger = __webpack_require__(8);
 
 	var _TextChanger2 = _interopRequireDefault(_TextChanger);
 
-	var _HrefChanger = __webpack_require__(8);
+	var _HrefChanger = __webpack_require__(9);
 
 	var _HrefChanger2 = _interopRequireDefault(_HrefChanger);
 
-	var _FontFamliyChanger = __webpack_require__(9);
+	var _FontFamliyChanger = __webpack_require__(10);
 
 	var _FontFamliyChanger2 = _interopRequireDefault(_FontFamliyChanger);
 
-	var _Label = __webpack_require__(11);
+	var _Label = __webpack_require__(12);
 
 	var _Label2 = _interopRequireDefault(_Label);
 
-	var _SliderChanger = __webpack_require__(12);
+	var _SliderChanger = __webpack_require__(13);
 
 	var _SliderChanger2 = _interopRequireDefault(_SliderChanger);
 
-	var _ColorChanger = __webpack_require__(13);
+	var _ColorChanger = __webpack_require__(14);
 
 	var _ColorChanger2 = _interopRequireDefault(_ColorChanger);
 
@@ -314,7 +322,7 @@
 	exports.default = OperBoard;
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -323,7 +331,7 @@
 	    value: true
 	});
 
-	var _createIco = __webpack_require__(4);
+	var _createIco = __webpack_require__(5);
 
 	var _createIco2 = _interopRequireDefault(_createIco);
 
@@ -351,7 +359,7 @@
 	exports.default = HiddenIco;
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -391,7 +399,7 @@
 	};
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -400,7 +408,7 @@
 	    value: true
 	});
 
-	var _createIco = __webpack_require__(4);
+	var _createIco = __webpack_require__(5);
 
 	var _createIco2 = _interopRequireDefault(_createIco);
 
@@ -430,7 +438,7 @@
 	exports.default = QuitIco;
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -439,7 +447,9 @@
 	    value: true
 	});
 
-	var _createIco = __webpack_require__(4);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _createIco = __webpack_require__(5);
 
 	var _createIco2 = _interopRequireDefault(_createIco);
 
@@ -447,35 +457,64 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var SaveIco = function SaveIco() {
-	    _classCallCheck(this, SaveIco);
+	var SaveIco = function () {
+	    function SaveIco() {
+	        _classCallCheck(this, SaveIco);
 
-	    var self = (0, _createIco2.default)("save");
-	    self.on("click.veditdiv", function (event) {
-	        event.stopPropagation();
-
-	        var test = document.getElementsByTagName('html')[0].outerHTML;
-	        self.css("cursor", "pointer");
-	        $.ajax({
-	            url: window.location.href,
-	            type: "POST",
-	            data: { context: test },
-	            success: function success(data) {
-	                var gamename = window.location.href.substring(window.location.href.lastIndexOf("/"));
-	                var ret = confirm('是否打开赛事宣传页!');
-	                if (ret) {
-	                    window.open('http://' + gamename + '.valseek.com');
+	        var self = (0, _createIco2.default)("save");
+	        self.on("click.veditdiv", function (event) {
+	            event.stopPropagation();
+	            var csrf = this.getCookieValue("XSRF-TOKEN");
+	            var test = document.getElementsByTagName('html')[0].outerHTML;
+	            self.css("cursor", "pointer");
+	            $.ajax({
+	                url: window.location.href,
+	                type: "POST",
+	                data: {
+	                    context: test,
+	                    _csrf: csrf
+	                },
+	                success: function success(data) {
+	                    var gamename = window.location.href.substring(window.location.href.lastIndexOf("/"));
+	                    var ret = confirm('是否打开赛事宣传页!');
+	                    if (ret) {
+	                        window.open('http://' + gamename + '.valseek.com');
+	                    }
 	                }
+	            });
+	        }.bind(this));
+	        return self;
+	    }
+
+	    _createClass(SaveIco, [{
+	        key: "getCookieValue",
+	        value: function getCookieValue(cookieName) {
+	            var cookieValue = document.cookie;
+	            var cookieStartAt = cookieValue.indexOf("" + cookieName + "=");
+	            if (cookieStartAt == -1) {
+	                cookieStartAt = cookieValue.indexOf(cookieName + "=");
 	            }
-	        });
-	    });
-	    return self;
-	};
+	            if (cookieStartAt == -1) {
+	                cookieValue = null;
+	            } else {
+	                cookieStartAt = cookieValue.indexOf("=", cookieStartAt) + 1;
+	                var cookieEndAt = cookieValue.indexOf(";", cookieStartAt);
+	                if (cookieEndAt == -1) {
+	                    cookieEndAt = cookieValue.length;
+	                }
+	                cookieValue = unescape(cookieValue.substring(cookieStartAt, cookieEndAt)); //解码latin-1
+	            }
+	            return cookieValue;
+	        }
+	    }]);
+
+	    return SaveIco;
+	}();
 
 	exports.default = SaveIco;
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -504,7 +543,7 @@
 	exports.default = TextChanger;
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -533,7 +572,7 @@
 	exports.default = HrefChanger;
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -542,7 +581,7 @@
 	    value: true
 	});
 
-	var _styel = __webpack_require__(10);
+	var _styel = __webpack_require__(11);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -563,7 +602,7 @@
 	exports.default = FontFamliyChanger;
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -584,7 +623,7 @@
 	};
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -593,7 +632,7 @@
 	    value: true
 	});
 
-	var _styel = __webpack_require__(10);
+	var _styel = __webpack_require__(11);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -612,7 +651,7 @@
 	exports.default = Label;
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -675,7 +714,7 @@
 	exports.default = SliderChanger;
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -797,7 +836,7 @@
 	exports.default = ColorChanger;
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -959,7 +998,7 @@
 	exports.default = Listener;
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10807,13 +10846,13 @@
 
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var jQuery = __webpack_require__(15);
-	__webpack_require__(17);
+	var jQuery = __webpack_require__(16);
 	__webpack_require__(18);
 	__webpack_require__(19);
+	__webpack_require__(20);
 
 	/*!
 	 * jQuery UI Slider 1.10.4
@@ -11494,10 +11533,10 @@
 
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var jQuery = __webpack_require__(15);
+	var jQuery = __webpack_require__(16);
 
 	/*!
 	 * jQuery UI Core 1.10.4
@@ -11822,11 +11861,11 @@
 
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var jQuery = __webpack_require__(15);
-	__webpack_require__(19);
+	var jQuery = __webpack_require__(16);
+	__webpack_require__(20);
 
 	/*!
 	 * jQuery UI Mouse 1.10.4
@@ -12000,10 +12039,10 @@
 
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var jQuery = __webpack_require__(15);
+	var jQuery = __webpack_require__(16);
 
 	/*!
 	 * jQuery UI Widget 1.10.4

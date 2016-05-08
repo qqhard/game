@@ -81,6 +81,7 @@ public class ThemeAction {
 			@PathVariable("gamename") String gamename) {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Game game = gameRepository.findByGamename(gamename);
+
 		if(!username.equals(game.getOwner()))return new ResponseEntity<Object>(HttpStatus.FORBIDDEN); 
 
 		String html = filter(form.getContext());
@@ -120,14 +121,14 @@ public class ThemeAction {
 		Document doc = Jsoup.parse(html);
 		doc.getElementsByAttributeValue("class", "veditdiv_control_ico").remove();
 		doc.getElementsByAttributeValue("class", "veditdiv_control_board").remove();
-		doc.getElementsByAttributeValue("src", "http://valseek.com/static/vEdit.js").remove();
+		doc.getElementsByAttributeValue("src", "/static/vEdit.js").remove();
 		String result = doc.html();
 		return result;
 	}
 	
 	private String append(String html){
 		Document doc = Jsoup.parse(html);
-		doc.body().append("<script type=\"text/javascript\" src=\"http://valseek.com/static/vEdit.js\"></script>");
+		doc.body().append("<script type=\"text/javascript\" src=\"/static/vEdit.js\"></script>");
 		return doc.html();
 	}
 }
