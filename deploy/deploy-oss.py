@@ -13,5 +13,5 @@ bucket = oss2.Bucket(auth, endpoint, bucket)
 result = bucket.put_object_from_file('js/app.js','../web/build/js/app.js')
 print('http status: {0}'.format(result.status))
 
-result = bucket.put_object_from_file('common.js','../web/build/js/common.js')
+result = bucket.put_object_from_file('js/common.js','../web/build/js/common.js')
 print('http status: {0}'.format(result.status))
