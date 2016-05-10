@@ -62,7 +62,7 @@ class EntrysTable extends React.Component {
     }
 
     fetchGroup(groupid){
-        $.get(`/gameApi/group/${this.props.gamename}/${groupid}`,(data)=>{
+        $.get(`/gameApi/group/${this.props.gamename}/${groupid}/individual`,(data)=>{
             var arr = [];
             for (var i in data) {
                 arr.push({
@@ -299,6 +299,7 @@ class EntrysTable extends React.Component {
                 <EntryGroupModal
                     entryids={this.state.entryids}
                     gamename={this.props.gamename}
+                    type="individual"
                     visible={this.state.groupModalVisible}
                     onCancel={cancelGroupModal.bind(_this)}
                     addGroup={addGroup.bind(this)}

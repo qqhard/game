@@ -6,6 +6,9 @@ import PrivateMessageModal from '../modal/private_message_modal.js';
 import EmailMessageModal from '../modal/email_message_modal.js';
 import PhoneMessageModal from '../modal/phone_message_modal.js';
 import TeamEntryDelModal from '../modal/team_entry_del_modal.js';
+import FileDownloadForm from '../forms/file_download_form.js';
+import EntryGroupModal, {showGroupModal, cancelGroupModal, addGroup} from '../modal/entry_group_modal.js';
+import Select from 'antd/lib/select';
 import {Link} from 'react-router';
 
 class TeamEntrysTable extends React.Component {
@@ -17,7 +20,8 @@ class TeamEntrysTable extends React.Component {
             loading: false,
             entrys: [],
             url: '',
-            teams: []
+            teams: [],
+            groups: []
         }
     }
 
@@ -30,6 +34,11 @@ class TeamEntrysTable extends React.Component {
     }
 
     componentDidMount() {
+        this.fetchEntrys();
+        this.fetchGroups();
+    }
+   
+    fetchEntrys() {
         const entrys_url = `/gameApi/gameentrys/${this.props.gamename}/team`;
         $.get(entrys_url, function (data) {
             var arr = [];
@@ -38,7 +47,7 @@ class TeamEntrysTable extends React.Component {
                 const owner_href = `userinfoshow-${data[i].owner}.html`;
                 const cnname = <Link to={team_href}>{data[i].cnname}</Link>;
                 const enname = <Link to={team_href}>{data[i].enname}</Link>;
-                const owner = <Link to={team_href}>{`${data[i].identity}:${data[i].owner}`}</Link>;
+                const owner = <Link to={owner_href}>{`${data[i].identity}:${data[i].owner}`}</Link>;
                 arr.push({
                     key: data[i].id,
                     cnname: cnname,
@@ -50,9 +59,37 @@ class TeamEntrysTable extends React.Component {
             this.setState({entrys: arr});
         }.bind(this));
     }
+    
+    fetchGroups() {
+        $.get(`/gameApi/groups/${this.props.gamename}`, (data)=> {
+            var arr = [{id: 'all', groupname: '全体参赛者'}];
+            arr = arr.concat(data);
+            this.setState({groups: arr});
+        });
+    }
+
+    fetchGroup(groupid){
+        $.get(`/gameApi/group/${this.props.gamename}/${groupid}/team`,(data)=>{
+            var arr = [];
+            for (var i in data) {
+                const team_href = `teamshow-${data[i].id}.html`;
+                const owner_href = `userinfoshow-${data[i].owner}.html`;
+                const cnname = <Link to={team_href}>{data[i].cnname}</Link>;
+                const enname = <Link to={team_href}>{data[i].enname}</Link>;
+                const owner = <Link to={owner_href}>{`${data[i].identity}:${data[i].owner}`}</Link>;
+                arr.push({
+                    key: data[i].id,
+                    cnname: cnname,
+                    enname: enname,
+                    owner: owner,
+                    nowNum: data[i].nowNum
+                });
+            }
+            this.setState({entrys: arr});
+        });
+    }
 
     onSelectChange(selectedRowKeys, selectedRecords) {
-        console.log('selectedRowKeys changed: ', selectedRecords);
         this.setState({selectedRowKeys});
 
         var teams = [];
@@ -170,6 +207,15 @@ class TeamEntrysTable extends React.Component {
         }
 
     }
+    
+    handleGroup(value) {
+        if(value=="all"){
+            this.fetchEntrys();
+        }else{
+            this.fetchGroup(value);
+        }
+        this.setState({selectedRowKeys:[]});
+    }
 
     render() {
         var _this = this;
@@ -215,6 +261,9 @@ class TeamEntrysTable extends React.Component {
             }
         };
         const hasSelected = selectedRowKeys.length > 0;
+        const groupOptions = this.state.groups.map((val, index)=> {
+            return <Option value={val.id} key={index}>{val.groupname}</Option>
+        });
         return (
             <div>
                 <EmailMessageModal
@@ -247,17 +296,31 @@ class TeamEntrysTable extends React.Component {
                     onCancel={_this.callCancel3.bind(_this)}
                     onClear={_this.callDelEntry.bind(_this)}
                 />
+                <EntryGroupModal
+                    entryids={this.state.teams}
+                    gamename={this.props.gamename}
+                    type="team"
+                    visible={this.state.groupModalVisible}
+                    onCancel={cancelGroupModal.bind(_this)}
+                    addGroup={addGroup.bind(this)}
+                />
 
                 <div style={{ marginBottom: 16 }}>
                     <ButtonGroup>
                         <Button onClick={this.selectAll.bind(this)}>跨页全选</Button>
+                        <Button onClick={showGroupModal.bind(this)} disabled={!hasSelected}>增加分组</Button>
                         <Button onClick={this.showPrivateModalBatch.bind(this)} disabled={!hasSelected}>群发私信</Button>
                         <Button onClick={this.showModalBatch.bind(this,'/message/email')}
                                 disabled={!hasSelected}>群发邮件</Button>
                         <Button onClick={this.showPhoneModalBatch.bind(this)} disabled={!hasSelected}>群发短信</Button>
+                        <FileDownloadForm type="excel" gamename={this.props.gamename} gametype="team"/>
                         <Button onClick={this.showDelModalBatch.bind(this)} disabled={!hasSelected} bsStyle="danger">批量清退</Button>
                     </ButtonGroup>
                     <span style={{ marginLeft: 8 }}>{hasSelected ? `选择了 ${selectedRowKeys.length} 个参赛者` : ''}</span>
+                    <Select defaultValue="全体参赛者" style={{ width: 200, float:'right' }}
+                            onChange={this.handleGroup.bind(this)}>
+                        {groupOptions}
+                    </Select>
                 </div>
                 <Table rowSelection={rowSelection} columns={columns} dataSource={this.state.entrys}/>
             </div>

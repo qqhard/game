@@ -36,7 +36,7 @@ module.exports = {
         new webpack.NoErrorsPlugin(),
         new HtmlWebpackPlugin({
             filename: '../../index.html',
-            chunks: [''],
+            excludeChunks: ['admin'],
             hash:true,
             template: 'my-index.html',
             inject:'body',

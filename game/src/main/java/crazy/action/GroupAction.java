@@ -23,11 +23,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import crazy.dao.GroupRepository;
+import crazy.dao.TeamRepository;
 import crazy.dao.UserRepository;
 import crazy.form.GroupForm;
 import crazy.service.GameAuthService;
 import crazy.vo.Entry;
 import crazy.vo.Group;
+import crazy.vo.Team;
 import crazy.vo.User;
 
 @RestController
@@ -38,6 +40,9 @@ public class GroupAction {
 
 	@Autowired
 	private GroupRepository groupRepository;
+
+	@Autowired
+	private TeamRepository teamRepository;
 
 	@Autowired
 	private MongoTemplate mongo;
@@ -56,8 +61,8 @@ public class GroupAction {
 		return groups;
 	}
 
-	@RequestMapping(value = "/group/{gamename}/{groupid}", method = RequestMethod.GET)
-	public Object get(@PathVariable("gamename") String gamename, @PathVariable("groupid") String groupid) {
+	@RequestMapping(value = "/group/{gamename}/{groupid}/individual", method = RequestMethod.GET)
+	public Object getIndividual(@PathVariable("gamename") String gamename, @PathVariable("groupid") String groupid) {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		boolean hasAuth = gameAuthService.checkOwnerOrManager(username, gamename);
 		if (!hasAuth)
@@ -65,8 +70,7 @@ public class GroupAction {
 		Group group = groupRepository.findOne(new ObjectId(groupid));
 		if (!group.getGamename().equals(gamename))
 			return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
-		Query query = new Query(
-				Criteria.where("id").in(group.getEntryids()).and("deled").is(false));
+		Query query = new Query(Criteria.where("id").in(group.getEntryids()).and("deled").is(false));
 
 		List<Entry> entrys = mongo.find(query, Entry.class);
 		List<String> usernames = entrys.stream().map(e -> e.getUsername()).collect(Collectors.toList());
@@ -83,14 +87,30 @@ public class GroupAction {
 		return ret;
 	}
 
-	@RequestMapping(value = "/group", method = RequestMethod.POST)
-	public Object post(@Valid GroupForm form, BindingResult bind) {
+	@RequestMapping(value = "/group/{gamename}/{groupid}/team", method = RequestMethod.GET)
+	public Object getTeam(@PathVariable("gamename") String gamename, @PathVariable("groupid") String groupid) {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		boolean hasAuth = gameAuthService.checkOwnerOrManager(username, gamename);
+		if (!hasAuth)
+			return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+		Group group = groupRepository.findOne(new ObjectId(groupid));
+		if (!group.getGamename().equals(gamename))
+			return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+
+		List<Team> teams = teamRepository.findByIds(group.getEntryids());
+		teams = teams.stream().filter(team -> team.isDeled() == false && team.isEntryed() == true)
+				.collect(Collectors.toList());
+		return teams;
+	}
+
+	@RequestMapping(value = "/group/individual", method = RequestMethod.POST)
+	public Object postIndividual(@Valid GroupForm form, BindingResult bind) {
 		if (bind.hasErrors()) {
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		boolean hasAuth = gameAuthService.checkOwnerOrManager(username, form.getGamename());
-		System.out.println("test");
+
 		if (!hasAuth)
 			return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
 
@@ -98,6 +118,26 @@ public class GroupAction {
 		Query query = new Query(Criteria.where("gamename").is(group.getGamename()).and("id").in(group.getEntryids()));
 		List<Entry> entrys = mongo.find(query, Entry.class);
 		if (entrys.size() != group.getEntryids().size())
+			return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+		mongo.insert(group);
+		return group;
+	}
+	
+	@RequestMapping(value = "/group/team", method = RequestMethod.POST)
+	public Object postTeam(@Valid GroupForm form, BindingResult bind) {
+		if (bind.hasErrors()) {
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		boolean hasAuth = gameAuthService.checkOwnerOrManager(username, form.getGamename());
+
+		if (!hasAuth)
+			return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+
+		Group group = form.update(new Group());
+		Query query = new Query(Criteria.where("gamename").is(group.getGamename()).and("id").in(group.getEntryids()));
+		List<Team> teams = mongo.find(query, Team.class);
+		if (teams.size() != group.getEntryids().size())
 			return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
 		mongo.insert(group);
 		return group;

@@ -52,7 +52,7 @@ class EntryGroupModal extends React.Component {
             + '&gamename=' + this.props.gamename
             + '&_csrf=' + $("input[name=_csrf]").val();
         console.log(body);
-        $.post(`/gameApi/group`,body,(data)=>{
+        $.post(`/gameApi/group/${this.props.type}`,body,(data)=>{
             message.success('增加分组成功！');
             this.props.addGroup(data);
             this.props.onCancel();

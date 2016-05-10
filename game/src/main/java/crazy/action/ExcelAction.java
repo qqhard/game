@@ -2,10 +2,11 @@ package crazy.action;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,11 +31,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import crazy.dao.TeamRepository;
 import crazy.dao.UserRepository;
 import crazy.vo.Entry;
 import crazy.vo.Game;
 import crazy.vo.Group;
+import crazy.vo.Team;
 import crazy.vo.User;
+import crazy.vo.UserDefineForm;
 
 @RestController
 @RequestMapping("excel")
@@ -45,8 +49,14 @@ public class ExcelAction {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private TeamRepository teamRepository;
+
+//	@Autowired
+//	private MemberRepository memberRepository;
+
 	@RequestMapping(value = "{gamename}/individual", method = RequestMethod.GET)
-	public Object get(@PathVariable("gamename") String gamename, HttpServletResponse res) throws IOException {
+	public Object getIndividual(@PathVariable("gamename") String gamename, HttpServletResponse res) throws IOException {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Query query = new Query(Criteria.where("gamename").is(gamename).and("owner").is(username));
 		boolean hasAuth = mongo.exists(query, Game.class);
@@ -105,6 +115,74 @@ public class ExcelAction {
 		return new ResponseEntity<byte[]>(out.toByteArray(), headers, HttpStatus.CREATED);
 	}
 
+	@RequestMapping(value = "{gamename}/team", method = RequestMethod.GET)
+	public Object getTeam(@PathVariable("gamename") String gamename, HttpServletResponse res) throws IOException {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Query query = new Query(Criteria.where("gamename").is(gamename).and("owner").is(username));
+		Game game = mongo.findOne(query, Game.class);
+		if (game == null)
+			return new ResponseEntity<String>("仅赛事举办者拥有权限", HttpStatus.FORBIDDEN);
+
+		query = new Query(Criteria.where("gamename").is(gamename).and("deled").is(false));
+		List<Team> teams = teamRepository.findByGamenameAndEntryedAndDeled(gamename, true, false);
+		// List<String> teamids =
+		// teams.stream().map(e->e.getId()).collect(Collectors.toList());
+		// List<Member> members =
+		// memberRepository.findByTeamidsAndAccepted(teamids, true);
+		// List<String> usernames =
+		// members.stream().map(e->e.getUsername()).distinct().collect(Collectors.toList());
+		// List<User> users = userRepository.findByUsernameInList(usernames);
+
+		List<String> teamTitleList = Stream.of(Arrays.asList("英文名", "中文名", "拥有者", "队伍简介").stream(),
+				game.getFormList().stream().map(e -> e.getName())).flatMap(titles -> titles).collect(Collectors.toList());
+		String[] teamTitles = (String[]) teamTitleList.toArray(new String[teamTitleList.size()]);
+		
+		HashMap<String, String[]> map = new HashMap<>();
+		int col = 4 + game.getFormList().size();
+		teams.forEach(team -> {
+			String[] tmp = new String[col];
+			tmp[0] = team.getEnname();
+			tmp[1] = team.getCnname();
+			tmp[2] = team.getOwner();
+			tmp[3] = team.getInfo();
+			int cnt = 4;
+			for (UserDefineForm form : team.getFormList()) {
+				tmp[cnt++] = form.getValue();
+			}
+			map.put(team.getId(), tmp);
+		});
+
+		query = new Query(Criteria.where("gamename").is(gamename));
+		List<Group> groups = mongo.find(query, Group.class);
+
+		HSSFWorkbook workbook = new HSSFWorkbook();
+
+		List<String[]> context = map.values().stream().collect(Collectors.toList());
+		addSheet("全部参赛队伍", teamTitles, context, workbook);
+
+		for (Group group : groups) {
+			context = group.getEntryids().stream().map(e -> map.get(e)).filter(e -> e != null)
+					.collect(Collectors.toList());
+			if (context.size() > 0)
+				addSheet(group.getGroupname(), teamTitles, context, workbook);
+		}
+
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		try {
+			workbook.write(out);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} finally {
+			workbook.close();
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		headers.setContentDispositionFormData("attachment", gamename + ".xls");
+
+		return new ResponseEntity<byte[]>(out.toByteArray(), headers, HttpStatus.CREATED);
+	}
+
 	private void addSheet(String name, String[] titleArray, List<String[]> context, HSSFWorkbook workbook) {
 		HSSFSheet sheet = workbook.createSheet(name);
 		// 创建第一栏
@@ -137,46 +215,4 @@ public class ExcelAction {
 		}
 	}
 
-	private void createEntryExcel(List<Entry> entrys, List<User> users, HSSFWorkbook workbook) throws IOException {
-		Map<String, User> map = new HashMap<String, User>();
-		users.forEach(e -> map.put(e.getUsername(), e));
-
-		// 获取参数个数作为excel列数
-		int columeCount = 5;
-
-		HSSFSheet sheet = workbook.createSheet("参赛者");
-		// 创建第一栏
-		HSSFRow headRow = sheet.createRow(0);
-		String[] titleArray = { "用户名", "姓名", "学号", "邮箱", "电话" };
-		for (int m = 0; m <= columeCount - 1; m++) {
-			HSSFCell cell = headRow.createCell(m);
-			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-			sheet.setColumnWidth(m, 6000);
-			HSSFCellStyle style = workbook.createCellStyle();
-			HSSFFont font = workbook.createFont();
-			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-			short color = HSSFColor.RED.index;
-			font.setColor(color);
-			style.setFont(font);
-			// 填写数据
-			cell.setCellStyle(style);
-			cell.setCellValue(titleArray[m]);
-
-		}
-		int index = 0;
-		// 写入数据
-		for (Entry entry : entrys) {
-			// logger.info("写入一行");
-			HSSFRow row = sheet.createRow(index + 1);
-			for (int n = 0; n < columeCount; n++)
-				row.createCell(n);
-			User user = map.get(entry.getUsername());
-			row.getCell(0).setCellValue(entry.getUsername());
-			row.getCell(1).setCellValue(user.getSociolname());
-			row.getCell(2).setCellValue(user.getStudentid());
-			row.getCell(3).setCellValue(user.getEmail());
-			row.getCell(4).setCellValue(user.getPhone());
-			index++;
-		}
-	}
 }
