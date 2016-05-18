@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -31,11 +32,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import crazy.dao.CollegeRepository;
+import crazy.dao.InstituteRepository;
+import crazy.dao.ProvinceRepository;
 import crazy.dao.TeamRepository;
 import crazy.dao.UserRepository;
+import crazy.vo.College;
 import crazy.vo.Entry;
 import crazy.vo.Game;
 import crazy.vo.Group;
+import crazy.vo.Institute;
+import crazy.vo.Province;
 import crazy.vo.Team;
 import crazy.vo.User;
 import crazy.vo.UserDefineForm;
@@ -52,8 +59,14 @@ public class ExcelAction {
 	@Autowired
 	private TeamRepository teamRepository;
 
-//	@Autowired
-//	private MemberRepository memberRepository;
+	@Autowired
+	private InstituteRepository instituteRepository;
+	
+	@Autowired
+	private CollegeRepository collegeRepository;
+
+	@Autowired
+	private ProvinceRepository provinceRepository;
 
 	@RequestMapping(value = "{gamename}/individual", method = RequestMethod.GET)
 	public Object getIndividual(@PathVariable("gamename") String gamename, HttpServletResponse res) throws IOException {
@@ -68,19 +81,36 @@ public class ExcelAction {
 		List<String> usernames = entrys.stream().map(e -> e.getUsername()).collect(Collectors.toList());
 		query = new Query(Criteria.where("username").in(usernames));
 		List<User> users = userRepository.findByUsernameInList(usernames);
-
-		String[] titleArray = { "用户名", "姓名", "学号", "邮箱", "电话" };
+		List<Integer> provinceIds = users.stream().map(e -> e.getProvinceid()).filter(e -> e != null).distinct()
+				.collect(Collectors.toList());
+		List<Integer> collegeIds = users.stream().map(e -> e.getCollegeid()).filter(e -> e != null).distinct()
+				.collect(Collectors.toList());
+		List<Integer> instituteIds = users.stream().map(e -> e.getInstituteid()).filter(e -> e != null).distinct()
+				.collect(Collectors.toList());
+		
+		List<Province> provinces = provinceRepository.findByInProvinceids(provinceIds);
+		List<College> colleges = collegeRepository.findByInCollegeids(collegeIds);
+		List<Institute> institutes = instituteRepository.findByInInstituteids(instituteIds);
+		Map<Integer,String> provinceIdToName = provinces.stream().collect(Collectors.toMap(e->e.getProvinceid(), e->e.getName()));
+		Map<Integer,String> collegeIdToName = colleges.stream().collect(Collectors.toMap(e->e.getCollegeid(), e->e.getCollegename()));
+		Map<Integer,String> instituteIdToName = institutes.stream().collect(Collectors.toMap(e->e.getInstituteid(), e->e.getInstitutename()));
+		
+		String[] titleArray = { "用户名", "姓名", "学号", "邮箱", "电话", "省份", "学校", "学院" };
 		HashMap<String, User> usernameToUserMap = new HashMap<String, User>();
 		users.forEach(user -> usernameToUserMap.put(user.getUsername(), user));
 		HashMap<String, String[]> map = new HashMap<>();
+
 		entrys.forEach(entry -> {
-			String[] tmp = new String[5];
+			String[] tmp = new String[8];
 			User user = usernameToUserMap.get(entry.getUsername());
 			tmp[0] = entry.getUsername();
 			tmp[1] = user.getSociolname();
 			tmp[2] = user.getStudentid();
 			tmp[3] = user.getEmail();
 			tmp[4] = user.getPhone();
+			tmp[5] = provinceIdToName.get(user.getProvinceid());
+			tmp[6] = collegeIdToName.get(user.getCollegeid());
+			tmp[7] = instituteIdToName.get(user.getInstituteid());
 			map.put(entry.getId(), tmp);
 		});
 
@@ -133,10 +163,12 @@ public class ExcelAction {
 		// members.stream().map(e->e.getUsername()).distinct().collect(Collectors.toList());
 		// List<User> users = userRepository.findByUsernameInList(usernames);
 
-		List<String> teamTitleList = Stream.of(Arrays.asList("英文名", "中文名", "拥有者", "队伍简介").stream(),
-				game.getFormList().stream().map(e -> e.getName())).flatMap(titles -> titles).collect(Collectors.toList());
+		List<String> teamTitleList = Stream
+				.of(Arrays.asList("英文名", "中文名", "拥有者", "队伍简介").stream(),
+						game.getFormList().stream().map(e -> e.getName()))
+				.flatMap(titles -> titles).collect(Collectors.toList());
 		String[] teamTitles = (String[]) teamTitleList.toArray(new String[teamTitleList.size()]);
-		
+
 		HashMap<String, String[]> map = new HashMap<>();
 		int col = 4 + game.getFormList().size();
 		teams.forEach(team -> {
