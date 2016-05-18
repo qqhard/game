@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="entry") 
@@ -14,7 +15,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Entry {
 	@Id
     private String id;
+	@Indexed
 	private String username;
+	@Indexed
 	private String gamename;
 	private String phone;
 	private String email;
