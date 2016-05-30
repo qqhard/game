@@ -16,17 +16,22 @@
     "css-loader": "^0.23.1",
     "file-loader": "^0.8.5",
     "html-webpack-plugin": "^2.16.0",
-    "react": "^15.0.2",
+    "react": "^15.1.0",
     "react-dom": "^15.0.2",
     "react-router": "^2.4.0",
-    "react-weui": "^0.4.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.0",
-    "weui": "^0.4.2"
+    "webpack": "^1.13.0"
   },
   "dependencies": {
-    "light7": "^0.4.3",
+    "classnames": "^2.2.5",
+    "material-ui": "^0.15.0",
+    "react-redux": "^4.4.5",
+    "react-tap-event-plugin": "^1.0.0",
+    "reactionic": "^1.0.1",
+    "redux": "^3.5.2",
+    "redux-logger": "^2.6.1",
+    "redux-thunk": "^2.1.0",
     "whatwg-fetch": "^1.0.0"
   }
 }
