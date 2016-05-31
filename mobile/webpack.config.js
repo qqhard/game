@@ -36,7 +36,6 @@ module.exports = {
         new webpack.NoErrorsPlugin(),
         new HtmlWebpackPlugin({
             filename: '../../index.html',
-            hash:true,
             template: 'index.html',
             inject:'body',
             minify:{

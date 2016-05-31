@@ -10,12 +10,16 @@ const message = (state = {}, action) => {
             return {
                 status:true
             }
+        case types.PUT_USERINFO_SUCCESS:
+            return {
+                status:true
+            }
         case types.SUBMIT_FAIL:
             return {
                 status:false
             }
         default:
-            return state
+            return {} 
     }
 }
 

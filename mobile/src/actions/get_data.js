@@ -29,16 +29,68 @@ export const getGame = (gamename) => {
     }
 }
 
-export const getGameDetail = (gamename) =>  {
+export const getGameDetail = (gamename) => {
     return (dispatch) => {
-        $.get(`${urls.GET_GAME_DETAIL_URL}${gamename}`, (data)=>{
+        $.get(`${urls.GET_GAME_DETAIL_URL}${gamename}`, (data)=> {
             console.log(data);
             dispatch({
                 type: types.GET_GAME_DETAIL_SUCCESS,
                 gameDetail: data.text
             });
-        }).error((e)=>{
-            type: types.GET_DATA_FAIL 
+        }).error((e)=> {
+            type: types.GET_DATA_FAIL
         });
+    }
+}
+
+export const getUserinfo = () => {
+    return (dispatch) => {
+        $.get(urls.GET_USERINFO_URL, (data)=> {
+            dispatch({
+                type: types.GET_USERINFO_SUCCESS,
+                userinfo: data
+            });
+        }).error((e)=> {
+            type: types.GET_DATA_FAIL
+        });
+    }
+}
+
+export const getProvinces = () => {
+    return (dispatch) => {
+        $.get(urls.GET_PROVINCES, (data)=> {
+            dispatch({
+                type: types.GET_PROVINCES_SUCCESS,
+                provinces: data
+            });
+        }).error((e)=> {
+            type: types.GET_DATA_FAIL
+        });
+    }
+}
+
+export const getColleges = (provinceId) => {
+    return (dispatch) => {
+        $.get(urls.GET_COLLEGES + provinceId, (data) => {
+            dispatch({
+                type: types.GET_COLLEGES_SUCCESS,
+                colleges: data
+            });
+        }).error((e)=> {
+            type: types.GET_DATA_FAIL
+        })
+    }
+}
+
+export const getInstitutes = (collegeId) => {
+    return (dispatch) => {
+        $.get(urls.GET_INSTITUTES + collegeId, (data) => {
+            dispatch({
+                type: types.GET_INSTITUTES_SUCCESS,
+                institutes: data
+            });
+        }).error((e)=> {
+            type: types.GET_DATA_FAIL
+        })
     }
 }

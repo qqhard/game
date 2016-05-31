@@ -30,7 +30,6 @@ export const postRegisterForm = (username, email, password, rePassword) => {
         rePassword,
         _csrf: getCookieValue("XSRF-TOKEN")
     };
-    console.log(body);
     return (dispatch)=> {
         $.post(urls.REGISTER_URL, body, (data)=> {
             if(data.status == 'ok'){
@@ -46,6 +45,36 @@ export const postRegisterForm = (username, email, password, rePassword) => {
             dispatch({
                 type: types.SUBMIT_FAIL
             });
+        });
+    }
+}
+
+export const putUserinfoForm = (studentid,sociolname,phone,email,provinceid,collegeid,instituteid) => {
+    let body = {
+        studentid,
+        sociolname,
+        phone,
+        email,
+        provinceid,
+        collegeid,
+        instituteid,
+        _csrf: getCookieValue("XSRF-TOKEN")
+    };
+    return (dispatch)=> {
+        $.ajax({
+            url: urls.USERINFO_URL,
+            type: 'PUT',
+            data: body,
+            success: (data)=> {
+                dispatch({
+                    type: types.PUT_USERINFO_SUCCESS,
+                }) 
+            },
+            error: (e)=>{
+                dispatch({
+                    type: types.SUBMIT_FAIL
+                });
+            }
         });
     }
 }
