@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import { postLoginForm } from '../actions/submit_form'
-import LoginForm from '../components/LoginForm'
+import { postRegisterForm } from '../actions/submit_form'
+import RegisterPage from '../components/RegisterPage'
 
 
 const mapStateToProps = (state) => {
@@ -12,8 +12,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSubmit: (username,password,token) => {
-            dispatch(postLoginForm(username,password,token));
+        onSubmit: (username,email,password,rePassword) => {
+            dispatch(postRegisterForm(username,email,password,rePassword));
         }
     }
 }
@@ -22,4 +22,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(LoginForm) 
+)(RegisterPage) 

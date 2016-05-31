@@ -75,7 +75,7 @@ class GameDetail extends React.Component {
                         <p>{timeFormat(game.endTime)}</p>
                     </CardText>
                     <CardActions>
-                        <RaisedButton primary={true} label="报名"/>
+                        <RaisedButton primary={true} label="报名" onClick={()=>browserHistory.push(`/individualentry-${game.gamename}.html`)}/>
                     </CardActions>
                 </Card>
                 <Card

@@ -1,8 +1,12 @@
-import * as types from '../constant';
+import * as types from '../constant/types';
 
 const message = (state = {}, action) => {
     switch (action.type) {
-        case types.SUBMIT_SUCCESS:
+        case types.POST_LOGIN_SUCCESS:
+            return {
+                status:true
+            }
+        case types.POST_REGISTER_SUCCESS:
             return {
                 status:true
             }

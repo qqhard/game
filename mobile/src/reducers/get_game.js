@@ -1,7 +1,7 @@
 /**
  * Created by hard on 16-5-30.
  */
-import * as types from '../constant';
+import * as types from '../constant/types';
 
 const game = (state = {}, action) => {
     switch (action.type) {
@@ -13,6 +13,10 @@ const game = (state = {}, action) => {
             return {
                 gameDetail: action.gameDetail,
                 game: state.game
+            }
+        case types.SUBMIT_SUCCESS:
+            return {
+                test: true
             }
         case types.GET_DATA_FAIL:
             return {

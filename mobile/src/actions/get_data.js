@@ -1,5 +1,5 @@
-import * as types from '../constant';
-import * as urls from '../urls';
+import * as types from '../constant/types';
+import * as urls from '../constant/urls';
 
 export const getGameEntryedList = () => {
     return (dispatch)=> {

@@ -48,7 +48,7 @@ class GameNode extends React.Component {
                     </CardText>
                     <CardActions>
                         <RaisedButton primary={true} label="详情" onClick={()=>browserHistory.push(`/gamedetail-${game.gamename}.html`)}/>
-                        <RaisedButton secondary={true} label="报名"/>
+                        <RaisedButton secondary={true} label="报名" onClick={()=>browserHistory.push(`/individualentry-${game.gamename}.html`)}/>
                     </CardActions>
                 </Card>
 

@@ -11,6 +11,10 @@ class App extends React.Component {
             title: '赛事'
         };
     }
+    
+    componentDidMount(){
+        $.get("/userApi/username");
+    }
 
     render() {
         return (

@@ -1,4 +1,4 @@
-import * as types from '../constant';
+import * as types from '../constant/types';
 
 const data = (state = {}, action) => {
     switch (action.type) {
