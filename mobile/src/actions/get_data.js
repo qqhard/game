@@ -16,6 +16,21 @@ export const getGameEntryedList = () => {
     }
 }
 
+export const getTeamEntryedList = () => {
+    return (dispatch)=> {
+        $.get(urls.GET_TEAM_ENTRYED_LIST_URL, (data)=> {
+            dispatch({
+                type: types.GET_TEAM_ENTRYED_LIST_SUCCESS,
+                teams: data
+            });
+        }).error((e)=> {
+            dispatch({
+                type: types.GET_DATA_FAIL
+            });
+        });
+    }
+}
+
 export const getGame = (gamename) => {
     return (dispatch)=> {
         $.get(`${urls.GET_GAME_URL}${gamename}`, (data)=> {
@@ -24,7 +39,9 @@ export const getGame = (gamename) => {
                 game: data
             });
         }).error((e)=> {
-            type: types.GET_DATA_FAIL
+            dispatch({
+                type: types.GET_DATA_FAIL
+            });
         });
     }
 }
@@ -38,7 +55,9 @@ export const getGameDetail = (gamename) => {
                 gameDetail: data.text
             });
         }).error((e)=> {
-            type: types.GET_DATA_FAIL
+            dispatch({
+                type: types.GET_DATA_FAIL
+            });
         });
     }
 }
@@ -51,7 +70,24 @@ export const getUserinfo = () => {
                 userinfo: data
             });
         }).error((e)=> {
-            type: types.GET_DATA_FAIL
+            dispatch({
+                type: types.GET_DATA_FAIL
+            });
+        });
+    }
+}
+
+export const getEntry = (gamename) => {
+    return (dispatch) => {
+        $.get(urls.GET_ENTRY_URL + gamename, (data)=> {
+            dispatch({
+                type: types.GET_ENTRY_SUCCESS,
+                entry: data
+            });
+        }).error((e)=> {
+            dispatch({
+                type: types.GET_DATA_FAIL
+            });
         });
     }
 }
@@ -64,7 +100,9 @@ export const getProvinces = () => {
                 provinces: data
             });
         }).error((e)=> {
-            type: types.GET_DATA_FAIL
+            dispatch({
+                type: types.GET_DATA_FAIL
+            });
         });
     }
 }
@@ -77,7 +115,9 @@ export const getColleges = (provinceId) => {
                 colleges: data
             });
         }).error((e)=> {
-            type: types.GET_DATA_FAIL
+            dispatch({
+                type: types.GET_DATA_FAIL
+            });
         })
     }
 }
@@ -90,7 +130,10 @@ export const getInstitutes = (collegeId) => {
                 institutes: data
             });
         }).error((e)=> {
-            type: types.GET_DATA_FAIL
+            dispatch({
+                type: types.GET_DATA_FAIL
+            });
         })
     }
 }
+

@@ -14,6 +14,10 @@ const message = (state = {}, action) => {
             return {
                 status:true
             }
+        case types.POST_ENTRY_SUCCESS:
+            return {
+                status:true
+            }
         case types.SUBMIT_FAIL:
             return {
                 status:false

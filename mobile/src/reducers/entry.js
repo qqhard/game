@@ -10,6 +10,14 @@ const entry = (state = {}, action) => {
             return {
                 stepIndex:2
             }
+        case types.PUT_USERINFO_SUCCESS:
+            return {
+                stepIndex:3
+            }
+        case types.POST_ENTRY_SUCCESS:
+            return {
+                stepIndex:4
+            }
         case types.SET_ENTRY_STEP:
             return {
                 stepIndex: action.stepIndex

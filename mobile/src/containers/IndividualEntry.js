@@ -3,24 +3,45 @@
  */
 import { connect } from 'react-redux';
 import IndividualEntry from '../components/IndividualEntry';
-import { postLoginForm,postRegisterForm } from '../actions/submit_form'
-import { setEntryStep } from '../actions/set_entry'
+import { postLoginFormAndGetUserinfo,postRegisterForm,putUserinfoForm,postEntryForm } from '../actions/submit_form'
+import { getUserinfo, getProvinces, getColleges, getInstitutes,getGame,getEntry } from '../actions/get_data';
+import { setEntryStep,getEntryStep } from '../actions/set_entry'
 
 const mapStateToProps = (state) => {
     return {
-        stepIndex: state.entry.stepIndex
+        message: state.message,
+        stepIndex: state.entry.stepIndex,
+        userinfo: state.data.userinfo,
+        entry: state.data.entry,
+        provinces: state.data.provinces,
+        colleges: state.data.colleges,
+        institutes: state.data.institutes,
+        game: state.game.game,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        submitLogin: (username,password,token)=>{
-            dispatch(postLoginForm(username,password,token));
+        submitLogin: (username,password)=>{
+            dispatch(postLoginFormAndGetUserinfo(username,password));
         },
         submitRegister: (username,email,password,rePassword)=>{
             dispatch(postRegisterForm(username,email,password,rePassword)); 
         },
-        setEntryStep: (newStepIndex)=>dispatch(setEntryStep(newStepIndex))
+        submitUserinfo: (studentid,sociolname,phone,email,provinceid,collegeid,instituteid) => {
+            dispatch(putUserinfoForm(studentid,sociolname,phone,email,provinceid,collegeid,instituteid));
+        },
+        submitEntry: (body) => {
+            dispatch(postEntryForm(body));
+        },
+        setEntryStep: (newStepIndex)=>dispatch(setEntryStep(newStepIndex)),
+        getUserinfo: ()=>dispatch(getUserinfo()),
+        getProvinces: ()=>dispatch(getProvinces()),
+        getColleges: (provinceid)=>dispatch(getColleges(provinceid)),
+        getInstitutes: (collegeid)=>dispatch(getInstitutes(collegeid)),
+        getGame: (gamename)=>dispatch(getGame(gamename)),
+        getEntryStep: (gamename)=>dispatch(getEntryStep(gamename)),
+        getEntry: (gamename)=>dispatch(getEntry(gamename)),
     }
 }
 

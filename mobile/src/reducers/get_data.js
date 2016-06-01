@@ -6,9 +6,17 @@ const data = (state = {}, action) => {
             return {
                 games: action.games
             }
+        case types.GET_TEAM_ENTRYED_LIST_SUCCESS:
+            return {
+                teams: action.teams
+            }
         case types.GET_USERINFO_SUCCESS:
             return {
                 userinfo: action.userinfo
+            }
+        case types.GET_ENTRY_SUCCESS:
+            return {
+                entry: action.entry
             }
         case types.GET_PROVINCES_SUCCESS:
             return {

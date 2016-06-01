@@ -2,6 +2,7 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import {Tabs, Tab} from 'material-ui/Tabs';
 import AppBar from 'material-ui/AppBar';
 import Footer from './tab/Footer';
 
@@ -29,23 +30,21 @@ const styles = {
     }
 }
 
-class GameNode extends React.Component {
+class TeamNode extends React.Component {
     
     render() {
-        const game = this.props.game;
+        const team = this.props.team;
         return (
             <div>
                 <Card style={styles.card}>
-                    <CardMedia style={styles.cardMedia}>
-                        <img src={game.logoPath}/>
-                    </CardMedia>
-                    <CardTitle title={game.gamename} subtitle={game.gametitle}/>
+                    <CardTitle title={team.enname} subtitle={team.cnname}/>
                     <CardText>
-                        {game.briefinfo}
+                        <h3>队伍简介</h3>
+                        <p>{team.info}</p>
                     </CardText>
                     <CardActions>
-                        <RaisedButton primary={true} label="详情" onClick={()=>browserHistory.push(`/gamedetail-${game.gamename}.html`)}/>
-                        <RaisedButton secondary={true} label="报名" onClick={()=>browserHistory.push(`/individualentry-${game.gamename}.html`)}/>
+                        <RaisedButton primary={true} label="详情" onClick={()=>browserHistory.push('/')}/>
+                        <RaisedButton secondary={true} label="加入" onClick={()=>browserHistory.push('/')}/>
                     </CardActions>
                 </Card>
 
@@ -55,7 +54,7 @@ class GameNode extends React.Component {
     }
 }
 
-class Games extends React.Component {
+class Teams extends React.Component {
     constructor(props){
         super(props);
     }
@@ -63,10 +62,10 @@ class Games extends React.Component {
         this.props.getData();
     }
     render() {
-        let games = null;
-        if(!!this.props.games){
-            games = this.props.games.map((val,index)=>{
-                return <GameNode key={index} game={val}/>;
+        let teams = null;
+        if(!!this.props.teams){
+            teams = this.props.teams.map((val,index)=>{
+                return <TeamNode key={index} team={val}/>;
             });
         }
         return (
@@ -77,12 +76,12 @@ class Games extends React.Component {
                     style={styles.title}
                 />
                 <div style={styles.list}>
-                    {games}
+                    {teams}
                 </div>
-                <Footer index={0}/>
+                <Footer index={1}/>
             </div>
         )
     }
 }
 
-export default Games;
+export default Teams;
