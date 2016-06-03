@@ -8,6 +8,7 @@ import { browserHistory } from 'react-router';
 import ActionHome from 'material-ui/svg-icons/action/home';
 import ActionGrade from 'material-ui/svg-icons/action/grade';
 import ActionSupervisorAccount from 'material-ui/svg-icons/action/supervisor-account';
+import Textmsm from 'material-ui/svg-icons/communication/textsms';
 const styles = {
     tab: {
         position: 'fixed',
@@ -32,6 +33,9 @@ class Footer extends React.Component {
                     case 1:
                         browserHistory.push('/teams.html');
                         break;
+                    case 2:
+                        browserHistory.push('/messages.html');
+                        break;
                     default:
                         break;
                 }                   
@@ -39,7 +43,8 @@ class Footer extends React.Component {
             >
                 <Tab icon={<ActionGrade/>} value={0}/>
                 <Tab icon={<ActionSupervisorAccount/>} value={1}/>
-                <Tab icon={<ActionHome/>} value={2}/>
+                <Tab icon={<Textmsm/>} value={2}/>
+                <Tab icon={<ActionHome/>} value={3}/>
             </Tabs>
             
         )

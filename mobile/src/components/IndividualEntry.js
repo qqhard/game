@@ -19,7 +19,7 @@ import EntryForm from './form/EntryForm';
 import EntryInfo from './info/EntryInfo'
 import IconButton from 'material-ui/IconButton';
 import HardwareKeyboardArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
-import { title,form } from '../constant/styles';
+import {title, form} from '../constant/styles';
 
 class IndividualEntry extends React.Component {
     constructor(props) {
@@ -31,7 +31,6 @@ class IndividualEntry extends React.Component {
     }
 
     componentWillMount() {
-        console.log(this.props.params.gamename)
         this.props.getEntryStep(this.props.params.gamename);
     }
 
@@ -57,38 +56,51 @@ class IndividualEntry extends React.Component {
         }
         if (!!nextProps.stepIndex && this.props.stepIndex != nextProps.stepIndex) {
             switch (nextProps.stepIndex) {
+                case 2:
+                    const {getUserinfo} = this.props;
+                    getUserinfo();
+                    break;
                 case 3:
                     const {getGame} = this.props;
                     getGame(this.props.params.gamename);
                     break;
                 case 4:
                     const {getEntry} = this.props;
-                    getEntry(this.props.params.gamename); 
+                    getEntry(this.props.params.gamename);
                     break;
                 default:
                     break;
             }
         }
     }
+    
+    handleRegisterSubmit(username, email, password, rePassword) {
+        const {submitRegister,setEntryStep} = this.props;
+        submitRegister(username, email, password, rePassword,()=>{
+            setEntryStep(1); 
+        });
+    }
 
     handleLoginSubmit(username, password) {
-        const {submitLogin, getUserinfo} = this.props;
-        submitLogin(username, password);
+        const {submitLogin, getEntryStep} = this.props;
+        submitLogin(username, password,()=>{
+            getEntryStep(this.props.params.gamename);
+        });
     }
 
-    handleRegisterSubmit(username, email, password, rePassword) {
-        const {submitRegister} = this.props;
-        submitRegister(username, email, password, rePassword);
-    }
 
     handleUserinfoSubmit(studentid, sociolname, phone, email, provinceid, collegeid, instituteid) {
-        const {submitUserinfo} = this.props;
-        submitUserinfo(studentid, sociolname, phone, email, provinceid, collegeid, instituteid);
+        const {submitUserinfo,setEntryStep} = this.props;
+        submitUserinfo(studentid, sociolname, phone, email, provinceid, collegeid, instituteid,()=>{    
+            setEntryStep(3);
+        });
     }
 
     handleEntrySubmit(body) {
-        const {submitEntry} = this.props;
-        submitEntry(body);
+        const {submitEntry,setEntryStep} = this.props;
+        submitEntry(body,()=>{
+            setEntryStep(4);
+        });
     }
 
     render() {

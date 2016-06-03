@@ -71,7 +71,7 @@ class Teams extends React.Component {
         return (
             <div>
                 <AppBar
-                    title="赛事列表"
+                    title="队伍列表"
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
                     style={styles.title}
                 />

@@ -1,29 +1,8 @@
 import * as types from '../constant/types';
 import * as urls from '../constant/urls';
 import {getCookieValue} from '../components/common/get_cookie_value';
-import {getUserinfo} from '../actions/get_data';
 
-export const postLoginForm = (username, password) => {
-    let body = {
-        username: username,
-        password: password,
-        _csrf: getCookieValue("XSRF-TOKEN")
-    };
-
-    return (dispatch)=> {
-        $.post(urls.LOGIN_URL, body, (data)=> {
-            dispatch({
-                type: types.POST_LOGIN_SUCCESS
-            })
-        }).error((e)=> {
-            dispatch({
-                type: types.SUBMIT_FAIL
-            });
-        });
-    }
-}
-
-export const postLoginFormAndGetUserinfo = (username, password) => {
+export const postLoginForm = (username, password,callBack) => {
     let body = {
         username: username,
         password: password,
@@ -35,7 +14,7 @@ export const postLoginFormAndGetUserinfo = (username, password) => {
             dispatch({
                 type: types.POST_LOGIN_SUCCESS
             });
-            dispatch(getUserinfo());
+            if(!!callBack)callBack();
         }).error((e)=> {
             dispatch({
                 type: types.SUBMIT_FAIL
@@ -44,7 +23,8 @@ export const postLoginFormAndGetUserinfo = (username, password) => {
     }
 }
 
-export const postRegisterForm = (username, email, password, rePassword) => {
+
+export const postRegisterForm = (username, email, password, rePassword, callBack) => {
     let body = {
         username,
         email,
@@ -57,7 +37,8 @@ export const postRegisterForm = (username, email, password, rePassword) => {
             if (data.status == 'ok') {
                 dispatch({
                     type: types.POST_REGISTER_SUCCESS
-                })
+                });
+                if(!!callBack)callBack();
             } else {
                 dispatch({
                     type: types.SUBMIT_FAIL
@@ -71,7 +52,7 @@ export const postRegisterForm = (username, email, password, rePassword) => {
     }
 }
 
-export const putUserinfoForm = (studentid, sociolname, phone, email, provinceid, collegeid, instituteid) => {
+export const putUserinfoForm = (studentid, sociolname, phone, email, provinceid, collegeid, instituteid, callBack) => {
     let body = {
         studentid,
         sociolname,
@@ -90,7 +71,8 @@ export const putUserinfoForm = (studentid, sociolname, phone, email, provinceid,
             success: (data)=> {
                 dispatch({
                     type: types.PUT_USERINFO_SUCCESS,
-                })
+                });
+                if(!!callBack)callBack();
             },
             error: (e)=> {
                 dispatch({
@@ -101,12 +83,13 @@ export const putUserinfoForm = (studentid, sociolname, phone, email, provinceid,
     }
 }
 
-export const postEntryForm = (body) => {
+export const postEntryForm = (body,callBack) => {
     body._csrf = getCookieValue("XSRF-TOKEN")
     return (dispatch) => {
         $.post(urls.ENTRY_URL, body, (data)=> {
             if (data.status == 'ok') {
                 dispatch({type: types.POST_ENTRY_SUCCESS});
+                if(!!callBack)callBack();
             } else {
                 dispatch({type: types.SUBMIT_FAIL});
             }

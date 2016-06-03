@@ -3,7 +3,7 @@
  */
 import { connect } from 'react-redux';
 import IndividualEntry from '../components/IndividualEntry';
-import { postLoginFormAndGetUserinfo,postRegisterForm,putUserinfoForm,postEntryForm } from '../actions/submit_form'
+import { postLoginForm,postRegisterForm,putUserinfoForm,postEntryForm } from '../actions/submit_form'
 import { getUserinfo, getProvinces, getColleges, getInstitutes,getGame,getEntry } from '../actions/get_data';
 import { setEntryStep,getEntryStep } from '../actions/set_entry'
 
@@ -22,17 +22,17 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        submitLogin: (username,password)=>{
-            dispatch(postLoginFormAndGetUserinfo(username,password));
+        submitLogin: (username,password,callBack)=>{
+            dispatch(postLoginForm(username,password,callBack));
         },
-        submitRegister: (username,email,password,rePassword)=>{
-            dispatch(postRegisterForm(username,email,password,rePassword)); 
+        submitRegister: (username,email,password,rePassword,callBack)=>{
+            dispatch(postRegisterForm(username,email,password,rePassword,callBack)); 
         },
-        submitUserinfo: (studentid,sociolname,phone,email,provinceid,collegeid,instituteid) => {
-            dispatch(putUserinfoForm(studentid,sociolname,phone,email,provinceid,collegeid,instituteid));
+        submitUserinfo: (studentid,sociolname,phone,email,provinceid,collegeid,instituteid,callBack) => {
+            dispatch(putUserinfoForm(studentid,sociolname,phone,email,provinceid,collegeid,instituteid,callBack));
         },
-        submitEntry: (body) => {
-            dispatch(postEntryForm(body));
+        submitEntry: (body,callBack) => {
+            dispatch(postEntryForm(body,callBack));
         },
         setEntryStep: (newStepIndex)=>dispatch(setEntryStep(newStepIndex)),
         getUserinfo: ()=>dispatch(getUserinfo()),

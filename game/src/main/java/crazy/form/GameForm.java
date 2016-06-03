@@ -19,6 +19,8 @@ public class GameForm {
 	private String gametime;
 	@NotBlank()
 	private String gameplace;
+	@NotBlank()
+	private String logoPath;
 	private int provinceid;
 	private int collegeid;
 	private int instituteid;
@@ -53,6 +55,7 @@ public class GameForm {
 		game.setFormList(getUserDefindFormList());
 		game.setTeamMin(teamMin);
 		game.setTeamMax(teamMax);
+		game.setLogoPath(logoPath);
 		return game;
 	}
 	public String getGamename() {
@@ -138,6 +141,12 @@ public class GameForm {
 	}
 	public void setTeamMax(int teamMax) {
 		this.teamMax = teamMax;
+	}
+	public String getLogoPath() {
+		return logoPath;
+	}
+	public void setLogoPath(String logoPath) {
+		this.logoPath = logoPath;
 	}
 
 	

@@ -12,6 +12,7 @@ import RegisterPage from './containers/RegisterPage';
 import UserinfoPage from './containers/UserinfoPage';
 import Games from './containers/Games';
 import Teams from './containers/Teams';
+import Messages from './containers/Messages';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import GameDetail from './containers/GameDetail';
 import IndividualEntry from './containers/IndividualEntry';
@@ -41,6 +42,7 @@ render((
                 <Route path="userinfo.html" component={UserinfoPage}/>
                 <Route path="games.html" component={Games}/>
                 <Route path="teams.html" component={Teams}/>
+                <Route path="messages.html" component={Messages}/>
                 <Route path="gamedetail-:gamename.html" component={GameDetail}/>
                 <Route path="individualentry-:gamename.html" component={IndividualEntry}/>
             </Route>

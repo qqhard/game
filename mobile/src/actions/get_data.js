@@ -137,3 +137,17 @@ export const getInstitutes = (collegeId) => {
     }
 }
 
+export const getMessages = () => {
+    return (dispatch) => {
+        $.get(urls.GET_MESSAGES_URL, (data) => {
+            dispatch({
+                type: types.GET_MESSAGES_LIST_SUCCESS,
+                messages: data
+            });
+        }).error((e)=> {
+            dispatch({
+                type: types.GET_DATA_FAIL
+            });
+        })
+    }
+}

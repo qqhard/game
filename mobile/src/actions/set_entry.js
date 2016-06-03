@@ -15,10 +15,6 @@ export const getEntryStep = (gamename) => {
         $.get(urls.GET_ENTRY_URL+gamename, (data)=>{
             if(!!data){
                 dispatch(setEntryStep(4));
-                dispatch({
-                    type: types.GET_ENTRY_SUCCESS,
-                    entry: data
-                });
             }else{
                 dispatch(setEntryStep(2));
             }

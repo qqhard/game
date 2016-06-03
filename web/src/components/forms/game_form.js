@@ -18,6 +18,7 @@ class GameForm extends React.Component {
             briefinfo: {'data': '', 'valid': null, 'help': null},
             gametime: {'data': '', 'valid': null, 'help': null},
             gameplace: {'data': '', 'valid': null, 'help': null},
+            logoPath: {'data': '', 'valid': null, 'help': null},
             team: {min: 1, max: 1},
             provinceid: 0,
             provincename: '无限制',
@@ -44,6 +45,7 @@ class GameForm extends React.Component {
             briefinfo: {'data': game.briefinfo, 'valid': null, 'help': null},
             gametime: {'data': game.gametime, 'valid': null, 'help': null},
             gameplace: {'data': game.gameplace, 'valid': null, 'help': null},
+            logoPath: {'data': game.logoPath, 'valid': null, 'help': null},
             provinceid: game.provinceid,
             collegeid: game.collegeid,
             instituteid: game.instituteid,
@@ -195,10 +197,23 @@ class GameForm extends React.Component {
         this.setState({instituteid: val, institutename: event.target.options[event.target.selectedIndex].text});
     }
 
-    helpGamename() {
-        return this.state.helpGamename;
+        
+    handleLogoPath(e) {
+        var val = e == null ? this.state.logoPath.data : e.target.value;
+        var len = val.length;
+        var logoPath = {'data': val, 'valid': 'error'};
+        if (len <= 0) {
+            logoPath['help'] = 'logo的url不能为空!';
+            this.setState({logoPath: logoPath});
+            return false;
+        }
+        logoPath['valid'] = 'success';
+        logoPath['help'] = '';
+        this.setState({logoPath: logoPath});
+        return true;
+        
     }
-
+    
     handleAddFiled() {
         var formList = this.state.userDefineForm;
         formList.push({'data': '', 'help': '', 'valid': null});
@@ -248,7 +263,7 @@ class GameForm extends React.Component {
         console.log(this.handleGametime());
         console.log(this.handleGameplace());
         return (this.state.gamename.valid == 'success' || this.props.disabled) & this.handleGametitle() &
-            this.handleBriefinfo() & this.handleGametime() & this.handleGameplace();
+            this.handleBriefinfo() & this.handleGametime() & this.handleGameplace() & this.handleLogoPath();
     }
 
     handleSubmit() {
@@ -258,6 +273,7 @@ class GameForm extends React.Component {
             + '&gametitle=' + this.state.gametitle.data
             + '&gametime=' + this.state.gametime.data
             + '&gameplace=' + this.state.gameplace.data
+            + '&logoPath=' + this.state.logoPath.data
             + '&provinceid=' + this.state.provinceid
             + '&collegeid=' + this.state.collegeid
             + '&instituteid=' + this.state.instituteid
@@ -354,6 +370,11 @@ class GameForm extends React.Component {
                        onChange={this.handleGametitle.bind(this)}
                        bsStyle={this.state.gametitle.valid}
                        onBlur={this.handleGametitle.bind(this)}/>
+                <Input type="text" label="赛事logo的url" {...styleLayout}
+                       value={this.state.logoPath.data} help={this.state.logoPath.help}
+                       onChange={this.handleLogoPath.bind(this)}
+                       bsStyle={this.state.logoPath.valid}
+                       onBlur={this.handleLogoPath.bind(this)}/>
                 <Input type="textarea" label="赛事简介" {...styleLayout}
                        value={this.state.briefinfo.data} help={this.state.briefinfo.help}
                        onChange={this.handleBriefinfo.bind(this)}
