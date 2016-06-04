@@ -14,6 +14,10 @@ const data = (state = {}, action) => {
             return {
                 userinfo: action.userinfo
             }
+        case types.GET_USERNAME_SUCCESS:
+            return {
+                username: action.username
+            }
         case types.GET_ENTRY_SUCCESS:
             return {
                 entry: action.entry

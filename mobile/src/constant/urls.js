@@ -11,6 +11,7 @@ export const GET_MESSAGES_URL = '/message/recv';
 
 export const GET_TEAM_ENTRYED_LIST_URL = '/gameApi/teams';
 
+export const GET_USERNAME_URL = '/userApi/username';
 export const GET_USERINFO_URL = '/userApi/userinfo';
 export const GET_ENTRY_URL = '/gameApi/entry/';
 

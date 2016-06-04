@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,9 +27,13 @@ public class UserDetailAction {
 
 	@ResponseBody
 	@RequestMapping(value = "/userApi/username", method = RequestMethod.GET)
-	public String testUsername() {
-		System.out.println(SecurityContextHolder.getContext().getAuthentication().getDetails());
-
+	public Object testUsername() {
+		
+		SimpleGrantedAuthority obj = (SimpleGrantedAuthority) SecurityContextHolder.getContext().getAuthentication()
+				.getAuthorities().iterator().next();
+		if("ROLE_ANONYMOUS".equals(obj.getAuthority())){
+			return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+		}
 		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
 

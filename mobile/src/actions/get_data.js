@@ -1,5 +1,6 @@
 import * as types from '../constant/types';
 import * as urls from '../constant/urls';
+import { browserHistory } from 'react-router';
 
 export const getGameEntryedList = () => {
     return (dispatch)=> {
@@ -12,6 +13,24 @@ export const getGameEntryedList = () => {
             dispatch({
                 type: types.GET_DATA_FAIL
             });
+        });
+    }
+}
+
+export const getUsername = () => {
+    return (dispatch)=>{
+        $.get(urls.GET_USERNAME_URL, (data)=>{
+            dispatch({
+                type: types.GET_USERNAME_SUCCESS,
+                username: data 
+            })
+        }).error((e)=>{
+            dispatch({
+                type: types.GET_DATA_FAIL
+            });
+            if(e.status == 403){
+                browserHistory.push('/login.html'); 
+            } 
         });
     }
 }
@@ -148,6 +167,9 @@ export const getMessages = () => {
             dispatch({
                 type: types.GET_DATA_FAIL
             });
+            if(e.status){
+                browserHistory.push("/login.html");
+            }
         })
     }
 }

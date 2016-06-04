@@ -36,6 +36,9 @@ class Footer extends React.Component {
                     case 2:
                         browserHistory.push('/messages.html');
                         break;
+                    case 3:
+                        browserHistory.push('/mine.html');
+                        break;
                     default:
                         break;
                 }                   
