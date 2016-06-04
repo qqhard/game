@@ -24,10 +24,10 @@ public class GamesAction {
 
 	@Autowired
 	private GameRepository gameRepository;
-	
+
 	@Autowired
 	private ManagerRepository managerRepository;
-	
+
 	@Autowired
 	private EntryRepository entryRepository;
 
@@ -44,7 +44,7 @@ public class GamesAction {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		List<Game> list = gameRepository.findByOwnerAndDeled(username, false);
 		List<String> names = new ArrayList<String>();
-		for(Game game : list){
+		for (Game game : list) {
 			names.add(game.getGamename());
 		}
 		return names;
@@ -77,47 +77,54 @@ public class GamesAction {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		return gameRepository.findByOwnerAndStep(username, 0);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/games/managed", method = RequestMethod.GET)
 	public Object getManaged() {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		List<Manager> managers = managerRepository.findByUsername(username);
-		if(managers == null || managers.size() ==0) return new ArrayList<Game>();
+		if (managers == null || managers.size() == 0)
+			return new ArrayList<Game>();
 		List<String> query = managers.stream().map(e -> e.getGamename()).collect(Collectors.toList());
 		List<Game> ret = gameRepository.findByGamenames(query);
-		if(ret == null) return new ArrayList<Game>();
+		if (ret == null)
+			return new ArrayList<Game>();
 		return ret;
 	}
-	
-	private List<String> getEntryedQuery(){
+
+	private List<String> getEntryedQuery() {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		List<Entry> entrys = entryRepository.findByUsername(username);
-		if(entrys == null || entrys.size() == 0) return new ArrayList<String>();
+		List<Entry> entrys = entryRepository.findByUsernameAndDeled(username,false);
+		if (entrys == null || entrys.size() == 0)
+			return new ArrayList<String>();
 		List<String> query = entrys.stream().map(e -> e.getGamename()).collect(Collectors.toList());
 		return query;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/games/entryed/accepted", method = RequestMethod.GET)
 	public Object getEntryedAccepted() {
 		List<String> query = getEntryedQuery();
-		if(query.size() == 0) return new ArrayList<Game>();
+		if (query.size() == 0)
+			return new ArrayList<Game>();
 		List<Game> games = gameRepository.findByGamenamesAccepted(query, System.currentTimeMillis());
-		if(games == null || games.size() == 0) return new ArrayList<Game>();
+		if (games == null || games.size() == 0)
+			return new ArrayList<Game>();
 		return games;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/games/entryed/started", method = RequestMethod.GET)
 	public Object getEntryedStarted() {
 		List<String> query = getEntryedQuery();
-		if(query.size() == 0) return new ArrayList<Game>();
+		if (query.size() == 0)
+			return new ArrayList<Game>();
 		List<Game> games = gameRepository.findByGamenamesStarted(query, System.currentTimeMillis());
-		if(games == null || games.size() == 0) return new ArrayList<Game>();
+		if (games == null || games.size() == 0)
+			return new ArrayList<Game>();
 		return games;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/games/entryed/ended", method = RequestMethod.GET)
 	public Object getEntryedEnded() {
@@ -127,5 +134,26 @@ public class GamesAction {
 		if(games == null || games.size() == 0) return new ArrayList<Game>();
 		return games;
 	}
+	
+	public List<String> getEntryedIndividualGamenames(String username){
+		List<Entry> entrys = entryRepository.findByUsernameAndDeled(username,false);
+		if (entrys == null || entrys.size() == 0)
+			return new ArrayList<String>();
+		List<String> query = entrys.stream().map(e -> e.getGamename()).collect(Collectors.toList());
+		return query;
+	}
+//	
+//	public List<String> getEntryedTeamGamenames(String username){
+//		
+//	}
+//	
+//	@ResponseBody
+//	@RequestMapping(value = "/games/entryed", method = RequestMethod.GET)
+//	public Object getEntryedGames(
+//			@RequestParam(value = "started", required = false) boolean started,
+//			@RequestParam(value = "ended", required = false) boolean ended) {
+//		
+//		return null;
+//	}
 
 }
