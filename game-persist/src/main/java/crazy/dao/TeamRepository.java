@@ -15,5 +15,7 @@ public interface TeamRepository  extends MongoRepository<Team, ObjectId>{
 	public Team findById(String id);
 	@Query("{'id':{'$in':?0}}")
 	public List<Team> findByIds(List<String> ids);
+	@Query("{'id':{'$in':?0},'entryed':?1}")
+	public List<Team> findByIdsAndEntryed(List<String> ids,boolean entryed);
 	public List<Team> findByGamenameAndEntryedAndDeled(String gamename,boolean entryed,boolean deled);
 }

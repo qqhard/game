@@ -54,6 +54,9 @@ public interface GameRepository extends MongoRepository<Game, ObjectId>{
 	@Query("{'step':2,'deled':false,'gamename':{'$in':?0},'dueTime':{'$lt':?1},'endTime':{'$gt':?1}}")
 	public ArrayList<Game> findByGamenamesStarted(List<String> gamenames,long now);
 	
+	@Query("{'step':2,'deled':false,'gamename':{'$in':?0},'endTime':{'$gt':?1}}")
+	public ArrayList<Game> findByGamenamesOngoing(List<String> gamenames,long now);
+	
 	@Query("{'step':2,'deled':false,'gamename':{'$in':?0},'endTime':{'$lt':?1}}")
 	public ArrayList<Game> findByGamenamesEnded(List<String> gamenames,long now);
 }

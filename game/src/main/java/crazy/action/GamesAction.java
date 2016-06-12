@@ -15,9 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import crazy.dao.EntryRepository;
 import crazy.dao.GameRepository;
 import crazy.dao.ManagerRepository;
+import crazy.dao.MemberRepository;
+import crazy.dao.TeamRepository;
 import crazy.vo.Entry;
 import crazy.vo.Game;
 import crazy.vo.Manager;
+import crazy.vo.Member;
+import crazy.vo.Team;
 
 @RestController
 public class GamesAction {
@@ -30,6 +34,12 @@ public class GamesAction {
 
 	@Autowired
 	private EntryRepository entryRepository;
+	
+	@Autowired
+	private MemberRepository memberRepository;
+	
+	@Autowired
+	private TeamRepository teamRepository;
 
 	@ResponseBody
 	@RequestMapping(value = "/games", method = RequestMethod.GET)
@@ -135,25 +145,37 @@ public class GamesAction {
 		return games;
 	}
 	
-	public List<String> getEntryedIndividualGamenames(String username){
+	private List<String> getEntryedIndividualGamenames(String username){
 		List<Entry> entrys = entryRepository.findByUsernameAndDeled(username,false);
 		if (entrys == null || entrys.size() == 0)
 			return new ArrayList<String>();
-		List<String> query = entrys.stream().map(e -> e.getGamename()).collect(Collectors.toList());
-		return query;
+		List<String> gamenames = entrys.stream().map(e -> e.getGamename()).collect(Collectors.toList());
+		return gamenames;
 	}
-//	
-//	public List<String> getEntryedTeamGamenames(String username){
-//		
-//	}
-//	
-//	@ResponseBody
-//	@RequestMapping(value = "/games/entryed", method = RequestMethod.GET)
-//	public Object getEntryedGames(
-//			@RequestParam(value = "started", required = false) boolean started,
-//			@RequestParam(value = "ended", required = false) boolean ended) {
-//		
-//		return null;
-//	}
+	
+	private List<String> getEntryedTeamGamenames(String username){
+		List<Member> members = memberRepository.findByUsernameAndAccepted(username, true);
+		List<String> teamids = members.stream().map(e->e.getTeamid()).distinct().collect(Collectors.toList());
+		List<Team> teams = teamRepository.findByIdsAndEntryed(teamids,true);
+		List<String> gamenames = teams.stream().map(e->e.getGamename()).distinct().collect(Collectors.toList());
+		return gamenames;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/games/entryed", method = RequestMethod.GET)
+	public Object getEntryedGames(
+			@RequestParam(value = "ongoing", required = false) boolean ongoing,
+			@RequestParam(value = "ended", required = false) boolean ended) {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		List<String> gamenames = new ArrayList<String>();
+		gamenames.addAll(getEntryedIndividualGamenames(username));
+		gamenames.addAll(getEntryedTeamGamenames(username));
+		if(gamenames == null || gamenames.size() == 0)return new ArrayList<Game>();
+		List<Game> games = new ArrayList<Game>();
+		long nowTime = System.currentTimeMillis();
+		if(ongoing)games.addAll(gameRepository.findByGamenamesOngoing(gamenames, nowTime));
+		if(ended)games.addAll(gameRepository.findByGamenamesEnded(gamenames, nowTime));
+		return games;
+	}
 
 }
